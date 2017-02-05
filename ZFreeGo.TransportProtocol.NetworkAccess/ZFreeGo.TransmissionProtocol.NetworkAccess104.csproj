@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{814212F7-ED3D-46F6-A172-7CA2060FED0B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ZFreeGo.TransmissionProtocol.NetworkAccess104</RootNamespace>
+    <AssemblyName>ZFreeGo.TransmissionProtocol.NetworkAccess104</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationMessage\ApplicationFrameManager.cs" />
+    <Compile Include="ApplicationMessage\CheckGetMessage.cs" />
+    <Compile Include="ApplicationMessage\ControlFlow.cs" />
+    <Compile Include="ApplicationMessage\ControlFlowTimer.cs" />
+    <Compile Include="ApplicationMessage\FileTransmit.cs" />
+    <Compile Include="ApplicationMessage\FlowGather.cs" />
+    <Compile Include="ApplicationMessage\MasterCommand.cs" />
+    <Compile Include="ApplicationMessage\ProcessControl.cs" />
+    <Compile Include="BasicElement\DoubleInformationQualifier.cs" />
+    <Compile Include="BasicElement\DoubleCommand.cs" />
+    <Compile Include="BasicElement\QualifyCalculateCommad.cs" />
+    <Compile Include="BasicElement\QualifyCommandSet.cs" />
+    <Compile Include="BasicElement\QualifyParameterActive.cs" />
+    <Compile Include="BasicElement\QualifyParameterMeasure.cs" />
+    <Compile Include="BasicElement\SingleInformationQualifier.cs" />
+    <Compile Include="ApplicationMessage\TransmitEventArgs.cs" />
+    <Compile Include="ApplicationMessage\CheckCode.cs" />
+    <Compile Include="BasicElement\QUType.cs" />
+    <Compile Include="ConstructionElement\APCITypeI.cs" />
+    <Compile Include="ConstructionElement\APCITypeS.cs" />
+    <Compile Include="ConstructionElement\APCITypeU.cs" />
+    <Compile Include="ConstructionElement\APDU.cs" />
+    <Compile Include="ConstructionElement\ApplicationProtocalControlnformation.cs" />
+    <Compile Include="ConstructionElement\ApplicationServiceDataUnit.cs" />
+    <Compile Include="BasicElement\CauseOfInitialization.cs" />
+    <Compile Include="BasicElement\CauseOfTransmissionList.cs" />
+    <Compile Include="BasicElement\CauseOfTransmissionMask.cs" />
+    <Compile Include="BasicElement\CP56Time2a.cs" />
+    <Compile Include="ConstructionElement\ElementTool.cs" />
+    <Compile Include="ApplicationMessage\EventControlFlow.cs" />
+    <Compile Include="ConstructionElement\EventProperty.cs" />
+    <Compile Include="ConstructionElement\EventTransmissionControlFunction.cs" />
+    <Compile Include="ConstructionElement\EventTypeID.cs" />
+    <Compile Include="BasicElement\NormalizationValue.cs" />
+    <Compile Include="BasicElement\QualifyOfInterrogationList.cs" />
+    <Compile Include="BasicElement\QualifyResetProgressList.cs" />
+    <Compile Include="BasicElement\QualityDescription.cs" />
+    <Compile Include="BasicElement\ShortFloating.cs" />
+    <Compile Include="BasicElement\SingleCommand.cs" />
+    <Compile Include="BasicElement\TransmissionCotrolFunction.cs" />
+    <Compile Include="BasicElement\MessageFormat.cs" />
+    <Compile Include="BasicElement\TypeIdentification.cs" />
+    <Compile Include="ApplicationMessage\MasterCommmadEventArgs.cs" />
+    <Compile Include="FileElement\FileReadyQulifier.cs" />
+    <Compile Include="FileElement\LastSectionQulifier.cs" />
+    <Compile Include="FileElement\SectionReadyQulifier.cs" />
+    <Compile Include="FileElement\AckFileQulifier.cs" />
+    <Compile Include="FileElement\SelectCallQulifier.cs" />
+    <Compile Include="FileElement\StatusOfFile.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

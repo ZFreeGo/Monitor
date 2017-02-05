@@ -1,0 +1,15 @@
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\bin\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.dll
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\bin\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\obj\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.dll
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\obj\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.pdb
+E:\MainProject\FTU\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\bin\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.dll
+E:\MainProject\FTU\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\bin\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.pdb
+E:\MainProject\FTU\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\obj\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.csprojResolveAssemblyReference.cache
+E:\MainProject\FTU\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\obj\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.dll
+E:\MainProject\FTU\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\obj\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\obj\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.csprojResolveAssemblyReference.cache
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\bin\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\bin\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\obj\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.csprojResolveAssemblyReference.cache
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\obj\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\obj\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.pdb
