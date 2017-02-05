@@ -107,12 +107,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ZFreeGo.FileOperation.Comtrade\ZFreeGo.FileOperation.Comtrade.csproj">
-      <Project>{6c7d1295-c969-473b-8c0c-f6f2da27d968}</Project>
-      <Name>ZFreeGo.FileOperation.Comtrade</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Pictures\064.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +117,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Pictures\SOJO.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZFreeGo.FileFormat.Comtrade\ZFreeGo.FileOperation.Comtrade.csproj">
+      <Project>{6c7d1295-c969-473b-8c0c-f6f2da27d968}</Project>
+      <Name>ZFreeGo.FileOperation.Comtrade</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

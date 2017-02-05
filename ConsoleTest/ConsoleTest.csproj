@@ -49,7 +49,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ZFreeGo.FileOperation.Comtrade\ZFreeGo.FileOperation.Comtrade.csproj">
+    <ProjectReference Include="..\ZFreeGo.FileFormat.Comtrade\ZFreeGo.FileOperation.Comtrade.csproj">
       <Project>{6c7d1295-c969-473b-8c0c-f6f2da27d968}</Project>
       <Name>ZFreeGo.FileOperation.Comtrade</Name>
     </ProjectReference>

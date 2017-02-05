@@ -264,11 +264,11 @@
       <Project>{2c0b038a-4065-4628-81ab-13b750ed8bee}</Project>
       <Name>ZFreeGo.Net</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ZFreeGo.FileOperation.Comtrade\ZFreeGo.FileOperation.Comtrade.csproj">
+    <ProjectReference Include="..\ZFreeGo.FileFormat.Comtrade\ZFreeGo.FileOperation.Comtrade.csproj">
       <Project>{6c7d1295-c969-473b-8c0c-f6f2da27d968}</Project>
       <Name>ZFreeGo.FileOperation.Comtrade</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ZFreeGo.TransmissionProtocol.NetworkAccess104\ZFreeGo.TransmissionProtocol.NetworkAccess104.csproj">
+    <ProjectReference Include="..\ZFreeGo.TransportProtocol.NetworkAccess\ZFreeGo.TransmissionProtocol.NetworkAccess104.csproj">
       <Project>{814212f7-ed3d-46f6-a172-7ca2060fed0b}</Project>
       <Name>ZFreeGo.TransmissionProtocol.NetworkAccess104</Name>
     </ProjectReference>
