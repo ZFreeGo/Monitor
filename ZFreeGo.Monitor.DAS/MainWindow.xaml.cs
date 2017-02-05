@@ -62,14 +62,120 @@ namespace ZFreeGo.Monitor.AutoStudio
         /// 日志记录
         /// </summary>
         private Log.Logger logger;
+
+        /// <summary>
+        /// 权限管理
+        /// </summary>
+        private AuthorityManager authorityManager;
         public MainWindow(AccountManager inAccountManager, Log.Logger inLogger)
         {
             InitializeComponent();
             TestWave();
             accountManager = inAccountManager;
             logger = inLogger;
+
+            authorityManager = new AuthorityManager(accountManager);
+            AuthorityManagerAddControl();
+            authorityManager.GetPermission(AuthorityLevel.I);
         }
        
+        /// <summary>
+        /// 添加控件到控件管理器
+        /// </summary>
+        private void AuthorityManagerAddControl()
+        {
+            try
+            {
+                //系统参数
+                authorityManager.AddControl(this.RefreshSystemParameter, AuthorityLevel.I);
+                authorityManager.AddControl(this.SystemParameterLoad, AuthorityLevel.II);
+                authorityManager.AddControl(this.SystemParameterExport, AuthorityLevel.II);
+                //通讯设置
+                authorityManager.AddControl(this.checkIsSub, AuthorityLevel.II);
+                authorityManager.AddControl(this.radioServer, AuthorityLevel.II);
+                authorityManager.AddControl(this.radioClient, AuthorityLevel.II);
+                authorityManager.AddControl(this.txtIp, AuthorityLevel.II);
+                authorityManager.AddControl(this.txtPort, AuthorityLevel.II);
+                authorityManager.AddControl(this.checkIsReStart, AuthorityLevel.II);
+
+                authorityManager.AddControl(this.btnStartServer, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnStopServer, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnStartDataTransmission, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnStopDataTransmission, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnManualCall, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnTimeSynA, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnRestartServer, AuthorityLevel.II);
+               
+                
+                //遥信
+                authorityManager.AddControl(this.btnTelesignalisationCall, AuthorityLevel.II);
+                authorityManager.AddControl(this.TelesignalisationExport, AuthorityLevel.II);
+                authorityManager.AddControl(this.TelesignalisationLoad, AuthorityLevel.II);
+                authorityManager.AddControl(this.CheckBoxTelesignalisation, AuthorityLevel.II);
+
+                //遥测
+                authorityManager.AddControl(this.btnTelemeteringCall, AuthorityLevel.II);
+                authorityManager.AddControl(this.TelemeteringExport, AuthorityLevel.II);
+                authorityManager.AddControl(this.TelemeteringLoad, AuthorityLevel.II);
+                authorityManager.AddControl(this.CheckBoxTelemetering, AuthorityLevel.II);
+
+                //遥控
+                authorityManager.AddControl(this.checkTimeSyn, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnTimeSyn, AuthorityLevel.II);
+                authorityManager.AddControl(this.txtPassWord, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnMakeSecure, AuthorityLevel.II);
+
+                authorityManager.AddControl(this.ReadyClose, AuthorityLevel.II);
+                authorityManager.AddControl(this.ActionClose, AuthorityLevel.II);
+                authorityManager.AddControl(this.ReadyOpen, AuthorityLevel.II);
+                authorityManager.AddControl(this.ActionOpen, AuthorityLevel.II);
+                authorityManager.AddControl(this.ReadyBaterryActivated, AuthorityLevel.II);
+                authorityManager.AddControl(this.ActionBaterryActivated, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnResetReady, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnResetExecute, AuthorityLevel.II);
+                authorityManager.AddControl(this.TelecontrolExport, AuthorityLevel.II);
+                authorityManager.AddControl(this.TelecontrolLoad, AuthorityLevel.II);
+
+                //遥控操作
+                authorityManager.AddControl(this.btnCallSetpoint, AuthorityLevel.II);
+                authorityManager.AddControl(this.DownloadProtectSetSelect, AuthorityLevel.II);
+                authorityManager.AddControl(this.DownloadProtectSet, AuthorityLevel.II);
+                authorityManager.AddControl(this.ProtectSetPointExport, AuthorityLevel.II);
+                authorityManager.AddControl(this.ProtectSetPointLoad, AuthorityLevel.II);
+                authorityManager.AddControl(this.CheckBoxProtectSetPoint, AuthorityLevel.II);
+
+                //系统校准
+                authorityManager.AddControl(this.btnStartCalibration, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnCalibrationCall, AuthorityLevel.II);
+                authorityManager.AddControl(this.CheckBoxRealUpdate, AuthorityLevel.II);
+                authorityManager.AddControl(this.txtUpdateTime, AuthorityLevel.II);
+                authorityManager.AddControl(this.CheckBoxSystemCalibration, AuthorityLevel.II);
+
+                authorityManager.AddControl(this.btnFactorRead, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnFactorDownload, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnFacotrFix, AuthorityLevel.II);
+
+                //事件记录
+                authorityManager.AddControl(this.btnClearSOE, AuthorityLevel.II);
+                authorityManager.AddControl(this.EventLogLoad, AuthorityLevel.II);
+                authorityManager.AddControl(this.EventLogExport, AuthorityLevel.II);
+                authorityManager.AddControl(this.CheckBoxEventLog, AuthorityLevel.II);
+
+                //录波采集
+                authorityManager.AddControl(this.btnRefremRecord, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnRecordLoad, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnRecordExport, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnConfigComtrade, AuthorityLevel.II);
+                //
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, " AuthorityManagerAddControl");
+            }
+            
+        }
+
         /// <summary>
         /// 打开XML配置文件
         /// </summary>
@@ -123,7 +229,7 @@ namespace ZFreeGo.Monitor.AutoStudio
                         path = saveFileDialog1.FileName;
                         return true;
                     }
-
+                    
                 }
             }
             return false;
@@ -883,6 +989,12 @@ namespace ZFreeGo.Monitor.AutoStudio
         private void updateAccountShow()
         {
             currentUserName.Text = accountManager.LoginAccount.UserName;
+        }
+
+        private void AuthorityMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var ui = new AuthoritySettingUI(authorityManager);
+            ui.ShowDialog();
         }
 
 

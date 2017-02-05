@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.Generic;
 using ZFreeGo.FileOperation.Comtrade.ConfigContent;
 
 namespace ZFreeGo.Monitor.Test
@@ -27,14 +28,21 @@ namespace ZFreeGo.Monitor.Test
         public MainWindow()
         {
             InitializeComponent();
-            DataSet ds = new DataSet();
-            ds.ReadXml("store.xml");
-            MessageBox.Show("sd");
-            gridProducts.ItemsSource = GetProducts();
+           // DataSet ds = new DataSet();
+           // ds.ReadXml("store.xml");
+          //  MessageBox.Show("sd");
+           // gridProducts.ItemsSource = GetProducts();
 
- 
 
-            
+
+            Test();
+        }
+        public void Test()
+        {
+            List<Tuple<FrameworkElement, int>> ds = new System.Collections.Generic.List<Tuple<FrameworkElement, int>>();
+            ds.Add(new Tuple<FrameworkElement, int>(Set, 1));
+            MessageBox.Show(ds[0].Item1.ToString());
+           
         }
         public ICollection<Product> GetProducts()
         {

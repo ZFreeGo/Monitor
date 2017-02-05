@@ -121,3 +121,5 @@ J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.FileOpera
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.pdb
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.Common.FileDialog.pdb
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.Common.BasicTool.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\Secure\AuthoritySettingUI.baml
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\Secure\AuthoritySettingUI.g.cs

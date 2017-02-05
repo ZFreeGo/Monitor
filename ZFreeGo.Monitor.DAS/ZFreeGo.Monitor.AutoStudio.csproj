@@ -69,6 +69,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -146,6 +148,11 @@
     </Compile>
     <Compile Include="Secure\AccountManager.cs" />
     <Compile Include="Secure\AuthorityLevel.cs" />
+    <Compile Include="Secure\AuthorityManager.cs" />
+    <Compile Include="Secure\AuthoritySettingUI.xaml.cs">
+      <DependentUpon>AuthoritySettingUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\ControlAuthority.cs" />
     <Compile Include="Secure\UserAccount.cs" />
     <Compile Include="PlotCurves\PlotModelManager.cs" />
     <Compile Include="Secure\WhbEncypt.cs" />
@@ -218,6 +225,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OptionConfig\OptionConfigUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Secure\AuthoritySettingUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

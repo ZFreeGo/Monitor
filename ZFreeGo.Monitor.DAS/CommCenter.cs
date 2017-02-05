@@ -126,5 +126,8 @@ namespace ZFreeGo.Monitor.AutoStudio
            comb.SelectedItem = StopBits.One;
             //return (StopBits)Enum.Parse(typeof(StopBits), stopBits);
         }
+
+
+        
     }
 }
