@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6C7D1295-C969-473B-8C0C-F6F2DA27D968}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ZFreeGo.FileOperation.Comtrade</RootNamespace>
+    <AssemblyName>ZFreeGo.FileOperation.Comtrade</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ZFreeGo.Common.BasicTool">
+      <HintPath>..\..\ZFreeGo.Common\ZFreeGo.Common.BasicTool\bin\Debug\ZFreeGo.Common.BasicTool.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ComtradeFileManager.cs" />
+    <Compile Include="ConfigContent\AnalogChannelInformation.cs" />
+    <Compile Include="ConfigContent\TimeStampMultiply.cs" />
+    <Compile Include="ConfigContent\ChannelFrequency.cs" />
+    <Compile Include="ConfigContent\ChannelNumType.cs" />
+    <Compile Include="ConfigContent\ComtradeConfigFile.cs" />
+    <Compile Include="ConfigContent\DataFileType.cs" />
+    <Compile Include="ConfigContent\DateStamp.cs" />
+    <Compile Include="ConfigContent\RowOperation.cs" />
+    <Compile Include="ConfigContent\SampleNum.cs" />
+    <Compile Include="ConfigContent\SampleRateInformation.cs" />
+    <Compile Include="ConfigContent\StationRev.cs" />
+    <Compile Include="ConfigContent\DigitalChannelInformation.cs" />
+    <Compile Include="DataContent\BinaryContent.cs" />
+    <Compile Include="DataContent\ASCIIContent.cs" />
+    <Compile Include="DataContent\ComtradeDataFile.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="说明.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

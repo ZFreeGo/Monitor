@@ -1,0 +1,7 @@
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.FileOperation.Comtrade\bin\Debug\ZFreeGo.FileOperation.Comtrade.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.FileOperation.Comtrade\bin\Debug\ZFreeGo.FileOperation.Comtrade.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.FileOperation.Comtrade\bin\Debug\ZFreeGo.Common.BasicTool.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.FileOperation.Comtrade\bin\Debug\ZFreeGo.Common.BasicTool.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.FileOperation.Comtrade\obj\Debug\ZFreeGo.FileOperation.Comtrade.csprojResolveAssemblyReference.cache
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.FileOperation.Comtrade\obj\Debug\ZFreeGo.FileOperation.Comtrade.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.FileOperation.Comtrade\obj\Debug\ZFreeGo.FileOperation.Comtrade.pdb

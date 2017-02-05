@@ -1,0 +1,10 @@
+﻿<Application x:Class="ZFreeGo.Monitor.AutoStudio.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="StartupUI\StartupInterface.xaml">
+    <Application.Resources>
+        <!--StartupUri="MainWindow.xaml"-->
+        <!--StartupUri="StartupUI\StartupInterface.xaml"-->
+        <!--StartupUri="OptionConfig\OptionConfigUI.xaml"-->
+    </Application.Resources>
+</Application>

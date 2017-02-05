@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <UserAccount>
+    <UserName>Admin</UserName>
+    <PassWord>1234abc!</PassWord>
+    <PowerLevel>4</PowerLevel>
+  </UserAccount>
+</NewDataSet>

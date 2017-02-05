@@ -1,0 +1,51 @@
+﻿2017/1/30
+1.添加删去数据文本文件中的空行
+2.对于文件写入属于覆盖写入，会将历史数据消除。
+
+
+2017/1/27
+1.编码并完整测试文件读写
+
+2017/1/16
+1.部分测试ComtradeFileManger
+
+2017/1/24
+1.设计并测试完成DigitalChannelInformation
+2.设计完成ChannelFrequency
+3.设计完成SampleNum
+4.设计完成SampleRateInformation
+5.设计完成DataStamp
+6.设计完成DataFileType
+7.添加ChannelNumType 字符串构造函数。
+8.改Parse为TryParse。
+9.测试完成DataStamp
+10.设计完成TimeMultily
+11.从赋值源头拒绝不合规定的赋值
+12.修正A，D大小写问题
+13.\r \n识别问题---- 不区分
+14.修正VersionYear空字符导致换行问题
+15.修改行数比较以以支持最后多余的空行
+16.修正 ref string 以支持去除所有的字符串前后的空格
+17.设计并测试完成 ASCIIContent
+18.设计并测试完成 BinaryContent
+19.设计并测试完成ASCIIContent 与 BinaryContent互相转换
+
+2017/1/23
+1.开始编写此程序
+2.程序架构
+1）首先考虑cfg与data（二进制）文件
+2）cfg全部的读写
+3）data全部读写
+2）cfg首先考虑所有项目
+
+
+3.完成情况
+1）完成cfg结构设计
+2）设计并测试完成StationRev
+3）设计并测试完成ChannelNumType
+4）设计并测试完成AnalogChannelInformation
+
+
+
+
+
