@@ -1,0 +1,9 @@
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Common.Net\bin\Release\ZFreeGo.Net.dll
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Common.Net\bin\Release\ZFreeGo.Net.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Common.Net\obj\Release\ZFreeGo.Net.dll
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Common.Net\obj\Release\ZFreeGo.Net.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Common.Net\bin\Release\ZFreeGo.Net.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Common.Net\bin\Release\ZFreeGo.Net.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Common.Net\obj\Release\ZFreeGo.Net.csprojResolveAssemblyReference.cache
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Common.Net\obj\Release\ZFreeGo.Net.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Common.Net\obj\Release\ZFreeGo.Net.pdb

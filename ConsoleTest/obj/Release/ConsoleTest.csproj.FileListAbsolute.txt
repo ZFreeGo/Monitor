@@ -1,0 +1,10 @@
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Release\ConsoleTest.exe.config
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Release\ConsoleTest.exe
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Release\ConsoleTest.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Release\ZFreeGo.FileOperation.Comtrade.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Release\ZFreeGo.Common.BasicTool.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Release\ZFreeGo.FileOperation.Comtrade.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Release\ZFreeGo.Common.BasicTool.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\obj\Release\ConsoleTest.csprojResolveAssemblyReference.cache
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\obj\Release\ConsoleTest.exe
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\obj\Release\ConsoleTest.pdb
