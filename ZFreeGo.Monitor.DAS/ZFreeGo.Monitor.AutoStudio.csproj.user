@@ -10,4 +10,7 @@
     <FallbackCulture>zh-CN</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\log\;J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\Data\</ReferencePath>
+  </PropertyGroup>
 </Project>

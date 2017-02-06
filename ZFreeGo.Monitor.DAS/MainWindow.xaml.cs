@@ -26,6 +26,7 @@ using ZFreeGo.Monitor.AutoStudio.StartupUI;
 using ZFreeGo.Monitor.AutoStudio.OptionConfig;
 using ZFreeGo.Monitor.AutoStudio.Secure;
 using ZFreeGo.Monitor.AutoStudio.Database;
+using ZFreeGo.Monitor.AutoStudio.Log;
 
 namespace ZFreeGo.Monitor.AutoStudio
 {
@@ -68,6 +69,16 @@ namespace ZFreeGo.Monitor.AutoStudio
         /// 权限管理
         /// </summary>
         private AuthorityManager authorityManager;
+
+        /// <summary>
+        /// 日志产生事件
+        /// </summary>
+        public event EventHandler<Log.LogEventArgs> MakeLogEvent;
+
+
+
+
+
         public MainWindow(AccountManager inAccountManager, Log.Logger inLogger)
         {
             InitializeComponent();
@@ -80,8 +91,48 @@ namespace ZFreeGo.Monitor.AutoStudio
             authorityManager.LoadAuthorityData();
 
             authorityManager.GetPermission((AuthorityLevel)accountManager.LoginAccount.PowerLevel);
+
+
+            MakeLogEvent += MainWindow_MakeLogEvent;
         }
-       
+
+
+        void MainWindow_MakeLogEvent(object sender, LogEventArgs e)
+        {
+            logger.AddMessage(e.Message);
+        }
+
+        /// <summary>
+        /// 产生日志消息
+        /// </summary>
+        /// <param name="sender">发送者</param>
+        /// <param name="content">操作内容</param>
+        /// <param name="result">操作结果</param>
+        private void MakeLogMessage(object sender, string content, LogType type)
+        {
+            MakeLogMessage(sender, content, "", type);
+        }
+        /// <summary>
+        /// 产生日志消息
+        /// </summary>
+        /// <param name="sender">发送者</param>
+        /// <param name="content">操作内容</param>
+        /// <param name="result">操作结果</param>
+        private void MakeLogMessage(object sender, string content, string result, LogType type)
+        {
+            try
+            {
+                if (MakeLogEvent != null)
+                {
+                    var message = new SingleLogMessage(accountManager.LoginAccount.UserName, content, result, type);
+                    MakeLogEvent(sender, new Log.LogEventArgs(message));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "日志消息");
+            }
+        }
         /// <summary>
         /// 添加控件到控件管理器
         /// </summary>

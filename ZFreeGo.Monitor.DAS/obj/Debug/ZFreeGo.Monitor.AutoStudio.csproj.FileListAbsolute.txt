@@ -122,3 +122,8 @@ J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.A
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.csproj.GenerateResource.Cache
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.exe
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.Monitor.AutoStudio.exe.manifest
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.Monitor.AutoStudio.application
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.TrustInfo.xml
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.exe.manifest
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.application

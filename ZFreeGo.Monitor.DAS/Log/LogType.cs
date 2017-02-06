@@ -18,6 +18,10 @@ namespace ZFreeGo.Monitor.AutoStudio.Log
         /// 登陆信息
         /// </summary>
         Login = 1,
+        /// <summary>
+        /// 遥控
+        /// </summary>
+        Telecontrol = 2,
 
         
     }

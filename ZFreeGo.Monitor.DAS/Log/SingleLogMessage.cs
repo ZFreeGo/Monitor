@@ -157,7 +157,18 @@ namespace ZFreeGo.Monitor.AutoStudio.Log
         {
 
         }
+        /// <summary>
+        /// 记录消息初始化
+        /// </summary>
+        /// <param name="inUserName">记录用户</param>
+        /// <param name="inContent">记录内容</param>
+        /// <param name="inResult">记录结果</param>
+        /// <param name="inType">消息类型</param>
+        public SingleLogMessage(string inUserName, string inContent, string inResult, LogType inType)
+            : this(DateTime.Now, inUserName, inContent, inResult, inType)
+        {
 
+        }
         /// <summary>
         /// 获取单行信息
         /// </summary>
