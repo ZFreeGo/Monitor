@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("ZFreeGo.Monitor.AutoStudio")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("Beijing Sojo")]
 [assembly: AssemblyProduct("ZFreeGo.Monitor.AutoStudio")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2016")]
 [assembly: AssemblyTrademark("")]

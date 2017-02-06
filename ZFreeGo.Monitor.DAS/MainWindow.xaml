@@ -13,7 +13,9 @@
         </Grid.RowDefinitions>
         <!--菜单栏区域-->
         <Menu Grid.Row="0" >
-            <MenuItem Header="文件"></MenuItem>
+            <MenuItem Header="文件">
+                <MenuItem Header="数据库配置" Click="DatabaseMenuItem_Click"></MenuItem>
+                </MenuItem>
             <MenuItem Header="编辑"></MenuItem>
             <MenuItem Header="显示"></MenuItem>
             <MenuItem Header="查询"></MenuItem>
@@ -549,8 +551,8 @@
 
                                     <!--<Button Margin="30,3,3,3" Padding="3" Name="btnCalibration" Click="btnCalibration_Click">下载</Button>
                                     <Button Margin="3,3,30,3" Padding="3" Name="btnCalibrationActive" Click="btnCalibrationActive_Click">激活</Button>-->
-                                    <Button Margin="3" Padding="3" Click="SystemCalibrationExport_Click">导出</Button>
-                                    <Button Margin="3" Padding="3" Click="SystemCalibrationLoad_Click">导入</Button>
+                                    <Button Margin="3" Padding="3" Name="btnCalibrationExport" Click="SystemCalibrationExport_Click">导出</Button>
+                                    <Button Margin="3" Padding="3" Name="btnCalibrationLoad" Click="SystemCalibrationLoad_Click">导入</Button>
                                     <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxRealUpdate" IsChecked="False" Click="CheckBoxRealUpdate_Click" >实时更新</CheckBox>
                                     <Label Margin="10,3,3,3" Padding="3" VerticalAlignment="Center">更新时间(ms)：</Label>
                                     <TextBox Margin="3,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="txtUpdateTime"  >500</TextBox>

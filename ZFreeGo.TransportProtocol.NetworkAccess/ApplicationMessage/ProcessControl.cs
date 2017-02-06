@@ -91,6 +91,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage
                 {
                     return;
                 }
+
                 actionNoCompletedDelegate(data3);
             }
             IsRun = false;

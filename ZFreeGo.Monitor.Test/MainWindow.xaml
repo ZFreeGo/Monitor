@@ -61,6 +61,11 @@
                     </Grid>
                 </Grid>
             </TabItem>
+            <TabItem Header="Sqlite">
+                <StackPanel>
+                    <Button Click="SqliteTest">测试数据库</Button>
+                </StackPanel>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

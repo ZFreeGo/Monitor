@@ -42,3 +42,5 @@ J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\ZFreeGo.Monitor.
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\ZFreeGo.Monitor.Test.csproj.GenerateResource.Cache
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\ZFreeGo.Monitor.Test.exe
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\ZFreeGo.Monitor.Test.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\System.Data.SQLite.dll
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\System.Data.SQLite.pdb

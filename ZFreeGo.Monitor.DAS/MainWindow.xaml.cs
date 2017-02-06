@@ -25,6 +25,7 @@ using ZFreeGo.Monitor.AutoStudio.Comtrade;
 using ZFreeGo.Monitor.AutoStudio.StartupUI;
 using ZFreeGo.Monitor.AutoStudio.OptionConfig;
 using ZFreeGo.Monitor.AutoStudio.Secure;
+using ZFreeGo.Monitor.AutoStudio.Database;
 
 namespace ZFreeGo.Monitor.AutoStudio
 {
@@ -76,7 +77,9 @@ namespace ZFreeGo.Monitor.AutoStudio
 
             authorityManager = new AuthorityManager(accountManager);
             AuthorityManagerAddControl();
-            authorityManager.GetPermission(AuthorityLevel.I);
+            authorityManager.LoadAuthorityData();
+
+            authorityManager.GetPermission((AuthorityLevel)accountManager.LoginAccount.PowerLevel);
         }
        
         /// <summary>
@@ -112,6 +115,7 @@ namespace ZFreeGo.Monitor.AutoStudio
                 authorityManager.AddControl(this.TelesignalisationExport, AuthorityLevel.II);
                 authorityManager.AddControl(this.TelesignalisationLoad, AuthorityLevel.II);
                 authorityManager.AddControl(this.CheckBoxTelesignalisation, AuthorityLevel.II);
+
 
                 //遥测
                 authorityManager.AddControl(this.btnTelemeteringCall, AuthorityLevel.II);
@@ -155,6 +159,10 @@ namespace ZFreeGo.Monitor.AutoStudio
                 authorityManager.AddControl(this.btnFactorDownload, AuthorityLevel.II);
                 authorityManager.AddControl(this.btnFacotrFix, AuthorityLevel.II);
 
+                authorityManager.AddControl(this.btnCalibrationExport, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnCalibrationLoad, AuthorityLevel.II);
+
+
                 //事件记录
                 authorityManager.AddControl(this.btnClearSOE, AuthorityLevel.II);
                 authorityManager.AddControl(this.EventLogLoad, AuthorityLevel.II);
@@ -171,7 +179,7 @@ namespace ZFreeGo.Monitor.AutoStudio
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message, " AuthorityManagerAddControl");
+                MessageBox.Show(ex.Message, "AuthorityManagerAddControl");
             }
             
         }
@@ -979,6 +987,7 @@ namespace ZFreeGo.Monitor.AutoStudio
         private void OptionMenuItem_Click(object sender, RoutedEventArgs e)
         {
             var option = new OptionConfigUI(accountManager);
+            option.ShowInTaskbar = false;
             option.ShowDialog();
         }
 
@@ -993,8 +1002,22 @@ namespace ZFreeGo.Monitor.AutoStudio
 
         private void AuthorityMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            var ui = new AuthoritySettingUI(authorityManager);
-            ui.ShowDialog();
+            var ui = new AuthoritySettingUI(authorityManager, this);
+            ui.ShowInTaskbar = false;
+            ui.Show();
+            
+        }
+
+        /// <summary>
+        /// 数据库配置
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DatabaseMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            //var database = new SQLliteDatabase();
+            //database.ConnectDatabase();
+
         }
 
 

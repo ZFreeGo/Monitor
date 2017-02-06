@@ -31,6 +31,16 @@ namespace ZFreeGo.Monitor.AutoStudio.Secure
             }
         }
 
+        /// <summary>
+        /// 获取元件
+        /// </summary>
+        public FrameworkElement Element
+        {
+            get
+            {
+                return mElement;
+            }
+        }
 
 
 
@@ -47,8 +57,14 @@ namespace ZFreeGo.Monitor.AutoStudio.Secure
         {
             set
             {
-                mMinLevel = (AuthorityLevel)value;
-                OnPropertyChanged(new PropertyChangedEventArgs("MinLevel"));
+                if (Enum.IsDefined(typeof(AuthorityLevel), value))
+                {
+                    mMinLevel = (AuthorityLevel)value;
+
+                    OnPropertyChanged(new PropertyChangedEventArgs("MinLevel"));
+                }
+               
+               
             }
             get
             {
@@ -74,6 +90,23 @@ namespace ZFreeGo.Monitor.AutoStudio.Secure
         }
 
         /// <summary>
+        /// DataBaseExist存在标志
+        /// </summary>
+        public bool DataBaseExist
+        {
+            get;
+             set;
+        }
+        /// <summary>
+        /// 获取或设置数据局更新标志
+        /// </summary>
+        public bool UpdateData
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// 控件权限
         /// </summary>
         /// <param name="element">控件</param>
@@ -82,12 +115,15 @@ namespace ZFreeGo.Monitor.AutoStudio.Secure
         {
             mElement = element;
             mMinLevel = minLevel;
+            DataBaseExist = false;
         }
+
+      
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-
+            UpdateData = true;
             if (PropertyChanged != null)
                 PropertyChanged(this, e);
         }
