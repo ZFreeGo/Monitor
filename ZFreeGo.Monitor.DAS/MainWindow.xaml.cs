@@ -457,7 +457,7 @@ namespace ZFreeGo.Monitor.AutoStudio
 
                 checkGetMessage.Close();
             }
-
+            logger.SaveLog(true);
             accountManager.SaveAccountInformation();
         }
 

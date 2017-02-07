@@ -134,6 +134,7 @@
     <Compile Include="Database\SQLliteDatabase.cs" />
     <Compile Include="ElementParam\ClockElement.cs" />
     <Compile Include="ElementParam\ControlRealyActionState.cs" />
+    <Compile Include="Log\LogEventArgs.cs" />
     <Compile Include="Log\LogType.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Log\SingleLogMessage.cs" />

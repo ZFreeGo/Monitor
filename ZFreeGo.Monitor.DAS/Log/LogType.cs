@@ -23,6 +23,11 @@ namespace ZFreeGo.Monitor.AutoStudio.Log
         /// </summary>
         Telecontrol = 2,
 
+        /// <summary>
+        /// 网络
+        /// </summary>
+        Net = 0x10,
+
         
     }
 }

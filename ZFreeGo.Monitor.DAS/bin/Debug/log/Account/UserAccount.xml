@@ -4,7 +4,7 @@
     <UserName>Admin</UserName>
     <PassWord>1234abc!</PassWord>
     <PowerLevel>4</PowerLevel>
-    <LastLogin>no</LastLogin>
+    <LastLogin>yes</LastLogin>
   </UserAccount>
   <UserAccount>
     <UserName>sa</UserName>
@@ -40,6 +40,6 @@
     <UserName>c2</UserName>
     <PassWord>12345678q!</PassWord>
     <PowerLevel>1</PowerLevel>
-    <LastLogin>yes</LastLogin>
+    <LastLogin>no</LastLogin>
   </UserAccount>
 </NewDataSet>
