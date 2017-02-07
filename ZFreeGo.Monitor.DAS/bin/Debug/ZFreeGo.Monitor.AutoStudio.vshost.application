@@ -7,14 +7,14 @@
     <framework targetVersion="4.0" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="ZFreeGo.Monitor.AutoStudio.exe.manifest" size="10685">
+    <dependentAssembly dependencyType="install" codebase="ZFreeGo.Monitor.AutoStudio.exe.manifest" size="10682">
       <assemblyIdentity name="ZFreeGo.Monitor.AutoStudio.exe" version="1.0.0.2" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>eQBX4b55b6KUhtE50fuoojb0dJo=</dsig:DigestValue>
+        <dsig:DigestValue>x/XPljAt9T3W89HU1GNmBsxRqVM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

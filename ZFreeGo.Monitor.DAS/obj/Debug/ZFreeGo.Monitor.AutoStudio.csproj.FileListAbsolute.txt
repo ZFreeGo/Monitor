@@ -77,6 +77,8 @@ F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.AutoStudio\obj\Debug\OptionConf
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.AutoStudio\obj\Debug\OptionConfig\AccountUI\EstablishAcconut.g.cs
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.AutoStudio\obj\Debug\OptionConfig\AccountUI\DeleteAccount.baml
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.AutoStudio\obj\Debug\OptionConfig\AccountUI\DeleteAccount.g.cs
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.Monitor.AutoStudio.exe.manifest
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.Monitor.AutoStudio.application
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.Monitor.AutoStudio.exe
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.Monitor.AutoStudio.pdb
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\OxyPlot.dll
@@ -120,10 +122,8 @@ J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.A
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.g.resources
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.Properties.Resources.resources
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.csproj.GenerateResource.Cache
-J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.exe
-J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.pdb
-J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.Monitor.AutoStudio.exe.manifest
-J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.Monitor.AutoStudio.application
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.TrustInfo.xml
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.exe.manifest
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.application
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.exe
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.pdb

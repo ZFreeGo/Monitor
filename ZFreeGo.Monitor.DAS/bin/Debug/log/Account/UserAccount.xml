@@ -13,12 +13,6 @@
     <LastLogin>no</LastLogin>
   </UserAccount>
   <UserAccount>
-    <UserName>bc</UserName>
-    <PassWord>12345678!!q</PassWord>
-    <PowerLevel>1</PowerLevel>
-    <LastLogin>no</LastLogin>
-  </UserAccount>
-  <UserAccount>
     <UserName>cd</UserName>
     <PassWord>12345678!!q</PassWord>
     <PowerLevel>2</PowerLevel>
@@ -38,6 +32,12 @@
   </UserAccount>
   <UserAccount>
     <UserName>c2</UserName>
+    <PassWord>12345678q!</PassWord>
+    <PowerLevel>1</PowerLevel>
+    <LastLogin>no</LastLogin>
+  </UserAccount>
+  <UserAccount>
+    <UserName>45</UserName>
     <PassWord>12345678q!</PassWord>
     <PowerLevel>1</PowerLevel>
     <LastLogin>no</LastLogin>

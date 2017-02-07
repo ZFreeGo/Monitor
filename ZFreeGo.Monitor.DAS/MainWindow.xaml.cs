@@ -133,6 +133,7 @@ namespace ZFreeGo.Monitor.AutoStudio
                 MessageBox.Show(ex.Message, "日志消息");
             }
         }
+
         /// <summary>
         /// 添加控件到控件管理器
         /// </summary>
@@ -458,6 +459,7 @@ namespace ZFreeGo.Monitor.AutoStudio
                 checkGetMessage.Close();
             }
             logger.SaveLog(true);
+            MakeLogMessage(this, "退出窗口", LogType.Login);
             accountManager.SaveAccountInformation();
         }
 
@@ -540,194 +542,7 @@ namespace ZFreeGo.Monitor.AutoStudio
         {
              SendMasterCommand(CauseOfTransmissionList.Activation, new QualifyCalculateCommad(QCCRequest.Request1, QCCFreeze.Read));
         }
-
-        /// <summary>
-        /// 参数激活
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnCalibrationActive_Click(object sender, RoutedEventArgs e)
-        {
-            //case TypeIdentification.P_ME_NC_1://测量值参数，短浮点数
-            //case TypeIdentification.P_AC_NA_1://参数激活
-            try
-            {
-                var listdata = (ObservableCollection<SystemCalibration>)systemCalibration;
-                if ((listdata != null) && (listdata.Count > 0))
-                {
-                    //序列化，
-                    var frame = new APDU(appMessageManager.TransmitSequenceNumber, appMessageManager.RealReceiveSequenceNumber,
-                        TypeIdentification.P_AC_NA_1, true, (byte)listdata.Count,
-                CauseOfTransmissionList.Activation, appMessageManager.ASDUADdress, SystemCalibration.BasicAddress);
-
-                    //var qpa = new QualifyParameterActive()
-                    foreach (var m in listdata)
-                    {
-                        if (m.InternalID <= listdata.Count)
-                        {
-                            
-                            var dataB = new byte[1] { (byte)QualifyParameterActive.LoadParameter };
-                            frame.AddInformationObject(dataB, (byte)dataB.Length, (byte)(m.InternalID - 1));
-                        }
-                        else
-                        {
-                            throw new Exception("序号不在顺序范围之内，无法使用序列化方法，请检查InternalID是否连续");
-                        }
-                    }
-                    //BeginInvokeUpdateHistory(fram.GetAPDUDataArray(), fram.FrameArray.Length, "测试");
-
-                    SendTypeIMessage(TypeIdentification.P_AC_NA_1, frame);
-                }
-
-
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "btnCalibrationActive_Click");
-            }
-        }
-        /// <summary>
-        /// 下载校准参数
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnCalibration_Click(object sender, RoutedEventArgs e)
-        {
-            //case TypeIdentification.P_ME_NC_1://测量值参数，短浮点数
-            //case TypeIdentification.P_AC_NA_1://参数激活
-             try
-            {
-                var listdata= (ObservableCollection<SystemCalibration>) systemCalibration;
-                if ((listdata != null) && (listdata.Count > 0))
-                {                    
-                    //序列化，
-                    var frame = new APDU(appMessageManager.TransmitSequenceNumber, appMessageManager.RealReceiveSequenceNumber,
-                        TypeIdentification.P_ME_NC_1, true, (byte)listdata.Count,
-                CauseOfTransmissionList.Activation, appMessageManager.ASDUADdress, SystemCalibration.BasicAddress);
-
-                    var qpm = new QualifyParameterMeasure(KindParameter.SmoothingFactor, LocalParameterChange.Change, ParameterRun.NotRun);
-                    foreach(var m in listdata)
-                    {
-                        if (m.InternalID <= listdata.Count)
-                        {
-                            var sf = new ShortFloating((float)m.CallCoefficient);
-                            var dataB = new byte[1]{qpm.QPM};
-                            frame.AddInformationObject(sf.GetDataArray(), (byte)sf.GetDataArray().Length, dataB,
-                                (byte)dataB.Length, (byte)(m.InternalID - 1));                    
-                        }
-                        else
-                        {
-                            throw new Exception("序号不在顺序范围之内，无法使用序列化方法，请检查InternalID是否连续");
-                        }
-                    }
-                  //BeginInvokeUpdateHistory(fram.GetAPDUDataArray(), fram.FrameArray.Length, "测试");
-
-                    SendTypeIMessage(TypeIdentification.P_ME_NC_1, frame);
-                }
-
-
-                
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "btnCalibration_Click");
-            }
-        }
-
-
-
-
-         
-        /// <summary>
-        /// 保护定值选择
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DownloadProtectSetSelect_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var observale = (ObservableCollection<ProtectSetPoint>)protectSetPoint;
-                if ((observale != null) && (observale.Count > 0))
-                {
-                    var qos = new QualifyCommandSet(ActionDescrible.Select);
-                   var protectsetAPDU = new APDU(appMessageManager.TransmitSequenceNumber, appMessageManager.RealReceiveSequenceNumber,
-                        TypeIdentification.C_SE_NC_1, true, (byte)observale.Count,
-                CauseOfTransmissionList.Activation, appMessageManager.ASDUADdress, ProtectSetPoint.BasicAddress, qos);
-
-                   
-                    
-                    foreach (var m in observale)
-                    {
-                        if (m.InternalID <= observale.Count)
-                        {
-                            var sf = new ShortFloating((float)m.ParameterValue);
-                            protectsetAPDU.AddInformationObject(sf.GetDataArray(),
-                                (byte)sf.GetDataArray().Length, (byte)(m.InternalID - 1));
-                        }
-                        else
-                        {
-                            throw new Exception("序号不在顺序范围之内，无法使用序列化方法，请检查InternalID是否连续");
-                        }
-                    }
-                    //BeginInvokeUpdateHistory(fram.GetAPDUDataArray(), fram.FrameArray.Length, "测试");
-                    SendTypeIMessage(TypeIdentification.P_ME_NC_1, protectsetAPDU);
-
-                }
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "DownloadProtectSetSelect_Click");
-            }
-        }
-        /// <summary>
-        /// 下载保护定值
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DownloadProtectSet_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var qos = new QualifyCommandSet(ActionDescrible.Execute);
-                var observale = (ObservableCollection<ProtectSetPoint>)protectSetPoint;
-                if ((observale != null) && (observale.Count > 0))
-                {
-                    var protectsetAPDU = new APDU(appMessageManager.TransmitSequenceNumber, appMessageManager.RealReceiveSequenceNumber,
-                         TypeIdentification.C_SE_NC_1, true, (byte)observale.Count,
-                 CauseOfTransmissionList.Activation, appMessageManager.ASDUADdress, ProtectSetPoint.BasicAddress, qos);
-
-                   
-                   
-                    foreach (var m in observale)
-                    {
-                        if (m.InternalID <= observale.Count)
-                        {
-                            var sf = new ShortFloating((float)m.ParameterValue);
-                            protectsetAPDU.AddInformationObject(sf.GetDataArray(), (byte)sf.GetDataArray().Length, (byte)(m.InternalID - 1));
-                        }
-                        else
-                        {
-                            throw new Exception("序号不在顺序范围之内，无法使用序列化方法，请检查InternalID是否连续");
-                        }
-                    }
-                    //BeginInvokeUpdateHistory(fram.GetAPDUDataArray(), fram.FrameArray.Length, "测试");
-                    SendTypeIMessage(TypeIdentification.P_ME_NC_1, protectsetAPDU);
-
-                }
-
-
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "DownloadProtectSet_Click");
-            }
-        }
-
-
+        
         /// <summary>
         /// 更新电能脉冲参数
         /// </summary>
@@ -1037,7 +852,9 @@ namespace ZFreeGo.Monitor.AutoStudio
         /// <param name="e"></param>
         private void OptionMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            
             var option = new OptionConfigUI(accountManager);
+            option.MakeLogEvent += MainWindow_MakeLogEvent;
             option.ShowInTaskbar = false;
             option.ShowDialog();
         }
@@ -1070,6 +887,8 @@ namespace ZFreeGo.Monitor.AutoStudio
             //database.ConnectDatabase();
 
         }
+
+      
 
 
    

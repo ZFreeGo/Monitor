@@ -79,14 +79,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="System.Data.SQLite.dll" size="1647616">
-      <assemblyIdentity name="System.Data.SQLite" version="1.0.104.0" publicKeyToken="DB937BC2D44FF139" language="neutral" processorArchitecture="amd64" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="System.Data.SQLite.dll" size="221184">
+      <assemblyIdentity name="System.Data.SQLite" version="1.0.86.0" publicKeyToken="DB937BC2D44FF139" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>P9PViC0Uze0+wbQudqIxEXzwRL4=</dsig:DigestValue>
+        <dsig:DigestValue>UiOYyISmrJSfOcisuyjQwDkW14g=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -122,19 +122,19 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>ICcUMwa9SkWe9xci+u2Ka+TWbVE=</dsig:DigestValue>
+        <dsig:DigestValue>g096ziRm7FaCfULxZkipny0CAwc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ZFreeGo.Monitor.AutoStudio.exe" size="744960">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ZFreeGo.Monitor.AutoStudio.exe" size="745472">
       <assemblyIdentity name="ZFreeGo.Monitor.AutoStudio" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>KwNwXpdt64QuQUNCK/0J1/iyz3I=</dsig:DigestValue>
+        <dsig:DigestValue>hDSgKUBAMCz91vA3m+xroDQAqOE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -146,7 +146,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>l1H2YaGPeJGrAZ21hN9gvAvp+nc=</dsig:DigestValue>
+        <dsig:DigestValue>6O49MkXFSrrGr4qzM5JoQIpyxYM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -158,7 +158,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>EOPRWiT+QTFewv3W/1N78bNq6ZU=</dsig:DigestValue>
+        <dsig:DigestValue>jnzHILOPSYgw5y2jUDzKY6wz8IE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

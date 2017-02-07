@@ -22,6 +22,29 @@ namespace ZFreeGo.Monitor.AutoStudio.Log
         /// 遥控
         /// </summary>
         Telecontrol = 2,
+        /// <summary>
+        /// 定值
+        /// </summary>
+        ProtectSetpoint = 3,
+        /// <summary>
+        /// 校准
+        /// </summary>
+        Calibration = 4,
+        /// <summary>
+        /// 账户
+        /// </summary>
+        Account = 5,
+
+
+        /// <summary>
+        /// 时间
+        /// </summary>
+        Time = 5,
+
+
+
+
+
 
         /// <summary>
         /// 网络
