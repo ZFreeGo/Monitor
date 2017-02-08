@@ -152,5 +152,10 @@ string str =e.EditAction.ToString() + "\n"
             }
             MessageBox.Show(sb.ToString());
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+           
+        }
     }
 }

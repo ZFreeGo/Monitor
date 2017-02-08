@@ -56,6 +56,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Xmode\PageFunction.xaml.cs">
+      <DependentUpon>PageFunction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Xmode\SerialControlCenter.cs" />
+    <Compile Include="Xmode\SerialDataEvent.cs" />
+    <Compile Include="Xmode\SerialPortUI.xaml.cs">
+      <DependentUpon>SerialPortUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Xmode\XmodeUI.xaml.cs">
+      <DependentUpon>XmodeUI.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -73,6 +84,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Page2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Xmode\PageFunction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Xmode\SerialPortUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Xmode\XmodeUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

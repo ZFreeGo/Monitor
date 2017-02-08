@@ -15,6 +15,39 @@ namespace ZFreeGo.TransportProtocol.Xmodem
         /// </summary>
         private List<XmodePacket> packetList;
 
+
+        /// <summary>
+        /// 获取传输的数据表列表
+        /// </summary>
+        public List<XmodePacket> GetPacketList(XmodeDefine checkMode)
+        {
+            //crc校验 
+            if ((checkMode == XmodeDefine.C)||(checkMode == XmodeDefine.c))
+            {
+                addCheck(CalCRC16);
+            }  
+            else if (checkMode == XmodeDefine.NAK) //累加和
+            {
+                addCheck(CalSum16);
+            }
+            else
+            {
+                throw new ArgumentNullException("不能识别校验方式");
+            }
+            return packetList;
+            
+        }
+
+        private void addCheck(Func<byte[], int, int , ushort> checkFun)
+        {
+            foreach(var packet in packetList)
+            {
+                ushort checkResult = checkFun(packet.PacketData, 3, packet.ValidDataLen);
+                packet.AddCheck(checkResult);
+            }
+        }
+
+
         /// <summary>
         /// 数据包管理器初始化
         /// </summary>
@@ -74,16 +107,17 @@ namespace ZFreeGo.TransportProtocol.Xmodem
         /// CRC16计算
         /// </summary>
         /// <param name="ptr">数组</param>
+        /// <param name="offset">偏移</param>
         /// <param name="count">数据长度</param>
         /// <returns>16bit crc计算值</returns>
-        public int CalCRC16(byte[] ptr, int count)
+        public ushort CalCRC16(byte[] ptr, int offset,int count)
         {
             int crc = 0;
             int i = 0;
             int j = 0;
             while (--count >= 0)
             {
-                crc = crc ^ (int)ptr[j++] << 8;
+                crc = crc ^ (ushort)ptr[offset + j++] << 8;
                 for (i = 0; i < 8; ++i)
                 {
                     if ((crc & 0x8000) == 0x8000)
@@ -96,21 +130,22 @@ namespace ZFreeGo.TransportProtocol.Xmodem
                     }
                 }
             }
-            return (crc & 0xFFFF);
+            return (ushort)(crc & 0xFFFF);
         }
 
         /// <summary>
         /// 计算累加和
         /// </summary>
         /// <param name="data">数据</param>
+        /// <param name="offset">偏移</param>
         /// <param name="count">数据长度</param>
         /// <returns>16bit累加和</returns>
-        public ushort CalSum16(byte[] data, int count)
+        public ushort CalSum16(byte[] data, int offset, int count)
         {
             ushort sum = 0;
             for (int i = 0; i < count; i++)
             {
-                sum += data[i];
+                sum += data[offset + i];
             }
             return sum;
         }

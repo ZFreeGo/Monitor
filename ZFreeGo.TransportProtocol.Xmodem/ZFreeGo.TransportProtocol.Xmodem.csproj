@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FunctionTimeOut.cs" />
+    <Compile Include="ServerStep.cs" />
     <Compile Include="XmodeDefine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmodePacket.cs" />

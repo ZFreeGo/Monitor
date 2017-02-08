@@ -35,7 +35,6 @@ J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\ZFreeGo.Monitor.
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\ZFreeGo.FileOperation.Comtrade.dll
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\ZFreeGo.Common.BasicTool.dll
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\ZFreeGo.FileOperation.Comtrade.pdb
-J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\ZFreeGo.Common.BasicTool.pdb
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\MainWindow.baml
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\ZFreeGo.Monitor.Test.g.resources
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\ZFreeGo.Monitor.Test.Properties.Resources.resources
@@ -44,3 +43,9 @@ J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\ZFreeGo.Monitor.
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\ZFreeGo.Monitor.Test.pdb
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\System.Data.SQLite.dll
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\System.Data.SQLite.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Xmode\SerialPortUI.baml
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Xmode\SerialPortUI.g.cs
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Xmode\PageFunction.baml
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Xmode\XmodeUI.baml
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Xmode\PageFunction.g.cs
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Xmode\XmodeUI.g.cs
