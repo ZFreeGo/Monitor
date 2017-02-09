@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ZFreeGo.TransportProtocol.Xmodem
 {
-    private enum ServerStep
+    public enum ServerStep
     {
         /// <summary>
         /// 等待启动传输

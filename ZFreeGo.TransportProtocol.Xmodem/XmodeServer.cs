@@ -85,7 +85,7 @@ namespace ZFreeGo.TransportProtocol.Xmodem
         private XmodePacketManager mXmodePacketManager;
 
 
-        private object lockObj = new object(); //队列同步对象
+        private object mLockObj = new object(); //队列同步对象
 
         /// <summary>
         /// 发送数据委托
@@ -118,6 +118,8 @@ namespace ZFreeGo.TransportProtocol.Xmodem
             
             mClientReply = null;
             mEotFlag = false;
+
+            mCurrentStep = ServerStep.WaitStartTransmision;
         }
 
 
@@ -192,6 +194,12 @@ namespace ZFreeGo.TransportProtocol.Xmodem
         {
             sendDataDelegate(new byte[]{data});
         }
+
+
+
+
+
+
         /// <summary>
         /// 等待应答
         /// </summary>
@@ -200,13 +208,17 @@ namespace ZFreeGo.TransportProtocol.Xmodem
             try
             {
                 mClientReply = null;
+                XmodeDefine data = 0; 
                 while (true)
                 {
-                    if (mReciveQueneBuffer.Count == 0)
+                    lock (mLockObj)
                     {
-                        return;
+                        if (mReciveQueneBuffer.Count == 0)
+                        {
+                            continue;
+                        }
+                        data = (XmodeDefine)mReciveQueneBuffer.Dequeue();
                     }
-                    var data = (XmodeDefine)mReciveQueneBuffer.Dequeue();
                     switch (data)
                     {
 
@@ -223,6 +235,7 @@ namespace ZFreeGo.TransportProtocol.Xmodem
                                 break;
                             }
                     }
+                    Thread.Sleep(100);
                 }
             }
             catch(Exception ex)
@@ -240,7 +253,10 @@ namespace ZFreeGo.TransportProtocol.Xmodem
                 case XmodeDefine.CAN:
                     {
                         //发送终止消息
-                        ServerEvent(this, new XmodeServerEventArgs(XmodeServerState.Cancel));
+                        if (ServerEvent != null)
+                        {
+                            ServerEvent(this, new XmodeServerEventArgs(XmodeServerState.Cancel));
+                        }
                         break;
                     }
                 case XmodeDefine.ACK:
@@ -249,8 +265,11 @@ namespace ZFreeGo.TransportProtocol.Xmodem
                         {
                             //结束应答
                             //发送结束传输消息
-                            ServerEvent(this, new XmodeServerEventArgs(XmodeServerState.Sucess));
-                            return;
+                            if (ServerEvent != null)
+                            {
+                                ServerEvent(this, new XmodeServerEventArgs(XmodeServerState.Sucess));
+                                return;
+                            }
                         }
                         //正常应答
                         mRepeatCount = 0;
@@ -304,7 +323,10 @@ namespace ZFreeGo.TransportProtocol.Xmodem
             }
             else
             {
+                if (ServerEvent != null)
+                        {
                 ServerEvent(this, new XmodeServerEventArgs(XmodeServerState.Failue));
+                    }
             }
         }
 
@@ -331,20 +353,31 @@ namespace ZFreeGo.TransportProtocol.Xmodem
                         {
                             mPacketList = mXmodePacketManager.GetPacketList((XmodeDefine)mCheckMode);
                             mCurrentStep = ServerStep.TransmisionData;
+                            transmitData();
                         }
                         break;
                     }
-                case ServerStep.TransmisionData:
-                    {
-                        transmitData();
-                        break;
-                    }
+              
             }
             
 
         }
 
+        /// <summary>
+        /// 信息入队
+        /// </summary>
+        /// <param name="data">入队数据</param>
+        public void Enqueue(byte[] data)
+        {
+             lock (ReciveQuene)
+             {
+                 foreach(var m in data)
+                 {
+                     ReciveQuene.Enqueue(m);                      
+                 }
+             }
 
+        }
         /// <summary>
         /// TcpRead进程,从Tcp连接中读取顺序
         /// </summary>
@@ -366,10 +399,20 @@ namespace ZFreeGo.TransportProtocol.Xmodem
                             }
 
                         }
-
-                        if (mReciveQueneBuffer.Count > 0)
+                        if (mCurrentStep == ServerStep.TransmisionData)
                         {
-                            //MainCheckStep();
+                            return;
+                        }
+                        else
+                        {
+
+                            lock (mLockObj)
+                            {
+                                if (mReciveQueneBuffer.Count > 0)
+                                {
+                                    checkServerStep();
+                                }
+                            }
                         }
 
                         Thread.Sleep(10);

@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ZFreeGo.TransportProtocol.Xmodem;
 
 namespace ZFreeGo.Monitor.Test.Xmode
 {
@@ -39,6 +40,7 @@ namespace ZFreeGo.Monitor.Test.Xmode
                 Action<string> fun = (ar) => { txtRecive.Text += ar; };
                 var stdData = Encoding.ASCII.GetString(e.SerialData);
                 Dispatcher.BeginInvoke(fun, stdData);
+                xmodeSever.Enqueue(e.SerialData);
                 
             }
             catch(Exception ex)
@@ -217,6 +219,47 @@ namespace ZFreeGo.Monitor.Test.Xmode
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             serialControlCenter.CloseCenter();
+            if (xmodeSever !=null)
+            {
+                xmodeSever.CloseServer();
+            }
+        }
+
+
+        XmodeServer xmodeSever;
+        XmodePacketManager xmdoePacketManager;
+        byte[] testData;
+        /// <summary>
+        /// Xmode测试
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnStartTest_Click(object sender, RoutedEventArgs e)
+        {
+            if (serialControlCenter.CommState)
+            {
+
+                int len = 5000;
+                testData = new byte[len];
+                for (int i = 0; i < len; i++)
+                {
+                    testData[i] = (byte)(i %256);
+                }
+             
+                xmdoePacketManager = new XmodePacketManager(testData, testData.Length, XmodeStartHeader.STX);
+                xmodeSever = new XmodeServer();
+              
+                xmodeSever.ServerEvent += xmodeSever_ServerEvent;
+                serialControlCenter.SerialPort.DiscardInBuffer();
+                xmodeSever.StartServer(xmdoePacketManager, serialControlCenter.SendMessage);
+               
+            }
+        }
+
+ 
+        void xmodeSever_ServerEvent(object sender, XmodeServerEventArgs e)
+        {
+            MessageBox.Show(e.ServerState.ToString());
         }
 
     }

@@ -49,3 +49,5 @@ J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Xmode\PageFuncti
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Xmode\XmodeUI.baml
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Xmode\PageFunction.g.cs
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Xmode\XmodeUI.g.cs
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\ZFreeGo.TransportProtocol.Xmodem.dll
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\ZFreeGo.TransportProtocol.Xmodem.pdb
