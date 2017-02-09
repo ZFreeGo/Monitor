@@ -8,3 +8,13 @@ F:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ZFreeGo.Common.BasicTool.
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\obj\Debug\ConsoleTest.csprojResolveAssemblyReference.cache
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\obj\Debug\ConsoleTest.exe
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\obj\Debug\ConsoleTest.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\obj\Debug\ConsoleTest.csprojResolveAssemblyReference.cache
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\obj\Debug\ConsoleTest.exe
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\obj\Debug\ConsoleTest.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ConsoleTest.exe.config
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ConsoleTest.exe
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ConsoleTest.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ZFreeGo.FileOperation.Comtrade.dll
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ZFreeGo.Common.BasicTool.dll
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ZFreeGo.FileOperation.Comtrade.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ZFreeGo.Common.BasicTool.pdb
