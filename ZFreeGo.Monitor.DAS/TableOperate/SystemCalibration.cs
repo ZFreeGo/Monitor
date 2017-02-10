@@ -258,17 +258,20 @@ namespace ZFreeGo.Monitor.AutoStudio
                         {
                             Dispatcher.BeginInvoke(update, e);
                             BeginInvokeUpdateHistory(e.Data, e.Data.Length, "从站发送:FactorCall校准:");
+                            MakeLogMessage(sender,"", "召唤系数应答", Log.LogType.Calibration);
                             break;
                         }
                     case CalibrationAction.FactorDownload:
                         {
                             BeginInvokeUpdateHistory(e.Data, e.Data.Length, "从站发送:FactorDownload校准:");
+                            MakeLogMessage(sender, "", "系数下载应答", Log.LogType.Calibration);
                             break;
                         }
                     case CalibrationAction.FactorFix:
                         {
                             MessageBox.Show("系数固话成功");
                             BeginInvokeUpdateHistory(e.Data, e.Data.Length, "从站发送:FactorFix校准:");
+                            MakeLogMessage(sender, "", "召唤系数固化成功应答", Log.LogType.Calibration);
                             break;
                         }
 
@@ -347,7 +350,7 @@ namespace ZFreeGo.Monitor.AutoStudio
             if (calibrationTcpRun == false)
             {
                 upnpCalibrationInit();
-              
+               
 
             }
             else
@@ -372,6 +375,7 @@ namespace ZFreeGo.Monitor.AutoStudio
                 var data = oldCalibration.MakeFactorCallData();
                 upnpCalibration.SendMessage(data);
                 BeginInvokeUpdateHistory(data, data.Length, "主站发送:D帧:召唤系数");
+                MakeLogMessage(sender, "系数读取", Log.LogType.Calibration);
             }
             else
             {
@@ -401,6 +405,7 @@ namespace ZFreeGo.Monitor.AutoStudio
                     var data = oldCalibration.MakeFactorDownloadData(downfactor, observale.Count);
                     upnpCalibration.SendMessage(data);
                     BeginInvokeUpdateHistory(data, data.Length, "主站发送:D帧:系数下载");
+                    MakeLogMessage(sender, "系数下载", Log.LogType.Calibration);
                 }
             }
             else
@@ -420,6 +425,7 @@ namespace ZFreeGo.Monitor.AutoStudio
                 var data = oldCalibration.MakeFactorFix();
                 upnpCalibration.SendMessage(data);
                 BeginInvokeUpdateHistory(data, data.Length, "主站发送:D帧:系数固化");
+                MakeLogMessage(sender, "系数固化", Log.LogType.Calibration);
             }
             else
             {

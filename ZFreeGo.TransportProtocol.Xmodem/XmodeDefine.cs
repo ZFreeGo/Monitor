@@ -54,5 +54,13 @@ namespace ZFreeGo.TransportProtocol.Xmodem
         /// </summary>
         EOF = 0x1A,
 
+        /// <summary>
+        /// 'C' 请求指令
+        /// </summary>
+        C = 'C',
+        /// <summary>
+        /// 'c' 请求指令
+        /// </summary>
+        c = 'c'
     }
 }

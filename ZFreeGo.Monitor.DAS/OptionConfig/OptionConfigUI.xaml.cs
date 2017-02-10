@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ZFreeGo.Monitor.AutoStudio.Log;
 using ZFreeGo.Monitor.AutoStudio.OptionConfig.AccountUI;
 using ZFreeGo.Monitor.AutoStudio.Secure;
 
@@ -32,6 +33,13 @@ namespace ZFreeGo.Monitor.AutoStudio.OptionConfig
         /// 修改账户权限界面
         /// </summary>
         private FixAuthority fixAuthorityPage;
+
+
+
+        /// <summary>
+        /// 日志产生事件
+        /// </summary>
+        public event EventHandler<Log.LogEventArgs> MakeLogEvent;
 
         /// <summary>
         /// 修改用户名称
@@ -122,11 +130,14 @@ namespace ZFreeGo.Monitor.AutoStudio.OptionConfig
         {
            try
            {
+               string oldUser = accountManager.LoginAccount.UserName;
                var state = accountManager.UpdateAccountUserName(accountManager.LoginAccount.UserName, e.UserNameStr);
                if (state)
                {
                    accountManager.SaveAccountInformation();
                    fixUserNamePage.UpdateShow(accountManager.LoginAccount.UserName);
+                   string str = string.Format("修改用户名:\"{0}\"修改为\"{1}\".", oldUser,   e.UserNameStr);
+                   MakeLogMessage(sender,"修改用户名", str, LogType.Account);
                    MessageBox.Show("修改用户名成功.", "修改用户名");
                }
 
@@ -167,7 +178,7 @@ namespace ZFreeGo.Monitor.AutoStudio.OptionConfig
                {
 
                    MessageBox.Show("输入的旧密码不正确", "密码验证");
-
+                   MakeLogMessage(sender, "修改密码","密码验证不正确", LogType.Account);
                    return;
                }
              
@@ -187,6 +198,7 @@ namespace ZFreeGo.Monitor.AutoStudio.OptionConfig
                if (state)
                {
                    accountManager.SaveAccountInformation();
+                   MakeLogMessage(sender, "修改密码", "密码验证成功", LogType.Account);
                    MessageBox.Show("修改密码成功", "修改密码");
                }
              
@@ -194,6 +206,7 @@ namespace ZFreeGo.Monitor.AutoStudio.OptionConfig
             catch(Exception ex)
            {
                MessageBox.Show(ex.Message, "用户密码变更消息");
+            
             }
         }
   
@@ -222,6 +235,7 @@ namespace ZFreeGo.Monitor.AutoStudio.OptionConfig
                 if(!accountManager.CheckPasswordSame(e.UserNewPassword, e.UserNewPasswordRepeat))
                 {
                     throw new ArgumentException("用户两次输入的密码不一致");
+                    
                 }
                 if (!accountManager.CheckPasswordComplexity(e.UserNewPassword))
                 {
@@ -232,6 +246,8 @@ namespace ZFreeGo.Monitor.AutoStudio.OptionConfig
                {
                    accountManager.SaveAccountInformation();
                    MessageBox.Show("新建用户成功", "新建用户");
+                   string str = string.Format("用户名:\"{0}\".", e.UserName);
+                   MakeLogMessage(sender, "新建用户", str, LogType.Account);
                }
 
             }
@@ -251,7 +267,13 @@ namespace ZFreeGo.Monitor.AutoStudio.OptionConfig
             var page = new DeleteAccount();
             page.UpdateShow(accountManager);
             framewPlane.NavigationService.Navigate(page);
+            page.MakeLogEvent += page_MakeLogEvent;
 
+        }
+        //传递消息
+        private void page_MakeLogEvent(object sender, LogEventArgs e)
+        {
+            this.MakeLogEvent(sender, e);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -262,9 +284,30 @@ namespace ZFreeGo.Monitor.AutoStudio.OptionConfig
 
 
 
-       
 
-  
+
+ 
+        /// <summary>
+        /// 产生日志消息
+        /// </summary>
+        /// <param name="sender">发送者</param>
+        /// <param name="content">操作内容</param>
+        /// <param name="result">操作结果</param>
+        private void MakeLogMessage(object sender, string content, string result, LogType type)
+        {
+            try
+            {
+                if (MakeLogEvent != null)
+                {
+                    var message = new SingleLogMessage(accountManager.LoginAccount.UserName, content, result, type);
+                    MakeLogEvent(sender, new Log.LogEventArgs(message));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "日志消息");
+            }
+        }
       
 
 

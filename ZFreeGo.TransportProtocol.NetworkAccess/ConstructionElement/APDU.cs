@@ -630,6 +630,22 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
         }
 
 
+        /// <summary>
+        /// 获取帧格式字符串
+        /// </summary>
+        public override string ToString()
+        {
+            var data = GetAPDUDataArray();
+            StringBuilder build = new StringBuilder(data.Length * 3 + 10);
+            build.Append("[");
+            foreach(var m in data)
+            {
+                build.AppendFormat("{0:X} ", m);
+            }
+            build.Append("]\n");
+            return build.ToString();
+        }
+            
 
 
         

@@ -82,14 +82,19 @@
     <Compile Include="BasicElement\MessageFormat.cs" />
     <Compile Include="BasicElement\TypeIdentification.cs" />
     <Compile Include="ApplicationMessage\MasterCommmadEventArgs.cs" />
+    <Compile Include="FileNr\FileDirectoryCalledAckPacket.cs" />
+    <Compile Include="FileNr\FileCallFlag.cs" />
+    <Compile Include="FileNr\FileDirectoryCalledPacket.cs" />
     <Compile Include="FileElement\FileReadyQulifier.cs" />
     <Compile Include="FileElement\LastSectionQulifier.cs" />
+    <Compile Include="FileNr\OperatSign.cs" />
     <Compile Include="FileElement\SectionReadyQulifier.cs" />
     <Compile Include="FileElement\AckFileQulifier.cs" />
     <Compile Include="FileElement\SelectCallQulifier.cs" />
     <Compile Include="FileElement\StatusOfFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

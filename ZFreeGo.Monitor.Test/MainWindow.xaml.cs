@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ZFreeGo.FileOperation.Comtrade.ConfigContent;
+using System.Data.SQLite;
 
 namespace ZFreeGo.Monitor.Test
 {
@@ -27,14 +28,21 @@ namespace ZFreeGo.Monitor.Test
         public MainWindow()
         {
             InitializeComponent();
-            DataSet ds = new DataSet();
-            ds.ReadXml("store.xml");
-            MessageBox.Show("sd");
-            gridProducts.ItemsSource = GetProducts();
+           // DataSet ds = new DataSet();
+           // ds.ReadXml("store.xml");
+          //  MessageBox.Show("sd");
+           // gridProducts.ItemsSource = GetProducts();
 
- 
 
-            
+
+           // Test();
+        }
+        public void Test()
+        {
+            List<Tuple<FrameworkElement, int>> ds = new System.Collections.Generic.List<Tuple<FrameworkElement, int>>();
+            ds.Add(new Tuple<FrameworkElement, int>(Set, 1));
+            MessageBox.Show(ds[0].Item1.ToString());
+           
         }
         public ICollection<Product> GetProducts()
         {
@@ -109,6 +117,45 @@ string str =e.EditAction.ToString() + "\n"
             }
                 
 
+        }
+
+        private void SqliteTest(object sender, RoutedEventArgs e)
+        {
+            string datasource = "test.db";
+            System.Data.SQLite.SQLiteConnection.CreateFile(datasource);
+            System.Data.SQLite.SQLiteConnection conn = new System.Data.SQLite.SQLiteConnection();
+            System.Data.SQLite.SQLiteConnectionStringBuilder connstr = new System.Data.SQLite.SQLiteConnectionStringBuilder();
+            connstr.DataSource = datasource;
+            connstr.CacheSize = 1024;
+          //  connstr.Password = "1234";//设置密码，SQLite ADO.NET实现了数据库密码保护
+            conn.ConnectionString = connstr.ToString();
+            conn.Open();
+
+            System.Data.SQLite.SQLiteCommand cmd = new System.Data.SQLite.SQLiteCommand();
+            string sql = "CREATE TABLE test(username varchar(20),password varchar(20))";
+            cmd.CommandText = sql;
+            cmd.Connection = conn;
+            cmd.ExecuteNonQuery();
+
+            sql = "INSERT INTO test VALUES('a','b')";
+            cmd.CommandText = sql;
+            cmd.ExecuteNonQuery();
+
+            sql = "SELECT * FROM test";
+            cmd.CommandText = sql;
+            System.Data.SQLite.SQLiteDataReader reader = cmd.ExecuteReader();
+            StringBuilder sb = new StringBuilder();
+            while (reader.Read())
+            {
+                sb.Append("username:").Append(reader.GetString(0)).Append("\n")
+                .Append("password:").Append(reader.GetString(1));
+            }
+            MessageBox.Show(sb.ToString());
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+           
         }
     }
 }

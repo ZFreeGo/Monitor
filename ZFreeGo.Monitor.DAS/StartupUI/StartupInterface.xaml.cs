@@ -83,7 +83,7 @@ namespace ZFreeGo.Monitor.AutoStudio.StartupUI
 
             if (accountManager.LoginCheck(txtLoginUser.Text, passBox.SecurePassword))
             {
-                var  str = string.Format("登陆尝试{0}后登陆成功", errorCountLimit);
+                var str = string.Format("登陆尝试{0}后登陆成功", failueLoginCount);
                 logger.AddMessage(accountManager.LoginAccount.UserName, str, Log.LogType.Login);
                 logger.SaveLog();
                 
@@ -127,7 +127,7 @@ namespace ZFreeGo.Monitor.AutoStudio.StartupUI
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            logger.AddMessage("登陆", "取消登陆，保存日志文件", Log.LogType.Login);
+            logger.AddMessage("登陆", "退出登录界面", Log.LogType.Login);
             logger.SaveLog();
             
         }

@@ -8,6 +8,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using System.Windows;
+using ZFreeGo.Monitor.AutoStudio.Log;
 using ZFreeGo.Net;
 using ZFreeGo.Net.Element;
 using ZFreeGo.Net.UPNP;
@@ -235,6 +236,7 @@ namespace ZFreeGo.Monitor.AutoStudio
        /// <param name="e"></param>
         private void btnStopServer_Click(object sender, RoutedEventArgs e)
         {
+            MakeLogMessage(sender, "停止网络服务", LogType.Net);
             UPNPStopServer();
 
             ResetServer();
@@ -372,12 +374,13 @@ namespace ZFreeGo.Monitor.AutoStudio
         {
             txtLinkMsg.Text += str + "\n";
             txtLinkMsg.ScrollToEnd();
+            MakeLogMessage(this,"连接信息:" + str, LogType.Net);
         }
 
 
 
         /// <summary>
-        /// 清楚状态信息
+        /// 清除状态信息
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

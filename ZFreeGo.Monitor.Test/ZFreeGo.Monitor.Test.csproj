@@ -36,6 +36,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>D:\Program Files\System.Data.SQLite\2010\bin\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -53,6 +56,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Xmode\PageFunction.xaml.cs">
+      <DependentUpon>PageFunction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Xmode\SerialControlCenter.cs" />
+    <Compile Include="Xmode\SerialDataEvent.cs" />
+    <Compile Include="Xmode\SerialPortUI.xaml.cs">
+      <DependentUpon>SerialPortUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Xmode\XmodeUI.xaml.cs">
+      <DependentUpon>XmodeUI.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -70,6 +84,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Page2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Xmode\PageFunction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Xmode\SerialPortUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Xmode\XmodeUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -122,6 +148,10 @@
     <ProjectReference Include="..\ZFreeGo.FileFormat.Comtrade\ZFreeGo.FileOperation.Comtrade.csproj">
       <Project>{6c7d1295-c969-473b-8c0c-f6f2da27d968}</Project>
       <Name>ZFreeGo.FileOperation.Comtrade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ZFreeGo.TransportProtocol.Xmodem\ZFreeGo.TransportProtocol.Xmodem.csproj">
+      <Project>{266ba8dc-9d81-4879-b3d6-edd2e062b756}</Project>
+      <Name>ZFreeGo.TransportProtocol.Xmodem</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

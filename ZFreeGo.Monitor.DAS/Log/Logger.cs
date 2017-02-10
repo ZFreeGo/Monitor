@@ -57,6 +57,15 @@ namespace ZFreeGo.Monitor.AutoStudio.Log
             logMessage.Add(new SingleLogMessage(userName, content, inType));
             checkLenAndSave(100);
         }
+        /// <summary>
+        /// 增加一条日志消息
+        /// </summary>
+        /// <param name="message">消息</param>
+        public void AddMessage(SingleLogMessage message)
+        {
+            logMessage.Add(message);
+            checkLenAndSave(100);
+        }
 
         /// <summary>
         /// 检查条数若超过则存盘,并清空当前日志

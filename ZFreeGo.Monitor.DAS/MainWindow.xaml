@@ -13,15 +13,17 @@
         </Grid.RowDefinitions>
         <!--菜单栏区域-->
         <Menu Grid.Row="0" >
-            <MenuItem Header="文件"></MenuItem>
+            <MenuItem Header="文件">
+                <MenuItem Header="数据库配置" Click="DatabaseMenuItem_Click"></MenuItem>
+                </MenuItem>
             <MenuItem Header="编辑"></MenuItem>
             <MenuItem Header="显示"></MenuItem>
             <MenuItem Header="查询"></MenuItem>
             <MenuItem Header="工具">
-                <MenuItem Header="选项" Click="OptionMenuItem_Click">
-
-                </MenuItem>
+                <MenuItem Header="选项" Click="OptionMenuItem_Click"></MenuItem>
+                <MenuItem Header="权限配置" Click="AuthorityMenuItem_Click"></MenuItem>
             </MenuItem>
+
             <MenuItem Header="帮助"></MenuItem>
         </Menu>
         <!--底部状态栏区域-->
@@ -41,7 +43,7 @@
 
             <StatusBarItem Grid.Column="0">
                 <StackPanel Orientation="Horizontal" >
-                    <TextBlock Text="当前用户：" VerticalAlignment="Center" />                   
+                    <TextBlock Text="当前用户：" VerticalAlignment="Center" />
                     <TextBlock Text="null" Foreground="Black" Name="currentUserName" />
                 </StackPanel>
             </StatusBarItem>
@@ -53,8 +55,8 @@
                         <TextBlock Text="通讯状态：" VerticalAlignment="Center" />
                         <Ellipse Width="10" Height="10" Fill="Black" Name="ComShowIndicate"></Ellipse>
                         <TextBlock Text="通讯暂停" Foreground="Black" Name="ComShow" />
-                    </StackPanel>  
-                   
+                    </StackPanel>
+
                     <StackPanel Margin="10,0,0,0"  Orientation="Horizontal" HorizontalAlignment="Left">
                         <TextBlock Text="设备状态：" VerticalAlignment="Center" />
                         <Ellipse Width="10" Height="10" Fill="Red" Name="DeviceStateShowIndicate"></Ellipse>
@@ -116,7 +118,7 @@
                     </TreeViewItem>
                     <TreeViewItem Header="维护操作" IsExpanded="True">
                         <TreeViewItem Header="系统校准"></TreeViewItem>
-                       
+
                     </TreeViewItem>
                 </TreeView>
             </Grid>
@@ -152,7 +154,7 @@
 
                             <Grid Grid.Row="1">
                                 <StackPanel Margin="3" Orientation="Horizontal">
-                                    <Button Margin="3" Padding="3" >刷新</Button>
+                                    <Button Margin="3,3,3,0" Padding="3" Height="28" VerticalAlignment="Top" Name="RefreshSystemParameter">刷新</Button>
                                     <Button Margin="3" Padding="3" Name="SystemParameterLoad" Click="SystemParameterLoad_Click">导入</Button>
                                     <Button Margin="3" Padding="3" Name="SystemParameterExport" Click="SystemParameterExport_Click">导出</Button>
                                 </StackPanel>
@@ -271,8 +273,8 @@
                                     </StackPanel>
                                     <StackPanel Margin="3"  Orientation="Horizontal">
                                         <TextBlock VerticalAlignment="Center">步骤3:</TextBlock>
-                                        <Button Margin="3" Padding="3"  Click="btnManualCall_Click">总召唤</Button>
-                                        <Button Margin="3" Padding="3"  Click="btnTimeSyn_Click">时间同步</Button>
+                                        <Button Margin="3" Padding="3" Name="btnManualCall"  Click="btnManualCall_Click">总召唤</Button>
+                                        <Button Margin="3" Padding="3" Name="btnTimeSynA" Click="btnTimeSyn_Click">时间同步</Button>
                                     </StackPanel>
                                     <StackPanel Margin="3"  Orientation="Horizontal" Visibility="Hidden">
                                         <TextBlock VerticalAlignment="Center">步骤4:</TextBlock>
@@ -304,7 +306,7 @@
                             <Grid Grid.Row="1" Grid.ColumnSpan="2">
                                 <StackPanel Margin="3" Orientation="Horizontal" Background="AliceBlue">
 
-                                    <Button Margin="3" Padding="3" Click="btnManualCall_Click">刷新</Button>
+                                    <Button Margin="3" Padding="3" Name="btnTelesignalisationCall" Click="btnManualCall_Click">刷新</Button>
 
                                     <Button Margin="3" Padding="3" Name="TelesignalisationExport" Click="TelesignalisationExport_Click">导出</Button>
                                     <Button Margin="3" Padding="3" Name="TelesignalisationLoad" Click="TelesignalisationLoad_Click">导入</Button>
@@ -338,7 +340,7 @@
 
                             <Grid Grid.Row="1">
                                 <StackPanel Margin="3" Orientation="Horizontal" Background="AliceBlue">
-                                    <Button Margin="3" Padding="3" Click="btnManualCall_Click">刷新</Button>
+                                    <Button Margin="3" Padding="3" Name="btnTelemeteringCall" Click="btnManualCall_Click">刷新</Button>
 
                                     <Button Margin="3" Padding="3" Name="TelemeteringExport" Click="TelemeteringExport_Click">导出</Button>
                                     <Button Margin="3" Padding="3" Name="TelemeteringLoad" Click="TelemeteringLoad_Click">导入</Button>
@@ -406,9 +408,9 @@
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal" >
                                             <TextBlock Margin="3" Padding="3" VerticalAlignment="Center">密码</TextBlock>
-                                            <TextBox Margin="3" Padding="3" VerticalAlignment="Center" MinWidth="100">1234</TextBox>
-                                            <CheckBox VerticalAlignment="Center" IsChecked="True">隐藏密码</CheckBox>
-                                            <Button Margin="60,3,3,3" Padding="3">确认</Button>
+                                            <TextBox Margin="3" Padding="3" VerticalAlignment="Center" MinWidth="100" Name="txtPassWord">1234</TextBox>
+                                           
+                                            <Button Margin="60,3,3,3" Padding="3"  Name="btnMakeSecure">确认</Button>
                                         </StackPanel>
                                     </StackPanel>
                                 </GroupBox>
@@ -508,7 +510,7 @@
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="1">
                                 <StackPanel Margin="3" Orientation="Horizontal" Background="AliceBlue">
-                                    <Button Margin="3" Padding="3" >召唤定值-待实现</Button>
+                                    <Button Margin="3" Padding="3" Name="btnCallSetpoint">召唤定值-待实现</Button>
 
                                     <Button Margin="30,3,3,3" Padding="3" Name="DownloadProtectSetSelect" Click="DownloadProtectSetSelect_Click">选择</Button>
                                     <Button Margin="3,3,30,3" Padding="3" Name="DownloadProtectSet" Click="DownloadProtectSet_Click">下载</Button>
@@ -545,12 +547,12 @@
                             <Grid Grid.Row="1">
                                 <StackPanel Margin="3" Orientation="Horizontal" Background="AliceBlue">
                                     <Button Margin="3" Padding="3"  Name="btnStartCalibration" Click="StartCalibration_Click">启动校准模式</Button>
-                                    <Button Margin="3" Padding="3" Click="btnManualCall_Click">刷新</Button>
+                                    <Button Margin="3" Padding="3" Name="btnCalibrationCall" Click="btnManualCall_Click">刷新</Button>
 
                                     <!--<Button Margin="30,3,3,3" Padding="3" Name="btnCalibration" Click="btnCalibration_Click">下载</Button>
                                     <Button Margin="3,3,30,3" Padding="3" Name="btnCalibrationActive" Click="btnCalibrationActive_Click">激活</Button>-->
-                                    <Button Margin="3" Padding="3" Click="SystemCalibrationExport_Click">导出</Button>
-                                    <Button Margin="3" Padding="3" Click="SystemCalibrationLoad_Click">导入</Button>
+                                    <Button Margin="3" Padding="3" Name="btnCalibrationExport" Click="SystemCalibrationExport_Click">导出</Button>
+                                    <Button Margin="3" Padding="3" Name="btnCalibrationLoad" Click="SystemCalibrationLoad_Click">导入</Button>
                                     <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxRealUpdate" IsChecked="False" Click="CheckBoxRealUpdate_Click" >实时更新</CheckBox>
                                     <Label Margin="10,3,3,3" Padding="3" VerticalAlignment="Center">更新时间(ms)：</Label>
                                     <TextBox Margin="3,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="txtUpdateTime"  >500</TextBox>
@@ -606,7 +608,7 @@
 
                             <Grid Grid.Row="1">
                                 <StackPanel Margin="3" Orientation="Horizontal" Background="AliceBlue">
-                                    <Button Margin="3" Padding="3" Click="ClearSOE_Click">清除</Button>
+                                    <Button Margin="3" Padding="3" Name="btnClearSOE"  Click="ClearSOE_Click">清除</Button>
 
                                     <Button Margin="3" Padding="3" Name="EventLogLoad" Click="EventlogLoad_Click">导入</Button>
                                     <Button Margin="3" Padding="3" Name="EventLogExport" Click="EventLogExport_Click" >导出</Button>
@@ -619,9 +621,9 @@
                                     <DataGridTextColumn Header="记录号"  Width="50" Binding="{Binding EventID}"></DataGridTextColumn>
                                     <DataGridTextColumn Header="故障类型"    MinWidth="80" Binding="{Binding FaultStyle}"></DataGridTextColumn>
                                     <DataGridTextColumn Header="内容"   MinWidth="260" Binding="{Binding EventConent}"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="日期/时间/星期"    MinWidth="100" Binding="{Binding Date}"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="单位"    MinWidth="50" Binding="{Binding Unit}"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="毫秒"    MinWidth="50" Binding="{Binding Millisecond}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="时间"    MinWidth="100" Binding="{Binding Date}"></DataGridTextColumn>
+                                    <!--<DataGridTextColumn Header="单位"    MinWidth="50" Binding="{Binding Unit}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="毫秒"    MinWidth="50" Binding="{Binding Millisecond}"></DataGridTextColumn>-->
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
@@ -638,10 +640,10 @@
 
                                 <Grid Grid.Row="1">
                                     <StackPanel Margin="3" Orientation="Horizontal" Background="AliceBlue">
-                                        <Button Margin="3" Padding="3">刷新</Button>
-                                        <Button Margin="3" Padding="3">导入</Button>
-                                        <Button Margin="3" Padding="3">导出</Button>
-                                        <Button Margin="30,3,3,3" Padding="3" Name="configComtrade" Click="btncofigComtrade_Click">配置文件</Button>
+                                        <Button Margin="3" Padding="3" Name="btnRefremRecord">刷新</Button>
+                                        <Button Margin="3" Padding="3" Name="btnRecordLoad">导入</Button>
+                                        <Button Margin="3" Padding="3" Name="btnRecordExport">导出</Button>
+                                        <Button Margin="30,3,3,3" Padding="3" Name="btnConfigComtrade" Click="btncofigComtrade_Click">配置文件</Button>
                                     </StackPanel>
                                 </Grid>
 
