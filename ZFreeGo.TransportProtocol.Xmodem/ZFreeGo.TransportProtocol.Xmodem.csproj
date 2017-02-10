@@ -39,11 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FunctionTimeOut.cs" />
+    <Compile Include="ServerStep.cs" />
     <Compile Include="XmodeDefine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmodePacket.cs" />
     <Compile Include="XmodePacketManager.cs" />
     <Compile Include="XmodeServer.cs" />
+    <Compile Include="XmodeServerEventArgs.cs" />
+    <Compile Include="XmodeServerState.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -251,7 +251,7 @@ namespace ZFreeGo.Monitor.AutoStudio.Comtrade
                 string cfgPath = System.IO.Path.Combine(dir, filename + ".cfg");
                 string dataPath = System.IO.Path.Combine(dir, filename + ".dat");
 
-                TestData();
+                //TestData();
                 comtradeGridManager.ContradeManger.WriteFile(cfgPath, dataPath);
             }
             catch(Exception ex)

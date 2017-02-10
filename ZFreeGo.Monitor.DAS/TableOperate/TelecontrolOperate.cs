@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using ZFreeGo.Monitor.AutoStudio.ElementParam;
+using ZFreeGo.Monitor.AutoStudio.Log;
 using ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement;
 using ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement;
 
@@ -31,6 +32,8 @@ namespace ZFreeGo.Monitor.AutoStudio
        /// <param name="e"></param>
         private void TelecontrolExport_Click(object sender, RoutedEventArgs e)
         {
+            
+
             DataExport<Telecontrol>(dataSetTelecontrol, DataTypeEnum.Telecontrol,
               telecontrol, pathxmlTelecontrol);
 
@@ -66,6 +69,8 @@ namespace ZFreeGo.Monitor.AutoStudio
                Telecontrol.BasicAddress + 1 -1);
             observableTelecontrol.Add(new Telecontrol(IndexTelecontrol++, "合闸预制", "开关", "合闸预制", "合闸预制", DateTime.Now.ToLongTimeString()));
             gridTelecontrol.ScrollIntoView(gridTelecontrol.Items[gridTelecontrol.Items.Count - 1]);
+
+            MakeLogMessage(sender , "合闸预制", LogType.Telecontrol);
         }
         /// <summary>
         /// 执行合闸
@@ -78,6 +83,8 @@ namespace ZFreeGo.Monitor.AutoStudio
                 Telecontrol.BasicAddress + 1 -1);
             observableTelecontrol.Add(new Telecontrol(IndexTelecontrol++, "合闸执行", "开关", "合闸执行", "合闸执行", DateTime.Now.ToLongTimeString()));
             gridTelecontrol.ScrollIntoView(gridTelecontrol.Items[gridTelecontrol.Items.Count - 1]);
+
+            MakeLogMessage(sender, "执行合闸", LogType.Telecontrol);
         }
         /// <summary>
         /// 准备分闸
@@ -90,6 +97,8 @@ namespace ZFreeGo.Monitor.AutoStudio
               Telecontrol.BasicAddress + 1 - 1);
             observableTelecontrol.Add(new Telecontrol(IndexTelecontrol, "分闸预制", "开关", "分闸预制", "分闸预制", DateTime.Now.ToLongTimeString()));
             gridTelecontrol.ScrollIntoView(gridTelecontrol.Items[gridTelecontrol.Items.Count - 1]);
+
+            MakeLogMessage(sender, "分闸预制", LogType.Telecontrol);
         }
         /// <summary>
         /// 执行分闸
@@ -102,6 +111,7 @@ namespace ZFreeGo.Monitor.AutoStudio
              Telecontrol.BasicAddress + 1 - 1);
             observableTelecontrol.Add(new Telecontrol(IndexTelecontrol, "分闸执行", "开关", "分执行", "分闸执行", DateTime.Now.ToLongTimeString()));
             gridTelecontrol.ScrollIntoView(gridTelecontrol.Items[gridTelecontrol.Items.Count - 1]);
+            MakeLogMessage(sender, "分闸执行", LogType.Telecontrol);
         }
 
         /// <summary>
@@ -115,6 +125,7 @@ namespace ZFreeGo.Monitor.AutoStudio
                     Telecontrol.BasicAddress + 2 - 1);
             observableTelecontrol.Add(new Telecontrol(IndexTelecontrol++, "电池活化", "设备", "电池活化准备", "电池活化执准备", DateTime.Now.ToLongTimeString()));
             gridTelecontrol.ScrollIntoView(gridTelecontrol.Items[gridTelecontrol.Items.Count - 1]);
+            MakeLogMessage(sender, "电池活化预制", LogType.Telecontrol);
         }
         /// <summary>
         /// 执行电池活化
@@ -127,6 +138,7 @@ namespace ZFreeGo.Monitor.AutoStudio
                           Telecontrol.BasicAddress + 2 -1);
             observableTelecontrol.Add(new Telecontrol(IndexTelecontrol++, "电池活化", "设备", "电池活化执行", "电池活化执行", DateTime.Now.ToLongTimeString()));
             gridTelecontrol.ScrollIntoView(gridTelecontrol.Items[gridTelecontrol.Items.Count - 1]);
+            MakeLogMessage(sender, "电池活化执行", LogType.Telecontrol);
         }
 
         /// <summary>
@@ -140,6 +152,7 @@ namespace ZFreeGo.Monitor.AutoStudio
               Telecontrol.BasicAddress + 3 -1);
             observableTelecontrol.Add(new Telecontrol(IndexTelecontrol++, "复归预制", "设备", "复归预制", "复归预制", DateTime.Now.ToLongTimeString()));
             gridTelecontrol.ScrollIntoView(gridTelecontrol.Items[gridTelecontrol.Items.Count - 1]);
+            MakeLogMessage(sender, "复归预制", LogType.Telecontrol);
 
         }
         /// <summary>
@@ -153,6 +166,7 @@ namespace ZFreeGo.Monitor.AutoStudio
              Telecontrol.BasicAddress + 3 -1);
             observableTelecontrol.Add(new Telecontrol(IndexTelecontrol++, "复归执行", "设备", "复归执行", "复归执行", DateTime.Now.ToLongTimeString()));
             gridTelecontrol.ScrollIntoView(gridTelecontrol.Items[gridTelecontrol.Items.Count - 1]);
+            MakeLogMessage(sender, "复归执行", LogType.Telecontrol);
         }
 
 
@@ -189,6 +203,8 @@ namespace ZFreeGo.Monitor.AutoStudio
                                 //合闸 选择
                                 controlReayActionState.ActionCloseEnabled = true;
                                 controlReayActionState.ReadyCloseEnabled = false;
+                                MakeLogMessage(apdu, "","合闸预制-确认", LogType.Telecontrol);
+
 
                             }
                             else if ((dc.DCS == DCOState.On) && (dc.SE == SelectExecuteOption.Execute))
@@ -196,6 +212,7 @@ namespace ZFreeGo.Monitor.AutoStudio
                                 //合闸 执行
                                 controlReayActionState.ActionCloseEnabled = false;
                                 controlReayActionState.ReadyCloseEnabled = true;
+                                MakeLogMessage(apdu, "", "合闸执行-确认", LogType.Telecontrol);
 
                             }
                             if ((dc.DCS == DCOState.Off) && (dc.SE == SelectExecuteOption.Select))
@@ -203,6 +220,7 @@ namespace ZFreeGo.Monitor.AutoStudio
                                 //分闸 选择
                                 controlReayActionState.ActionOpenEnabled = true;
                                 controlReayActionState.ReadyOpenEnabled = false;
+                                MakeLogMessage(apdu, "", "分闸预制-确认", LogType.Telecontrol);
 
                             }
                             else if ((dc.DCS == DCOState.Off) && (dc.SE == SelectExecuteOption.Execute))
@@ -210,6 +228,7 @@ namespace ZFreeGo.Monitor.AutoStudio
                                 //分闸 执行
                                 controlReayActionState.ActionOpenEnabled = false;
                                 controlReayActionState.ReadyOpenEnabled = true;
+                                MakeLogMessage(apdu, "", "分闸执行-确认", LogType.Telecontrol);
                             }
 
                             break;

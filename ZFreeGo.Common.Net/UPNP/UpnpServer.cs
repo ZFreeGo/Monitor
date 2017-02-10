@@ -240,7 +240,10 @@ namespace ZFreeGo.Net.UPNP
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
-                this.ExceptionArrived(this, new NetDataArrivedEventArgs("ConnectedFinalCallback:" + e.Message));
+                if (this.ExceptionArrived != null)
+                {
+                    this.ExceptionArrived(this, new NetDataArrivedEventArgs("ConnectedFinalCallback:" + e.Message));
+                }
             }
             finally
             {

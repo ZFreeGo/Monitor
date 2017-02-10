@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using ZFreeGo.Monitor.AutoStudio.CommCenter;
+using ZFreeGo.Monitor.AutoStudio.Log;
 using ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage;
 using ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement;
 using ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement;
@@ -111,13 +112,17 @@ namespace ZFreeGo.Monitor.AutoStudio
                 }
                 appMessageManager.UpdateReceiveSequenceNumber(e.MasterCMD.APCI.TransmitSequenceNumber,
                     e.MasterCMD.APCI.ReceiveSequenceNumber);
+                
                 BeginInvokeUpdateHistory(e.MasterCMD.FrameArray, e.MasterCMD.FrameArray.Length, "从站发送:I帧：时间同步:");
+                MakeLogMessage(sender,"" , "时间同步应答" + e.MasterCMD.ToString(), LogType.Time);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "checkGetMessage_MasterTimeArrived");
             }
         }
+
+
 
         /// <summary>
         /// 主站控制命令，主站复位命令
@@ -139,6 +144,7 @@ namespace ZFreeGo.Monitor.AutoStudio
                 appMessageManager.UpdateReceiveSequenceNumber(e.MasterCMD.APCI.TransmitSequenceNumber,
                     e.MasterCMD.APCI.ReceiveSequenceNumber);
                 BeginInvokeUpdateHistory(e.MasterCMD.FrameArray, e.MasterCMD.FrameArray.Length, "从站发送:I帧：主站复位:");
+                MakeLogMessage(sender, "", "主站复位应答" + e.MasterCMD.ToString(), LogType.Time);
             }
             catch (Exception ex)
             {

@@ -221,8 +221,8 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement
 
         public override string ToString()
         {
-            string str = string.Format("{0}年{1}月{2}日，周{3}，{4}：{5}，{6}ms", (Years + 2000), Months,
-                DayOfMonth, DayOfWeek, Hours, Minutes, Milliseconds);
+            string str = string.Format("{0:0000}年{1:00}月{2:00}日 {3:00}时{4:00}分{5:00}秒{6:000}毫秒", (Years + 2000), Months,
+                DayOfMonth, Hours, Minutes, (int)Milliseconds / 1000, Milliseconds%1000);
             return str;
 
         }

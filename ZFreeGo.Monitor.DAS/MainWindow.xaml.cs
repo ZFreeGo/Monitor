@@ -25,6 +25,8 @@ using ZFreeGo.Monitor.AutoStudio.Comtrade;
 using ZFreeGo.Monitor.AutoStudio.StartupUI;
 using ZFreeGo.Monitor.AutoStudio.OptionConfig;
 using ZFreeGo.Monitor.AutoStudio.Secure;
+using ZFreeGo.Monitor.AutoStudio.Database;
+using ZFreeGo.Monitor.AutoStudio.Log;
 
 namespace ZFreeGo.Monitor.AutoStudio
 {
@@ -62,14 +64,178 @@ namespace ZFreeGo.Monitor.AutoStudio
         /// 日志记录
         /// </summary>
         private Log.Logger logger;
+
+        /// <summary>
+        /// 权限管理
+        /// </summary>
+        private AuthorityManager authorityManager;
+
+        /// <summary>
+        /// 日志产生事件
+        /// </summary>
+        public event EventHandler<Log.LogEventArgs> MakeLogEvent;
+
+
+
+
+
         public MainWindow(AccountManager inAccountManager, Log.Logger inLogger)
         {
             InitializeComponent();
             TestWave();
             accountManager = inAccountManager;
             logger = inLogger;
+
+            authorityManager = new AuthorityManager(accountManager);
+            AuthorityManagerAddControl();
+            authorityManager.LoadAuthorityData();
+
+            authorityManager.GetPermission((AuthorityLevel)accountManager.LoginAccount.PowerLevel);
+
+
+            MakeLogEvent += MainWindow_MakeLogEvent;
         }
-       
+
+
+        void MainWindow_MakeLogEvent(object sender, LogEventArgs e)
+        {
+            logger.AddMessage(e.Message);
+        }
+
+        /// <summary>
+        /// 产生日志消息
+        /// </summary>
+        /// <param name="sender">发送者</param>
+        /// <param name="content">操作内容</param>
+        /// <param name="result">操作结果</param>
+        private void MakeLogMessage(object sender, string content, LogType type)
+        {
+            MakeLogMessage(sender, content, "", type);
+        }
+        /// <summary>
+        /// 产生日志消息
+        /// </summary>
+        /// <param name="sender">发送者</param>
+        /// <param name="content">操作内容</param>
+        /// <param name="result">操作结果</param>
+        private void MakeLogMessage(object sender, string content, string result, LogType type)
+        {
+            try
+            {
+                if (MakeLogEvent != null)
+                {
+                    var message = new SingleLogMessage(accountManager.LoginAccount.UserName, content, result, type);
+                    MakeLogEvent(sender, new Log.LogEventArgs(message));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "日志消息");
+            }
+        }
+
+        /// <summary>
+        /// 添加控件到控件管理器
+        /// </summary>
+        private void AuthorityManagerAddControl()
+        {
+            try
+            {
+                //系统参数
+                authorityManager.AddControl(this.RefreshSystemParameter, AuthorityLevel.I);
+                authorityManager.AddControl(this.SystemParameterLoad, AuthorityLevel.II);
+                authorityManager.AddControl(this.SystemParameterExport, AuthorityLevel.II);
+                //通讯设置
+                authorityManager.AddControl(this.checkIsSub, AuthorityLevel.II);
+                authorityManager.AddControl(this.radioServer, AuthorityLevel.II);
+                authorityManager.AddControl(this.radioClient, AuthorityLevel.II);
+                authorityManager.AddControl(this.txtIp, AuthorityLevel.II);
+                authorityManager.AddControl(this.txtPort, AuthorityLevel.II);
+                authorityManager.AddControl(this.checkIsReStart, AuthorityLevel.II);
+
+                authorityManager.AddControl(this.btnStartServer, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnStopServer, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnStartDataTransmission, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnStopDataTransmission, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnManualCall, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnTimeSynA, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnRestartServer, AuthorityLevel.II);
+               
+                
+                //遥信
+                authorityManager.AddControl(this.btnTelesignalisationCall, AuthorityLevel.II);
+                authorityManager.AddControl(this.TelesignalisationExport, AuthorityLevel.II);
+                authorityManager.AddControl(this.TelesignalisationLoad, AuthorityLevel.II);
+                authorityManager.AddControl(this.CheckBoxTelesignalisation, AuthorityLevel.II);
+
+
+                //遥测
+                authorityManager.AddControl(this.btnTelemeteringCall, AuthorityLevel.II);
+                authorityManager.AddControl(this.TelemeteringExport, AuthorityLevel.II);
+                authorityManager.AddControl(this.TelemeteringLoad, AuthorityLevel.II);
+                authorityManager.AddControl(this.CheckBoxTelemetering, AuthorityLevel.II);
+
+                //遥控
+                authorityManager.AddControl(this.checkTimeSyn, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnTimeSyn, AuthorityLevel.II);
+                authorityManager.AddControl(this.txtPassWord, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnMakeSecure, AuthorityLevel.II);
+
+                authorityManager.AddControl(this.ReadyClose, AuthorityLevel.II);
+                authorityManager.AddControl(this.ActionClose, AuthorityLevel.II);
+                authorityManager.AddControl(this.ReadyOpen, AuthorityLevel.II);
+                authorityManager.AddControl(this.ActionOpen, AuthorityLevel.II);
+                authorityManager.AddControl(this.ReadyBaterryActivated, AuthorityLevel.II);
+                authorityManager.AddControl(this.ActionBaterryActivated, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnResetReady, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnResetExecute, AuthorityLevel.II);
+                authorityManager.AddControl(this.TelecontrolExport, AuthorityLevel.II);
+                authorityManager.AddControl(this.TelecontrolLoad, AuthorityLevel.II);
+
+                //遥控操作
+                authorityManager.AddControl(this.btnCallSetpoint, AuthorityLevel.II);
+                authorityManager.AddControl(this.DownloadProtectSetSelect, AuthorityLevel.II);
+                authorityManager.AddControl(this.DownloadProtectSet, AuthorityLevel.II);
+                authorityManager.AddControl(this.ProtectSetPointExport, AuthorityLevel.II);
+                authorityManager.AddControl(this.ProtectSetPointLoad, AuthorityLevel.II);
+                authorityManager.AddControl(this.CheckBoxProtectSetPoint, AuthorityLevel.II);
+
+                //系统校准
+                authorityManager.AddControl(this.btnStartCalibration, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnCalibrationCall, AuthorityLevel.II);
+                authorityManager.AddControl(this.CheckBoxRealUpdate, AuthorityLevel.II);
+                authorityManager.AddControl(this.txtUpdateTime, AuthorityLevel.II);
+                authorityManager.AddControl(this.CheckBoxSystemCalibration, AuthorityLevel.II);
+
+                authorityManager.AddControl(this.btnFactorRead, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnFactorDownload, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnFacotrFix, AuthorityLevel.II);
+
+                authorityManager.AddControl(this.btnCalibrationExport, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnCalibrationLoad, AuthorityLevel.II);
+
+
+                //事件记录
+                authorityManager.AddControl(this.btnClearSOE, AuthorityLevel.II);
+                authorityManager.AddControl(this.EventLogLoad, AuthorityLevel.II);
+                authorityManager.AddControl(this.EventLogExport, AuthorityLevel.II);
+                authorityManager.AddControl(this.CheckBoxEventLog, AuthorityLevel.II);
+
+                //录波采集
+                authorityManager.AddControl(this.btnRefremRecord, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnRecordLoad, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnRecordExport, AuthorityLevel.II);
+                authorityManager.AddControl(this.btnConfigComtrade, AuthorityLevel.II);
+                //
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "AuthorityManagerAddControl");
+            }
+            
+        }
+
         /// <summary>
         /// 打开XML配置文件
         /// </summary>
@@ -123,7 +289,7 @@ namespace ZFreeGo.Monitor.AutoStudio
                         path = saveFileDialog1.FileName;
                         return true;
                     }
-
+                    
                 }
             }
             return false;
@@ -292,7 +458,8 @@ namespace ZFreeGo.Monitor.AutoStudio
 
                 checkGetMessage.Close();
             }
-
+            logger.SaveLog(true);
+            MakeLogMessage(this, "退出窗口", LogType.Login);
             accountManager.SaveAccountInformation();
         }
 
@@ -375,194 +542,7 @@ namespace ZFreeGo.Monitor.AutoStudio
         {
              SendMasterCommand(CauseOfTransmissionList.Activation, new QualifyCalculateCommad(QCCRequest.Request1, QCCFreeze.Read));
         }
-
-        /// <summary>
-        /// 参数激活
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnCalibrationActive_Click(object sender, RoutedEventArgs e)
-        {
-            //case TypeIdentification.P_ME_NC_1://测量值参数，短浮点数
-            //case TypeIdentification.P_AC_NA_1://参数激活
-            try
-            {
-                var listdata = (ObservableCollection<SystemCalibration>)systemCalibration;
-                if ((listdata != null) && (listdata.Count > 0))
-                {
-                    //序列化，
-                    var frame = new APDU(appMessageManager.TransmitSequenceNumber, appMessageManager.RealReceiveSequenceNumber,
-                        TypeIdentification.P_AC_NA_1, true, (byte)listdata.Count,
-                CauseOfTransmissionList.Activation, appMessageManager.ASDUADdress, SystemCalibration.BasicAddress);
-
-                    //var qpa = new QualifyParameterActive()
-                    foreach (var m in listdata)
-                    {
-                        if (m.InternalID <= listdata.Count)
-                        {
-                            
-                            var dataB = new byte[1] { (byte)QualifyParameterActive.LoadParameter };
-                            frame.AddInformationObject(dataB, (byte)dataB.Length, (byte)(m.InternalID - 1));
-                        }
-                        else
-                        {
-                            throw new Exception("序号不在顺序范围之内，无法使用序列化方法，请检查InternalID是否连续");
-                        }
-                    }
-                    //BeginInvokeUpdateHistory(fram.GetAPDUDataArray(), fram.FrameArray.Length, "测试");
-
-                    SendTypeIMessage(TypeIdentification.P_AC_NA_1, frame);
-                }
-
-
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "btnCalibrationActive_Click");
-            }
-        }
-        /// <summary>
-        /// 下载校准参数
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnCalibration_Click(object sender, RoutedEventArgs e)
-        {
-            //case TypeIdentification.P_ME_NC_1://测量值参数，短浮点数
-            //case TypeIdentification.P_AC_NA_1://参数激活
-             try
-            {
-                var listdata= (ObservableCollection<SystemCalibration>) systemCalibration;
-                if ((listdata != null) && (listdata.Count > 0))
-                {                    
-                    //序列化，
-                    var frame = new APDU(appMessageManager.TransmitSequenceNumber, appMessageManager.RealReceiveSequenceNumber,
-                        TypeIdentification.P_ME_NC_1, true, (byte)listdata.Count,
-                CauseOfTransmissionList.Activation, appMessageManager.ASDUADdress, SystemCalibration.BasicAddress);
-
-                    var qpm = new QualifyParameterMeasure(KindParameter.SmoothingFactor, LocalParameterChange.Change, ParameterRun.NotRun);
-                    foreach(var m in listdata)
-                    {
-                        if (m.InternalID <= listdata.Count)
-                        {
-                            var sf = new ShortFloating((float)m.CallCoefficient);
-                            var dataB = new byte[1]{qpm.QPM};
-                            frame.AddInformationObject(sf.GetDataArray(), (byte)sf.GetDataArray().Length, dataB,
-                                (byte)dataB.Length, (byte)(m.InternalID - 1));                    
-                        }
-                        else
-                        {
-                            throw new Exception("序号不在顺序范围之内，无法使用序列化方法，请检查InternalID是否连续");
-                        }
-                    }
-                  //BeginInvokeUpdateHistory(fram.GetAPDUDataArray(), fram.FrameArray.Length, "测试");
-
-                    SendTypeIMessage(TypeIdentification.P_ME_NC_1, frame);
-                }
-
-
-                
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "btnCalibration_Click");
-            }
-        }
-
-
-
-
-         
-        /// <summary>
-        /// 保护定值选择
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DownloadProtectSetSelect_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var observale = (ObservableCollection<ProtectSetPoint>)protectSetPoint;
-                if ((observale != null) && (observale.Count > 0))
-                {
-                    var qos = new QualifyCommandSet(ActionDescrible.Select);
-                   var protectsetAPDU = new APDU(appMessageManager.TransmitSequenceNumber, appMessageManager.RealReceiveSequenceNumber,
-                        TypeIdentification.C_SE_NC_1, true, (byte)observale.Count,
-                CauseOfTransmissionList.Activation, appMessageManager.ASDUADdress, ProtectSetPoint.BasicAddress, qos);
-
-                   
-                    
-                    foreach (var m in observale)
-                    {
-                        if (m.InternalID <= observale.Count)
-                        {
-                            var sf = new ShortFloating((float)m.ParameterValue);
-                            protectsetAPDU.AddInformationObject(sf.GetDataArray(),
-                                (byte)sf.GetDataArray().Length, (byte)(m.InternalID - 1));
-                        }
-                        else
-                        {
-                            throw new Exception("序号不在顺序范围之内，无法使用序列化方法，请检查InternalID是否连续");
-                        }
-                    }
-                    //BeginInvokeUpdateHistory(fram.GetAPDUDataArray(), fram.FrameArray.Length, "测试");
-                    SendTypeIMessage(TypeIdentification.P_ME_NC_1, protectsetAPDU);
-
-                }
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "DownloadProtectSetSelect_Click");
-            }
-        }
-        /// <summary>
-        /// 下载保护定值
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DownloadProtectSet_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var qos = new QualifyCommandSet(ActionDescrible.Execute);
-                var observale = (ObservableCollection<ProtectSetPoint>)protectSetPoint;
-                if ((observale != null) && (observale.Count > 0))
-                {
-                    var protectsetAPDU = new APDU(appMessageManager.TransmitSequenceNumber, appMessageManager.RealReceiveSequenceNumber,
-                         TypeIdentification.C_SE_NC_1, true, (byte)observale.Count,
-                 CauseOfTransmissionList.Activation, appMessageManager.ASDUADdress, ProtectSetPoint.BasicAddress, qos);
-
-                   
-                   
-                    foreach (var m in observale)
-                    {
-                        if (m.InternalID <= observale.Count)
-                        {
-                            var sf = new ShortFloating((float)m.ParameterValue);
-                            protectsetAPDU.AddInformationObject(sf.GetDataArray(), (byte)sf.GetDataArray().Length, (byte)(m.InternalID - 1));
-                        }
-                        else
-                        {
-                            throw new Exception("序号不在顺序范围之内，无法使用序列化方法，请检查InternalID是否连续");
-                        }
-                    }
-                    //BeginInvokeUpdateHistory(fram.GetAPDUDataArray(), fram.FrameArray.Length, "测试");
-                    SendTypeIMessage(TypeIdentification.P_ME_NC_1, protectsetAPDU);
-
-                }
-
-
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "DownloadProtectSet_Click");
-            }
-        }
-
-
+        
         /// <summary>
         /// 更新电能脉冲参数
         /// </summary>
@@ -872,7 +852,10 @@ namespace ZFreeGo.Monitor.AutoStudio
         /// <param name="e"></param>
         private void OptionMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            
             var option = new OptionConfigUI(accountManager);
+            option.MakeLogEvent += MainWindow_MakeLogEvent;
+            option.ShowInTaskbar = false;
             option.ShowDialog();
         }
 
@@ -884,6 +867,28 @@ namespace ZFreeGo.Monitor.AutoStudio
         {
             currentUserName.Text = accountManager.LoginAccount.UserName;
         }
+
+        private void AuthorityMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var ui = new AuthoritySettingUI(authorityManager, this);
+            ui.ShowInTaskbar = false;
+            ui.Show();
+            
+        }
+
+        /// <summary>
+        /// 数据库配置
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DatabaseMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            //var database = new SQLliteDatabase();
+            //database.ConnectDatabase();
+
+        }
+
+      
 
 
    

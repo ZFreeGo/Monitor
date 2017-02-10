@@ -2,12 +2,12 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:ZFreeGo.Monitor.Test"
-        Title="MainWindow" Height="350" Width="525"
+        Title="MainWindow" Height="350" Width="525" Closing="Window_Closing"
         >
     <Grid>
         <TabControl>
             <TabItem Header="控制">
-                <Frame Source="page1.xaml">
+                <Frame Source="xmode/SerialPortUi.xaml" Name="frame">
                     
                 </Frame>
             </TabItem>
@@ -60,6 +60,11 @@
                         </StackPanel>
                     </Grid>
                 </Grid>
+            </TabItem>
+            <TabItem Header="Sqlite">
+                <StackPanel>
+                    <Button Click="SqliteTest">测试数据库</Button>
+                </StackPanel>
             </TabItem>
         </TabControl>
     </Grid>

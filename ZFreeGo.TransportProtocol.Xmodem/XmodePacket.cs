@@ -77,6 +77,29 @@ namespace ZFreeGo.TransportProtocol.Xmodem
                 return validDataLen + 5;
             }
         }
+        /// <summary>
+        /// 获取包有效数据长度
+        /// </summary>
+        public int ValidDataLen
+        {
+            get
+            {
+                return validDataLen ;
+            }
+        }
+
+        /// <summary>
+        /// 添加校验
+        /// </summary>
+        /// <param name="checkResult">校验数据</param>
+        public void AddCheck(ushort checkResult)
+        {
+            byte checkH = (byte)(checkResult >> 8);
+            byte checkL = (byte)(checkResult & 0x00FF);
+            packetData[PacketLen - 2] = checkH;
+            packetData[PacketLen - 1] = checkL;
+
+        }
 
         /// <summary>
         /// Xmode数据包初始化
