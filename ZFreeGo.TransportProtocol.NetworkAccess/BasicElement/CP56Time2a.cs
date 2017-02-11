@@ -211,6 +211,16 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement
             Array.Copy(array, 0, byteDataArray, 0, 7);
         }
         /// <summary>
+        /// CP56Time2a 初始化,使用7字节数组
+        /// </summary>
+        /// <param name="array">数据数组</param>
+        /// <param name="offset">偏移</param>
+        public CP56Time2a(byte[] array, int offset)
+        {
+            byteDataArray = new byte[7];
+            Array.Copy(array, offset, byteDataArray, 0, 7);
+        }
+        /// <summary>
         /// 获取字节数组
         /// </summary>
         /// <returns>字节数组</returns>
@@ -221,8 +231,8 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement
 
         public override string ToString()
         {
-            string str = string.Format("{0}年{1}月{2}日，周{3}，{4}：{5}，{6}ms", (Years + 2000), Months,
-                DayOfMonth, DayOfWeek, Hours, Minutes, Milliseconds);
+            string str = string.Format("{0:0000}年{1:00}月{2:00}日 {3:00}时{4:00}分{5:00}秒{6:000}毫秒", (Years + 2000), Months,
+                DayOfMonth, Hours, Minutes, (int)Milliseconds / 1000, Milliseconds%1000);
             return str;
 
         }

@@ -134,7 +134,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>hDSgKUBAMCz91vA3m+xroDQAqOE=</dsig:DigestValue>
+        <dsig:DigestValue>0yNjirY3EF7QP/q8BKIJ+c1NsvM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -146,19 +146,19 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>6O49MkXFSrrGr4qzM5JoQIpyxYM=</dsig:DigestValue>
+        <dsig:DigestValue>DMOTRGAUV42QWpzxkGB/VnCfn8w=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ZFreeGo.TransmissionProtocol.NetworkAccess104.dll" size="58880">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ZFreeGo.TransmissionProtocol.NetworkAccess104.dll" size="59904">
       <assemblyIdentity name="ZFreeGo.TransmissionProtocol.NetworkAccess104" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>jnzHILOPSYgw5y2jUDzKY6wz8IE=</dsig:DigestValue>
+        <dsig:DigestValue>TtZkR8xh/z7eIL5rfuUt2QQHBnc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

@@ -35,6 +35,18 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
             return (UInt32)(byte1 + ((UInt32)byte2 << 8) + ((UInt32)byte3 << 16));
         }
         /// <summary>
+        /// 将四个字节组合成32bit
+        /// </summary>
+        /// <param name="byte1">低位第1字节</param>
+        /// <param name="byte2">低位第2字节</param>
+        /// <param name="byte3">低位第3字节</param>
+        /// <param name="byte4">低位第4字节</param>
+        /// <returns></returns>
+        public static UInt32 CombinationByte(byte byte1, byte byte2, byte byte3, byte byte4)
+        {
+            return (UInt32)(byte1 + ((UInt32)byte2 << 8) + ((UInt32)byte3 << 16) + ((UInt32)byte3 << 24));
+        }
+        /// <summary>
         /// 将两个个字节组合成16bit
         /// </summary>
         /// <param name="byte1">低位第一字节</param>

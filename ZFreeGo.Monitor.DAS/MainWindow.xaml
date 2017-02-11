@@ -621,9 +621,9 @@
                                     <DataGridTextColumn Header="记录号"  Width="50" Binding="{Binding EventID}"></DataGridTextColumn>
                                     <DataGridTextColumn Header="故障类型"    MinWidth="80" Binding="{Binding FaultStyle}"></DataGridTextColumn>
                                     <DataGridTextColumn Header="内容"   MinWidth="260" Binding="{Binding EventConent}"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="日期/时间/星期"    MinWidth="100" Binding="{Binding Date}"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="单位"    MinWidth="50" Binding="{Binding Unit}"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="毫秒"    MinWidth="50" Binding="{Binding Millisecond}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="时间"    MinWidth="100" Binding="{Binding Date}"></DataGridTextColumn>
+                                    <!--<DataGridTextColumn Header="单位"    MinWidth="50" Binding="{Binding Unit}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="毫秒"    MinWidth="50" Binding="{Binding Millisecond}"></DataGridTextColumn>-->
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>

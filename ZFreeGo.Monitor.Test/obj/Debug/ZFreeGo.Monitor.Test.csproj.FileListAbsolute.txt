@@ -14,7 +14,6 @@ F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\ZFreeGo.Monitor.
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\ZFreeGo.FileOperation.Comtrade.dll
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\ZFreeGo.Common.BasicTool.dll
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\ZFreeGo.FileOperation.Comtrade.pdb
-F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\ZFreeGo.Common.BasicTool.pdb
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\ZFreeGo.Monitor.Test.csprojResolveAssemblyReference.cache
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Page1.baml
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Page1.g.cs
@@ -51,3 +50,12 @@ J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Xmode\PageFuncti
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Xmode\XmodeUI.g.cs
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\ZFreeGo.TransportProtocol.Xmodem.dll
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\ZFreeGo.TransportProtocol.Xmodem.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\ZFreeGo.TransportProtocol.Xmodem.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\ZFreeGo.TransportProtocol.Xmodem.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\bin\Debug\System.Data.SQLite.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Xmode\PageFunction.baml
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Xmode\SerialPortUI.baml
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Xmode\XmodeUI.baml
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Xmode\PageFunction.g.cs
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Xmode\SerialPortUI.g.cs
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Debug\Xmode\XmodeUI.g.cs

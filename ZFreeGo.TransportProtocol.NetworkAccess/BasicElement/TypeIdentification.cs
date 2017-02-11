@@ -255,5 +255,13 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
         /// 读定值区号
         /// </summary>
         C_RR_NA_1 = 201,
+
+        /// <summary>
+        /// 文件传输
+        /// </summary>
+        //F_FR_NA_1 = 210,
+
+
+
     }
 }
