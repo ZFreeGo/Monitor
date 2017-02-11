@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -40,7 +41,10 @@ namespace ZFreeGo.Monitor.Test.Xmode
                 Action<string> fun = (ar) => { txtRecive.Text += ar; };
                 var stdData = Encoding.ASCII.GetString(e.SerialData);
                 Dispatcher.BeginInvoke(fun, stdData);
-                xmodeSever.Enqueue(e.SerialData);
+               if ( xmodeSever != null)
+               {
+                   xmodeSever.Enqueue(e.SerialData);
+               }
                 
             }
             catch(Exception ex)
@@ -73,7 +77,7 @@ namespace ZFreeGo.Monitor.Test.Xmode
                     commAGrid.IsEnabled = false;
 
                     // systemState.CommonStateA = "串口正常";
-
+                   
                 }
                 else
                 {
@@ -221,7 +225,7 @@ namespace ZFreeGo.Monitor.Test.Xmode
             serialControlCenter.CloseCenter();
             if (xmodeSever !=null)
             {
-                xmodeSever.CloseServer();
+                xmodeSever.StopServer();
             }
         }
 
@@ -236,30 +240,84 @@ namespace ZFreeGo.Monitor.Test.Xmode
         /// <param name="e"></param>
         private void btnStartTest_Click(object sender, RoutedEventArgs e)
         {
-            if (serialControlCenter.CommState)
+            if (xmodeSever.ServerState)
             {
-
-                int len = 5000;
-                testData = new byte[len];
-                for (int i = 0; i < len; i++)
-                {
-                    testData[i] = (byte)(i %256);
-                }
-             
-                xmdoePacketManager = new XmodePacketManager(testData, testData.Length, XmodeStartHeader.STX);
-                xmodeSever = new XmodeServer();
-              
-                xmodeSever.ServerEvent += xmodeSever_ServerEvent;
+                xmodeSever.StopServer();
+                btnStartTest.Content = "开始测试";
+            }
+            else
+            {
                 serialControlCenter.SerialPort.DiscardInBuffer();
                 xmodeSever.StartServer(xmdoePacketManager, serialControlCenter.SendMessage);
-               
+                btnStartTest.Content = "停止测试";
             }
+
         }
 
+       
+
+
+        void ShowEnable(XmodeServerState state)
+        {
+            switch(state)
+            {
+                case XmodeServerState.Cancel:
+                case XmodeServerState.Failue:
+                case XmodeServerState.Sucess:
+                    {
+                        xmodeSever.StopServer();
+                        break;
+                    }
+                   
+            }
+        }
  
         void xmodeSever_ServerEvent(object sender, XmodeServerEventArgs e)
         {
             MessageBox.Show(e.ServerState.ToString());
+            Action<XmodeServerState>  show = ShowEnable;
+            Dispatcher.BeginInvoke(show, e.ServerState);
+
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            int len = 5000;
+            testData = new byte[len];
+            for (int i = 0; i < len; i++)
+            {
+                testData[i] = (byte)(i % 256);
+            }
+
+            xmdoePacketManager = new XmodePacketManager(testData, testData.Length, XmodeStartHeader.STX);
+            xmodeSever = new XmodeServer();
+            xmodeSever.ServerEvent += xmodeSever_ServerEvent;
+        }
+
+        private void btnLoadFile_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if(xmodeSever.ServerState)
+                {
+                    xmodeSever.StopServer();
+                }
+                using (FileStream read = new FileStream(txtPath.Text, FileMode.Open))
+                {
+                    if (read.Length > 255*1024)
+                    {
+                        throw new  Exception("文件过大");
+                    }
+                    var data = new byte[read.Length];
+                    read.Read(data, 0, (int)read.Length);
+                    xmdoePacketManager = new XmodePacketManager(data, data.Length, XmodeStartHeader.STX);
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "载入文件");
+            }
         }
 
     }

@@ -22,3 +22,4 @@ F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\bin\Deb
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\obj\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.csprojResolveAssemblyReference.cache
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\obj\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.dll
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\obj\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\obj\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.csprojResolveAssemblyReference.cache

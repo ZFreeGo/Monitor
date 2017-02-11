@@ -5,3 +5,5 @@ F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.FileOperation.Comtrade\bin\Release\ZFre
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.FileOperation.Comtrade\obj\Release\ZFreeGo.FileOperation.Comtrade.csprojResolveAssemblyReference.cache
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.FileOperation.Comtrade\obj\Release\ZFreeGo.FileOperation.Comtrade.dll
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.FileOperation.Comtrade\obj\Release\ZFreeGo.FileOperation.Comtrade.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.FileFormat.Comtrade\obj\Release\ZFreeGo.FileOperation.Comtrade.csprojResolveAssemblyReference.cache
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.FileFormat.Comtrade\obj\Release\ZFreeGo.FileOperation.Comtrade.dll

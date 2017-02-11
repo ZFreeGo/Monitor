@@ -1,7 +1,9 @@
 ﻿<Window x:Class="ZFreeGo.Monitor.Test.Xmode.XmodeUI"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="XmodeUI" Height="600" Width="400" Closing="Window_Closing">
+        Title="XmodeUI" Height="600" Width="400" 
+        Loaded="Window_Loaded"
+        Closing="Window_Closing" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -92,6 +94,9 @@
         <GroupBox Grid.Row="3" Header="Xmdoe" Background="LightGray" >
             <StackPanel Margin="3" Orientation="Horizontal">
                 <Button Margin="3" Name="btnStartTest" Click="btnStartTest_Click">启动测试</Button>
+                <Button Margin="3" Name="btnLoad" Click="btnLoadFile_Click">载入文件</Button>
+                <TextBox Margin="3" Name="txtPath" MinWidth="200"></TextBox>
+
             </StackPanel>
         </GroupBox>
     </Grid>

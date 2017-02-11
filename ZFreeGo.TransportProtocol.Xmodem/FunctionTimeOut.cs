@@ -88,14 +88,16 @@ namespace ZFreeGo.TransportProtocol.Xmodem
             if (isGetSignal == false)
             {
                 callBackOvertime();
-                Console.WriteLine("放弃执行回调函数");
+                
+                Console.WriteLine(Thread.CurrentThread.ManagedThreadId.ToString() + ":放弃执行回调函数");
                 Thread.CurrentThread.Abort();
             }
             else
             {
                 callBackOntime();
-                Console.WriteLine("调用回调函数");
+                Console.WriteLine(Thread.CurrentThread.ManagedThreadId.ToString() + ":调用回调函数");
             }
+           
         }
         
         /// <summary>
@@ -147,11 +149,11 @@ namespace ZFreeGo.TransportProtocol.Xmodem
 
              if (isGetSignal == true)
              {
-                 Console.WriteLine("函数运行完毕，收到设置信号,异步执行未超时");
+                 Console.WriteLine(Thread.CurrentThread.ManagedThreadId.ToString() + ":函数运行完毕，收到设置信号,异步执行未超时");
              }
              else
              {
-                 Console.WriteLine("没有收到设置信号,异步执行超时");
+                 Console.WriteLine(Thread.CurrentThread.ManagedThreadId.ToString() + ":没有收到设置信号,异步执行超时");
              }
         }
 

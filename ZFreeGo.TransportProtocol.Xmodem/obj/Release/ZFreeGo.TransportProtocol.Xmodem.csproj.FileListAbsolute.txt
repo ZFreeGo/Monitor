@@ -1,0 +1,4 @@
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.Xmodem\bin\Release\ZFreeGo.TransportProtocol.Xmodem.dll
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.Xmodem\bin\Release\ZFreeGo.TransportProtocol.Xmodem.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.Xmodem\obj\Release\ZFreeGo.TransportProtocol.Xmodem.dll
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.Xmodem\obj\Release\ZFreeGo.TransportProtocol.Xmodem.pdb

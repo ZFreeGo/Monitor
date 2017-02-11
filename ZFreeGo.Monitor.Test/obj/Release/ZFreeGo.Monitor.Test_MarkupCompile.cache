@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Release\
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\obj\Release\
 ZFreeGo.Monitor.Test
 none
 false
 TRACE
-F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\App.xaml
-11151548125
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.Test\App.xaml
+61880792858
 
-7-969732398
-13-1165706074
-MainWindow.xaml;
+14-1207911450
+15-1565319496
+MainWindow.xaml;Page1.xaml;Page2.xaml;Xmode\PageFunction.xaml;Xmode\SerialPortUI.xaml;Xmode\XmodeUI.xaml;
 
 False
 

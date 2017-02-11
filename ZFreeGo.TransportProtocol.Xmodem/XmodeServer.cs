@@ -38,10 +38,7 @@ namespace ZFreeGo.TransportProtocol.Xmodem
         private XmodeDefine? mCheckMode;
 
 
-        /// <summary>
-        /// 接收线程
-        /// </summary>
-        private Thread readThread;
+      
 
         /// <summary>
         /// 需要发送的报数据
@@ -92,13 +89,44 @@ namespace ZFreeGo.TransportProtocol.Xmodem
         /// </summary>
         private Action<byte[]> sendDataDelegate;
 
+
         /// <summary>
-        /// 当前函数
+        /// 接收线程
         /// </summary>
-        private FunctionTimeout mCurrentFunction;
+        private Thread mReadThread;
 
+        /// <summary>
+        /// Xmode服务线程
+        /// </summary>
+        private Thread mSeverThread;
+        /// <summary>
+        /// 请求信号量
+        /// </summary>
+        private ManualResetEvent mRequestData;
 
+        /// <summary>
+        /// 存在数据信号量
+        /// </summary>
+        private ManualResetEvent mExistData;
 
+        /// <summary>
+        /// 获取服务状态
+        /// </summary>
+        private bool serverState = false; 
+        /// <summary>
+        /// 获取服务状态
+        /// </summary>
+        public bool ServerState
+        {
+            get
+            {
+                return serverState;
+            }
+            private set
+            {
+                serverState = value;
+            }
+        }
 
 
         public XmodeServer()
@@ -120,6 +148,10 @@ namespace ZFreeGo.TransportProtocol.Xmodem
             mEotFlag = false;
 
             mCurrentStep = ServerStep.WaitStartTransmision;
+
+            mRequestData = new ManualResetEvent(false);
+            mExistData = new ManualResetEvent(false);
+            serverState = false; 
         }
 
 
@@ -130,31 +162,44 @@ namespace ZFreeGo.TransportProtocol.Xmodem
         /// <param name="inSendDataDelegate">发送数据委托</param>
         public void StartServer(XmodePacketManager xmodePacketManager, Action<byte[]> inSendDataDelegate)
         {
-            if(mCurrentFunction != null)
-            {
-                mCurrentFunction.StopDelegate();
-            }
+
             initData();
 
             mXmodePacketManager = xmodePacketManager;
-            readThread = new Thread(xmodeReadThread);
-            readThread.Priority = ThreadPriority.Normal;
-            readThread.Name = "Xmode线程数据";
-            readThread.Start();
+            mReadThread = new Thread(xmodeReadThread);
+            mReadThread.Priority = ThreadPriority.Normal;
+            mReadThread.Name = "Xmode线程数据";
+            mReadThread.Start();
+
+            mSeverThread = new Thread(checkServerStepThread);
+            mSeverThread.Priority = ThreadPriority.Normal;
+            mSeverThread.Name = "XmodeServer线程";
+            mSeverThread.Start();
+
+            serverState = true; 
+
             sendDataDelegate = inSendDataDelegate;
         }
 
         /// <summary>
         /// 停止服务
         /// </summary>
-        public void CloseServer()
+        public void StopServer()
         {
-            if (readThread != null)
+            mRequestData.Close();
+            mExistData.Close();
+            if (mReadThread != null)
             {
-                readThread.Join(500);
-                readThread.Abort();
+                mReadThread.Join(500);
+                mReadThread.Abort();
                
             }
+             if (mSeverThread != null)
+             {
+                 mSeverThread.Join(500);
+                 mSeverThread.Abort();
+             }
+             serverState = false;
         }
 
        
@@ -164,23 +209,25 @@ namespace ZFreeGo.TransportProtocol.Xmodem
        /// <summary>
        /// 检测传输模式，校验和/累加和
        /// </summary>
-       /// <param name="order">命令字节</param>
+        /// <param name="reciveData">接收数据队列</param>
        /// <returns>返回校验方式，否则为空</returns>
-        private XmodeDefine? checkTransmitMode(byte order)
+        private XmodeDefine? checkTransmitMode(Queue<byte> reciveData)
         {
             //以‘C’启动，为CRC校验方式
-            if ((order == (byte)XmodeDefine.c) || (order == (byte)XmodeDefine.C))
+
+            while (reciveData.Count != 0)
             {
-                return XmodeDefine.C;
+                var order = reciveData.Dequeue();
+                if ((order == (byte)XmodeDefine.c) || (order == (byte)XmodeDefine.C))
+                {
+                    return XmodeDefine.C;
+                }
+                else if (order == (byte)XmodeDefine.NAK)//希望以累积和形式
+                {
+                    return XmodeDefine.NAK;
+                }              
             }
-            else if(order == (byte)XmodeDefine.NAK)//希望以累积和形式
-            {
-                return XmodeDefine.NAK;
-            }
-            else
-            {
-                return null;
-            }
+            return null;
         }
         /// <summary>
         /// 发送数据包
@@ -203,24 +250,17 @@ namespace ZFreeGo.TransportProtocol.Xmodem
         /// <summary>
         /// 等待应答
         /// </summary>
-        private void waitReply()
+        /// <returns>true应答通过</returns>
+        private bool CheckData()
         {
             try
             {
                 mClientReply = null;
                 XmodeDefine data = 0; 
-                while (true)
+                while(mReciveQueneBuffer.Count != 0)
                 {
-                    Thread.Sleep(100);
-                   // lock (mLockObj)
-                    {
-                        if (mReciveQueneBuffer.Count == 0)
-                        {
-                            continue;
-                        }
-                        data = (XmodeDefine)mReciveQueneBuffer.Dequeue();
-                    }
                     
+                    data = (XmodeDefine)mReciveQueneBuffer.Dequeue();
                     switch (data)
                     {
 
@@ -229,27 +269,27 @@ namespace ZFreeGo.TransportProtocol.Xmodem
                         case XmodeDefine.CAN://无条件终止               
                             {
                                 mClientReply = data;
-                                return;
+                                return true;
                             }
                         default:
                             {
 
-                                break;
+                                continue;
                             }
                     }
-                    
-                    
                 }
+                return false;
             }
             catch(Exception ex)
             {
-                
+                throw ex;
             }
         }
         /// <summary>
         /// 时间内完成调用
         /// </summary>
-        private void callBackOnTime()
+        /// <returns>true--结束本次传输</returns>
+        private bool AckOnTime()
         {
             switch(mClientReply)
             {
@@ -258,9 +298,9 @@ namespace ZFreeGo.TransportProtocol.Xmodem
                         //发送终止消息
                         if (ServerEvent != null)
                         {
-                            ServerEvent(this, new XmodeServerEventArgs(XmodeServerState.Cancel));
+                            ServerEvent(this, new XmodeServerEventArgs(XmodeServerState.Cancel));                           
                         }
-                        break;
+                        return true;
                     }
                 case XmodeDefine.ACK:
                     {
@@ -270,112 +310,153 @@ namespace ZFreeGo.TransportProtocol.Xmodem
                             //发送结束传输消息
                             if (ServerEvent != null)
                             {
-                                ServerEvent(this, new XmodeServerEventArgs(XmodeServerState.Sucess));
-                                return;
+                                ServerEvent(this, new XmodeServerEventArgs(XmodeServerState.Sucess));                                
                             }
+                            return true;
                         }
                         //正常应答
                         mRepeatCount = 0;
                         ++mTransmitAckLen;
-                        transmitData();
+                       
                         break;
                     }
                 case XmodeDefine.NAK://要求重传
                     {
                         mRepeatCount = 0;
-                        transmitData();
+                        
                         break;
                     }
             }
+            return false;
         }
         /// <summary>
         /// 超时调用
         /// </summary>
-        private void callBackOverTime()
+        /// <returns>true-- 结束本次传输</returns>
+        private bool AckOverTime()
         {
-            //手动终止，则停止传输
-            if (mCurrentFunction.ManualAbort)
+            if (ServerEvent != null)
             {
-                return;
+                ServerEvent(this, new XmodeServerEventArgs(XmodeServerState.OverTime));
             }
-            ServerEvent(this, new XmodeServerEventArgs(XmodeServerState.OverTime));
-            ++mRepeatCount;
 
-            transmitData();
-        }
-
-        private void timeFunctionDelegate()
-        {
-            Console.WriteLine("启动超时函数");
-            mCurrentFunction = new FunctionTimeout(waitReply,
-                callBackOnTime, callBackOverTime, mOverTime);
-            mCurrentFunction.DoAction();
-            Console.WriteLine("结束超时函数");
-        }
-        /// <summary>
-        /// 传输数据
-        /// </summary>
-        private void transmitData()
-        {
-            if (mRepeatCount < mRepeatMaxCount)
-            {
-                if (mTransmitAckLen >= mPacketList.Count)
-                {
-                    sendData((byte)XmodeDefine.EOT);//结束传输
-                    
-                    mEotFlag = true;
-                }
-                else
-                {
-                    sendData(mPacketList[mTransmitAckLen]);
-                }
-              
-                var timeThread = new Thread(timeFunctionDelegate);
-                timeThread.Start();
-
-
-                 
-            }
-            else
+            if (++mRepeatCount >= mRepeatMaxCount)
             {
                 if (ServerEvent != null)
                 {
                     ServerEvent(this, new XmodeServerEventArgs(XmodeServerState.Failue));
                 }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        /// 传输数据
+        /// </summary>
+        private bool TransmitData()
+        {
+            if (mTransmitAckLen >= mPacketList.Count)
+            {
+                sendData((byte)XmodeDefine.EOT);//结束传输                    
+                mEotFlag = true;
+                return true;
+            }
+            else
+            {
+                sendData(mPacketList[mTransmitAckLen]);
+                return false;
             }
         }
 
         /// <summary>
-        /// 检测服务步骤
+        /// XmodeServer数据传输服务线程
         /// </summary>
-        private void  checkServerStep()
+        private void  checkServerStepThread()
         {
-            if (mReciveQueneBuffer.Count == 0)
+            try
             {
-                return;
-            }
-            //若为传输状态则暂停此步骤执行
-            if (mCurrentStep == ServerStep.TransmisionData)
-            {
-                return;
-            }
-            switch (mCurrentStep)
-            {
-                case ServerStep.WaitStartTransmision:
+                try
+                {
+                    //获取启动字符，校验模式
+                    do
                     {
-                        mCheckMode = checkTransmitMode(mReciveQueneBuffer.Dequeue());
-                        if (mCheckMode != null)
+                        if (mReciveQueneBuffer.Count == 0)
                         {
-                            mPacketList = mXmodePacketManager.GetPacketList((XmodeDefine)mCheckMode);
-                            mCurrentStep = ServerStep.TransmisionData;
-                            transmitData();
+                            mRequestData.Set(); //发送请求数据信号
+                            mExistData.WaitOne();     //等待有数据信号
+                            mRequestData.Reset(); //中断获取数据
                         }
-                        break;
-                    }
-              
+                        mCheckMode = checkTransmitMode(mReciveQueneBuffer);
+
+                    } while (mCheckMode == null);
+
+                    mPacketList = mXmodePacketManager.GetPacketList((XmodeDefine)mCheckMode);
+                    TransmitData();
+
+                    var statTime = DateTime.Now;
+                    var responseTime = DateTime.Now;
+                    do
+                    {
+                        mRequestData.Set();//发送请求数据信号
+
+                        
+                        if (mExistData.WaitOne(mOverTime))     //等待有数据信号
+                        {
+                            mRequestData.Reset();//中断获取数据
+
+                            //超时检测--处理有接收数据但不符合要求的情况
+                            responseTime = DateTime.Now;
+                            var diffTime = responseTime - statTime;
+                            if (diffTime.TotalMilliseconds > mOverTime)
+                            {
+                                if (AckOverTime())
+                                {
+                                    break;
+                                }
+                            }
+                            //检测数据不符合应答规范则返回
+                            if(!CheckData())
+                            {
+                                continue;
+                            }
+                            if (AckOnTime())
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if (AckOverTime())
+                            {
+                                break;
+                            }
+                        }
+                        TransmitData();
+                        statTime = DateTime.Now; //设置开始时间
+                    } while (true);
+                }
+                catch (ObjectDisposedException ex)
+                {
+                    Console.WriteLine("XmodeServerThread" + ex.Message);
+                    Thread.Sleep(100);
+                }
+                catch (ThreadAbortException ex)
+                {
+                    Console.WriteLine("XmodeServerThread:" + ex.Message);
+                    Thread.ResetAbort();
+
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("XmodeServerThread:" + ex.Message);
             }
             
-
         }
 
         /// <summary>
@@ -404,38 +485,43 @@ namespace ZFreeGo.TransportProtocol.Xmodem
                 {
                     while (true)
                     {
-                        //二级缓存数据为空，再从一级缓存转存数据
+
                         Thread.Sleep(10);
-                        lock (ReciveQuene)
-                        {
-                            while (ReciveQuene.Count > 0)  //转存到二级缓冲
-                            {
-                                mReciveQueneBuffer.Enqueue(ReciveQuene.Dequeue());
-                            }
 
-                        }
-                        if (mCurrentStep == ServerStep.TransmisionData)
+                        //等待请求数据信号量请求数据                            
+                        if (mRequestData.WaitOne())
                         {
-                            continue;
-                        }
-                        else
-                        {
-
-                          //  lock (mLockObj)
+                            //二级缓存数据为空，再从一级缓存转存数据
+                            lock (ReciveQuene)
                             {
+                                while (ReciveQuene.Count > 0)  //转存到二级缓冲
+                                {
+                                    mReciveQueneBuffer.Enqueue(ReciveQuene.Dequeue());
+                                }
                                 if (mReciveQueneBuffer.Count > 0)
                                 {
-                                    checkServerStep();
+                                    mExistData.Set(); //发送有数据请求
                                 }
+                                else
+                                {
+                                    mExistData.Reset();
+                                }
+
                             }
                         }
 
-                        
+
                     }
 
                 }
-                catch (ThreadAbortException)
+                catch (ObjectDisposedException ex)
                 {
+                    Console.WriteLine("XmodeReadServer" + ex.Message);
+                    Thread.Sleep(100);
+                }
+                catch (ThreadAbortException ex)
+                {
+                    Console.WriteLine("XmodeReadServer" + ex.Message);
                     Thread.ResetAbort();
 
                 }
@@ -445,7 +531,7 @@ namespace ZFreeGo.TransportProtocol.Xmodem
             {
                 while (true)
                 {
-                    Console.WriteLine("XmodeServer" + ex.Message);
+                    Console.WriteLine("XmodeReadServer" + ex.Message);
                     Thread.Sleep(100);
                 }
 
