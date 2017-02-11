@@ -30,7 +30,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileNr
             {
                 return (byte)DirectoryName.Length;
             }
-            private set;
+       
         }
 
         /// <summary>
@@ -63,23 +63,24 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileNr
         /// <returns>字节数组</returns>
         public byte[] GetPacketData()
         {
-            DirectoryNameLen = (byte)DirectoryName.Length;
-            if (DirectoryNameLen > 200)
+
+            if (DirectoryName.Length > 200)
             {
                 throw new ArgumentException("字符过长");
             }
             //21+x 
             int len = 21 + DirectoryNameLen;
+            int index = 0;
             packetData = new byte[len];
-            packetData[0] = (byte)OperationSign;
-            packetData[1] = ElementTool.GetBit7_0(DirectoryID);
-            packetData[2] = ElementTool.GetBit15_8(DirectoryID);
-            packetData[3] = ElementTool.GetBit23_16(DirectoryID);
-            packetData[4] = ElementTool.GetBit31_24(DirectoryID);
-            packetData[5] = DirectoryNameLen;
+            packetData[index++] = (byte)OperationSign;
+            packetData[index++] = ElementTool.GetBit7_0(DirectoryID);
+            packetData[index++] = ElementTool.GetBit15_8(DirectoryID);
+            packetData[index++] = ElementTool.GetBit23_16(DirectoryID);
+            packetData[index++] = ElementTool.GetBit31_24(DirectoryID);
+            packetData[index++] = DirectoryNameLen;
             var name = UnicodeEncoding.ASCII.GetBytes(DirectoryName);
-            Array.Copy(name, 0, packetData, 6, name.Length);
-            int offset = 6 + name.Length;
+            Array.Copy(name, 0, packetData, index, name.Length);
+            int offset = index + name.Length;
             var start = QueryStartingTime.GetDataArray();
             var end = QueryEndTime.GetDataArray();
             Array.Copy(start, 0, packetData, offset, 7);

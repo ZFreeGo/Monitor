@@ -48,7 +48,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileNr
             packetData[0] = (byte)OperationSign;
             packetData[1] = (byte)NameLen;
             var nameStr = UnicodeEncoding.ASCII.GetBytes(Name);
-            Array.Copy(nameStr, 0, packetData, 0, NameLen);
+            Array.Copy(nameStr, 0, packetData, 2, NameLen);
             return packetData;
         }
 
