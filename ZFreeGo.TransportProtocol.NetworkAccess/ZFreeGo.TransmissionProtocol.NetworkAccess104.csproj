@@ -82,19 +82,34 @@
     <Compile Include="BasicElement\MessageFormat.cs" />
     <Compile Include="BasicElement\TypeIdentification.cs" />
     <Compile Include="ApplicationMessage\MasterCommmadEventArgs.cs" />
+    <Compile Include="FileNr\FileAttribute.cs" />
     <Compile Include="FileNr\FileDirectoryCalledAckPacket.cs" />
     <Compile Include="FileNr\FileCallFlag.cs" />
     <Compile Include="FileNr\FileDirectoryCalledPacket.cs" />
     <Compile Include="FileElement\FileReadyQulifier.cs" />
     <Compile Include="FileElement\LastSectionQulifier.cs" />
+    <Compile Include="FileNr\FileReadActivityAckPacket.cs" />
+    <Compile Include="FileNr\FileWriteThransmitAckPacket.cs" />
+    <Compile Include="FileNr\FileReadThransmitAckPacket.cs" />
+    <Compile Include="FileNr\FileDataThransmitPacket.cs" />
+    <Compile Include="FileNr\FileResultSign.cs" />
+    <Compile Include="FileNr\FileWriteActivityAckPacket.cs" />
+    <Compile Include="FileNr\FileWriteActivityPacket.cs" />
+    <Compile Include="FileNr\FileWriteThransmitPacket.cs" />
+    <Compile Include="FileNr\FllowingFlag.cs" />
     <Compile Include="FileNr\OperatSign.cs" />
     <Compile Include="FileElement\SectionReadyQulifier.cs" />
     <Compile Include="FileElement\AckFileQulifier.cs" />
     <Compile Include="FileElement\SelectCallQulifier.cs" />
     <Compile Include="FileElement\StatusOfFile.cs" />
+    <Compile Include="FileNr\FileReadActivityPacket.cs" />
+    <Compile Include="FileNr\WriteFileResultDescription.cs" />
+    <Compile Include="FileNr\WriteFileTransmitDescription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="修改记录.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -36,5 +36,25 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileNr
         /// 读文件数据响应确认
         /// </summary>
         ReadFileDataResponseACK = 6,
+
+        /// <summary>
+        /// 写文件激活
+        /// </summary>
+        WriteFileActivity = 7,
+
+        /// <summary>
+        /// 写文件
+        /// </summary>
+        WriteFileActivityAck = 8,
+
+        /// <summary>
+        /// 写文件数据
+        /// </summary>
+        WriteFileThransmit = 9,
+
+        /// <summary>
+        /// 写文件传输确认
+        /// </summary>
+        WriteFileThransmitAck = 10,
     }
 }
