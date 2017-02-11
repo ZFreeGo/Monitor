@@ -211,7 +211,8 @@ namespace ZFreeGo.TransportProtocol.Xmodem
                 XmodeDefine data = 0; 
                 while (true)
                 {
-                    lock (mLockObj)
+                    Thread.Sleep(100);
+                   // lock (mLockObj)
                     {
                         if (mReciveQueneBuffer.Count == 0)
                         {
@@ -219,6 +220,7 @@ namespace ZFreeGo.TransportProtocol.Xmodem
                         }
                         data = (XmodeDefine)mReciveQueneBuffer.Dequeue();
                     }
+                    
                     switch (data)
                     {
 
@@ -235,7 +237,8 @@ namespace ZFreeGo.TransportProtocol.Xmodem
                                 break;
                             }
                     }
-                    Thread.Sleep(100);
+                    
+                    
                 }
             }
             catch(Exception ex)
@@ -300,6 +303,15 @@ namespace ZFreeGo.TransportProtocol.Xmodem
 
             transmitData();
         }
+
+        private void timeFunctionDelegate()
+        {
+            Console.WriteLine("启动超时函数");
+            mCurrentFunction = new FunctionTimeout(waitReply,
+                callBackOnTime, callBackOverTime, mOverTime);
+            mCurrentFunction.DoAction();
+            Console.WriteLine("结束超时函数");
+        }
         /// <summary>
         /// 传输数据
         /// </summary>
@@ -317,16 +329,19 @@ namespace ZFreeGo.TransportProtocol.Xmodem
                 {
                     sendData(mPacketList[mTransmitAckLen]);
                 }
-                mCurrentFunction = new FunctionTimeout(waitReply,
-                    callBackOnTime, callBackOverTime, mOverTime);
-                mCurrentFunction.DoAction();
+              
+                var timeThread = new Thread(timeFunctionDelegate);
+                timeThread.Start();
+
+
+                 
             }
             else
             {
                 if (ServerEvent != null)
-                        {
-                ServerEvent(this, new XmodeServerEventArgs(XmodeServerState.Failue));
-                    }
+                {
+                    ServerEvent(this, new XmodeServerEventArgs(XmodeServerState.Failue));
+                }
             }
         }
 
@@ -390,7 +405,7 @@ namespace ZFreeGo.TransportProtocol.Xmodem
                     while (true)
                     {
                         //二级缓存数据为空，再从一级缓存转存数据
-
+                        Thread.Sleep(10);
                         lock (ReciveQuene)
                         {
                             while (ReciveQuene.Count > 0)  //转存到二级缓冲
@@ -401,12 +416,12 @@ namespace ZFreeGo.TransportProtocol.Xmodem
                         }
                         if (mCurrentStep == ServerStep.TransmisionData)
                         {
-                            return;
+                            continue;
                         }
                         else
                         {
 
-                            lock (mLockObj)
+                          //  lock (mLockObj)
                             {
                                 if (mReciveQueneBuffer.Count > 0)
                                 {
@@ -415,7 +430,7 @@ namespace ZFreeGo.TransportProtocol.Xmodem
                             }
                         }
 
-                        Thread.Sleep(10);
+                        
                     }
 
                 }

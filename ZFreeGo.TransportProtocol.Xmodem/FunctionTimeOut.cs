@@ -45,6 +45,19 @@ namespace ZFreeGo.TransportProtocol.Xmodem
         private IAsyncResult mIAsyncResult;
 
         /// <summary>
+        /// 定时器
+        /// </summary>
+        private Timer timer;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private readonly int  loopCountMax;
+        /// <summary>
+        /// 循环计数次数
+        /// </summary>
+        private int loopCount;
+        /// <summary>
         /// 手动终止
         /// </summary>
         public bool ManualAbort;
@@ -61,6 +74,8 @@ namespace ZFreeGo.TransportProtocol.Xmodem
             callBackOntime = _actionOnTime;
             callBackOvertime = _actionOverTime;
             ManualAbort = false;
+            loopCount = 0;
+            loopCountMax = _timeout / 100;
         }
 
         /// <summary> 
@@ -93,6 +108,26 @@ namespace ZFreeGo.TransportProtocol.Xmodem
         }
 
 
+
+        private void LoopCheck(object state)
+        {
+            if (loopCount++ < loopCountMax)
+            {
+                isGetSignal = manu.WaitOne(timeout, true);
+                //之信号量
+                if (isGetSignal)
+                {
+                    timer.Dispose();
+                }
+            }
+            else
+            {
+                timer.Dispose();
+            }
+            
+        }
+
+
         /// <summary> 
         /// 调用函数 
         /// </summary> 
@@ -103,16 +138,21 @@ namespace ZFreeGo.TransportProtocol.Xmodem
              mIAsyncResult = WhatTodo.BeginInvoke(MyAsyncCallback, null);
             //设置阻塞,如果上述的BeginInvoke方法在timeout之前运行完毕，则manu会收到信号。此时isGetSignal为true。 
             //如果timeout时间内，还未收到信号，即异步方法还未运行完毕，则isGetSignal为false。 
-            isGetSignal = manu.WaitOne(timeout);
 
-            if (isGetSignal == true)
-            {
-                Console.WriteLine("函数运行完毕，收到设置信号,异步执行未超时");
-            }
-            else
-            {
-                Console.WriteLine("没有收到设置信号,异步执行超时");
-            }
+             isGetSignal = manu.WaitOne(timeout);
+             //TimerCallback LoopCheckCallback = new TimerCallback(LoopCheck);
+
+             //timer = new Timer(LoopCheckCallback, null, 0, 100);
+
+
+             if (isGetSignal == true)
+             {
+                 Console.WriteLine("函数运行完毕，收到设置信号,异步执行未超时");
+             }
+             else
+             {
+                 Console.WriteLine("没有收到设置信号,异步执行超时");
+             }
         }
 
         /// <summary> 
@@ -124,5 +164,8 @@ namespace ZFreeGo.TransportProtocol.Xmodem
             FunctionNeedRun();
             manu.Set();
         }
+
+
+       
     } 
 }
