@@ -259,7 +259,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
         /// <summary>
         /// 文件传输
         /// </summary>
-        //F_FR_NA_1 = 210,
+        F_FR_NA_1_NR = 210,
 
 
 

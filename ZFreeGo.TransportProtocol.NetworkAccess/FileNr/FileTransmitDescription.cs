@@ -8,7 +8,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileNr
     /// <summary>
     /// 写文件传输描述
     /// </summary>
-    public enum WriteFileTransmitDescription
+    public enum FileTransmitDescription
     {
         /// <summary>
         /// 成功

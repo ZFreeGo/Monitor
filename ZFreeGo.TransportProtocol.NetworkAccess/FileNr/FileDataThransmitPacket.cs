@@ -62,6 +62,16 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileNr
             get;
             set;
         }
+        /// <summary>
+        /// 下次可能的数据段号
+        /// </summary>
+        public UInt32 NextFragmentNum
+        {
+            get
+            {
+                return (UInt32)(FragmentNum + FileData.Length);
+            }
+        }
 
         /// <summary>
         /// 加测文件数据与校验和是否一致

@@ -23,7 +23,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
         /// <summary>
         /// 可变结构限定词
         /// </summary>
-        public byte variableStructureQualifier;
+        private byte variableStructureQualifier;
 
 
         /// <summary>
@@ -526,7 +526,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
             }
         }
 
-
+    
         /// <summary>
         /// 初始化ASDU
         /// </summary>
@@ -588,6 +588,30 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
             appDataPublicAddress2 = dataArray[5];
             Array.Copy(dataArray, 6, InformationObject, 0, dataArray.Length - 6);
 
+        }
+
+        /// <summary>
+        /// 初始化ASDU--用于文件传输Nr
+        /// </summary>
+        /// <param name="typeId">类型ID</param>   
+        /// <param name="causeOfTransmission">传输原因</param>
+        /// <param name="AppDataPublicAddress">应用服务数据单元公共地址 </param>
+        /// <param name="len">信息体长度</param>
+        public ApplicationServiceDataUnit(byte typeId, 
+            byte causeOfTransmission, UInt16 AppDataPublicAddress, int len)
+        {
+            this.typeId = typeId;
+            InformationObjectCount = 1;
+            IsSequence = false;
+            this.causeOfTransmission1 = causeOfTransmission;
+            
+            this.appDataPublicAddress1 = (byte)(AppDataPublicAddress & 0x00FF);
+            this.appDataPublicAddress2 = (byte)(AppDataPublicAddress >> 8);
+
+            this.informationObject = new byte[len];
+
+
+            objectCount = 0;
         }
 
         

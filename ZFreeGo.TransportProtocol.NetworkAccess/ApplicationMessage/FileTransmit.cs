@@ -8,6 +8,9 @@ using ZFreeGo.TransmissionProtocol.NetworkAccess104.FileElement;
 
 namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage
 {
+    /// <summary>
+    /// 文件传输服务，基于ID号为120的服务
+    /// </summary>
     public class FileTransmit
     {
         // <summary>

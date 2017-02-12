@@ -226,7 +226,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage
             FrameArray = dataArray;
             ASDU = new ApplicationServiceDataUnit(data);
 
-            TimeStamp = DateTime.Now;
+          
         }
 
 

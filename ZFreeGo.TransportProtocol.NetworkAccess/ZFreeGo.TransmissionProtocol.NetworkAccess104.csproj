@@ -43,6 +43,11 @@
     <Compile Include="ApplicationMessage\CheckGetMessage.cs" />
     <Compile Include="ApplicationMessage\ControlFlow.cs" />
     <Compile Include="ApplicationMessage\ControlFlowTimer.cs" />
+    <Compile Include="FileSever\FilePacket.cs" />
+    <Compile Include="FileSever\FilePacketManager.cs" />
+    <Compile Include="FileSever\FileTransmissionServer.cs" />
+    <Compile Include="FileSever\FileWritePacket.cs" />
+    <Compile Include="FileSever\FileReadPacket.cs" />
     <Compile Include="ApplicationMessage\FileTransmit.cs" />
     <Compile Include="ApplicationMessage\FlowGather.cs" />
     <Compile Include="ApplicationMessage\MasterCommand.cs" />
@@ -95,7 +100,6 @@
     <Compile Include="FileNr\FileResultSign.cs" />
     <Compile Include="FileNr\FileWriteActivityAckPacket.cs" />
     <Compile Include="FileNr\FileWriteActivityPacket.cs" />
-    <Compile Include="FileNr\FileWriteThransmitPacket.cs" />
     <Compile Include="FileNr\FllowingFlag.cs" />
     <Compile Include="FileNr\OperatSign.cs" />
     <Compile Include="FileElement\SectionReadyQulifier.cs" />
@@ -104,7 +108,7 @@
     <Compile Include="FileElement\StatusOfFile.cs" />
     <Compile Include="FileNr\FileReadActivityPacket.cs" />
     <Compile Include="FileNr\WriteFileResultDescription.cs" />
-    <Compile Include="FileNr\WriteFileTransmitDescription.cs" />
+    <Compile Include="FileNr\FileTransmitDescription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -53,6 +53,13 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileNr
         /// </summary>
         private byte[] attributeData;
 
+        /// <summary>
+        /// 文件ID
+        /// </summary>
+        public UInt32 ID = 0;
+      
+
+
 
         /// <summary>
         /// 获取数据数组
@@ -74,6 +81,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileNr
             return data;
 
         }
+
 
         /// <summary>
         /// 设置文件属性

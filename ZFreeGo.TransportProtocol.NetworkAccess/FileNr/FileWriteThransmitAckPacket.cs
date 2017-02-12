@@ -72,11 +72,11 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileNr
         /// <summary>
         /// 写结果描述
         /// </summary>
-        public WriteFileTransmitDescription Result
+        public FileTransmitDescription Result
         {
             get
             {
-                return (WriteFileTransmitDescription)packetData[9];
+                return (FileTransmitDescription)packetData[9];
             }
             set
             {
@@ -104,7 +104,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileNr
         /// <param name="id">文件ID</param>
         /// <param name="num">数据段号</param>
         /// <param name="result">传输结果</param>
-        public FileWriteThransmitAckPacket(UInt32 id, UInt32 num, WriteFileTransmitDescription result)
+        public FileWriteThransmitAckPacket(UInt32 id, UInt32 num, FileTransmitDescription result)
         {
             packetData = new byte[10];
             OperationSign = OperatSign.ReadFileDataResponseACK;

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileNr
+namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
 {
     /// <summary>
-    /// 写文件数据传输包
+    /// 文件传输服务
     /// </summary>
-    public class FileWriteThransmitPacket
+    public class FileTransmissionServer
     {
 
     }
