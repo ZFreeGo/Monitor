@@ -28,7 +28,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileNr
             set;
         }
         /// <summary>
-        /// 数据段号
+        /// 获取或设置数据段号
         /// </summary>
         public UInt32 FragmentNum
         {
@@ -37,7 +37,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileNr
         }
 
         /// <summary>
-        /// 有无后续标志
+        ///获取或设置有无后续标志
         /// </summary>
         public FllowingFlag Fllow
         {

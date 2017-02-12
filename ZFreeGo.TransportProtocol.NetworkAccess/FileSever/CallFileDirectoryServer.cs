@@ -1,0 +1,283 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+
+namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
+{
+    public class CallFileDirectoryServer : FileTransmissionServer
+    {
+
+        /// <summary>
+        /// 召唤文件目录数据包
+        /// </summary>
+        private FileReadPacket readFileDicrectoryPacket;
+
+        /// <summary>
+        /// 召唤文件目录确认数据包
+        /// </summary>
+        private FilePacket readFileDicrectoryAckPacket;
+
+        /// <summary>
+        /// 召唤附件数据包
+        /// </summary>
+        private FileNr.FileDirectoryCalledPacket callPacket;
+
+        /// <summary>
+        /// 应答附加数据包
+        /// </summary>
+        private FileNr.FileDirectoryCalledAckPacket ackPacket;
+
+        /// <summary>
+        /// 超时时间
+        /// </summary>
+        private int mOverTime;
+
+        /// <summary>
+        /// 重试次数
+        /// </summary>
+        private int mRepeatCount;
+
+        /// <summary>
+        /// 最大重试次数
+        /// </summary>
+        private readonly int mRepeatMaxCount;
+
+        /// <summary>
+        /// 发送报数据数据
+        /// </summary>
+        public Action<FilePacket> SendPacket;
+
+        /// <summary>
+        /// 接收线程
+        /// </summary>
+        protected Thread mServerThread;
+
+        /// <summary>
+        /// 召唤目录服务事件
+        /// </summary>
+        public event EventHandler<FileServerEventArgs<FileNr.FileDirectoryCalledAckPacket>> CallFileDirectoryEvent;
+
+        /// <summary>
+        /// 校准服务
+        /// </summary>
+        public CallFileDirectoryServer() :base()
+        {
+            mOverTime = 5000;
+            mRepeatMaxCount = 3;
+            initData();
+        }
+        private void initData()
+        {
+            mRepeatCount = 0;           
+            mRequestData = new ManualResetEvent(false);
+            mExistData = new ManualResetEvent(false);
+            serverState = false; 
+        }
+        
+        /// <summary>
+        /// 启动服务
+        /// </summary>
+        /// <param name="inSendDataDelegate">发送数据委托</param>
+        /// <param name="packet">包数据</param>
+        public void StartServer(Action<FilePacket> inSendDataDelegate, FileReadPacket packet)
+        {
+
+            initData();
+            readFileDicrectoryPacket = packet;
+
+            mReadThread = new Thread(FilePackeReciveThread);
+            mReadThread.Priority = ThreadPriority.Normal;
+            mReadThread.Name = "ServerThread线程数据";
+            mReadThread.Start();
+
+            mServerThread = new Thread(ServeThread);
+            mServerThread.Priority = ThreadPriority.Normal;
+            mServerThread.Name = "ServerThread线程";
+            mServerThread.Start();
+            serverState = true;
+            SendPacket = inSendDataDelegate;
+        }
+
+        /// <summary>
+        /// 停止服务
+        /// </summary>
+        public void StopServer()
+        {
+            mRequestData.Close();
+            mExistData.Close();
+            if (mReadThread != null)
+            {
+                mReadThread.Join(500);
+                mReadThread.Abort();
+
+            }
+            if (mServerThread != null)
+            {
+                mServerThread.Join(500);
+                mServerThread.Abort();
+            }
+            serverState = false;
+        }
+
+        /// <summary>
+        /// 召唤文件目录服务进程
+        /// </summary>
+        private void ServeThread()
+        {
+            try
+            {
+                try
+                {
+                    TransmitData();              
+                    var statTime = DateTime.Now;
+                    var responseTime = DateTime.Now;
+                    do
+                    {
+                        mRequestData.Set();//发送请求数据信号
+
+                        if (mExistData.WaitOne(mOverTime))     //等待有数据信号
+                        {
+                            mRequestData.Reset();//中断获取数据
+
+                            //超时检测--处理有接收数据但不符合要求的情况
+                            responseTime = DateTime.Now;
+                            var diffTime = responseTime - statTime;
+                            if (diffTime.TotalMilliseconds > mOverTime)
+                            {
+                                if (AckOverTime())
+                                {
+                                    break;
+                                }
+                            }
+                            //检测数据不符合应答规范则返回
+                            if (!CheckData())
+                            {
+                                continue;
+                            }
+                            if (AckOnTime())
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if (AckOverTime())
+                            {
+                                break;
+                            }
+                        }
+                        TransmitData();
+                        statTime = DateTime.Now; //设置开始时间
+                    } while (true);
+                }
+                catch (ObjectDisposedException ex)
+                {
+                    Console.WriteLine("CallFileDirectoryServeThread" + ex.Message);
+                    Thread.Sleep(100);
+                }
+                catch (ThreadAbortException ex)
+                {
+                    Console.WriteLine("CallFileDirectoryServeThread:" + ex.Message);
+                    Thread.ResetAbort();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("CallFileDirectoryServeThread:" + ex.Message);
+            }
+
+        }
+
+        /// <summary>
+        /// 发送数据
+        /// </summary>
+        private void TransmitData()
+        {
+            SendPacket(readFileDicrectoryPacket);
+        }
+        /// <summary>
+        /// 检测数据
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckData()
+        {
+            try
+            {
+                 var item =  mReciveQuene.Dequeue();
+                 if (item.ASDU.InformationObject[2] != 2)//是否为文件传输包
+                 {
+                     return false;
+                 }
+                 if (item.ASDU.InformationObject[3] != 2)//是否为读目录确认
+                 {
+                     return false;
+                 }   
+                 var packet = new FileNr.FileDirectoryCalledAckPacket(item.PacketData, 0, (byte)item.PacketData.Length);
+                 if( packet.DirectoryID == callPacket.DirectoryID)
+                 {
+                     readFileDicrectoryAckPacket = item;
+                     ackPacket = packet;
+                     return true;
+                 }
+                 return false;
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// 时间内完成调用
+        /// </summary>
+        /// <returns>true--结束本次传输</returns>
+        private bool AckOnTime()
+        {
+            //readFileDicrectoryAckPacket;
+            //ackPacket;
+            if (ackPacket.ResultSign == FileNr.FileResultSign.Success)
+            {
+                
+            }
+            if (CallFileDirectoryEvent!= null)
+            {
+                var e =  new FileServerEventArgs<FileNr.FileDirectoryCalledAckPacket>("从机应答", FileNr.OperatSign.ReadDirectoryACK,
+                    readFileDicrectoryAckPacket, ackPacket);
+                CallFileDirectoryEvent(Thread.CurrentThread, e);
+            }
+
+
+            return true;
+
+        }
+        /// <summary>
+        /// 超时调用
+        /// </summary>
+        /// <returns>true-- 结束本次传输</returns>
+        private bool AckOverTime()
+        {
+            string str = "";
+            bool state = true;
+            if(++mRepeatCount > mRepeatMaxCount)
+            {
+                str = string.Format("从机应答超时,准备第{0}次重试.", mRepeatCount);                
+                state =  true;
+            }
+            else
+            {
+                str = string.Format("从机应答超时,重试{0}次,达到最大重试次数.", mRepeatCount); 
+                state =  false;
+            }
+            if (CallFileDirectoryEvent != null)
+            {
+                var e = new FileServerEventArgs<FileNr.FileDirectoryCalledAckPacket>(str, FileNr.OperatSign.ReadDirectoryACK,
+                        null, null);
+                CallFileDirectoryEvent(Thread.CurrentThread, e);
+            }
+            return state;
+        }
+    }
+}

@@ -43,8 +43,11 @@
     <Compile Include="ApplicationMessage\CheckGetMessage.cs" />
     <Compile Include="ApplicationMessage\ControlFlow.cs" />
     <Compile Include="ApplicationMessage\ControlFlowTimer.cs" />
+    <Compile Include="FileSever\CallFileDirectoryServer.cs" />
     <Compile Include="FileSever\FilePacket.cs" />
     <Compile Include="FileSever\FilePacketManager.cs" />
+    <Compile Include="FileSever\FileReadServer.cs" />
+    <Compile Include="FileSever\FileServerEventArgs.cs" />
     <Compile Include="FileSever\FileTransmissionServer.cs" />
     <Compile Include="FileSever\FileWritePacket.cs" />
     <Compile Include="FileSever\FileReadPacket.cs" />

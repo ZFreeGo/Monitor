@@ -65,21 +65,21 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
 
         }
 
-        /// <summary>
-        /// 文件服务--读文件传输确认
-        /// </summary>
-        /// <param name="transmitSeqNum">发送序列号</param>
-        /// <param name="receiveSeqNum">接收序列号</param>
-        /// <param name="cot">传输原因</param>
-        /// <param name="ASDUPublicAddress">ASDU公共地址</param>
-        /// <param name="readAckPacket">读文件传输确认包</param>
-        public FileReadPacket(UInt16 transmitSeqNum, UInt16 receiveSeqNum,
-            CauseOfTransmissionList cot, UInt16 ASDUPublicAddress,
-         FileReadThransmitAckPacket readAckPacket)
-            : base(transmitSeqNum, receiveSeqNum, cot, ASDUPublicAddress, readAckPacket.GetPacketData())
-        {
+        ///// <summary>
+        ///// 文件服务--读文件传输确认
+        ///// </summary>
+        ///// <param name="transmitSeqNum">发送序列号</param>
+        ///// <param name="receiveSeqNum">接收序列号</param>
+        ///// <param name="cot">传输原因</param>
+        ///// <param name="ASDUPublicAddress">ASDU公共地址</param>
+        ///// <param name="readAckPacket">读文件传输确认包</param>
+        //public FileReadPacket(UInt16 transmitSeqNum, UInt16 receiveSeqNum,
+        //    CauseOfTransmissionList cot, UInt16 ASDUPublicAddress,
+        // FileReadThransmitAckPacket readAckPacket)
+        //    : base(transmitSeqNum, receiveSeqNum, cot, ASDUPublicAddress, readAckPacket.GetPacketData())
+        //{
 
-        }
+        //}
 
         
     }

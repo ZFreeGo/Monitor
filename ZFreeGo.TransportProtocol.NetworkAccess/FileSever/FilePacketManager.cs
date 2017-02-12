@@ -96,6 +96,9 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
             }
         }
 
+
+      
+
         /// <summary>
         /// 文件包初始化
         /// </summary>
@@ -109,22 +112,50 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         }
 
         /// <summary>
-        /// 文件包初始化
+        /// 文件包初始化--每次文件传输最大按200字节计算
         /// </summary>
         /// <param name="attribute">文件属性</param>
         /// <param name="fileData">文件数据</param>
         public FilePacketManager(FileAttribute attribute, byte[] fileData)
-        {
-            listPacket = new List<FileDataThransmitPacket>();
-            mAttribute = attribute;
-            fullFlag = false;
-            addCount = 0;
+            : this(attribute)
+        {       
+            try
+            {
+                int max = 200;
+                int count = fileData.Length / max;
+                int remain = fileData.Length % max;
+                for (int i =0; i< count; i++)
+                {
+                    UInt32 frage = (UInt32)(i * max);
+                    var packet = new FileDataThransmitPacket(OperatSign.WriteFileThransmit, mAttribute.ID,
+                        frage, FllowingFlag.Exist, fileData, (int)frage, max);
+                    listPacket.Add(packet);
+                    addCount = (UInt32)(addCount + max);
+                }
+                if (remain != 0)
+                {
+                     UInt32 frage = (UInt32)(count * max);
+                    var packet = new FileDataThransmitPacket(OperatSign.WriteFileThransmit, mAttribute.ID,
+                        frage, FllowingFlag.Nothing, fileData, (int)frage, remain);
+                    addCount = (UInt32)(addCount + remain);
+                }
+                else
+                {
+                    CurrentPacket.Fllow = FllowingFlag.Nothing;
+                }
+                fullFlag = true;
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }        
 
         }
         /// <summary>
         /// 添加数据包到列表
         /// </summary>
-        /// <param name="packet"></param>
+        /// <param name="packet">数据包</param>
         private void AddPacketToList(FileDataThransmitPacket packet)
         {
             listPacket.Add(packet);
@@ -145,7 +176,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         /// 添加数据包--用于接收数据
         /// </summary>
         /// <param name="packet">校验后的数据包</param>
-        /// <returns>true--添加成功，false--失败</returns>
+        /// <returns>FileTransmitDescription 代码</returns>
         public FileTransmitDescription AddPacketData(FileDataThransmitPacket packet)
         {
             try
@@ -197,10 +228,8 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
             }
         }
 
-        
 
 
-        
 
     }
 
