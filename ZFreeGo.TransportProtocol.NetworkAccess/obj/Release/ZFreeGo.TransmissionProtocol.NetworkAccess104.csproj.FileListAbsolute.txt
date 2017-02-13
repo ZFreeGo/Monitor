@@ -7,3 +7,8 @@ F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\b
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\obj\Release\ZFreeGo.TransmissionProtocol.NetworkAccess104.csprojResolveAssemblyReference.cache
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\obj\Release\ZFreeGo.TransmissionProtocol.NetworkAccess104.dll
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransmissionProtocol.NetworkAccess104\obj\Release\ZFreeGo.TransmissionProtocol.NetworkAccess104.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\bin\Release\ZFreeGo.TransmissionProtocol.NetworkAccess104.dll
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\bin\Release\ZFreeGo.TransmissionProtocol.NetworkAccess104.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\obj\Release\ZFreeGo.TransmissionProtocol.NetworkAccess104.csprojResolveAssemblyReference.cache
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\obj\Release\ZFreeGo.TransmissionProtocol.NetworkAccess104.dll
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\obj\Release\ZFreeGo.TransmissionProtocol.NetworkAccess104.pdb

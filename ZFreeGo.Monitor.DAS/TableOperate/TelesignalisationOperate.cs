@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using ZFreeGo.Monitor.AutoStudio.ElementParam;
 using ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement;
@@ -136,8 +137,16 @@ namespace ZFreeGo.Monitor.AutoStudio
                                     var t = m[k];
                                     if ((t.InternalID + Telesignalisation.BasicAddress - 1) == ele.Item1)
                                     {
-                                        t.Date = DateTime.Now.ToShortTimeString();
-                                        t.TelesignalisationResult =((byte)ele.Item2).ToString("X2");
+                                        t.Date = DateTime.Now.ToLongTimeString();
+                                        t.TelesignalisationResult = (byte)ele.Item2;
+                                        if((TypeIdentification)apdu.ASDU.TypeId == TypeIdentification.M_DP_NA_1)
+                                        {
+                                            t.IsSingle = true;
+                                        }
+                                        else
+                                        {
+                                            t.IsSingle = false;
+                                        }
                                     }
 
                                 }
@@ -150,11 +159,34 @@ namespace ZFreeGo.Monitor.AutoStudio
                         {
                            var log = (ObservableCollection<EventLog>)eventLog;
                            foreach (var ele in list)
-                           {
+                           {                                                        
+                              
                                var time = ele.Item3 as CP56Time2a;
-                               
-                               var alog = new EventLog((int)ele.Item1, "sd", ele.Item2.ToString(),
-                                   time.ToString(), "A", time.Milliseconds.ToString());
+                               //通过遥信ID，查找所需要的元素
+                               Telesignalisation result = null;
+                               foreach(var find in m)
+                               {
+                                   if (find.InternalID == (int)ele.Item1)
+                                   {
+                                       result = new Telesignalisation(find.InternalID, find.TelesignalisationName, find.TelesignalisationID,
+                                           find.IsNot, find.TelesignalisationResult, "", "");
+                                       break;
+                                   }
+                               }
+
+                               EventLog alog;
+                               if ( result != null)
+                               {
+                                   alog = new EventLog(result.InternalID, result.TelesignalisationState, ele.Item2.ToString(),
+                                  time.ToString(), "", time.Milliseconds.ToString());
+                               }
+                               else
+                               {
+                                   alog = new EventLog((int)ele.Item1, "ID未定义", ele.Item2.ToString(),
+                                  time.ToString(), "", time.Milliseconds.ToString());
+                               }
+
+                              
                                log.Add(alog);
                                
                            }
@@ -174,6 +206,93 @@ namespace ZFreeGo.Monitor.AutoStudio
                 MessageBox.Show(ex.Message, "UpdateTelesignalisation");
             }
 
+        }
+
+        /// <summary>
+        /// 遥信表格菜单
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgmenu_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is ContextMenu)
+            {
+
+                var m = e.Source as MenuItem;
+                switch (m.Name)
+                {
+                    case "itemLoadAs":
+                        {
+                            string path = "";
+                            OpenXmlFile(ref path, "xml");
+
+                            telesignalisation = DataLoad<Telesignalisation>(ref path, ref pathxsdTelesignalisation,
+                ref dataSetTelesignalisation, DataTypeEnum.Telesignalisation, gridTelesignalisation);                         
+                            break;
+                        }
+                    case "itemSaveAs":
+                        {
+                            string path = "";
+                            SaveXmlFile(ref path);
+                            DataExport<Telesignalisation>(dataSetTelesignalisation, DataTypeEnum.Telesignalisation,
+             telesignalisation, path);                          
+                           
+                            break;
+                        }
+                    case "itemAddUp":
+                        {
+                            if (gridTelesignalisation.SelectedIndex > -1)
+                            {
+                                var item = new Telesignalisation(0, "xxx", 0, "否", 0, "xxx", "xxx", "StateA", "StateB");
+                                var obser = (ObservableCollection<Telesignalisation>)telesignalisation;
+                                
+
+                                    obser.Insert(gridTelesignalisation.SelectedIndex, item);
+                                
+                                
+                            }
+                            
+
+                            break;
+                        }
+                    case "itemAddDown":
+                        {
+                            
+                            if (gridTelesignalisation.SelectedIndex > -1)
+                            {
+                                var item = new Telesignalisation(0, "xxx", 0, "否", 0, "xxx", "xxx", "StateA", "StateB");
+                                var obser = (ObservableCollection<Telesignalisation>)telesignalisation;
+                                if (gridTelesignalisation.SelectedIndex < gridTelesignalisation.Columns.Count - 1)
+                                {                                  
+                                    
+                                    obser.Insert(gridTelesignalisation.SelectedIndex + 1, item);
+                                }
+                                else
+                                {
+                                    obser.Add(item);
+                                }
+                            }
+                            break;
+                        }
+                    case "itemDeleteSelect":
+                        {
+                            if (gridTelesignalisation.SelectedIndex > -1)
+                            {
+                                
+                               
+                                var result = MessageBox.Show("是否删除选中行:" + gridTelesignalisation.SelectedItem.ToString(), 
+                                    "确认删除", MessageBoxButton.OKCancel);
+                                if (result == MessageBoxResult.OK)
+                                {
+                                    var obser = (ObservableCollection<Telesignalisation>)telesignalisation;
+                                    obser.RemoveAt(gridTelesignalisation.SelectedIndex);
+                                }
+                            }
+                            break;
+                        }
+                }
+
+            }
         }
        
         

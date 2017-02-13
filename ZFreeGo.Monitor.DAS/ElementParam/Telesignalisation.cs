@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace ZFreeGo.Monitor.AutoStudio.ElementParam
 {
@@ -10,7 +12,7 @@ namespace ZFreeGo.Monitor.AutoStudio.ElementParam
     /// <summary>
     /// 这个类是为了遥信参数类
     /// </summary>
-    public class Telesignalisation: INotifyPropertyChanged
+    public class Telesignalisation : INotifyPropertyChanged
     {
         /// <summary>
         /// 遥信对象公共地址
@@ -25,6 +27,7 @@ namespace ZFreeGo.Monitor.AutoStudio.ElementParam
             {
                 internalID = value;
                 OnPropertyChanged(new PropertyChangedEventArgs("InternalID"));
+                OnPropertyChanged(new PropertyChangedEventArgs("TelesignalisationID"));
             }
         }
 
@@ -43,45 +46,90 @@ namespace ZFreeGo.Monitor.AutoStudio.ElementParam
         private int telesignalisationID;
         public int TelesignalisationID
         {
-            get { return telesignalisationID; }
+            get
+            {
+                return (int)(BasicAddress + internalID); 
+            }
             set
             {
                 telesignalisationID = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("TelesignalisationID"));
+                
             }
         }
 
-        private string telesignalisationResult;
-        public string TelesignalisationResult
+        private int telesignalisationResult;
+        public int TelesignalisationResult
         {
             get { return telesignalisationResult; }
             set
             {
                 telesignalisationResult = value;
                 OnPropertyChanged(new PropertyChangedEventArgs("TelesignalisationResult"));
+                OnPropertyChanged(new PropertyChangedEventArgs("TelesignalisationState"));
             }
         }
         private string telesignalisationState;
         public string TelesignalisationState
         {
-            get { return telesignalisationState; }
+            get
+            {
+                int result = telesignalisationResult;
+
+                if (IsSingle) //但双点信息判断
+                {
+                    if (IsNot != "是")
+                    {
+                        result = 1 - result; //取反1+0 等于1
+                    }
+                    if (result == 0)
+                    {
+                        return StateA;
+                    }
+                    else
+                    {
+                        return StateB;
+                    }
+                }
+                else
+                {
+                    if (IsNot != "是")
+                    {
+                        result = 3 - result; //取反1+2等于3
+                    }
+                    if (result == 1)
+                    {
+                        return StateA;
+                    }
+                    else
+                    {
+                        return StateB;
+                    }
+                }
+            }
             set
             {
-                telesignalisationState = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("TelesignalisationStatet"));
+
+                // telesignalisationState = value;
+                // OnPropertyChanged(new PropertyChangedEventArgs("TelesignalisationStatet"));
             }
         }
         private string isNot;
         /// <summary>
-        /// 是否取反
+        /// 是否取反 "是" "否"
         /// </summary>
         public string IsNot
         {
             get { return isNot; }
             set
             {
-                isNot = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("IsNot"));
+                if ((value == "是") || (value == "否"))
+                {
+                    isNot = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs("IsNot"));
+                    OnPropertyChanged(new PropertyChangedEventArgs("Comment"));
+                    OnPropertyChanged(new PropertyChangedEventArgs("TelesignalisationState"));
+                }
+
             }
         }
 
@@ -96,15 +144,37 @@ namespace ZFreeGo.Monitor.AutoStudio.ElementParam
             }
         }
 
-         private string comment;
+        private string comment;
         public string Comment
         {
-            get { return comment; }
+            get
+            {
+                string str = "";
+                string sA = StateA;
+                string sB = StateB;
+                int nA = 0; //单点信息--默认开
+                int nB = 1;
+
+                if (IsNot == "是") //是否取反判断
+                {
+                    sA = StateB;
+                    sB = StateA;
+                }
+                if (!IsSingle) //但双点信息判断
+                {
+                    nA = 1;
+                    nB = 2;
+                }
+
+                str = string.Format("{0:00}-{1}; {2:00}-{3};", nA, sA, nB, sB);
+
+                return str;
+            }
             set
             {
                 comment = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Comment"));
             }
+
         }
         private bool isChanged;
         /// <summary>
@@ -113,10 +183,61 @@ namespace ZFreeGo.Monitor.AutoStudio.ElementParam
         public bool IsChanged
         {
             get { return isChanged; }
-            set { isChanged = value;}
+            set { isChanged = value; }
         }
 
-       
+        /// <summary>
+        /// 状态A--对应双点01/ 单点0
+        /// </summary>
+        private string stateA;
+        public string StateA
+        {
+            get { return stateA; }
+            set
+            {
+                stateA = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("StateA"));
+                OnPropertyChanged(new PropertyChangedEventArgs("Comment"));
+            }
+        }
+
+        /// <summary>
+        /// 状态A--对应双点10/ 单点1
+        /// </summary>
+        private string stateB;
+        public string StateB
+        {
+            get { return stateB; }
+            set
+            {
+                stateB = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("StateB"));
+                OnPropertyChanged(new PropertyChangedEventArgs("Comment"));
+            }
+        }
+
+        /// <summary>
+        /// 单点或双点信息
+        /// </summary>
+        private bool isSingle;
+
+        /// <summary>
+        ///设置或获取单点或双点 true--单点，false--双点
+        /// </summary>
+        public bool IsSingle
+        {
+            get
+            {
+                return isSingle;
+            }
+            set
+            {
+                isSingle = true;
+                OnPropertyChanged(new PropertyChangedEventArgs("Comment"));
+            }
+        }
+
+
         /// <summary>
         /// 遥信参数初始化
         /// </summary>
@@ -126,29 +247,49 @@ namespace ZFreeGo.Monitor.AutoStudio.ElementParam
         /// <param name="isNot">是否取反</param>
         /// <param name="date">日期</param>
         /// <param name="comment">注释</param>
-        public Telesignalisation(int internalID, string telesignalisationName, int telesignalisationID, string isNot, string telesignalisationResult,
-            string date,string comment)
+        /// <param name="inStateA">状态A</param>
+        /// <param name="inStateB">状态B</param>
+        public Telesignalisation(int internalID, string telesignalisationName, int telesignalisationID, string isNot, int telesignalisationResult,
+            string date, string comment, string inStateA, string inStateB)
+            : this(internalID, telesignalisationName, telesignalisationID, isNot, telesignalisationResult,
+            date, comment)
+        {
+            StateA = inStateA;
+            StateB = inStateB;
+        }
+
+
+        /// <summary>
+        /// 遥信参数初始化
+        /// </summary>
+        /// <param name="internalID">内部ID</param>
+        /// <param name="telesignalisationName">遥信名称</param>
+        /// <param name="telesignalisationID">遥信ID</param>
+        /// <param name="isNot">是否取反</param>
+        /// <param name="date">日期</param>
+        /// <param name="comment">注释</param>
+        public Telesignalisation(int internalID, string telesignalisationName, int telesignalisationID, string isNot, int telesignalisationResult,
+            string date, string comment)
         {
             InternalID = internalID;
             TelesignalisationName = telesignalisationName;
             TelesignalisationID = telesignalisationID;
             IsNot = isNot;
             Date = date;
-            Comment = comment;
+            // Comment = comment;
             TelesignalisationResult = telesignalisationResult;
             TelesignalisationState = "";
-            
-
-            TelesignalisationID = (int)( Telesignalisation.BasicAddress + internalID - 1);
-
+            TelesignalisationID = (int)(Telesignalisation.BasicAddress + internalID - 1);
             isChanged = false;
+
+            IsSingle = true;//默认为单点信息
         }
 
 
 
         public override string ToString()
         {
-            return telesignalisationName + " (" + telesignalisationID + ")";
+            return telesignalisationName + "(" + telesignalisationID + ")";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -158,5 +299,8 @@ namespace ZFreeGo.Monitor.AutoStudio.ElementParam
             if (PropertyChanged != null)
                 PropertyChanged(this, e);
         }
+
+
+        
     }
 }

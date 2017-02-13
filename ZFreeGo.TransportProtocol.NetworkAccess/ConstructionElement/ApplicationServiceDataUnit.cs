@@ -96,6 +96,21 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
             get { return appDataPublicAddress2; }
         }
 
+        /// <summary>
+        /// 16bit公共地址,
+        /// </summary>
+        public ushort AppDataPublicAddress
+        {
+            set
+            {
+                appDataPublicAddress1 = ElementTool.GetBit7_0(value);
+                appDataPublicAddress2 = ElementTool.GetBit15_8(value);
+            }
+            get
+            {
+                return ElementTool.CombinationByte(appDataPublicAddress1, appDataPublicAddress2);
+            }
+        }
       
 
 
@@ -133,6 +148,10 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
         public byte[] ASDUDataArray;
 
 
+        /// <summary>
+        /// 信息题长度
+        /// </summary>
+        private int informationLen;
 
         /// <summary>
         /// ASDU 长度
@@ -143,7 +162,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
             //可变帧长限定词 VSQ 1 字节
             //传送原因 COT 2 字节
             //ASDU 公共地址 2 字节
-            get { return (byte)(1 + 1 + 2 + 2 + GetTotalInformationObjectLenth()); }
+            get { return (byte)(1 + 1 + 2 + 2 + informationLen); }
         }
 
         private byte objectCount;
@@ -541,9 +560,9 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
             this.typeId = typeId;
             InformationObjectCount = informationObjectCount;
             IsSequence = isSequence;
-            this.causeOfTransmission1 = causeOfTransmission;
-            var length = GetTotalInformationObjectLenth();
-            this.informationObject = new byte[length];
+            this.causeOfTransmission1 = causeOfTransmission;           
+            informationLen = GetTotalInformationObjectLenth();
+            this.informationObject = new byte[informationLen];
             this.appDataPublicAddress1 = (byte)(AppDataPublicAddress & 0x00FF);
             this.appDataPublicAddress2 = (byte)(AppDataPublicAddress >> 8);
             objectCount = 0;
@@ -561,6 +580,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
             this.typeId = typeId;
             InformationObjectCount = 1;
             IsSequence = false;
+            informationLen = objectLen;
             this.causeOfTransmission1 = causeOfTransmission;
             this.informationObject = new byte[objectLen];
             this.appDataPublicAddress1 = (byte)(AppDataPublicAddress & 0x00FF);
@@ -604,7 +624,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
             InformationObjectCount = 1;
             IsSequence = false;
             this.causeOfTransmission1 = causeOfTransmission;
-            
+            informationLen = len;
             this.appDataPublicAddress1 = (byte)(AppDataPublicAddress & 0x00FF);
             this.appDataPublicAddress2 = (byte)(AppDataPublicAddress >> 8);
 

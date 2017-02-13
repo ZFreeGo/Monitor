@@ -22,7 +22,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         /// <summary>
         /// 召唤附件数据包
         /// </summary>
-        private FileNr.FileDirectoryCalledPacket callPacket;
+       private FileNr.FileDirectoryCalledPacket callPacket;
 
         /// <summary>
         /// 应答附加数据包
@@ -59,8 +59,15 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         /// </summary>
         public event EventHandler<FileServerEventArgs<FileNr.FileDirectoryCalledAckPacket>> CallFileDirectoryEvent;
 
+        public event EventHandler<CallFileEndEventArgs> CallFileEndEvent;
         /// <summary>
-        /// 校准服务
+        /// 文件属性列表
+        /// </summary>
+        private List<FileNr.FileAttribute> fileAttributeList;
+
+       
+        /// <summary>
+        /// 召唤文件目录服务
         /// </summary>
         public CallFileDirectoryServer() :base()
         {
@@ -73,7 +80,8 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
             mRepeatCount = 0;           
             mRequestData = new ManualResetEvent(false);
             mExistData = new ManualResetEvent(false);
-            serverState = false; 
+            serverState = false;
+            fileAttributeList = new List<FileNr.FileAttribute>();
         }
         
         /// <summary>
@@ -81,23 +89,30 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         /// </summary>
         /// <param name="inSendDataDelegate">发送数据委托</param>
         /// <param name="packet">包数据</param>
-        public void StartServer(Action<FilePacket> inSendDataDelegate, FileReadPacket packet)
+        public void StartServer(Action<FilePacket> inSendDataDelegate,  FileNr.FileDirectoryCalledPacket packet)
         {
+            try
+            {
+                initData();
+                callPacket = packet;
+                readFileDicrectoryPacket = new FileReadPacket(0, 0, BasicElement.CauseOfTransmissionList.Activation, 0, packet);
 
-            initData();
-            readFileDicrectoryPacket = packet;
+                mReadThread = new Thread(FilePackeReciveThread);
+                mReadThread.Priority = ThreadPriority.Normal;
+                mReadThread.Name = "ServerThread线程数据";
+                mReadThread.Start();
 
-            mReadThread = new Thread(FilePackeReciveThread);
-            mReadThread.Priority = ThreadPriority.Normal;
-            mReadThread.Name = "ServerThread线程数据";
-            mReadThread.Start();
-
-            mServerThread = new Thread(ServeThread);
-            mServerThread.Priority = ThreadPriority.Normal;
-            mServerThread.Name = "ServerThread线程";
-            mServerThread.Start();
-            serverState = true;
-            SendPacket = inSendDataDelegate;
+                mServerThread = new Thread(ServeThread);
+                mServerThread.Priority = ThreadPriority.Normal;
+                mServerThread.Name = "ServerThread线程";
+                mServerThread.Start();
+                serverState = true;
+                SendPacket = inSendDataDelegate;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -196,7 +211,10 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         /// </summary>
         private void TransmitData()
         {
-            SendPacket(readFileDicrectoryPacket);
+            if (readFileDicrectoryPacket != null)
+            {
+                SendPacket(readFileDicrectoryPacket);
+            }
         }
         /// <summary>
         /// 检测数据
@@ -211,7 +229,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
                  {
                      return false;
                  }
-                 if (item.ASDU.InformationObject[3] != 2)//是否为读目录确认
+                 if (item.ASDU.InformationObject[3] != 2)//是否为目录召唤确认
                  {
                      return false;
                  }   
@@ -236,21 +254,42 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         /// <returns>true--结束本次传输</returns>
         private bool AckOnTime()
         {
-            //readFileDicrectoryAckPacket;
-            //ackPacket;
+
+            bool state = true;
             if (ackPacket.ResultSign == FileNr.FileResultSign.Success)
             {
-                
+                fileAttributeList.AddRange(ackPacket.FileAttributeList);
+                if(ackPacket.Fllow == FileNr.FllowingFlag.Nothing)
+                {
+                   if (CallFileEndEvent != null)
+                   {
+                       CallFileEndEvent(this, new CallFileEndEventArgs("召唤目录传输完成",fileAttributeList));                       
+                   }
+                   state = false;
+                }
+                else
+                {
+                        //readFileDicrectoryPacket = new FileReadPacket(0,0, BasicElement.CauseOfTransmissionList.ActivationACK,)
+                    readFileDicrectoryPacket = null;   
+                    state = true;
+                }
+               
             }
+            else
+            {
+                state = true;
+            }
+                
+         
             if (CallFileDirectoryEvent!= null)
             {
-                var e =  new FileServerEventArgs<FileNr.FileDirectoryCalledAckPacket>("从机应答", FileNr.OperatSign.ReadDirectoryACK,
+                var e = new FileServerEventArgs<FileNr.FileDirectoryCalledAckPacket>("从机应答:" + ackPacket.ResultSign.ToString(), FileNr.OperatSign.ReadDirectoryACK,
                     readFileDicrectoryAckPacket, ackPacket);
                 CallFileDirectoryEvent(Thread.CurrentThread, e);
             }
 
 
-            return true;
+            return state;
 
         }
         /// <summary>

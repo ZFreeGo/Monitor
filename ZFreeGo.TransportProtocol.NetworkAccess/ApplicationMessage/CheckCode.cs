@@ -88,6 +88,12 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104
         /// 保护定值设定
         /// </summary>
         ProtectsetPoint = 108,
+
+        /// <summary>
+        /// 文件服务
+        /// </summary>
+        FileServer = 109,
+
         /// <summary>
         /// TypeID已经定义但不未使用
         /// </summary>

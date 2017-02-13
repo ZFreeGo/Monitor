@@ -9,6 +9,7 @@ using ZFreeGo.Monitor.AutoStudio.Log;
 using ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage;
 using ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement;
 using ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement;
+using ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever;
 
 namespace ZFreeGo.Monitor.AutoStudio
 {
@@ -77,6 +78,9 @@ namespace ZFreeGo.Monitor.AutoStudio
             //保护定值
             checkGetMessage.ProtectSetMessageArrived +=checkGetMessage_ProtectSetMessageArrived;
 
+
+            checkGetMessage.FileServerArrived += checkGetMessage_FileServerArrived;
+
             //I-未知
             checkGetMessage.UnknowMessageArrived += checkGetMessage_UnknowMessageArrived;
 
@@ -88,7 +92,33 @@ namespace ZFreeGo.Monitor.AutoStudio
             processList = new List<ProcessControlPure>();
             
         }
-        
+
+
+        /// <summary>
+        /// 文件服务
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void checkGetMessage_FileServerArrived(object sender, TransmitEventArgs<TypeIdentification, FilePacket> e)
+        {
+            try
+            {
+                appMessageManager.UpdateReceiveSequenceNumber(e.mdata2.APCI.TransmitSequenceNumber,
+                    e.mdata2.APCI.ReceiveSequenceNumber);
+                BeginInvokeUpdateHistory(e.mdata2.FrameArray, e.mdata2.FrameArray.Length, "从站发送:I帧：文件服务:");
+
+                if (callDirectoryServer != null)
+                {
+                    
+                    callDirectoryServer.Enqueue(e.mdata2);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "checkGetMessage_FileServerArrived");
+            }
+        }
 
       
 

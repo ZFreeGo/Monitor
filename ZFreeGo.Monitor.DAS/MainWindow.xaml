@@ -316,15 +316,27 @@
                             </Grid>
                             <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False"  Name="gridTelesignalisation" IsReadOnly="True"
                                       LoadingRow="gridTelesignalisation_LoadingRow" Grid.ColumnSpan="2"   CanUserSortColumns="False">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="内部ID"  Width="50" Binding="{Binding InternalID}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGrid.ContextMenu>
+                                    <ContextMenu Name="dgmenu" StaysOpen="true" PreviewMouseDown="dgmenu_PreviewMouseDown" IsEnabled="False">
+                                        <MenuItem Header="打开其它表格" Name="itemLoadAs"/>
+                                        <MenuItem Header="表格另存为" Name="itemSaveAs"/>
+                                        <MenuItem Header="选择行之上插入新行" Name="itemAddUp" />
+                                        <MenuItem Header="选择行之下插入新行" Name="itemAddDown"/>
+                                        <MenuItem Header="删除选中行" Name="itemDeleteSelect">
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </DataGrid.ContextMenu>
+                                <DataGrid.Columns >
+                                    <DataGridTextColumn Header="内部ID"  Width="50" Binding="{Binding InternalID}" ></DataGridTextColumn>
                                     <DataGridTextColumn Header="遥信名称"    MinWidth="50" Binding="{Binding TelesignalisationName}" ></DataGridTextColumn>
                                     <DataGridTextColumn Header="遥信ID"   MinWidth="50" Binding="{Binding TelesignalisationID, StringFormat={}{0:X2}}" IsReadOnly="True"></DataGridTextColumn>
                                     <DataGridTextColumn Header="是否取反"    MinWidth="50" Binding="{Binding IsNot}"></DataGridTextColumn>
                                     <DataGridTextColumn Header="遥信码值"    MinWidth="50" Binding="{Binding TelesignalisationResult}"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="遥信状态"    MinWidth="50" Binding="{Binding TelesignalisationState}"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="日期/时间/星期"    MinWidth="100" Binding="{Binding Date}"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="备注"    MinWidth="250" Binding="{Binding Comment}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="遥信状态"    MinWidth="50" Binding="{Binding TelesignalisationState}" IsReadOnly="True"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="时间"    MinWidth="100" Binding="{Binding Date}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="备注"    MinWidth="250" Binding="{Binding Comment}" IsReadOnly="True"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="状态01"    MinWidth="50" Binding="{Binding StateA}" x:Name="columnStateA" Visibility="Hidden"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="状态10"    MinWidth="50" Binding="{Binding StateB}" x:Name="columnStateB" Visibility="Hidden"></DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
@@ -644,6 +656,7 @@
                                         <Button Margin="3" Padding="3" Name="btnRecordLoad">导入</Button>
                                         <Button Margin="3" Padding="3" Name="btnRecordExport">导出</Button>
                                         <Button Margin="30,3,3,3" Padding="3" Name="btnConfigComtrade" Click="btncofigComtrade_Click">配置文件</Button>
+                                       
                                     </StackPanel>
                                 </Grid>
 
@@ -673,6 +686,46 @@
 
                             </Grid>
                         </ScrollViewer>
+                    </TabItem>
+                    <TabItem Header="文件服务" Height="30" VerticalAlignment="Top" Name="tabItemFileServer">
+                        <Grid>
+                            <StackPanel>
+                                <GroupBox Header="召唤目录">
+                                    <StackPanel Height="200">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Margin="3" Padding="2">目录ID:</Label>
+                                            <TextBox Margin="3" Padding="2" MinWidth="80" Name="txtDirID"></TextBox>
+                                            <Label Margin="3" Padding="2">目录名:</Label>
+                                            <TextBox Margin="3" Padding="2" MinWidth="120" Name="txtDirName"></TextBox>
+                                            <Label Margin="3" Padding="2">起始时间:</Label>
+                                            <TextBox Margin="3" Padding="2" MinWidth="120" Name="txtStartTime">2017/2/13 12:12:23</TextBox>
+                                            <Label Margin="3" Padding="2">结束时间</Label>
+                                            <TextBox Margin="3" Padding="2" MinWidth="120" Name="txtEndTime">2017/2/13 1:24:12</TextBox>
+                                            <CheckBox  Margin="3" Padding="2" VerticalAlignment="Center" Name="checkMeetTime">满足时间段</CheckBox>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Margin="3,3,3,3" Padding="3" Name="btnReadDirectory" Click="btnReadDirectory_Click">读取文件目录
+                                            </Button>
+                                        </StackPanel>
+                                        <DataGrid Name="gridFileDir" IsReadOnly="True">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="文件名"  Binding="{Binding Name}"></DataGridTextColumn>
+                                                <DataGridTextColumn Header="文件大小"    Binding="{Binding Size}"></DataGridTextColumn>
+                                                <DataGridTextColumn Header="文件时间"   Binding="{Binding Time}"></DataGridTextColumn>                                                                                            
+                                            </DataGrid.Columns>
+                                        </DataGrid>                                     
+                                        
+                                        
+                                        
+                                        
+                                    </StackPanel>
+                                        
+                                </GroupBox>
+                            </StackPanel>
+                                
+                            
+                            </Grid>
+
                     </TabItem>
                     <!--测试界面-->
                     <TabItem  Header="测试界面" Height="30" VerticalAlignment="Top">

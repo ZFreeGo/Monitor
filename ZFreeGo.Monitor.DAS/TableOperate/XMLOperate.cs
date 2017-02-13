@@ -68,9 +68,11 @@ namespace ZFreeGo.Monitor.AutoStudio
                                     (string)productRow["TelesignalisationName"],
                                     (int)productRow["TelesignalisationID"],
                                     (string)productRow["IsNot"],
-                                    (string)productRow["TelesignalisationValue"],
+                                    (int)productRow["TelesignalisationValue"],
                                     (string)productRow["Date"],
-                                    (string)productRow["Comment"]));
+                                    (string)productRow["Comment"],
+                                    (string)productRow["StateA"],
+                                    (string)productRow["StateB"]));
 
                             }
                             return dataCollect;                       
@@ -232,7 +234,8 @@ namespace ZFreeGo.Monitor.AutoStudio
                                 productRow["IsNot"] = m.IsNot;
                                 productRow["Date"] = m.Date;
                                 productRow["Comment"] = m.Comment;
-
+                                productRow["StateA"] = m.StateA;
+                                productRow["StateB"] = m.StateB;
                                 ds.Tables["Telesignalisation"].Rows.Add(productRow);
                             }
                             break;

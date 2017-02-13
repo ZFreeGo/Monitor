@@ -14,7 +14,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage
     /// </summary>
     public class ControlFlowTimer
     {
-        private Timer loopCallTimer;
+       // private Timer loopCallTimer;
 
 
        /// <summary>

@@ -160,8 +160,8 @@ namespace ZFreeGo.Monitor.AutoStudio
                 authorityManager.AddControl(this.btnManualCall, AuthorityLevel.II);
                 authorityManager.AddControl(this.btnTimeSynA, AuthorityLevel.II);
                 authorityManager.AddControl(this.btnRestartServer, AuthorityLevel.II);
-               
-                
+
+
                 //遥信
                 authorityManager.AddControl(this.btnTelesignalisationCall, AuthorityLevel.II);
                 authorityManager.AddControl(this.TelesignalisationExport, AuthorityLevel.II);
@@ -229,11 +229,11 @@ namespace ZFreeGo.Monitor.AutoStudio
                 //
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "AuthorityManagerAddControl");
             }
-            
+
         }
 
         /// <summary>
@@ -260,14 +260,14 @@ namespace ZFreeGo.Monitor.AutoStudio
                         path = openFileDialog1.FileName;
                         return true;
                     }
-                    
+
                 }
             }
             return false;
-    
+
         }
         /// <summary>
-        /// 存储XMP文件
+        /// 存储XML文件
         /// </summary>
         /// <param name="path">存储路径</param>
         /// <returns>是否成功存储</returns>
@@ -289,7 +289,7 @@ namespace ZFreeGo.Monitor.AutoStudio
                         path = saveFileDialog1.FileName;
                         return true;
                     }
-                    
+
                 }
             }
             return false;
@@ -304,12 +304,12 @@ namespace ZFreeGo.Monitor.AutoStudio
         private bool IsExists(ref string path, string style)
         {
             if (File.Exists(path))
-             {
-                 return true;
-             }
+            {
+                return true;
+            }
             else
             {
-                if(OpenXmlFile(ref path, style))
+                if (OpenXmlFile(ref path, style))
                 {
                     return true;
                 }
@@ -379,7 +379,7 @@ namespace ZFreeGo.Monitor.AutoStudio
             }
         }
 
-  
+
         /// <summary>
         /// 窗体载入后加载
         /// </summary>
@@ -388,11 +388,11 @@ namespace ZFreeGo.Monitor.AutoStudio
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-           
+
 
             serialControlCenter = new SerialControlCenter();
             UpdatePortShow(serialControlCenter.SerialPort);
-           // serialControlCenter.RtuFrameArrived += serialControlCenter_RtuFrameArrived;
+            // serialControlCenter.RtuFrameArrived += serialControlCenter_RtuFrameArrived;
 
             NetInit();
             ControlProcessConfig();
@@ -403,12 +403,12 @@ namespace ZFreeGo.Monitor.AutoStudio
             SystemParameterLoad_Click(null, null);
             TelecontrolLoad_Click(null, null);
             EventlogLoad_Click(null, null);
-           
+
             loopCallTimer = new Timer(10000);
-            loopCallTimer.Elapsed +=loopCallTimer_Elapsed;
+            loopCallTimer.Elapsed += loopCallTimer_Elapsed;
             loopCallTimer.AutoReset = true;
 
-            
+
 
             timeClock = new Timer(1000);
             timeClock.Elapsed += timeClock_Elapsed;
@@ -425,7 +425,7 @@ namespace ZFreeGo.Monitor.AutoStudio
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-       private  void timeClock_Elapsed(object sender, ElapsedEventArgs e)
+        private void timeClock_Elapsed(object sender, ElapsedEventArgs e)
         {
             Action act = () =>
             {
@@ -446,8 +446,8 @@ namespace ZFreeGo.Monitor.AutoStudio
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {           
-            
+        {
+
             StopProcessList();
             //关闭网络
             NetUNPStop();
@@ -468,10 +468,10 @@ namespace ZFreeGo.Monitor.AutoStudio
         /// </summary>
         /// <param name="data">字节数组</param>
         /// <param name="dsc">描述</param>
-        void BeginInvokeUpdateHistory(byte[] data,int len, string dsc)
+        void BeginInvokeUpdateHistory(byte[] data, int len, string dsc)
         {
             string str = DateTime.Now.ToLongTimeString() + " " + dsc + ": ";
-            for (int i = 0; i < len; i++ )
+            for (int i = 0; i < len; i++)
             {
                 str += data[i].ToString("X2") + " ";
             }
@@ -483,7 +483,7 @@ namespace ZFreeGo.Monitor.AutoStudio
         /// 跨线程更新显示
         /// </summary>
         /// <param name="dsc">描述</param>
-        void BeginInvokeUpdateHistory( string dsc)
+        void BeginInvokeUpdateHistory(string dsc)
         {
             string str = DateTime.Now.ToLongTimeString() + " " + dsc;
             str += "\n";
@@ -510,7 +510,7 @@ namespace ZFreeGo.Monitor.AutoStudio
 
         }
 
-        
+
 
 
         /// <summary>
@@ -532,7 +532,7 @@ namespace ZFreeGo.Monitor.AutoStudio
         {
             SendMasterCommand(CauseOfTransmissionList.Activation, new CP56Time2a(clockElement.TimeClock));
         }
-   
+
         /// <summary>
         /// 请求脉冲
         /// </summary>
@@ -540,9 +540,9 @@ namespace ZFreeGo.Monitor.AutoStudio
         /// <param name="e"></param>
         private void btnCallCalculate_Click(object sender, RoutedEventArgs e)
         {
-             SendMasterCommand(CauseOfTransmissionList.Activation, new QualifyCalculateCommad(QCCRequest.Request1, QCCFreeze.Read));
+            SendMasterCommand(CauseOfTransmissionList.Activation, new QualifyCalculateCommad(QCCRequest.Request1, QCCFreeze.Read));
         }
-        
+
         /// <summary>
         /// 更新电能脉冲参数
         /// </summary>
@@ -557,13 +557,13 @@ namespace ZFreeGo.Monitor.AutoStudio
                 if (apdu.ASDU.IsSequence)
                 {
                     var addr = ElementTool.CombinationByte(apdu.ASDU.InformationObject[0],
-                        apdu.ASDU.InformationObject[1], apdu.ASDU.InformationObject[2]);               
+                        apdu.ASDU.InformationObject[1], apdu.ASDU.InformationObject[2]);
                     foreach (var m in list)
                     {
                         var sf = new ShortFloating(m);
                         var q = new QualityDescription(m[5]);
                         str += "电能召唤:" + addr.ToString("X2") + " 品质描述:" + q.QDS.ToString("X2") + " 值:" + sf.ToString();
-                    } 
+                    }
 
                 }
 
@@ -592,11 +592,18 @@ namespace ZFreeGo.Monitor.AutoStudio
             if (CheckBoxTelesignalisation.IsChecked == true)
             {
                 gridTelesignalisation.IsReadOnly = false;
-               
+
+                columnStateA.Visibility = System.Windows.Visibility.Visible;
+                columnStateB.Visibility = System.Windows.Visibility.Visible;
+                dgmenu.IsEnabled = true;
             }
             else if (CheckBoxTelesignalisation.IsChecked == false)
             {
                 gridTelesignalisation.IsReadOnly = true;
+
+                columnStateA.Visibility = System.Windows.Visibility.Hidden;
+                columnStateB.Visibility = System.Windows.Visibility.Hidden;
+                dgmenu.IsEnabled = false;
             }
         }
 
@@ -665,8 +672,8 @@ namespace ZFreeGo.Monitor.AutoStudio
             gridEventLog.Items.Clear();
         }
 
-        
-       
+
+
         /// <summary>
         /// 循环调用
         /// </summary>
@@ -677,11 +684,11 @@ namespace ZFreeGo.Monitor.AutoStudio
             if (SendCount++ < 10)
             {
                 SendMasterCommand(CauseOfTransmissionList.Activation, QualifyOfInterrogationList.GeneralInterrogation);
-               
+
             }
             else
             {
-                
+
             }
         }
 
@@ -696,7 +703,7 @@ namespace ZFreeGo.Monitor.AutoStudio
                 DeviceStateShowIndicate.Fill = new SolidColorBrush(Colors.Green);
                 DeviceStateShow.Foreground = new SolidColorBrush(Colors.Green);
                 DeviceStateShow.Text = "设备在线";
-                
+
             }
             else
             {
@@ -742,7 +749,7 @@ namespace ZFreeGo.Monitor.AutoStudio
         private void btnStartDataTransmission_Click(object sender, RoutedEventArgs e)
         {
             SendTCFCommand(TransmissionCotrolFunction.StartDataTransmission);
-           
+
         }
         /// <summary>
         /// 停止数据传输
@@ -755,7 +762,7 @@ namespace ZFreeGo.Monitor.AutoStudio
             SendTCFCommand(TransmissionCotrolFunction.StopDataTransmission);
             //复归服务
             ResetServer();
-            
+
         }
 
         /// <summary>
@@ -771,13 +778,13 @@ namespace ZFreeGo.Monitor.AutoStudio
 
 
 
-    
+
 
         private void treeMessage_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-           // var tree = sender as TreeView;
-           // var selectedItem = tree.SelectedItem as TreeViewItem;
-           // MessageBox.Show(selectedItem.Header.ToString());
+            // var tree = sender as TreeView;
+            // var selectedItem = tree.SelectedItem as TreeViewItem;
+            // MessageBox.Show(selectedItem.Header.ToString());
             try
             {
                 if (sender is TreeView)
@@ -852,14 +859,14 @@ namespace ZFreeGo.Monitor.AutoStudio
         /// <param name="e"></param>
         private void OptionMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            
+
             var option = new OptionConfigUI(accountManager);
             option.MakeLogEvent += MainWindow_MakeLogEvent;
             option.ShowInTaskbar = false;
             option.ShowDialog();
         }
 
-   
+
         /// <summary>
         /// 更新当前用户名
         /// </summary>
@@ -873,7 +880,7 @@ namespace ZFreeGo.Monitor.AutoStudio
             var ui = new AuthoritySettingUI(authorityManager, this);
             ui.ShowInTaskbar = false;
             ui.Show();
-            
+
         }
 
         /// <summary>
@@ -888,30 +895,7 @@ namespace ZFreeGo.Monitor.AutoStudio
 
         }
 
-      
 
-
-   
-
-
-     
- 
-
-
-       
-
-    
-        
-
-       
-     
-
-
-
-     
-
-
-       
 
 
     }

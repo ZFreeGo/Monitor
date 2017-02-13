@@ -39,7 +39,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         /// <summary>
         /// 读文件激活附加数据包
         /// </summary>
-        private FileNr.FileReadActivityPacket callPacket;
+       // private FileNr.FileReadActivityPacket callPacket;
 
         /// <summary>
         /// 读文件激活确认数据包

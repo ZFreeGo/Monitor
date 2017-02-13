@@ -225,8 +225,7 @@ namespace ZFreeGo.Monitor.AutoStudio
         private void btnStartServer_Click(object sender, RoutedEventArgs e)
         {
            
-                UPNPStartServer();
-            
+                UPNPStartServer();           
 
         }
        /// <summary>

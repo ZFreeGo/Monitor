@@ -6,6 +6,7 @@ using System.Windows;
 using ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage;
 using ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement;
 using ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement;
+using ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever;
 
 namespace ZFreeGo.Monitor.AutoStudio
 {
@@ -492,12 +493,42 @@ namespace ZFreeGo.Monitor.AutoStudio
                 var array = apdu.GetAPDUDataArray();
                 MainTypeIProcess(array, array.Length, appMessageManager.WaitTime, id);
                 appMessageManager.UpdateTransmitSequenceNumber();
+
+
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "SendTypeIMessage主站遥控命令");
             }
 
+        }
+
+        /// <summary>
+        /// 文件数据包
+        /// </summary>
+        /// <param name="packet">文件包</param>
+        private void SendFileServerMessage(FilePacket packet)
+        {
+            try
+            {
+
+                packet.TransmitSequenceNumber = appMessageManager.TransmitSequenceNumber;
+                packet.ReceiveSequenceNumber = appMessageManager.RealReceiveSequenceNumber;
+                packet.ASDU.AppDataPublicAddress = appMessageManager.ASDUADdress;
+
+                var id = TypeIdentification.F_FR_NA_1_NR;//文件服务
+                eventTypeIDManager.AddEventProcess(new EventProperty(id));
+                var frame = packet;
+                var array = frame.GetAPDUDataArray();
+                MainTypeIProcess(array, array.Length, appMessageManager.WaitTime, id);
+
+                appMessageManager.UpdateTransmitSequenceNumber();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SendFileServerMessage");
+            }
         }
        
 

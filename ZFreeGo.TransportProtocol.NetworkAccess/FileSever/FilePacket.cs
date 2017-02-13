@@ -119,8 +119,8 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
                 ASDU.InformationObject[1] = 0;
                 ASDU.InformationObject[1] = 2;//文件传输
                 Array.Copy(packet, 0, ASDU.InformationObject, 3, packet.Length);
-
-                var apduLen = 4 + ASDU.Length; //控制域长度4 + ASDU长度
+               
+                var apduLen = 4 + (packet.Length + 3 + 6); //控制域长度4 + ASDU长度
                 APCI = new APCITypeI((byte)apduLen, transmitSeqNum, receiveSeqNum);
                 PacketData = packet;
                 TimeStamp = DateTime.Now;

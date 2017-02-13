@@ -44,6 +44,7 @@
     <Compile Include="ApplicationMessage\ControlFlow.cs" />
     <Compile Include="ApplicationMessage\ControlFlowTimer.cs" />
     <Compile Include="FileSever\CallFileDirectoryServer.cs" />
+    <Compile Include="FileSever\CallFileEndEventArgs.cs" />
     <Compile Include="FileSever\FilePacket.cs" />
     <Compile Include="FileSever\FilePacketManager.cs" />
     <Compile Include="FileSever\FileWriteServer.cs" />

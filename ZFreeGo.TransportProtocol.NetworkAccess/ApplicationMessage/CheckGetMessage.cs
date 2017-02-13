@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement;
 using ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement;
+using ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever;
 
 namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage
 {
@@ -73,11 +74,20 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage
         /// </summary>
         public event EventHandler<TransmitEventArgs<TypeIdentification, APDU>> ProtectSetMessageArrived;
 
+        /// <summary>
+        /// 文件服务
+        /// </summary>
+        public event EventHandler<TransmitEventArgs<TypeIdentification, FilePacket>> FileServerArrived;
+
 
         /// <summary>
         ///ID未识别
         /// </summary>
         public event EventHandler<TransmitEventArgs<TypeIdentification, byte[] >> UnknowMessageArrived;
+
+
+
+       
 
         /// <summary>
         /// 接收队缓冲 一级缓冲
@@ -437,6 +447,11 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage
                             return CheckCode.ProtectsetPoint;
                             
                         }
+                    case TypeIdentification.F_FR_NA_1_NR:
+                        {
+                            GetFileServertMessage(id, dataArray);
+                            return CheckCode.FileServer;
+                        }
                     default:
                         {
                             //ID已定义但未使用
@@ -471,6 +486,35 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage
                         {
                             ProtectSetMessageArrived(this,
                     new TransmitEventArgs<TypeIdentification, APDU>(id, message));
+                            break;
+                        }
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// 获取文件服务信息
+        /// </summary>
+        /// <param name="id">类型ID</param>
+        /// <param name="dataArray">原始字节数组</param>
+        private void GetFileServertMessage(TypeIdentification id, byte[] dataArray)
+        {
+            try
+            {
+                var message = new FilePacket(dataArray);
+                switch (id)
+                {
+                    case TypeIdentification.F_FR_NA_1_NR:
+                        {
+                            
+                            FileServerArrived(this,
+                    new TransmitEventArgs<TypeIdentification, FilePacket>(id, message));
                             break;
                         }
                 }
