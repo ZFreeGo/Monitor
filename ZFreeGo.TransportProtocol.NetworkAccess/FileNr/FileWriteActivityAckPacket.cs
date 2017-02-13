@@ -9,7 +9,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileNr
     /// <summary>
     /// 写文件激活确认数据包
     /// </summary>
-    class FileWriteActivityAckPacket
+    public class FileWriteActivityAckPacket
     {
         /// <summary>
         /// 文件操作标识

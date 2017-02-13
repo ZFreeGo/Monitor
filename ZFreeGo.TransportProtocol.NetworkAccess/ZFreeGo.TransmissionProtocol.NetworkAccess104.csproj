@@ -46,6 +46,7 @@
     <Compile Include="FileSever\CallFileDirectoryServer.cs" />
     <Compile Include="FileSever\FilePacket.cs" />
     <Compile Include="FileSever\FilePacketManager.cs" />
+    <Compile Include="FileSever\FileWriteServer.cs" />
     <Compile Include="FileSever\FileReadServer.cs" />
     <Compile Include="FileSever\FileServerEventArgs.cs" />
     <Compile Include="FileSever\FileTransmissionServer.cs" />

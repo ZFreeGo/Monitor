@@ -31,6 +31,18 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
 
 
         /// <summary>
+        /// 获取文件数据集合
+        /// </summary>
+        public List<FileDataThransmitPacket> PacketCollect
+        {
+            get
+            {
+                return listPacket;
+            }
+        }
+
+
+        /// <summary>
         /// 获取当前包数据 
         /// </summary>
         public FileDataThransmitPacket CurrentPacket
@@ -121,6 +133,10 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         {       
             try
             {
+                if(fileData.Length == 0)
+                {
+                    throw new ArgumentException("打包数据长度不能为0");
+                }
                 int max = 200;
                 int count = fileData.Length / max;
                 int remain = fileData.Length % max;
