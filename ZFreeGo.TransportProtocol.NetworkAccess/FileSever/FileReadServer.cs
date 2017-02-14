@@ -68,7 +68,6 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         /// </summary>
         private FilePacketManager packetManager;
 
-
         /// <summary>
         /// 超时时间
         /// </summary>

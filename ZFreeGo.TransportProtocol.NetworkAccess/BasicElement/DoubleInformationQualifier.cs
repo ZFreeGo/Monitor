@@ -58,5 +58,10 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement
             DIQ = diq;
         }
 
+        public DoubleInformationQualifier()
+        {
+            DIQ = 0;
+        }
+
     }
 }

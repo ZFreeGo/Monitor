@@ -611,12 +611,15 @@ namespace ZFreeGo.Monitor.AutoStudio
         {
             if (CheckBoxTelemetering.IsChecked == true)
             {
+              
                 gridTelemetering.IsReadOnly = false;
+                dgmenuTelemetering.IsEnabled = true;
 
             }
             else if (CheckBoxTelemetering.IsChecked == false)
             {
                 gridTelemetering.IsReadOnly = true;
+                dgmenuTelemetering.IsEnabled = false;
             }
         }
 
@@ -895,6 +898,7 @@ namespace ZFreeGo.Monitor.AutoStudio
 
         }
 
+      
 
 
 

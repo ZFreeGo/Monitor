@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using ZFreeGo.Monitor.AutoStudio.ElementParam;
 using ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement;
 
@@ -101,10 +103,98 @@ namespace ZFreeGo.Monitor.AutoStudio
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "UpdateTelesignalisation");
+                MessageBox.Show(ex.Message, "UpdateTelemetering");
             }
 
         }
+
+        /// <summary>
+        /// 遥测右键菜单
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgmenuTelemetering_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is ContextMenu)
+            {
+
+                var m = e.Source as MenuItem;
+                switch (m.Name)
+                {
+                    case "itemTelemetringLoadAs":
+                        {
+                            string path = "";
+                            OpenXmlFile(ref path, "xml");
+
+                            telemetering= DataLoad<Telemetering>(ref path, ref pathxsdTelemetering,
+                ref dataSetTelemetering, DataTypeEnum.Telemetering, gridTelemetering);
+                            break;
+                        }
+                    case "itemTelemetringSaveAs":
+                        {
+                            string path = "";
+                            SaveXmlFile(ref path);
+                            DataExport<Telemetering>(dataSetTelemetering, DataTypeEnum.Telemetering,
+             telemetering, path);
+
+                            break;
+                        }
+                    case "itemTelemetringAddUp":
+                        {
+                            if (gridTelemetering.SelectedIndex > -1)
+                            {
+                                var item = new Telemetering(0, "x", 0, 1, 1, "x", "x", "sd");
+                                var obser = (ObservableCollection<Telemetering>)telemetering;
+
+
+                                obser.Insert(gridTelemetering.SelectedIndex, item);
+
+
+                            }
+
+
+                            break;
+                        }
+                    case "itemTelemetringAddDown":
+                        {
+
+                            if (gridTelemetering.SelectedIndex > -1)
+                            {
+                                var item = new Telemetering(0, "x", 0, 1, 1, "x", "x", "sd");
+                                var obser = (ObservableCollection<Telemetering>)telemetering;
+                                if (gridTelemetering.SelectedIndex < gridTelemetering.Items.Count - 1)
+                                {
+
+                                    obser.Insert(gridTelemetering.SelectedIndex + 1, item);
+                                }
+                                else
+                                {
+                                    obser.Add(item);
+                                }
+                            }
+                            break;
+                        }
+                    case "itemTelemetringDeleteSelect":
+                        {
+                            if (gridTelemetering.SelectedIndex > -1)
+                            {
+
+
+                                var result = MessageBox.Show("是否删除选中行:" + gridTelemetering.SelectedItem.ToString(),
+                                    "确认删除", MessageBoxButton.OKCancel);
+                                if (result == MessageBoxResult.OK)
+                                {
+                                    var obser = (ObservableCollection<Telemetering>)telemetering;
+                                    obser.RemoveAt(gridTelemetering.SelectedIndex);
+                                }
+                            }
+                            break;
+                        }
+                }
+
+            }
+        }
+
 
     }
 }

@@ -262,7 +262,7 @@ namespace ZFreeGo.Monitor.AutoStudio
                             {
                                 var item = new Telesignalisation(0, "xxx", 0, "否", 0, "xxx", "xxx", "StateA", "StateB");
                                 var obser = (ObservableCollection<Telesignalisation>)telesignalisation;
-                                if (gridTelesignalisation.SelectedIndex < gridTelesignalisation.Columns.Count - 1)
+                                if (gridTelesignalisation.SelectedIndex < gridTelesignalisation.Items.Count - 1)
                                 {                                  
                                     
                                     obser.Insert(gridTelesignalisation.SelectedIndex + 1, item);

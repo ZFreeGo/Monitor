@@ -447,7 +447,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage
                             return CheckCode.ProtectsetPoint;
                             
                         }
-                    case TypeIdentification.F_FR_NA_1_NR:
+                    case TypeIdentification.F_FR_NA_1_NR: //文件传输
                         {
                             GetFileServertMessage(id, dataArray);
                             return CheckCode.FileServer;

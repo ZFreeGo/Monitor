@@ -63,6 +63,10 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement
         {
             SIQ = siq;
         }
+        public  SingleInformationQualifier()
+        {
+            SIQ = 0;
+        }
 
     }
 }

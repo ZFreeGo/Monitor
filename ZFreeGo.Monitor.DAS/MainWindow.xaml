@@ -317,7 +317,7 @@
                             <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False"  Name="gridTelesignalisation" IsReadOnly="True"
                                       LoadingRow="gridTelesignalisation_LoadingRow" Grid.ColumnSpan="2"   CanUserSortColumns="False">
                                 <DataGrid.ContextMenu>
-                                    <ContextMenu Name="dgmenu" StaysOpen="true" PreviewMouseDown="dgmenu_PreviewMouseDown" IsEnabled="False">
+                                    <ContextMenu Name="dgmenu" StaysOpen="True"  PreviewMouseDown="dgmenu_PreviewMouseDown" IsEnabled="False">
                                         <MenuItem Header="打开其它表格" Name="itemLoadAs"/>
                                         <MenuItem Header="表格另存为" Name="itemSaveAs"/>
                                         <MenuItem Header="选择行之上插入新行" Name="itemAddUp" />
@@ -353,7 +353,6 @@
                             <Grid Grid.Row="1">
                                 <StackPanel Margin="3" Orientation="Horizontal" Background="AliceBlue">
                                     <Button Margin="3" Padding="3" Name="btnTelemeteringCall" Click="btnManualCall_Click">刷新</Button>
-
                                     <Button Margin="3" Padding="3" Name="TelemeteringExport" Click="TelemeteringExport_Click">导出</Button>
                                     <Button Margin="3" Padding="3" Name="TelemeteringLoad" Click="TelemeteringLoad_Click">导入</Button>
 
@@ -361,6 +360,16 @@
                                 </StackPanel>
                             </Grid>
                             <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False"  Name="gridTelemetering" IsReadOnly="True" CanUserSortColumns="False">
+                                <DataGrid.ContextMenu>
+                                    <ContextMenu Name="dgmenuTelemetering" StaysOpen="True"  PreviewMouseDown="dgmenuTelemetering_PreviewMouseDown"  IsEnabled="False">
+                                    <MenuItem Header="打开其它表格" Name="itemTelemetringLoadAs"/>
+                                    <MenuItem Header="表格另存为" Name="itemTelemetringSaveAs"/>
+                                    <MenuItem Header="选择行之上插入新行" Name="itemTelemetringAddUp" />
+                                    <MenuItem Header="选择行之下插入新行" Name="itemTelemetringAddDown"/>
+                                    <MenuItem Header="删除选中行" Name="itemTelemetringDeleteSelect">
+                                    </MenuItem>
+                                </ContextMenu>
+                                    </DataGrid.ContextMenu>
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="内部ID"  Width="50" Binding="{Binding InternalID}"></DataGridTextColumn>
                                     <DataGridTextColumn Header="遥测名称"    MinWidth="80" Binding="{Binding TelemeteringName}"></DataGridTextColumn>
