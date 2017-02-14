@@ -619,7 +619,7 @@
                         </Grid>
                     </TabItem>
                     <!--事件记录==标签页-->
-                    <TabItem Header="事件记录" Height="30" VerticalAlignment="Top" Name="tabItemEventLog">
+                    <TabItem Header="SOE" Height="30" VerticalAlignment="Top" Name="tabItemEventLog">
                         <Grid>
                             <Grid.RowDefinitions >
                                 <RowDefinition Height="5"></RowDefinition>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement;
 
 namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
 {
@@ -633,6 +634,65 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
 
             objectCount = 0;
         }
+
+
+        /// <summary>
+        /// /// <summary>
+        /// 转换字节数组显示
+        /// </summary>
+        /// <returns>信息字符串</returns>
+         public override string ToString()
+        {
+            var data = GetASDUDataArray();
+            StringBuilder strBuild = new StringBuilder(data.Length * 3 + 10);
+             foreach(var m in data)
+             {
+                 strBuild.AppendFormat("{0:X00}", m);
+             }
+             return strBuild.ToString();
+        }
+
+
+         /// <summary>
+         /// 对信息进行分割
+         /// </summary>
+         /// <param name="flag">true--对照分割，false--详细分割</param>
+         /// <returns>信息字符串</returns>
+         public string ToString(bool flag)
+         {
+
+             flag = false;
+             StringBuilder strBuild = new StringBuilder(100);
+             strBuild.Append("ASDU,");
+             string result = "未定义";
+             if (Enum.IsDefined(typeof(TypeIdentification), TypeId))
+             {
+                 result = ((TypeIdentification)TypeId).ToString();
+             }
+             strBuild.AppendFormat("ID:[{0:X00}]={0},", TypeId, result);
+
+
+             if (IsSequence)
+             {
+                 result = "顺序";
+             }
+             else
+             {
+                 result = "非顺序";
+             }
+             strBuild.AppendFormat("结构限定词:[{0:X00}]={1} {2},", variableStructureQualifier, result, InformationObjectCount);
+             result = "未定义";
+             if (Enum.IsDefined(typeof(CauseOfTransmissionList), CauseOfTransmission1))
+             {
+                 result = ((CauseOfTransmissionList)TypeId).ToString();
+             }
+
+             strBuild.AppendFormat("传输原因:[{0:X00} {1:X00}]={2:00},", causeOfTransmission2, CauseOfTransmission1, result);
+             strBuild.AppendFormat("公共地址:[{0:X00} {1:X00}]={2:00},", appDataPublicAddress2, appDataPublicAddress1, AppDataPublicAddress);
+
+             return strBuild.ToString();
+
+         }
 
         
 

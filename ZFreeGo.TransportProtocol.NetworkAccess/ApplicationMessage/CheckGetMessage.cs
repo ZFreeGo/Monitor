@@ -400,6 +400,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage
                     case TypeIdentification.M_DP_NA_1://双点信息
                     case TypeIdentification.M_SP_TB_1://带CP56Time2a时标的单点信息
                     case TypeIdentification.M_DP_TB_1://带CP56Time2a时标的双点信息
+                    case TypeIdentification.M_FT_NA_1://故障值信息
                         {
                             GetTelesignalisationMessage(id, dataArray);
                             return CheckCode.TelesignalisationCommand;

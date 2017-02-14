@@ -9,10 +9,20 @@ using ZFreeGo.TransportProtocol.NetworkAccess.Helper;
 namespace ZFreeGo.TransmissionProtocol.NetworkAccess
 {
     /// <summary>
-    /// 遥信服务---一个文件使用一个服务
+    /// 状态更新服务 遥信，SOE，时间记录 
     /// </summary>
     public class TelesignalisationServer : ReciveServer<APDU>
     {
+        /// <summary>
+        /// 单 双点信息
+        /// </summary>
+        public event EventHandler<StatusInformationEventArg<List<Tuple<UInt32, byte>>>> StatusUpdateEvent;
+
+        /// <summary>
+        /// 带时标的但点或双点信息
+        /// </summary>
+        public event EventHandler<StatusInformationEventArg<List<Tuple<UInt32, byte, CP56Time2a>>>> SOEStatusEvent;
+
 
         /// <summary>
         /// 遥信服务
@@ -24,7 +34,6 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess
             
         }
 
-
         /// <summary>
         /// 检测接收数据
         /// </summary>
@@ -33,7 +42,11 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess
         {
             try
             {
-                GetInformationList(mReciveQuene.Dequeue().ASDU);
+                if (mReciveQuene.Count > 0)
+                {
+                    GetComprehensiveMessage(mReciveQuene.Dequeue());
+                }
+                
                 return true;
             }
             catch (Exception ex)
@@ -43,43 +56,54 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess
         }
 
         /// <summary>
-        /// 提取信息对象列表元素
+        /// 获取综合信息，包含帧解释与帧数据提取
         /// </summary>
-        public void GetInformationList(ApplicationServiceDataUnit ASDU)
+        /// <param name="aPDU">APDU</param>
+        private void GetComprehensiveMessage(APDU aPDU)
         {
             try
             {
 
-               
-                switch ((TypeIdentification)ASDU.TypeId)
+
+                switch ((TypeIdentification)aPDU.ASDU.TypeId)
                 {
                     //遥信信息
                     case TypeIdentification.M_SP_NA_1://单点信息
                     case TypeIdentification.M_DP_NA_1://双点信息
                         {
-                            var message = GetMessage(ASDU);
+                            
+                            var message = GetMessage(aPDU.ASDU);
+                            SendSingleDoubleEvent(message, aPDU);
                             break;
                         }
-
+                     //SOE
                     case TypeIdentification.M_SP_TB_1://带CP56Time2a时标的单点信息
                     case TypeIdentification.M_DP_TB_1://带CP56Time2a时标的双点信息
                         {
-                            var message = GetMessageWithTime(ASDU);
+                            var message = GetMessageWithTime(aPDU.ASDU);
+                            SendSingleDoubleEvent(message, aPDU);
                             break;
                         }
-                     
+                        case TypeIdentification.M_FT_NA_1: //故障值信息
+                        {
+
+                            break;
+                        }
                     default:
                         {
                             break;
                         }
                 }
-                
+
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-        }
+
+
+
+        }       
 
 
         /// <summary>
@@ -155,5 +179,62 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess
         }
 
 
+        /// <summary>
+        /// 获取故障信息
+        /// </summary>
+        /// <param name="aSDU">ASDU</param>
+        private void GetMessageMalfunction(ApplicationServiceDataUnit aSDU)
+        {
+            var list = new List<Tuple<UInt32, byte, CP56Time2a>>();
+
+            int len = 7 + 1 + 2;
+            int  count = aSDU.InformationObject[0];
+            byte typID =  aSDU.InformationObject[1];
+            int offset = 2;
+
+            for (int i = 0; i < count; i++)
+            {
+                var addr1 = ElementTool.CombinationByte(aSDU.InformationObject[0 + len * i + offset],
+                    aSDU.InformationObject[1 + 8 * i + offset]);
+
+                var m = aSDU.InformationObject[2 + len * i + offset];
+                var data = new byte[7];
+                Array.Copy(aSDU.InformationObject, i * len + 3 + offset, data, 0, 7);
+                var t = new CP56Time2a(data);
+                list.Add(new Tuple<UInt32, byte, CP56Time2a>(addr1, m, t));
+            }
+            int start = offset + count * 10;
+            count = aSDU.InformationObject[start];
+            typID = aSDU.InformationObject[start + 1];
+            offset = 2;
+
+
+        }
+
+
+        /// <summary>
+        /// 发送单双点信息
+        /// </summary>
+        /// <param name="message">信息</param>
+        /// <param name="apdu">列表</param>
+        private void SendSingleDoubleEvent(List<Tuple<uint,byte>> message ,APDU apdu)
+        {
+            if (StatusUpdateEvent != null)
+            {
+                StatusUpdateEvent(this, new StatusInformationEventArg<List<Tuple<uint,byte>>>(message, apdu ));
+            }
+        }
+        /// <summary>
+        /// 发送带时标的单双点信息
+        /// </summary>
+        /// <param name="message">信息</param>
+        /// <param name="apdu">列表</param>
+        private void SendSingleDoubleEvent(List<Tuple<uint, byte, CP56Time2a>> message, APDU apdu)
+        {
+            if (StatusUpdateEvent != null)
+            {
+                SOEStatusEvent(this, new StatusInformationEventArg<List<Tuple<uint, byte, CP56Time2a>>>(message, apdu));
+            }
+        }
     }
 }

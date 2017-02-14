@@ -101,6 +101,12 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
         /// </summary>
         M_EP_TF_1 = 40,
 
+        /// <summary>
+        /// 故障值信息
+        /// </summary>
+        M_FT_NA_1 = 42,
+
+
         // 2)控制方向的过程信息
 
         /// <summary>

@@ -67,6 +67,53 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
         }
 
 
+        /// <summary>
+        /// 转换字节数组显示
+        /// </summary>
+        /// <returns>信息字符串</returns>
+        public override string ToString()
+        {
+            StringBuilder strBuild = new StringBuilder(45);
+            strBuild.AppendFormat("{0:X00}", APDULength);
+            strBuild.Append(" ");
+            strBuild.AppendFormat("{0:X00}", ControlDomain1);
+            strBuild.Append(" ");
+            strBuild.AppendFormat("{0:X00}", ControlDomain2);
+            strBuild.Append(" ");
+            strBuild.AppendFormat("{0:X00}", ControlDomain3);
+            strBuild.Append(" ");
+            strBuild.AppendFormat("{0:X00}", ControlDomain4);
+            strBuild.Append(" ");
+            return strBuild.ToString();
+           
+        }
+
+        /// <summary>
+        /// 对信息进行分割
+        /// </summary>
+        /// <param name="flag">true--对照分割，false--详细分割</param>
+        /// <returns>信息字符串</returns>
+        public  string ToString(bool flag)
+        {
+            if (flag)
+            {
+                StringBuilder strBuild = new StringBuilder(100);
+                strBuild.Append("APCITypeI,");
+                strBuild.AppendFormat("APDU长度:[{0:X00}]={0:00},",APDULength, APDULength);
+                strBuild.AppendFormat("发送序列号:[{0:X00} {1:X00}}={2:00}", ControlDomain2,ControlDomain1, TransmitSequenceNumber);
+                strBuild.AppendFormat("接收序列号:[{0:X00} {1:X00}}={2:00}", ControlDomain4, ControlDomain3, ReceiveSequenceNumber);
+                  return strBuild.ToString();
+            }
+            else
+            {
+                StringBuilder strBuild = new StringBuilder(45);
+                strBuild.AppendFormat("APDU长度:{0:00},", APDULength);
+                strBuild.AppendFormat("发送序列号:{0:00},", TransmitSequenceNumber);
+                strBuild.AppendFormat("发送序列号:{0:00}", ReceiveSequenceNumber);
+                return strBuild.ToString();
+            }
+        }
+
 
 
     }
