@@ -19,7 +19,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess
         public event EventHandler<StatusInformationEventArg<List<Tuple<UInt32, byte>>>> StatusUpdateEvent;
 
         /// <summary>
-        /// 带时标的但点或双点信息
+        /// 带时标的单点或双点信息
         /// </summary>
         public event EventHandler<StatusInformationEventArg<List<Tuple<UInt32, byte, CP56Time2a>>>> SOEStatusEvent;
 
@@ -194,12 +194,12 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess
 
             for (int i = 0; i < count; i++)
             {
-                var addr1 = ElementTool.CombinationByte(aSDU.InformationObject[0 + len * i + offset],
-                    aSDU.InformationObject[1 + 8 * i + offset]);
+                var addr1 = ElementTool.CombinationByte(aSDU.InformationObject[len * i + offset++],
+                    aSDU.InformationObject[8 * i + offset++]);
 
-                var m = aSDU.InformationObject[2 + len * i + offset];
+                var m = aSDU.InformationObject[len * i + offset++];
                 var data = new byte[7];
-                Array.Copy(aSDU.InformationObject, i * len + 3 + offset, data, 0, 7);
+                Array.Copy(aSDU.InformationObject, i * len + offset++, data, 0, 7);
                 var t = new CP56Time2a(data);
                 list.Add(new Tuple<UInt32, byte, CP56Time2a>(addr1, m, t));
             }
@@ -207,7 +207,9 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess
             count = aSDU.InformationObject[start];
             typID = aSDU.InformationObject[start + 1];
             offset = 2;
-
+            //
+            //
+            //待完善
 
         }
 

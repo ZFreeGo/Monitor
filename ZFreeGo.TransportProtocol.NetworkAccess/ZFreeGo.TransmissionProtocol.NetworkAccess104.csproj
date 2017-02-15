@@ -43,6 +43,8 @@
     <Compile Include="ApplicationMessage\CheckGetMessage.cs" />
     <Compile Include="ApplicationMessage\ControlFlow.cs" />
     <Compile Include="ApplicationMessage\ControlFlowTimer.cs" />
+    <Compile Include="ControlSystemCommand\CallEventArgs.cs" />
+    <Compile Include="ControlSystemCommand\CallServer.cs" />
     <Compile Include="FileSever\CallFileDirectoryServer.cs" />
     <Compile Include="FileSever\CallFileEndEventArgs.cs" />
     <Compile Include="FileSever\FilePacket.cs" />
@@ -117,11 +119,13 @@
     <Compile Include="Helper\ReciveServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helper\ReciveSendServer.cs" />
-    <Compile Include="Telesignalisation\TelesignalisationServer.cs" />
+    <Compile Include="MonitorDirectionProcessInformation\StatusInformationEventArg.cs" />
+    <Compile Include="MonitorDirectionProcessInformation\TelesignalisationServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="修改记录.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

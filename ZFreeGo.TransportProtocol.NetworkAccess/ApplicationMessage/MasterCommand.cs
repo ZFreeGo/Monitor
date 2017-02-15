@@ -53,6 +53,16 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage
 
         }
 
+        /// <summary>
+        /// 检测命令长度是否符合要求
+        /// </summary>
+        /// <returns>true-符合</returns>
+        public bool CheckLen()
+        {
+            return GetAPDUDataArray().Length == (APCI.APDULength + 2);
+        }
+
+
 
 
         /// <summary>

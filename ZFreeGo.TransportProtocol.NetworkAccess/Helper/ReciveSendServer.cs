@@ -97,7 +97,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
         /// <summary>
         /// 初始化数据
         /// </summary>
-        private virtual void InitData()
+        public virtual void InitData()
         {
             mRepeatCount = 0;
             mRequestData = new ManualResetEvent(false);
@@ -121,7 +121,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
             }
 
         }
-
+       
        /// <summary>
        /// 停止服务
        /// </summary>
@@ -141,6 +141,9 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
                mServerThread.Abort();
            }
            serverState = false;
+
+           mReciveQuene = null;
+           RecivePacketQuene = null;
        }
 
         /// <summary>
@@ -200,13 +203,17 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
         /// <summary>
         /// 召唤文件目录服务进程
         /// </summary>
-        public  virtual void ServeThread()
+        public  virtual void ServerThread()
         {
             try
             {
                 try
                 {
-                    TransmitData();
+                    if(!TransmitData())
+                    {
+                        StopServer();
+                        return;
+                    }
                     var statTime = DateTime.Now;
                     var responseTime = DateTime.Now;
                     do
@@ -224,27 +231,37 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
                             {
                                 if (AckOverTime())
                                 {
+                                    continue;
+                                }
+                                else
+                                {
                                     break;
                                 }
+                                
+
                             }
                             //检测数据不符合应答规范则返回
                             if (!CheckData())
-                            {                               
+                            {
                                 continue;
                             }
-                            if (AckOnTime())
+                            if (!AckOnTime())
                             {
                                 break;
                             }
                         }
                         else
                         {
-                            if (AckOverTime())
+                            if (!AckOverTime())
                             {
                                 break;
                             }
                         }
-                        TransmitData();
+                        if (!TransmitData())
+                        {
+                            StopServer();
+                            break;
+                        }
                         statTime = DateTime.Now; //设置开始时间
                     } while (true);
                 }
