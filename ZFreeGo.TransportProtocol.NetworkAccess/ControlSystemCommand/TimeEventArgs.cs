@@ -6,9 +6,9 @@ using System.Text;
 namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
 {
     /// <summary>
-    /// 召唤事件消息
+    /// 时钟同步服务
     /// </summary>
-    public class CallEventArgs : EventArgs
+    public class TimeEventArgs : EventArgs
     {
         /// <summary>
         /// 注释
@@ -16,14 +16,14 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
         public string Comment;
 
         /// <summary>
-        /// 召唤服务结果
+        /// 服务结果
         /// </summary>
-        public CallServerResut Result;
+        public ControlSystemServerResut Result;
 
         /// <summary>
-        /// 召唤事件初始化
+        /// 事件同步命令初始化
         /// </summary>
-        public CallEventArgs(string comment, CallServerResut result)
+        public TimeEventArgs (string comment, ControlSystemServerResut result)
         {
             Comment = comment;
             Result = result;
@@ -31,9 +31,9 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
     }
 
     /// <summary>
-    /// 召唤结果
+    /// 时钟服务结果
     /// </summary>
-    public enum CallServerResut
+    public enum ControlSystemServerResut
     {
         /// <summary>
         /// 解析错误
@@ -41,22 +41,22 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
         Error = 0,
 
         /// <summary>
-        /// 召唤超时,重新召唤
+        /// 超时,重新召唤
         /// </summary>
         OverTime = 1,
 
         /// <summary>
-        /// 召唤激活确认确认
+        /// 激活确认
         /// </summary>
         AcvtivityAck = 2,
 
         /// <summary>
-        /// 召唤激活确认
+        /// 激活确认
         /// </summary>
         ActivateTermination = 3,
 
         /// <summary>
-        /// 召唤失败
+        /// 失败
         /// </summary>
         Fault = 4,
 

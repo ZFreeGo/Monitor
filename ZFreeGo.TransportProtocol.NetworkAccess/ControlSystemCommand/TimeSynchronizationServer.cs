@@ -11,44 +11,40 @@ using ZFreeGo.TransportProtocol.NetworkAccess.Helper;
 namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
 {
     /// <summary>
-    /// 召唤服务
+    /// 时钟同步任务
     /// </summary>
-    public class CallServer : ReciveSendServer<MasterCommand>
+    public class TimeSynchronizationServer : ReciveSendServer<MasterCommand>
     {
-
         /// <summary>
         /// 召唤服务事件
         /// </summary>
-        public event EventHandler<CallEventArgs> CallServerEvent;
+        public event EventHandler<TimeEventArgs> TimerServerEvent;
 
 
         /// <summary>
-        /// 召唤帧信息
+        /// 帧信息
         /// </summary>
-        MasterCommand mSendFrame;
+        private MasterCommand mSendFrame;
 
         /// <summary>
         /// 接收帧
         /// </summary>
-        MasterCommand mReciveFrame;
+        private MasterCommand mReciveFrame;
 
-        Func<MasterCommand, bool> mSendDataDelegate;
-
-
-        
+        private Func<MasterCommand, bool> mSendDataDelegate;
 
         /// <summary>
         /// 取消发送标志
         /// </summary>
         private bool cancelSend;
 
-       /// <summary>
-       /// 召唤服务启动服务
-       /// </summary>
-       /// <param name="sendDataDelegate">发送委托</param>
-       /// <param name="cot">传输原因</param>
-       /// <param name="qoi">传输限定词</param>
-        public void StartServer(Func<MasterCommand, bool> sendDataDelegate, CauseOfTransmissionList cot, QualifyOfInterrogationList qoi)
+        /// <summary>
+        /// 召唤服务启动服务
+        /// </summary>
+        /// <param name="sendDataDelegate">发送委托</param>
+        /// <param name="cot">传输原因</param>
+        /// <param name="qoi">传输限定词</param>
+        public void StartServer(Func<MasterCommand, bool> sendDataDelegate, CauseOfTransmissionList cot, CP56Time2a time)
         {
             try
             {
@@ -65,13 +61,12 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
                 serverState = true;
 
                 mSendDataDelegate = sendDataDelegate;
-                var id = TypeIdentification.C_IC_NA_1;//召唤命令               
-                mSendFrame = new MasterCommand(0, 0,
-                    id, cot, 0, qoi);
+                var id = TypeIdentification.C_CS_NA_1;//时钟同步 
+                mSendFrame = new MasterCommand(0, 0, id, cot, 0, time);
 
                 cancelSend = false;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -102,11 +97,11 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
             if (mReciveQuene.Count > 0)
             {
                 mReciveFrame = mReciveQuene.Dequeue();
-                if(!mReciveFrame.CheckLen())
+                if (!mReciveFrame.CheckLen())
                 {
                     Console.WriteLine("接收帧长度不一致");
                     return false;
-                }               
+                }
                 return true;
             }
             else
@@ -129,47 +124,46 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
                     case CauseOfTransmissionList.ActivationACK:
                         {
                             cancelSend = true;//取消下次发送仅仅等待
-                            SendEvent("召唤激活确认", CallServerResut.AcvtivityAck);
+                            SendEvent("召唤激活确认", ControlSystemServerResut.AcvtivityAck);
                             mRepeatCount = 0;
                             return true;
                         }
                     case CauseOfTransmissionList.ActivateTermination:
                         {
-                            SendEvent("召唤激活终止", CallServerResut.ActivateTermination);
+                            SendEvent("召唤激活终止", ControlSystemServerResut.ActivateTermination);
                             mRepeatCount = 0;
                             return false;//终止循环
                         }
                     default:
                         {
-                            SendEvent("未识别的ID", CallServerResut.Unknow);
+                            SendEvent("未识别的ID", ControlSystemServerResut.Unknow);
                             return false;
                         }
                 }
             }
             catch (Exception ex)
             {
-                SendEvent(ex.Message, CallServerResut.Error);
+                SendEvent(ex.Message, ControlSystemServerResut.Error);
                 StopServer();
                 return false;
             }
         }
-
-
+            
         /// <summary>
         /// 超时后执行事件
         /// </summary>
         /// <returns>true--继续，fals--终止</returns>
         public override bool AckOverTime()
         {
-            if(++mRepeatCount > mRepeatMaxCount)
+            if (++mRepeatCount > mRepeatMaxCount)
             {
                 cancelSend = false;
-                SendEvent(string.Format("应答超时,进行第{0}次重试.", mRepeatCount), CallServerResut.OverTime);
+                SendEvent(string.Format("应答超时,进行第{0}次重试.", mRepeatCount), ControlSystemServerResut.OverTime);
                 return true;
             }
             else
             {
-                SendEvent(string.Format("重试失败，结束召唤。", mRepeatCount), CallServerResut.Fault);
+                SendEvent(string.Format("重试失败，结束召唤。", mRepeatCount), ControlSystemServerResut.Fault);
                 return false;
             }
         }
@@ -180,14 +174,12 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
         /// </summary>
         /// <param name="comment">注释</param>
         /// <param name="result">结果</param>
-        public void SendEvent(string comment, CallServerResut result)
+        public void SendEvent(string comment, ControlSystemServerResut result)
         {
-            if ( CallServerEvent != null)
+            if (TimerServerEvent != null)
             {
-                CallServerEvent(Thread.CurrentThread, new CallEventArgs(comment, result));
+                TimerServerEvent(Thread.CurrentThread, new TimeEventArgs(comment, result));
             }
         }
-
-
     }
 }

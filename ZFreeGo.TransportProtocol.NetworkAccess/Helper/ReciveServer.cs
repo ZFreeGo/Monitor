@@ -76,7 +76,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
         /// <summary>
         /// 初始化数据
         /// </summary>
-        private virtual void InitData()
+        public virtual void InitData()
         {
             mExistData = new ManualResetEvent(false);
             serverState = false;           
