@@ -68,7 +68,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage
         /// <summary>
         /// 校准信息功能
         /// </summary>
-        public event EventHandler<TransmitEventArgs<TypeIdentification, APDU>> CalibrationMessageArrived;
+        //public event EventHandler<TransmitEventArgs<TypeIdentification, APDU>> CalibrationMessageArrived;
         /// <summary>
         /// 保护定值设置
         /// </summary>
@@ -431,15 +431,8 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage
                             GetElectricEnergy(id, dataArray);
                             return CheckCode.ElectricEnergy;
                             
-                        }
-                        //校准
-                    case TypeIdentification.P_AC_NA_1: // 参数激活
-                    case TypeIdentification.P_ME_NC_1: //  测量值参数，短浮点数
-                        {
-                            GetCalibrationMessage(id, dataArray);
-                          
-                            return CheckCode.Calibration;
-                        }
+                        }                       
+
                         //保护定值
                     case TypeIdentification.C_SE_NC_1: //定值命令，短浮点数
                         {
@@ -528,35 +521,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage
                 throw ex;
             }
         }
-        /// <summary>
-        /// 获取校准信息
-        /// </summary>
-        /// <param name="id">类型ID</param>
-        /// <param name="dataArray">原始字节数组</param>
-        private void GetCalibrationMessage(TypeIdentification id, byte[] dataArray)
-        {
-            try
-            {
-                var message = new APDU(dataArray);
-                switch (id)
-                {
-                    case TypeIdentification.P_AC_NA_1: // 参数激活
-                    case TypeIdentification.P_ME_NC_1: //  测量值参数，短浮点数
-                        {
-                            CalibrationMessageArrived(this,
-                    new TransmitEventArgs<TypeIdentification, APDU>(id, message));
-                            break;
-                        }
-                }
-
-                
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        
 
         /// <summary>
         /// 获取电能脉冲

@@ -74,8 +74,7 @@ namespace ZFreeGo.Monitor.AutoStudio
 
             //电能脉冲
             checkGetMessage.ElectricEnergyArrived += checkGetMessage_ElectricEnergyArrived;
-            //校准--未使用
-            checkGetMessage.CalibrationMessageArrived += checkGetMessage_CalibrationMessageArrived;
+   
             //保护定值
             checkGetMessage.ProtectSetMessageArrived +=checkGetMessage_ProtectSetMessageArrived;
             checkGetMessage.FileServerArrived += checkGetMessage_FileServerArrived;

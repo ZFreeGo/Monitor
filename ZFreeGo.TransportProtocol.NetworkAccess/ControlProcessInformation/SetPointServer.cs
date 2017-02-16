@@ -11,9 +11,9 @@ using ZFreeGo.TransportProtocol.NetworkAccess.Helper;
 namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlProcessInformation
 {
     /// <summary>
-    /// 控制方向的过程信息，遥控
+    /// 控制方向的过程信息，设定值
     /// </summary>
-    public class ControlServer : ReciveSendServer<ControlProcessASDU>
+    public class SetPointServer : ReciveSendServer<ControlProcessASDU>
     {
         /// <summary>
         /// 控制服务事件
@@ -33,15 +33,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlProcessInformatio
 
         private Func<ControlProcessASDU, bool> mSendDataDelegate;
 
-        /// <summary>
-        /// 发送命令的信息体地址
-        /// </summary>
-        private UInt32 mObjectAddress;
-
-        /// <summary>
-        /// 发送的双点命令
-        /// </summary>
-        private DoubleCommand mDCO;
+        QualifyCommandSet mQos;
 
 
         private bool activityAckFlag;
@@ -73,8 +65,9 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlProcessInformatio
         /// <param name="asduPublicAddress">公共地址</param>
         /// <param name="objectAddress">信息对象地址</param>
         /// <param name="dco">双点命令</param> 
-        public void StartServer(Func<ControlProcessASDU, bool> sendDataDelegate, CauseOfTransmissionList cot,
-              UInt16 asduPublicAddress, UInt32 objectAddress, DoubleCommand dco)
+        public void StartServer(Func<ControlProcessASDU, bool> sendDataDelegate, bool isquense,
+            CauseOfTransmissionList cot, UInt16 ASDUPublicAddress, QualifyCommandSet qos,
+             List<Tuple<UInt32, ShortFloating>> listFloat)
         {
             try
             {
@@ -82,10 +75,9 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlProcessInformatio
                 {
                     throw new ArgumentException("当前服务正在执行，禁止重复启动");
                 }
-
-                if(dco.SE != SelectExecuteOption.Select)
+                if(qos.Describle != ActionDescrible.Select)
                 {
-                    throw new ArgumentException("此命令必须是选择命令");
+                    throw new ArgumentException("需要先执行选择任务");
                 }
 
                 InitData();
@@ -101,15 +93,12 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlProcessInformatio
                 serverState = true;
 
                 mSendDataDelegate = sendDataDelegate;
-                var id = TypeIdentification.C_DC_NA_1;//遥控命令
-                mSendFrame = new ControlProcessASDU(id, cot, 0, objectAddress, dco);
-                //信息对象地址
-
-                mObjectAddress = objectAddress;
-                mDCO = dco;
+                var id = TypeIdentification.C_SE_NC_1;//设定值命令 短浮点数
+                mSendFrame = new ControlProcessASDU(id,isquense, cot, 0, qos, listFloat);
                 
                 mOverTime = 15000;
                 mRepeatCount = 1;
+                mQos = qos;
                 ActivityAckFlag = false;
                 mWaitExecueCommand = new ManualResetEvent(false);
             }
@@ -119,28 +108,25 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlProcessInformatio
             }
         }
 
-        /// <summary>
-        /// 发送执行命令
-        /// </summary>
-        /// <param name="objectAddress">信息体地址</param>
-        /// <param name="dco">双点命令</param>
-        public void SendActionCommand(CauseOfTransmissionList cot,
-              UInt16 asduPublicAddress, UInt32 objectAddress, DoubleCommand dco)
+      
+        public void SendActionCommand(bool isquense,
+            CauseOfTransmissionList cot, UInt16 ASDUPublicAddress, QualifyCommandSet qos,
+             List<Tuple<UInt32, ShortFloating>> listFloat)
         {
             if (ActivityAckFlag && ServerState)
             {
-                if (mObjectAddress != objectAddress)
-                {
-                    throw new Exception("信息对象地址不一致");
-                }
+                //if (mObjectAddress != objectAddress)
+                //{
+                //    throw new Exception("信息对象地址不一致");
+                //}
                 //此命令必须为执行命令
-                if (dco.SE == SelectExecuteOption.Execute)
+                if (qos.Describle == ActionDescrible.Execute)
                 {
                     throw new Exception("此命令需要是执行命令");
                 }
 
-                var id = TypeIdentification.C_DC_NA_1;//遥控命令
-                mSendFrame = new ControlProcessASDU(id, cot, 0, objectAddress, dco);
+                var id = TypeIdentification.C_SE_NC_1;//设定值命令 短浮点数
+                mSendFrame = new ControlProcessASDU(id, isquense, cot, 0, qos, listFloat);
 
                 bool state = mSendDataDelegate(mSendFrame);
                 if (state)
@@ -180,17 +166,14 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlProcessInformatio
         {
             if (mReciveQuene.Count > 0)
             {
-                mReciveFrame = mReciveQuene.Dequeue();
-                UInt32 objectAddr = ElementTool.CombinationByte(mReciveFrame.InformationObject[0], mReciveFrame.InformationObject[1],
-                    mReciveFrame.InformationObject[2]);
-                if (mObjectAddress != objectAddr)
+                mReciveFrame = mReciveQuene.Dequeue();            
+                
+
+                //需要反校参数
+                var ds = new QualifyCommandSet(mReciveFrame.InformationObject[mReciveFrame.InformationObject.Length - 1]);
+                if (ds.QOS != mQos.QOS)
                 {
-                    ServerEvent(Thread.CurrentThread, new ControlEventArgs("信息对象地址不一致", ControlProcessServerResult.Error));
-                }               
-                var dc = new DoubleCommand(mReciveFrame.InformationObject[3]);
-                if (dc.DCO != mDCO.DCO)
-                {
-                    ServerEvent(Thread.CurrentThread, new ControlEventArgs("双点命令收发不一致", ControlProcessServerResult.Error));
+                    ServerEvent(Thread.CurrentThread, new ControlEventArgs("命令不一致", ControlProcessServerResult.Error));
                 }
                 return true;
             }

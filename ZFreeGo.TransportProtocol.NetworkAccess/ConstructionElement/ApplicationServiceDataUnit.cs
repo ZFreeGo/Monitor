@@ -568,7 +568,9 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
             this.appDataPublicAddress2 = (byte)(AppDataPublicAddress >> 8);
             objectCount = 0;
         }
-   
+
+    
+
         /// <summary>
         /// 初始化ASDU
         /// </summary>

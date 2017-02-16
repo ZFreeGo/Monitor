@@ -65,5 +65,51 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlProcessInformatio
          }
 
 
+         /// <summary>
+         /// 控制信息过程命令,设定值命令
+         /// </summary>
+         /// <param name="typeID">类型ID</param>
+         /// <param name="isquense">是否序列号 true-序列化 false-非序列化</param>
+         /// <param name="objectCount">信息对象数目数目</param>
+         /// <param name="cot">传输原因</param>
+         /// <param name="ASDUPublicAddress">公共地址</param>
+         /// <param name="qos">设定命令限定词</param>
+         /// <param name="listFloat">设定值列表</param>
+         public ControlProcessASDU(TypeIdentification typeID, bool isquense, 
+            CauseOfTransmissionList cot, UInt16 ASDUPublicAddress,  QualifyCommandSet qos, 
+             List<Tuple<UInt32,ShortFloating>> listFloat)
+             : base((byte)typeID, (byte)listFloat.Count, isquense, (byte)cot, ASDUPublicAddress)
+        {            
+       
+            if (isquense)
+            {
+                UInt32 addr = listFloat[0].Item1;
+                InformationObject[0] = ElementTool.GetBit7_0(addr);
+                InformationObject[1] = ElementTool.GetBit15_8(addr);
+                InformationObject[2] = ElementTool.GetBit23_16(addr);
+                int index = 0;
+                foreach(var m in listFloat)
+                {
+                    Array.Copy(m.Item2.GetDataArray(), 0, InformationObject, 3 + 4 * index, 4);
+                    index++;
+                }
+            }
+            else
+            {                
+                int index = 0;
+                foreach (var m in listFloat)
+                {
+                    UInt32 addr = listFloat[0].Item1;
+                    InformationObject[0 + index * 7] = ElementTool.GetBit7_0(addr);
+                    InformationObject[1 + index * 7] = ElementTool.GetBit15_8(addr);
+                    InformationObject[2 + index * 7] = ElementTool.GetBit23_16(addr);
+                    Array.Copy(m.Item2.GetDataArray(), 0, InformationObject, 3 + 7 * index, 4);
+                    index++;
+                }
+            }
+             //设置命令限定词，最后一字节
+           InformationObject[InformationObject.Length - 1] = qos.QOS;           
+        }
+
     }
 }

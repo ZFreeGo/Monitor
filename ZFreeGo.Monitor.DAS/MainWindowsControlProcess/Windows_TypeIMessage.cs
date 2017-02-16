@@ -161,39 +161,7 @@ namespace ZFreeGo.Monitor.AutoStudio
             }
         }
 
-        /// <summary>
-        /// 校准参数
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void checkGetMessage_CalibrationMessageArrived(object sender, TransmitEventArgs<TypeIdentification, APDU> e)
-        {
-            try
-            {
-                appMessageManager.UpdateReceiveSequenceNumber(e.mdata2.APCI.TransmitSequenceNumber,
-                   e.mdata2.APCI.ReceiveSequenceNumber);
-                BeginInvokeUpdateHistory(e.mdata2.FrameArray, e.mdata2.FrameArray.Length, "从站发送:I帧:校准参数");
-                switch ((TypeIdentification)e.mdata2.ASDU.TypeId)
-                {
-                    case TypeIdentification.P_AC_NA_1: // 参数激活
-                        {
-
-                            break;
-                        }
-                    case TypeIdentification.P_ME_NC_1: //  测量值参数，短浮点数
-                        {
-
-                            break;
-                        }
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "校准命令");
-            }
-        }
+        
         /// <summary>
         /// 保护定值设置
         /// </summary>

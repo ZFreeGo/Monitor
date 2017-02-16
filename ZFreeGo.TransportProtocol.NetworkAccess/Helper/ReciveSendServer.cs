@@ -45,7 +45,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
         /// <summary>
         /// 超时时间 ms
         /// </summary>
-        protected readonly int mOverTime;
+        protected  int mOverTime;
 
         /// <summary>
         /// 重试次数
@@ -55,7 +55,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
         /// <summary>
         /// 最大重试次数
         /// </summary>
-        protected readonly int  mRepeatMaxCount;
+        protected  int  mRepeatMaxCount;
 
         /// <summary>
         /// 获取服务状态
