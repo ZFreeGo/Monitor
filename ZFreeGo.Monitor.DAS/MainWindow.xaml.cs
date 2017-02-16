@@ -94,6 +94,8 @@ namespace ZFreeGo.Monitor.AutoStudio
 
 
             MakeLogEvent += MainWindow_MakeLogEvent;
+
+            InitCallServer();
         }
 
 
@@ -883,7 +885,6 @@ namespace ZFreeGo.Monitor.AutoStudio
             var ui = new AuthoritySettingUI(authorityManager, this);
             ui.ShowInTaskbar = false;
             ui.Show();
-
         }
 
         /// <summary>
@@ -897,6 +898,10 @@ namespace ZFreeGo.Monitor.AutoStudio
             //database.ConnectDatabase();
 
         }
+
+       
+
+    
 
       
 

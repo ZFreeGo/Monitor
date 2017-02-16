@@ -13,29 +13,27 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
     /// <summary>
     /// 召唤服务
     /// </summary>
-    public class CallServer : ReciveSendServer<MasterCommand>
+    public class CallServer : ReciveSendServer<ControlProcessASDU>
     {
-
         /// <summary>
         /// 召唤服务事件
         /// </summary>
-        public event EventHandler<CallEventArgs> CallServerEvent;
-
+        public event EventHandler<CallEventArgs> ServerEvent;
 
         /// <summary>
         /// 召唤帧信息
         /// </summary>
-        MasterCommand mSendFrame;
+        ControlProcessASDU mSendFrame;
 
         /// <summary>
         /// 接收帧
         /// </summary>
-        MasterCommand mReciveFrame;
+        ControlProcessASDU mReciveFrame;
 
-        Func<MasterCommand, bool> mSendDataDelegate;
-
-
-        
+        /// <summary>
+        /// 发送数据委托
+        /// </summary>
+        Func<ControlProcessASDU, bool> mSendDataDelegate;
 
         /// <summary>
         /// 取消发送标志
@@ -48,7 +46,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
        /// <param name="sendDataDelegate">发送委托</param>
        /// <param name="cot">传输原因</param>
        /// <param name="qoi">传输限定词</param>
-        public void StartServer(Func<MasterCommand, bool> sendDataDelegate, CauseOfTransmissionList cot, QualifyOfInterrogationList qoi)
+        public void StartServer(Func<ControlProcessASDU, bool> sendDataDelegate, CauseOfTransmissionList cot, QualifyOfInterrogationList qoi)
         {
             try
             {
@@ -66,8 +64,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
 
                 mSendDataDelegate = sendDataDelegate;
                 var id = TypeIdentification.C_IC_NA_1;//召唤命令               
-                mSendFrame = new MasterCommand(0, 0,
-                    id, cot, 0, qoi);
+                mSendFrame = new ControlProcessASDU(id, cot, 0, qoi);
 
                 cancelSend = false;
             }
@@ -89,7 +86,12 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
             }
             else
             {
-                return mSendDataDelegate(mSendFrame);
+                bool state =  mSendDataDelegate(mSendFrame);
+                if (!state)
+                {
+                    SendEvent("发送失败，终止处理。", ControlSystemServerResut.SendFault);
+                }
+                return state; 
             }
         }
 
@@ -99,19 +101,21 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
         /// <returns>true--检测通过，false--检测失败</returns>
         public override bool CheckData()
         {
-            if (mReciveQuene.Count > 0)
+            try
             {
-                mReciveFrame = mReciveQuene.Dequeue();
-                if(!mReciveFrame.CheckLen())
+                if (mReciveQuene.Count > 0)
                 {
-                    Console.WriteLine("接收帧长度不一致");
+                    mReciveFrame = mReciveQuene.Dequeue();                    
+                    return true;
+                }
+                else
+                {
                     return false;
-                }               
-                return true;
+                }
             }
-            else
+            catch(Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 
@@ -124,31 +128,31 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
         {
             try
             {
-                switch ((CauseOfTransmissionList)mReciveFrame.ASDU.CauseOfTransmission1)
+                switch ((CauseOfTransmissionList)mReciveFrame.CauseOfTransmission1)
                 {
                     case CauseOfTransmissionList.ActivationACK:
                         {
                             cancelSend = true;//取消下次发送仅仅等待
-                            SendEvent("召唤激活确认", CallServerResut.AcvtivityAck);
+                            SendEvent("召唤激活确认", ControlSystemServerResut.AcvtivityAck);
                             mRepeatCount = 0;
                             return true;
                         }
                     case CauseOfTransmissionList.ActivateTermination:
                         {
-                            SendEvent("召唤激活终止", CallServerResut.ActivateTermination);
+                            SendEvent("召唤激活终止", ControlSystemServerResut.ActivateTermination);
                             mRepeatCount = 0;
                             return false;//终止循环
                         }
                     default:
                         {
-                            SendEvent("未识别的ID", CallServerResut.Unknow);
+                            SendEvent("未识别的ID", ControlSystemServerResut.Unknow);
                             return false;
                         }
                 }
             }
             catch (Exception ex)
             {
-                SendEvent(ex.Message, CallServerResut.Error);
+                SendEvent(ex.Message, ControlSystemServerResut.Error);
                 StopServer();
                 return false;
             }
@@ -161,15 +165,15 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
         /// <returns>true--继续，fals--终止</returns>
         public override bool AckOverTime()
         {
-            if(++mRepeatCount > mRepeatMaxCount)
+            if(++mRepeatCount < mRepeatMaxCount)
             {
                 cancelSend = false;
-                SendEvent(string.Format("应答超时,进行第{0}次重试.", mRepeatCount), CallServerResut.OverTime);
+                SendEvent(string.Format("应答超时,进行第{0}次重试.", mRepeatCount), ControlSystemServerResut.OverTime);
                 return true;
             }
             else
             {
-                SendEvent(string.Format("重试失败，结束召唤。", mRepeatCount), CallServerResut.Fault);
+                SendEvent(string.Format("重试失败，结束召唤。", mRepeatCount), ControlSystemServerResut.Fault);
                 return false;
             }
         }
@@ -180,11 +184,11 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
         /// </summary>
         /// <param name="comment">注释</param>
         /// <param name="result">结果</param>
-        public void SendEvent(string comment, CallServerResut result)
+        public void SendEvent(string comment, ControlSystemServerResut result)
         {
-            if ( CallServerEvent != null)
+            if ( ServerEvent != null)
             {
-                CallServerEvent(Thread.CurrentThread, new CallEventArgs(comment, result));
+                ServerEvent(Thread.CurrentThread, new CallEventArgs(comment, result));
             }
         }
 

@@ -202,6 +202,7 @@
     <Compile Include="TableOperate\TelecontrolOperate.cs" />
     <Compile Include="TableOperate\TelesignalisationOperate.cs" />
     <Compile Include="TableOperate\XMLOperate.cs" />
+    <Compile Include="Test.cs" />
     <Compile Include="WaveformArrivedEventArgs.cs" />
     <Page Include="Comtrade\ComtradeUI.xaml">
       <SubType>Designer</SubType>
@@ -343,7 +344,9 @@
     <Resource Include="Pictures\sojo-b.jpg" />
     <Resource Include="Pictures\sojo-c.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Pictures\ZFreeGo.Monitor.AutoStudio.csproj" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

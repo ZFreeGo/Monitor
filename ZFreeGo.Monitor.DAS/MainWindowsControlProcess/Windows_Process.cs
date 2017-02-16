@@ -66,6 +66,7 @@ namespace ZFreeGo.Monitor.AutoStudio
             checkGetMessage.MasterInterrogationArrived += checkGetMessage_MasterInterrogationArrived;
             checkGetMessage.MasterResetArrived += checkGetMessage_MasterResetArrived;
             checkGetMessage.MasterTimeArrived += checkGetMessage_MasterTimeArrived;
+
             //I-遥控/遥信/遥测
             checkGetMessage.TelecontrolCommandArrived += checkGetMessage_TelecontrolCommandArrived;
             checkGetMessage.TelemeteringMessageArrived += checkGetMessage_TelemeteringMessageArrived;
@@ -77,16 +78,9 @@ namespace ZFreeGo.Monitor.AutoStudio
             checkGetMessage.CalibrationMessageArrived += checkGetMessage_CalibrationMessageArrived;
             //保护定值
             checkGetMessage.ProtectSetMessageArrived +=checkGetMessage_ProtectSetMessageArrived;
-
-
             checkGetMessage.FileServerArrived += checkGetMessage_FileServerArrived;
-
             //I-未知
             checkGetMessage.UnknowMessageArrived += checkGetMessage_UnknowMessageArrived;
-
-           
-
-
 
             appMessageManager = new ApplicationFrameManager();          
             processList = new List<ProcessControlPure>();
@@ -125,32 +119,7 @@ namespace ZFreeGo.Monitor.AutoStudio
       
 
         
-        /// <summary>
-        /// 主站初始化，时间同步命令
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void checkGetMessage_MasterTimeArrived(object sender, MasterCommmadEventArgs e)
-        {
-            try
-            {
-                    //同步释放相应事件
-                var m = eventTypeIDManager.GetEventProcess((TypeIdentification)e.MasterCMD.ASDU.TypeId);
-                if (m != null)
-                {
-                    m.Event.Set();
-                }
-                appMessageManager.UpdateReceiveSequenceNumber(e.MasterCMD.APCI.TransmitSequenceNumber,
-                    e.MasterCMD.APCI.ReceiveSequenceNumber);
-                
-                BeginInvokeUpdateHistory(e.MasterCMD.FrameArray, e.MasterCMD.FrameArray.Length, "从站发送:I帧：时间同步:");
-                MakeLogMessage(sender,"" , "时间同步应答" + e.MasterCMD.ToString(), LogType.Time);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "checkGetMessage_MasterTimeArrived");
-            }
-        }
+        
 
 
 
@@ -191,13 +160,9 @@ namespace ZFreeGo.Monitor.AutoStudio
             try
             {
                 appMessageManager.UpdateReceiveSequenceNumber(e.MasterCMD.APCI.TransmitSequenceNumber,
-                    e.MasterCMD.APCI.ReceiveSequenceNumber);
-                //同步释放召唤等待
-                var m = eventTypeIDManager.GetEventProcess((TypeIdentification)e.MasterCMD.ASDU.TypeId);
-                if (m != null)
-                {
-                    m.Event.Set();
-                }
+                    e.MasterCMD.APCI.ReceiveSequenceNumber);              
+                callServer.Enqueue(e.MasterCMD);
+
                 switch ((CauseOfTransmissionList)e.MasterCMD.ASDU.CauseOfTransmission1)
                 {
                     case CauseOfTransmissionList.ActivationACK:

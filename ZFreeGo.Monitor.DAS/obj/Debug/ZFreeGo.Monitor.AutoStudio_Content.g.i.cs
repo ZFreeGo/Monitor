@@ -8,7 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("pictures/sojo-b.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("pictures/sojo-c.jpg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("pictures/zfreego.monitor.autostudio.csproj")]
 
 

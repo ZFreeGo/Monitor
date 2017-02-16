@@ -568,6 +568,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
             this.appDataPublicAddress2 = (byte)(AppDataPublicAddress >> 8);
             objectCount = 0;
         }
+   
         /// <summary>
         /// 初始化ASDU
         /// </summary>
@@ -598,9 +599,10 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
             {
                 throw new Exception("ApplicationServiceDataUnit(byte[] dataArray) dataArray长度不满足要求，需要不小于9");
             }
-            ASDUDataArray = dataArray;            
+            ASDUDataArray = dataArray;
+            informationLen = dataArray.Length - 6;
             informationObject = new byte[dataArray.Length -6 ];
-
+            
             typeId = dataArray[0];
             variableStructureQualifier = dataArray[1];
             causeOfTransmission1 = dataArray[2];
@@ -635,7 +637,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
             objectCount = 0;
         }
 
-
+      
         /// <summary>
         /// /// <summary>
         /// 转换字节数组显示

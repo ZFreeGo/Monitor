@@ -59,19 +59,10 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
         /// <summary>
         /// 服务初始化
         /// </summary>
-        /// <param name="overTime">重复次数</param>
-        /// <param name="maRepeat">最大重复次数</param>
-        public ReciveServer(int overTime, int maxRepeat)
+        public ReciveServer()
         {
             InitData();
-        }
-        /// <summary>
-        /// 服务初始化,默认超时时间5000ms，重复次数3次
-        /// </summary>
-        public  ReciveServer() : this(5000, 3)
-        {
-
-        }
+        }    
 
         /// <summary>
         /// 初始化数据

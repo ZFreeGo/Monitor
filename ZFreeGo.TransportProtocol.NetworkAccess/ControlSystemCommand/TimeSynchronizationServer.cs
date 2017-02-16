@@ -13,30 +13,26 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
     /// <summary>
     /// 时钟同步任务
     /// </summary>
-    public class TimeSynchronizationServer : ReciveSendServer<MasterCommand>
+    public class TimeSynchronizationServer : ReciveSendServer<ControlCommandASDU>
     {
         /// <summary>
         /// 召唤服务事件
         /// </summary>
-        public event EventHandler<TimeEventArgs> TimerServerEvent;
+        public event EventHandler<TimeEventArgs> ServerEvent;
 
 
         /// <summary>
         /// 帧信息
         /// </summary>
-        private MasterCommand mSendFrame;
+        private ControlCommandASDU mSendFrame;
 
         /// <summary>
         /// 接收帧
         /// </summary>
-        private MasterCommand mReciveFrame;
+        private ControlCommandASDU mReciveFrame;
 
-        private Func<MasterCommand, bool> mSendDataDelegate;
+        private Func<ControlCommandASDU, bool> mSendDataDelegate;
 
-        /// <summary>
-        /// 取消发送标志
-        /// </summary>
-        private bool cancelSend;
 
         /// <summary>
         /// 召唤服务启动服务
@@ -44,7 +40,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
         /// <param name="sendDataDelegate">发送委托</param>
         /// <param name="cot">传输原因</param>
         /// <param name="qoi">传输限定词</param>
-        public void StartServer(Func<MasterCommand, bool> sendDataDelegate, CauseOfTransmissionList cot, CP56Time2a time)
+        public void StartServer(Func<ControlCommandASDU, bool> sendDataDelegate, CauseOfTransmissionList cot, CP56Time2a time)
         {
             try
             {
@@ -62,9 +58,8 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
 
                 mSendDataDelegate = sendDataDelegate;
                 var id = TypeIdentification.C_CS_NA_1;//时钟同步 
-                mSendFrame = new MasterCommand(0, 0, id, cot, 0, time);
-
-                cancelSend = false;
+                mSendFrame = new ControlCommandASDU(id, cot, 0, time);
+               
             }
             catch (Exception ex)
             {
@@ -78,14 +73,12 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
         /// <returns>true-成功，false-失败，终止线程</returns>
         public override bool TransmitData()
         {
-            if (cancelSend)
+            bool state = mSendDataDelegate(mSendFrame);
+            if (!state)
             {
-                return true;
+                SendEvent("发送失败，终止处理。", ControlSystemServerResut.SendFault);
             }
-            else
-            {
-                return mSendDataDelegate(mSendFrame);
-            }
+            return state; 
         }
 
         /// <summary>
@@ -97,11 +90,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
             if (mReciveQuene.Count > 0)
             {
                 mReciveFrame = mReciveQuene.Dequeue();
-                if (!mReciveFrame.CheckLen())
-                {
-                    Console.WriteLine("接收帧长度不一致");
-                    return false;
-                }
+                
                 return true;
             }
             else
@@ -119,14 +108,13 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
         {
             try
             {
-                switch ((CauseOfTransmissionList)mReciveFrame.ASDU.CauseOfTransmission1)
+                switch ((CauseOfTransmissionList)mReciveFrame.CauseOfTransmission1)
                 {
                     case CauseOfTransmissionList.ActivationACK:
-                        {
-                            cancelSend = true;//取消下次发送仅仅等待
+                        {                           
                             SendEvent("召唤激活确认", ControlSystemServerResut.AcvtivityAck);
                             mRepeatCount = 0;
-                            return true;
+                            return false;
                         }
                     case CauseOfTransmissionList.ActivateTermination:
                         {
@@ -155,9 +143,8 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
         /// <returns>true--继续，fals--终止</returns>
         public override bool AckOverTime()
         {
-            if (++mRepeatCount > mRepeatMaxCount)
-            {
-                cancelSend = false;
+            if (++mRepeatCount < mRepeatMaxCount)
+            {                
                 SendEvent(string.Format("应答超时,进行第{0}次重试.", mRepeatCount), ControlSystemServerResut.OverTime);
                 return true;
             }
@@ -176,9 +163,9 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
         /// <param name="result">结果</param>
         public void SendEvent(string comment, ControlSystemServerResut result)
         {
-            if (TimerServerEvent != null)
+            if (ServerEvent != null)
             {
-                TimerServerEvent(Thread.CurrentThread, new TimeEventArgs(comment, result));
+                ServerEvent(Thread.CurrentThread, new TimeEventArgs(comment, result));
             }
         }
     }
