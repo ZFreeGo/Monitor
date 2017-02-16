@@ -13,7 +13,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
     /// <summary>
     /// 召唤服务
     /// </summary>
-    public class CallServer : ReciveSendServer<ControlProcessASDU>
+    public class CallServer : ReciveSendServer<ControlCommandASDU>
     {
         /// <summary>
         /// 召唤服务事件
@@ -23,17 +23,17 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
         /// <summary>
         /// 召唤帧信息
         /// </summary>
-        ControlProcessASDU mSendFrame;
+        ControlCommandASDU mSendFrame;
 
         /// <summary>
         /// 接收帧
         /// </summary>
-        ControlProcessASDU mReciveFrame;
+        ControlCommandASDU mReciveFrame;
 
         /// <summary>
         /// 发送数据委托
         /// </summary>
-        Func<ControlProcessASDU, bool> mSendDataDelegate;
+        Func<ControlCommandASDU, bool> mSendDataDelegate;
 
         /// <summary>
         /// 取消发送标志
@@ -46,7 +46,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
        /// <param name="sendDataDelegate">发送委托</param>
        /// <param name="cot">传输原因</param>
        /// <param name="qoi">传输限定词</param>
-        public void StartServer(Func<ControlProcessASDU, bool> sendDataDelegate, CauseOfTransmissionList cot, QualifyOfInterrogationList qoi)
+        public void StartServer(Func<ControlCommandASDU, bool> sendDataDelegate, CauseOfTransmissionList cot, QualifyOfInterrogationList qoi)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
 
                 mSendDataDelegate = sendDataDelegate;
                 var id = TypeIdentification.C_IC_NA_1;//召唤命令               
-                mSendFrame = new ControlProcessASDU(id, cot, 0, qoi);
+                mSendFrame = new ControlCommandASDU(id, cot, 0, qoi);
 
                 cancelSend = false;
             }

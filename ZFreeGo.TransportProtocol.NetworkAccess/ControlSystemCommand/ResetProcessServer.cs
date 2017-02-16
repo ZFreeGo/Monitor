@@ -77,7 +77,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
             bool state = mSendDataDelegate(mSendFrame);
             if (!state)
             {
-                SendEvent("发送失败，终止处理。", ControlSystemServerResut.SendFault);
+                SendFaultEvent("发送失败，终止处理。", ControlSystemServerResut.SendFault);
             }
             return state; 
             

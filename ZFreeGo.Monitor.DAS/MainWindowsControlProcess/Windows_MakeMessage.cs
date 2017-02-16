@@ -333,7 +333,6 @@ namespace ZFreeGo.Monitor.AutoStudio
             {
                 MessageBox.Show(ex.Message, "SendMasterCommand发送时钟同步命令");
             }
-
         }
         /// <summary>
         /// 发送进程复位命令
@@ -356,7 +355,6 @@ namespace ZFreeGo.Monitor.AutoStudio
             {
                 MessageBox.Show(ex.Message, "SendMasterCommand复位进程命令");
             }
-
         }
         /// <summary>
         ///  初始化结束命令
@@ -380,7 +378,6 @@ namespace ZFreeGo.Monitor.AutoStudio
             {
                 MessageBox.Show(ex.Message, "SendMasterCommand复位进程命令");
             }
-
         }
         /// <summary>
         ///  电能召唤命令
@@ -404,7 +401,6 @@ namespace ZFreeGo.Monitor.AutoStudio
             {
                 MessageBox.Show(ex.Message, "SendMasterCommand电能召唤命令");
             }
-
         }
         /// <summary>
         /// 读当前定值区号

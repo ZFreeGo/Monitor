@@ -45,6 +45,7 @@
     <Compile Include="ApplicationMessage\ControlFlowTimer.cs" />
     <Compile Include="ControlProcessInformation\ControlEventArgs.cs" />
     <Compile Include="ControlProcessInformation\ControlProcessASDU.cs" />
+    <Compile Include="ControlProcessInformation\SetPointServer.cs" />
     <Compile Include="ControlProcessInformation\ControlServer.cs" />
     <Compile Include="ControlProcessInformation\ControlProcessServerResut.cs" />
     <Compile Include="ControlSystemCommand\ControlSystemServerResut.cs" />
@@ -133,6 +134,10 @@
     <Compile Include="MonitorProcessInformation\StatusEventArg.cs" />
     <Compile Include="MonitorProcessInformation\StatusServer.cs" />
     <Compile Include="ControlSystemCommand\TimeSynchronizationServer.cs" />
+    <Compile Include="TransmissionControl\TransmissionControlResult.cs" />
+    <Compile Include="TransmissionControl\TransmissionControlServer.cs" />
+    <Compile Include="TransmissionControl\TransmissionControlFaultEventArgs.cs" />
+    <Compile Include="TransmissionControl\TransmissionControlEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="修改记录.txt" />
