@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement;
+using ZFreeGo.TransportProtocol.NetworkAccess.BasicElement;
+using ZFreeGo.TransportProtocol.NetworkAccess.Frame;
 using ZFreeGo.TransportProtocol.NetworkAccess.Helper;
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess.MonitorProcessInformation
+namespace ZFreeGo.TransportProtocol.NetworkAccess.MonitorProcessInformation
 {
     /// <summary>
     /// 状态更新服务 遥信，SOE，时间记录 

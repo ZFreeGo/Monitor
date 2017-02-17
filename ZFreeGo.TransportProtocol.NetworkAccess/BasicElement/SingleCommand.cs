@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement
+namespace ZFreeGo.TransportProtocol.NetworkAccess.BasicElement
 {
     /// <summary>
     /// 单命令SCO

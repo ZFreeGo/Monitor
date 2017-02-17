@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using ZFreeGo.TransportProtocol.NetworkAccess.BasicElement;
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
+namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
 {
     /// <summary>
     /// 事件与TypeID关联管理

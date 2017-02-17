@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement
+namespace ZFreeGo.TransportProtocol.NetworkAccess.BasicElement
 {
     /// <summary>
     /// 命令限定词，代号属性

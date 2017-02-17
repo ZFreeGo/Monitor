@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement;
+using ZFreeGo.TransportProtocol.NetworkAccess.BasicElement;
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
+namespace ZFreeGo.TransportProtocol.NetworkAccess.FileSever
 {
 
      public class FileWriteServer : FileTransmissionServer
@@ -39,12 +39,12 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         /// <summary>
         /// 写文件激活附加数据包
         /// </summary>
-      //private FileNr.FileWriteActivityPacket callPacket;
+      //private FileWriteActivityPacket callPacket;
 
         /// <summary>
         /// 写文件激活确认数据包
         /// </summary>
-        private FileNr.FileWriteActivityAckPacket ackPacket;
+        private FileWriteActivityAckPacket ackPacket;
 
 
          /// <summary>
@@ -60,12 +60,12 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         /// <summary>
         /// 写文件传输数据包
         /// </summary>
-        private FileNr.FileDataThransmitPacket transmitPacket;
+        private FileDataThransmitPacket transmitPacket;
 
         /// <summary>
         /// 写文件传输数据确认包
         /// </summary>
-        private FileNr.FileWriteThransmitAckPacket transmitAckPacket;
+        private FileWriteThransmitAckPacket transmitAckPacket;
 
         /// <summary>
         /// 包管理器
@@ -106,11 +106,11 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         /// <summary>
         /// 写文件激活应答
         /// </summary>
-        public event EventHandler<FileServerEventArgs<FileNr.FileWriteActivityAckPacket>> WriteFileActivityAckEvent;
+        public event EventHandler<FileServerEventArgs<FileWriteActivityAckPacket>> WriteFileActivityAckEvent;
         /// <summary>
         /// 文件传输应答
         /// </summary>
-        public event EventHandler<FileServerEventArgs<FileNr.FileWriteThransmitAckPacket>> WriteFileTransmitAckEvent;
+        public event EventHandler<FileServerEventArgs<FileWriteThransmitAckPacket>> WriteFileTransmitAckEvent;
          /// <summary>
          /// 传输阶段
          /// </summary>
@@ -143,7 +143,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         /// <param name="packet">包数据</param>
         /// <param name="attribute">文件属性</param>
         /// <param name="fileData">文件数据</param>
-        public void StartServer(Action<FilePacket> inSendDataDelegate,FileReadPacket packet,FileNr.FileAttribute attribute, byte[] fileData)
+        public void StartServer(Action<FilePacket> inSendDataDelegate,FileReadPacket packet,FileAttribute attribute, byte[] fileData)
         {
 
             initData();
@@ -302,7 +302,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
                                 Console.WriteLine("不是写文件激活确认");
                                 return false;
                             }
-                            var packet = new FileNr.FileWriteActivityAckPacket(item.PacketData, 0, (byte)item.PacketData.Length);
+                            var packet = new FileWriteActivityAckPacket(item.PacketData, 0, (byte)item.PacketData.Length);
                             if (packet.Name != packetManager.Attribute.Name)
                             {
                                 Console.WriteLine("名称不一致");
@@ -325,8 +325,8 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
                                 Console.WriteLine("不是写文件传输确认");
                                 return false;
                             }
-                            var packet = new FileNr.FileWriteThransmitAckPacket(item.PacketData, 0);
-                            if (packet.Result == FileNr.FileTransmitDescription.Success)
+                            var packet = new FileWriteThransmitAckPacket(item.PacketData, 0);
+                            if (packet.Result == FileTransmitDescription.Success)
                             {
                                 writeFileTransmitAckPacket = item;
                                 transmitAckPacket = packet;
@@ -337,7 +337,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
                                 Console.WriteLine("ID不一致");
                                 if (WriteFileTransmitAckEvent != null)
                                 {
-                                    var e = new FileServerEventArgs<FileNr.FileWriteThransmitAckPacket>("从机应答:" + packet.Result.ToString(), FileNr.OperatSign.WriteFileThransmitAck
+                                    var e = new FileServerEventArgs<FileWriteThransmitAckPacket>("从机应答:" + packet.Result.ToString(), OperatSign.WriteFileThransmitAck
                                         , writeFileActivityAckPacket, null);
                                     WriteFileTransmitAckEvent(Thread.CurrentThread, e);
                                 } 
@@ -365,7 +365,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
                     {
                         if (WriteFileActivityAckEvent != null)
                         {
-                            var e = new FileServerEventArgs<FileNr.FileWriteActivityAckPacket>("从机应答", FileNr.OperatSign.WriteFileActivityAck,
+                            var e = new FileServerEventArgs<FileWriteActivityAckPacket>("从机应答", OperatSign.WriteFileActivityAck,
                                 writeFileActivityAckPacket, ackPacket);
                             WriteFileActivityAckEvent(Thread.CurrentThread, e);
                         }
@@ -383,12 +383,12 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
                 case TransmitStage.Transmission:
                     {
                         bool state = false;
-                        FileNr.FileTransmitDescription result = FileNr.FileTransmitDescription.UnknowError;
+                        FileTransmitDescription result = FileTransmitDescription.UnknowError;
                         //先检测确认包
                         if ((transmitAckPacket.FragmentNum == packetManager.PacketCollect[ackCount].FragmentNum)
-                            && (transmitAckPacket.Result == FileNr.FileTransmitDescription.Success))
+                            && (transmitAckPacket.Result == FileTransmitDescription.Success))
                         {
-                            result = FileNr.FileTransmitDescription.Success;
+                            result = FileTransmitDescription.Success;
                             if (++ackCount < packetManager.PacketCollect.Count)
                             {
                                 transmitPacket = packetManager.PacketCollect[ackCount];
@@ -403,7 +403,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
                         }
                         if (WriteFileTransmitAckEvent != null)
                         {
-                            var e = new FileServerEventArgs<FileNr.FileWriteThransmitAckPacket>("从机应答:" + result.ToString(), FileNr.OperatSign.WriteFileThransmitAck
+                            var e = new FileServerEventArgs<FileWriteThransmitAckPacket>("从机应答:" + result.ToString(), OperatSign.WriteFileThransmitAck
                                 , writeFileActivityAckPacket, null);
                             WriteFileTransmitAckEvent(Thread.CurrentThread, e);
                         }                        
@@ -445,7 +445,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
                     {
                         if (WriteFileActivityAckEvent != null)
                         {
-                            var e = new FileServerEventArgs<FileNr.FileWriteActivityAckPacket>(str, FileNr.OperatSign.WriteFileActivityAck,
+                            var e = new FileServerEventArgs<FileWriteActivityAckPacket>(str, OperatSign.WriteFileActivityAck,
                                 writeFileActivityAckPacket, ackPacket);
                             WriteFileActivityAckEvent(Thread.CurrentThread, e);
                         }
@@ -455,7 +455,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
                     {
                         if (WriteFileTransmitAckEvent != null)
                         {
-                            var e = new FileServerEventArgs<FileNr.FileWriteThransmitAckPacket>(str, FileNr.OperatSign.ReadFileDataResponseACK,
+                            var e = new FileServerEventArgs<FileWriteThransmitAckPacket>(str, OperatSign.ReadFileDataResponseACK,
                                 writeFileActivityAckPacket, null);
                             WriteFileTransmitAckEvent(Thread.CurrentThread, e);
                         }

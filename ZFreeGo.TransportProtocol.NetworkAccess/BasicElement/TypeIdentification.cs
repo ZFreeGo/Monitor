@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
+namespace ZFreeGo.TransportProtocol.NetworkAccess.BasicElement
 {
     /// <summary>
     /// ASDU类型标识

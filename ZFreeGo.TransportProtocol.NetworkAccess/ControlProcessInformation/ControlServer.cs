@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement;
+using ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter;
+using ZFreeGo.TransportProtocol.NetworkAccess.BasicElement;
 using ZFreeGo.TransportProtocol.NetworkAccess.Helper;
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlProcessInformation
+namespace ZFreeGo.TransportProtocol.NetworkAccess.ControlProcessInformation
 {
     /// <summary>
     /// 控制方向的过程信息，遥控

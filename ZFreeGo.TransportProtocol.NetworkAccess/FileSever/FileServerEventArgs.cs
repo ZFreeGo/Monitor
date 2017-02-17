@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
+namespace ZFreeGo.TransportProtocol.NetworkAccess.FileSever
 {
     /// <summary>
     /// 文件服务事件
@@ -17,7 +17,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         /// <summary>
         /// 操作标识
         /// </summary>
-        public FileNr.OperatSign Operation;
+        public OperatSign Operation;
 
         /// <summary>
         /// 完整数据包
@@ -38,7 +38,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         /// <param name="operation">操作标识</param>
         /// <param name="packet">数据包</param>
         /// <param name="additionalPacket">附加数据包</param>
-        public FileServerEventArgs(string message, FileNr.OperatSign operation, FilePacket packet, T additionalPacket)
+        public FileServerEventArgs(string message, OperatSign operation, FilePacket packet, T additionalPacket)
         {
             Message = message;
             Operation = operation;

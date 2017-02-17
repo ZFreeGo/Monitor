@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement;
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess.MonitorProcessInformation
+
+namespace ZFreeGo.TransportProtocol.NetworkAccess.MonitorProcessInformation
 {
     /// <summary>
     /// 状态信息参数，提取后的参数

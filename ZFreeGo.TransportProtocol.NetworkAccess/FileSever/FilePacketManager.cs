@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.FileNr;
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
+
+namespace ZFreeGo.TransportProtocol.NetworkAccess.FileSever
 {
     /// <summary>
     /// 文件包管理器,用于拆分或组装文件。

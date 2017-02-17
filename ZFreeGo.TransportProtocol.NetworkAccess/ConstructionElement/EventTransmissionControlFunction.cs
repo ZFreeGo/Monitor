@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ZFreeGo.TransportProtocol.NetworkAccess.TransmissionControl104;
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
+namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
 {
     /// <summary>
     ///   EventTransmissionControlFunction 传输控制功能控制事件
@@ -13,14 +14,14 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
          /// <summary>
         /// 事件列表
         /// </summary>
-        private List<EventProperty<TransmissionCotrolFunction>> eventList;
+        private List<EventProperty<TransmissionControlFunction>> eventList;
 
         /// <summary>
         /// 查找是否包含指定typeID的类型EventProperty，若有则返回。
         /// </summary>
         /// <param name="typeID">类型ID</param>
         /// <returns>EventProperty</returns>
-        public EventProperty<TransmissionCotrolFunction> GetEventProcess(TransmissionCotrolFunction typeID)
+        public EventProperty<TransmissionControlFunction> GetEventProcess(TransmissionControlFunction typeID)
         {
             try
             {
@@ -41,7 +42,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
         /// 移除指定typeID的类型EventProperty
         /// </summary>
         /// <param name="typeID">类型ID</param>
-        public void RemoveEventProcess(TransmissionCotrolFunction typeID)
+        public void RemoveEventProcess(TransmissionControlFunction typeID)
         {
             eventList.Remove(eventList.Find(x => x.TypeID == typeID));
         }
@@ -51,7 +52,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
         /// </summary>
         /// <param name="eventPro"></param>
         /// <returns></returns>
-        public bool AddEventProcess(EventProperty<TransmissionCotrolFunction> eventPro)
+        public bool AddEventProcess(EventProperty<TransmissionControlFunction> eventPro)
         {
 
             //首先检测是否含有指定的TypID
@@ -69,7 +70,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement
 
         public EventTCF()
         {
-            eventList = new List<EventProperty<TransmissionCotrolFunction>>();
+            eventList = new List<EventProperty<TransmissionControlFunction>>();
      
         }
     }

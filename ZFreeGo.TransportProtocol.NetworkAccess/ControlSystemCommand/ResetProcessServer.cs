@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement;
+using ZFreeGo.TransportProtocol.NetworkAccess.BasicElement;
 using ZFreeGo.TransportProtocol.NetworkAccess.Helper;
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
+namespace ZFreeGo.TransportProtocol.NetworkAccess.ControlSystemCommand
 {
     /// <summary>
     /// 复位进程命令
@@ -77,7 +75,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
             bool state = mSendDataDelegate(mSendFrame);
             if (!state)
             {
-                SendFaultEvent("发送失败，终止处理。", ControlSystemServerResut.SendFault);
+                SendEvent("发送失败，终止处理。", ControlSystemServerResut.SendFault);
             }
             return state; 
             

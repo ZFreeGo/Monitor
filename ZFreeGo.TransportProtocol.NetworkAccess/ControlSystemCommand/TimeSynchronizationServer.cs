@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement;
+using ZFreeGo.TransportProtocol.NetworkAccess.BasicElement;
 using ZFreeGo.TransportProtocol.NetworkAccess.Helper;
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.ControlSystemCommand
+namespace ZFreeGo.TransportProtocol.NetworkAccess.ControlSystemCommand
 {
     /// <summary>
     /// 时钟同步任务
