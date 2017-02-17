@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using ZFreeGo.Monitor.CommCenter;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement;
+using ZFreeGo.TransmissionProtocols.Helper;
+
 
 namespace ZFreeGo.Monitor.AutoStudio.CommCenter
 {

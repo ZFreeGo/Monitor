@@ -142,11 +142,9 @@
     <Compile Include="Log\LogType.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Log\SingleLogMessage.cs" />
-    <Compile Include="MainWindowsControlProcess\Windows_Process.cs" />
     <Compile Include="ElementParam\DataCollectEnum.cs" />
     <Compile Include="ElementParam\ProtectSetPoint.cs" />
     <Compile Include="ElementParam\Telecontrol.cs" />
-    <Compile Include="MainWindowsControlProcess\Windows_TypeUS.cs" />
     <Compile Include="OptionConfig\AccountUI\DeleteAccount.xaml.cs">
       <DependentUpon>DeleteAccount.xaml</DependentUpon>
     </Compile>
@@ -191,8 +189,6 @@
     <Compile Include="TableOperate\RecordWaveWaveform.cs" />
     <Compile Include="TableOperate\TelemeteringOperate.cs" />
     <Compile Include="TableOperate\EventLogOperate.cs" />
-    <Compile Include="MainWindowsControlProcess\Windows_TypeIMessage.cs" />
-    <Compile Include="MainWindowsControlProcess\Windows_MakeMessage.cs" />
     <Compile Include="TableOperate\ProtectSetPoint.cs" />
     <Compile Include="TableOperate\SystemCalibration.cs" />
     <Compile Include="TableOperate\SystemParameterOperate.cs" />
@@ -202,7 +198,6 @@
     <Compile Include="TableOperate\TelecontrolOperate.cs" />
     <Compile Include="TableOperate\TelesignalisationOperate.cs" />
     <Compile Include="TableOperate\XMLOperate.cs" />
-    <Compile Include="Test.cs" />
     <Compile Include="WaveformArrivedEventArgs.cs" />
     <Page Include="Comtrade\ComtradeUI.xaml">
       <SubType>Designer</SubType>

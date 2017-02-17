@@ -12,7 +12,7 @@ using ZFreeGo.Monitor.AutoStudio.Log;
 using ZFreeGo.Net;
 using ZFreeGo.Net.Element;
 using ZFreeGo.Net.UPNP;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage;
+
 
 
 namespace ZFreeGo.Monitor.AutoStudio
@@ -238,7 +238,7 @@ namespace ZFreeGo.Monitor.AutoStudio
             MakeLogMessage(sender, "停止网络服务", LogType.Net);
             UPNPStopServer();
 
-            ResetServer();
+            
 
         }
 
@@ -269,15 +269,15 @@ namespace ZFreeGo.Monitor.AutoStudio
         /// <param name="e"></param>
         private void NetData_Arrived(object sender, NetDataArrayEventArgs e)
         {
-            lock (checkGetMessage.ReciveQuene)
-            {
-                foreach (var m in e.DataArray)
-                {
-                    checkGetMessage.ReciveQuene.Enqueue(m);
+            //lock (checkGetMessage.ReciveQuene)
+            //{
+            //    foreach (var m in e.DataArray)
+            //    {
+                    
 
-                }
-                Console.WriteLine("字节数据接收");
-            }
+            //    }
+            //    Console.WriteLine("字节数据接收");
+            //}
 
             string msg = Encoding.Unicode.GetString(e.DataArray, 0, e.DataArray.Length);
             string str = "";
@@ -416,6 +416,29 @@ namespace ZFreeGo.Monitor.AutoStudio
              //   MessageBox.Show(ex.Message, "PingAddress");
                 return false;
             }
+        }
+
+
+        private bool NetSendData(byte[] data)
+        {
+            try
+            {
+                if (isTcpRun)
+                {
+                    upnpServer.SendMessage(data);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "NetSendData");
+                return false;
+            }
+           
         }
 
       

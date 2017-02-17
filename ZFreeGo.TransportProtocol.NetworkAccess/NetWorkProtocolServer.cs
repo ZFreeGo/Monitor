@@ -8,6 +8,7 @@ using ZFreeGo.TransmissionProtocols.ControlSystemCommand;
 using ZFreeGo.TransmissionProtocols.FileSever;
 using ZFreeGo.TransmissionProtocols.Frame;
 using ZFreeGo.TransmissionProtocols.Frame104;
+using ZFreeGo.TransmissionProtocols.MonitorProcessInformation;
 using ZFreeGo.TransmissionProtocols.ReciveCenter;
 using ZFreeGo.TransmissionProtocols.TransmissionControl104;
 
@@ -85,7 +86,16 @@ namespace ZFreeGo.TransmissionProtocols
            }
        }
 
+        private StatusServer telesignalisationServer;
 
+        public StatusServer TelesignalisationServer
+        {
+            get
+            {
+                return telesignalisationServer;
+            }
+        }
+        
        
         /// <summary>
         /// 网络访问服务初始化
@@ -97,7 +107,7 @@ namespace ZFreeGo.TransmissionProtocols
 
             transmissionControlServer = new TransmissionControlServer(NetSendData);
             callServer = new CallServer(NetSendData);
-
+            telesignalisationServer = new StatusServer();
         }
 
         /// <summary>
@@ -151,6 +161,7 @@ namespace ZFreeGo.TransmissionProtocols
             {
                 transmissionControlServer.Enqueue(e.mdata1);
                 MakeReciveFrameMessageEvent(e.mdata1.ToString(), e.mdata1.ToString(true));
+                
             }
             catch (Exception ex)
             {
@@ -215,7 +226,7 @@ namespace ZFreeGo.TransmissionProtocols
                     e.MasterCMD.APCI.ReceiveSequenceNumber);
 
                 MakeReciveFrameMessageEvent(e.MasterCMD.ToString(), e.MasterCMD.ToString(true));
-               
+                callServer.Enqueue((ControlCommandASDU)e.MasterCMD.ASDU);
 
             }
             catch (Exception ex)
@@ -269,12 +280,14 @@ namespace ZFreeGo.TransmissionProtocols
             {
                 appMessageManager.UpdateReceiveSequenceNumber(e.mdata2.APCI.TransmitSequenceNumber,
                     e.mdata2.APCI.ReceiveSequenceNumber);
-                //BeginInvokeUpdateHistory(e.mdata2.FrameArray, e.mdata2.FrameArray.Length, "从站发送:I帧:遥信命令:");
+                telesignalisationServer.Enqueue(e.mdata2.ASDU);
+                MakeReciveFrameMessageEvent(e.mdata2.ToString(), e.mdata2.ToString(true));
+               
 
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message, "heckGetMessage_TelesignalisationMessageArrived");
+                SendFaultEvent("checkGetMessage_TelesignalisationMessageArrived:" + ex.Message);
             }
 
         }
@@ -460,7 +473,7 @@ namespace ZFreeGo.TransmissionProtocols
             StringBuilder strbuild = new StringBuilder(data.Length * 2 + 10);
             foreach (var m in data)
             {
-                strbuild.AppendFormat("{0:X00) ", m);
+                strbuild.AppendFormat("{0:X00} ", m);
             }
             return strbuild.ToString();
         }
@@ -482,7 +495,7 @@ namespace ZFreeGo.TransmissionProtocols
            }
            else
            {
-               return true;
+               return false;
            }
 
         }

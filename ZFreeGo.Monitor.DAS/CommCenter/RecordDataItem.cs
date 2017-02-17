@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement;
+using ZFreeGo.TransmissionProtocols.BasicElement;
+
 
 namespace ZFreeGo.Monitor.AutoStudio.CommCenter
 {

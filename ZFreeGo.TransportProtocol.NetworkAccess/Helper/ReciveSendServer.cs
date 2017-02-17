@@ -182,23 +182,28 @@ namespace ZFreeGo.TransmissionProtocols.Helper
                 }
                 catch (ObjectDisposedException ex)
                 {
+                    StopServer();
                     Console.WriteLine("ReciveThread" + ex.Message);
                     Thread.Sleep(100);
                 }
                 catch (ThreadAbortException ex)
                 {
+                    StopServer();
                     Console.WriteLine("ReciveThread" + ex.Message);
                     Thread.ResetAbort();
                 }
             }
             catch (Exception ex)
             {
+                StopServer();
                 while (true)
                 {
                     Console.WriteLine("ReciveThread" + ex.Message);
                     Thread.Sleep(100);
                 }
             }
+          
+                
         }
         /// <summary>
         /// 召唤文件目录服务进程
@@ -267,22 +272,24 @@ namespace ZFreeGo.TransmissionProtocols.Helper
                 }
                 catch (ObjectDisposedException ex)
                 {
-                    serverState = false;
+                    
+                    StopServer();
                     Console.WriteLine("ReciveThread:" + ex.Message);
                     Thread.Sleep(100);
                 }
                 catch (ThreadAbortException ex)
                 {
-                    serverState = false;
+                    StopServer();
                     Console.WriteLine("ReciveThread" + ex.Message);
                     Thread.ResetAbort();
                 }
             }
             catch (Exception ex)
             {
-                serverState = false;
+                StopServer();
                 Console.WriteLine("ReciveThread:" + ex.Message);
             }
+            StopServer();
         }
 
         /// <summary>

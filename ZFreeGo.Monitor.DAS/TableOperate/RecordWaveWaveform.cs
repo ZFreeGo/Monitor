@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Collections.ObjectModel;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.FileNr;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever;
+using ZFreeGo.TransmissionProtocols.FileSever;
+using ZFreeGo.TransmissionProtocols.BasicElement;
+
 namespace ZFreeGo.Monitor.AutoStudio
 {
     public partial class MainWindow
@@ -48,7 +46,7 @@ namespace ZFreeGo.Monitor.AutoStudio
                 callDirectoryServer = new CallFileDirectoryServer();
                 callDirectoryServer.CallFileDirectoryEvent += callDirectoryServer_CallFileDirectoryEvent;
                 callDirectoryServer.CallFileEndEvent +=callDirectoryServer_CallFileEndEvent;
-                callDirectoryServer.StartServer(SendFileServerMessage, packet);
+               // callDirectoryServer.StartServer(SendFileServerMessage, packet);
             }
             catch (Exception ex)
             {

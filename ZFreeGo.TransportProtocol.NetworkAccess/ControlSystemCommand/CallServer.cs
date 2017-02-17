@@ -53,7 +53,7 @@ namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
        /// <param name="sendDataDelegate">发送委托</param>
        /// <param name="cot">传输原因</param>
        /// <param name="qoi">传输限定词</param>
-        public void StartServer(Func<ControlCommandASDU, bool> sendDataDelegate, CauseOfTransmissionList cot, QualifyOfInterrogationList qoi)
+        public void StartServer( CauseOfTransmissionList cot, QualifyOfInterrogationList qoi)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
                 mServerThread.Start();
                 serverState = true;
 
-                mSendDataDelegate = sendDataDelegate;
+                
                 var id = TypeIdentification.C_IC_NA_1;//召唤命令               
                 mSendFrame = new ControlCommandASDU(id, cot, 0, qoi);
 

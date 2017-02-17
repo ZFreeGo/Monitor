@@ -53,7 +53,14 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
         {
             try
             {
+                if (ServerState)
+                {
+                    throw new Exception("服务正在运行，禁止重复启动");
+                }
                 InitData();
+
+                mSendFrame = new APCITypeU(tcf);
+
                 mReadThread = new Thread(ReciveThread);
                 mReadThread.Priority = ThreadPriority.Normal;
                 mReadThread.Name = "ReciveThread线程数据";
@@ -62,11 +69,14 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
                 mServerThread.Priority = ThreadPriority.Normal;
                 mServerThread.Name = "ServerThread线程";
                 mServerThread.Start();
+                
+
+
                 serverState = true;
                  
                 
 
-                mSendFrame = new APCITypeU(tcf);
+               
             }
             catch (Exception ex)
             {
@@ -208,9 +218,9 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
                 }
                 else
                 {
-                    SendFaultEvent(string.Format("重试失败，结束召唤。", mRepeatCount), TransmissionControlResult.Fault);
+                    SendFaultEvent(string.Format("重试失败，传输控制功能。", mRepeatCount), TransmissionControlResult.Fault);
                     
-                    return true;
+                    return false;
                 }
             
         }
