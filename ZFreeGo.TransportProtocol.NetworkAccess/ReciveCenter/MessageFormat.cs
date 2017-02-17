@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
+namespace ZFreeGo.TransmissionProtocols.ReciveCenter
 {
     public enum MessageFormat : ushort
     {

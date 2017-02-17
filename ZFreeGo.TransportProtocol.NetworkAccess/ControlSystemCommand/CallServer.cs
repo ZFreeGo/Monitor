@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using ZFreeGo.TransportProtocol.NetworkAccess.BasicElement;
-using ZFreeGo.TransportProtocol.NetworkAccess.Helper;
+using ZFreeGo.TransmissionProtocols.BasicElement;
+using ZFreeGo.TransmissionProtocols.Helper;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.ControlSystemCommand
+namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
 {
     /// <summary>
     /// 召唤服务
@@ -37,6 +37,15 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.ControlSystemCommand
         /// 取消发送标志
         /// </summary>
         private bool cancelSend;
+
+        /// <summary>
+        /// 召唤服务
+        /// </summary>
+        /// <param name="sendDataDelegate">发送委托</param>
+        public CallServer(Func<ControlCommandASDU, bool> sendDataDelegate)
+        {
+            mSendDataDelegate = sendDataDelegate; 
+        }
 
        /// <summary>
        /// 召唤服务启动服务

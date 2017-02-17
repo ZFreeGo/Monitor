@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using ZFreeGo.TransportProtocol.NetworkAccess.Frame104;
-using ZFreeGo.TransportProtocol.NetworkAccess.Helper;
+using ZFreeGo.TransmissionProtocols.Frame104;
+using ZFreeGo.TransmissionProtocols.Helper;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.TransmissionControl104
+namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
 {
     /// <summary>
     /// 传输控制功能服务
@@ -35,18 +35,21 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.TransmissionControl104
 
         private Func<APCITypeU, bool> mSendDataDelegate;
 
-        /// <summary>
-        /// 发送标志
-        /// </summary>
-        private bool sendFlag;
-
+       /// <summary>
+       /// 传输控制功能初始化
+       /// </summary>
+       /// <param name="sendDataDelegate">发送委托</param>
+        public TransmissionControlServer(Func<APCITypeU, bool> sendDataDelegate)
+        {
+            mSendDataDelegate = sendDataDelegate;  
+        }
         
         /// <summary>
         /// 启动服务
         /// </summary>
         /// <param name="sendDataDelegate">发送委托</param>
        /// <param name="tcf">传输控制功能</param>
-        public void StartServer(Func<APCITypeU, bool> sendDataDelegate)
+        public void StartServer(TransmissionControlFunction tcf)
         {
             try
             {
@@ -60,8 +63,10 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.TransmissionControl104
                 mServerThread.Name = "ServerThread线程";
                 mServerThread.Start();
                 serverState = true;
-                mSendDataDelegate = sendDataDelegate;    
-                sendFlag =false;       
+                 
+                
+
+                mSendFrame = new APCITypeU(tcf);
             }
             catch (Exception ex)
             {
@@ -69,17 +74,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.TransmissionControl104
             }
         }
 
-        /// <summary>
-        /// 传输控制功能发送
-        /// </summary>
-        /// <param name="tcf">传输控制功能</param>
-        public void SendTCF(TransmissionControlFunction tcf)
-        {
-            mRepeatCount = 0;
-             mSendFrame = new APCITypeU(tcf);
-                sendFlag = true;
-             TransmitData();
-        }
+       
 
         /// <summary>
         /// 发送数据
@@ -87,16 +82,14 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.TransmissionControl104
         /// <returns>true-成功，false-失败，终止线程</returns>
         public override bool TransmitData()
         {
-            if(sendFlag)
-            {
+            
                 bool state = mSendDataDelegate(mSendFrame);
                 if (!state)
                 {
                     SendFaultEvent("发送失败，终止处理。", TransmissionControlResult.SendFault);
                 }
                 return state;
-            }
-            return true;
+           
         }
 
         /// <summary>
@@ -115,7 +108,9 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.TransmissionControl104
             {
                 return false;
             }
-        } /// <summary>
+        } 
+        
+        /// <summary>
         /// 准时应答后相应的事件
         /// </summary>
         /// <returns>true--正常执行，false--结束执行，终止当前线程</returns>
@@ -141,7 +136,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.TransmissionControl104
                                 SendFaultEvent("AcknowledgementStartDataTransmission：发送与接收不对应", TransmissionControlResult.Unknow);
                             }
 
-                            sendFlag = false;
+                           
                             break;
                         }
                     case TransmissionControlFunction.StopDataTransmission:
@@ -159,7 +154,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.TransmissionControl104
                             {
                                   SendFaultEvent("AcknowledgementStopDataTransmission：发送与接收不对应", TransmissionControlResult.Unknow);
                             }
-                            sendFlag = false;
+                            
                             break;
                         }
                     case TransmissionControlFunction.TestFrame:
@@ -178,7 +173,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.TransmissionControl104
                                  SendFaultEvent("AcknowledgementTestFrame：发送与接收不对应", TransmissionControlResult.Unknow);
                             }
 
-                            sendFlag = false;
+                            
                             break;
                         }
                    
@@ -204,8 +199,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.TransmissionControl104
         /// <returns>true--继续，fals--终止</returns>
         public override bool AckOverTime()
         {
-            if (sendFlag)
-            {
+            
                 if (++mRepeatCount < mRepeatMaxCount)
                 {
 
@@ -218,11 +212,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.TransmissionControl104
                     
                     return true;
                 }
-            }
-            else
-            {
-                return true;
-            }
+            
         }
 
         /// <summary>

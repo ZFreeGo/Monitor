@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.BasicElement
+namespace ZFreeGo.TransmissionProtocols.BasicElement
 {
     /// <summary>
     /// 复位进程限定词

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.FileSever
+namespace ZFreeGo.TransmissionProtocols.FileSever
 {
     /// <summary>
     /// 写文件传输描述

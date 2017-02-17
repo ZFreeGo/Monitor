@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using ZFreeGo.TransportProtocol.NetworkAccess.Helper;
+using ZFreeGo.TransmissionProtocols.Helper;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.FileSever
+namespace ZFreeGo.TransmissionProtocols.FileSever
 {
     /// <summary>
     /// 目录召唤确认

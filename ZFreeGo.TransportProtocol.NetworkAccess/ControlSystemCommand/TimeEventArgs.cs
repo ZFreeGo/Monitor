@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.ControlSystemCommand
+namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
 {
     /// <summary>
     /// 时钟同步服务

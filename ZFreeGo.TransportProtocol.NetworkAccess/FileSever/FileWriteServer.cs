@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using ZFreeGo.TransportProtocol.NetworkAccess.BasicElement;
+using ZFreeGo.TransmissionProtocols.BasicElement;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.FileSever
+namespace ZFreeGo.TransmissionProtocols.FileSever
 {
 
      public class FileWriteServer : FileTransmissionServer

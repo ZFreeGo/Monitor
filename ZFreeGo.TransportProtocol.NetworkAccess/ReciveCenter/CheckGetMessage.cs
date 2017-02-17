@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-using ZFreeGo.TransportProtocol.NetworkAccess.BasicElement;
-using ZFreeGo.TransportProtocol.NetworkAccess.FileSever;
-using ZFreeGo.TransportProtocol.NetworkAccess.Frame104;
-using ZFreeGo.TransportProtocol.NetworkAccess.TransmissionControl104;
+using ZFreeGo.TransmissionProtocols.BasicElement;
+using ZFreeGo.TransmissionProtocols.FileSever;
+using ZFreeGo.TransmissionProtocols.Frame104;
+using ZFreeGo.TransmissionProtocols.TransmissionControl104;
 
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
+namespace ZFreeGo.TransmissionProtocols.ReciveCenter
 {
     public class CheckGetMessage
     {      
@@ -18,13 +18,13 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
         /// <summary>
         ///Type-U 传输控制命令事件 
         /// </summary>
-        public event EventHandler<TransmitEventArgs<TransmissionControlFunction, byte[]>>
+        public event EventHandler<TransmitEventArgs<APCITypeU, byte[]>>
             TransmitControlCommandArrived;
 
         /// <summary>
         ///Type-S监视功能格式
         /// </summary>
-        public event EventHandler<TransmitEventArgs<UInt16, byte[]>>
+        public event EventHandler<TransmitEventArgs<APCITypeS, byte[]>>
             SupervisoryCommandArrived;
         /// <summary>
         /// 主站召唤命令
@@ -74,7 +74,6 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
         /// </summary>
         public event EventHandler<TransmitEventArgs<TypeIdentification, FilePacket>> FileServerArrived;
 
-
         /// <summary>
         ///ID未识别
         /// </summary>
@@ -91,7 +90,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
         /// <summary>
         /// 缓冲队列 二级缓冲
         /// </summary>
-        public Queue<byte> ReciveQueneBuffer;
+        private Queue<byte> ReciveQueneBuffer;
 
         /// <summary>
         /// 暂存一帧
@@ -195,7 +194,6 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
                                     {
                                         nowCode = CheckCode.MinLength;
                                         continue;
-
                                     }
                                 }
                                 else
@@ -321,13 +319,13 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
             {
                 if (Enum.IsDefined(typeof(TransmissionControlFunction), dataArray[2]))
                 {
-                    var tcf = (TransmissionControlFunction)dataArray[2];            
-                   
+                    var tcf = (TransmissionControlFunction)dataArray[2];
+                    var apci = new APCITypeU(tcf);
                     //发送事件消息
                     if (TransmitControlCommandArrived != null)
                     {
                         TransmitControlCommandArrived(this,
-                              new TransmitEventArgs<TransmissionControlFunction, byte[]>(tcf, dataArray));
+                              new TransmitEventArgs<APCITypeU, byte[]>(apci, dataArray));
                     }
                    
                     return CheckCode.TypeU;
@@ -352,10 +350,10 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
         {
             //接收序列号
             UInt16 tn = (UInt16)((dataArray[4] >> 1) + (dataArray[5] << 7));
-           
+            var apci = new APCITypeS(tn);
             if (SupervisoryCommandArrived != null)
             {
-                SupervisoryCommandArrived(this, new TransmitEventArgs<ushort, byte[]>(tn, dataArray));
+                SupervisoryCommandArrived(this, new TransmitEventArgs<APCITypeS, byte[]>(apci, dataArray));
             }
             return CheckCode.TypeS;
         }
@@ -549,7 +547,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
         {
             try
             {
-                var cmd = new MasterCommand(dataArray);
+                var cmd = new APDU(dataArray);
                 switch (id)
                 {
                     //主站系统命令
@@ -655,15 +653,11 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
                 var message = new APDU(dataArray);
                 TelecontrolCommandArrived(this,
                     new TransmitEventArgs<TypeIdentification, APDU>(id, message));
-
-
-
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
         }
         /// <summary>
         /// CheckCode 检测代码后期处理，用于报告错误等
@@ -742,12 +736,9 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
             
              ReciveQuene = new Queue<byte>();
              ReciveQueneBuffer = new Queue<byte>();
-
              FrameQueneBuffer = new Queue<byte>();
-
             //初始化为最小长度
              chekNow = CheckCode.MinLength;
-
              readThread = new Thread(TcpReadThread);
              readThread.Priority = ThreadPriority.AboveNormal;
              readThread.Name = "数据解码";
@@ -778,31 +769,24 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
                     while (true)
                     {
                         //二级缓存数据为空，再从一级缓存转存数据
-
                         lock (ReciveQuene)
                         {
                             while (ReciveQuene.Count > 0)  //转存到二级缓冲
                             {
                                 ReciveQueneBuffer.Enqueue(ReciveQuene.Dequeue());
                             }
-
-                        }
-                                                
+                        }                                                
                         if (ReciveQueneBuffer.Count > 0)
                         {
                             MainCheckStep();
                         }
-
                         Thread.Sleep(10);
-                    }
-           
+                    }           
                 }
                 catch (ThreadAbortException )
                 {
-                    Thread.ResetAbort();
-                    
+                    Thread.ResetAbort();                    
                 }
-
             }
             catch (Exception ex)
             {

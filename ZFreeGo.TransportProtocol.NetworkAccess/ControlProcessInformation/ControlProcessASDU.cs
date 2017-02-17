@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ZFreeGo.TransportProtocol.NetworkAccess.BasicElement;
-using ZFreeGo.TransportProtocol.NetworkAccess.Frame;
-using ZFreeGo.TransportProtocol.NetworkAccess.Helper;
+using ZFreeGo.TransmissionProtocols.BasicElement;
+using ZFreeGo.TransmissionProtocols.Frame;
+using ZFreeGo.TransmissionProtocols.Helper;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.ControlProcessInformation
+namespace ZFreeGo.TransmissionProtocols.ControlProcessInformation
 {
 
     /// <summary>

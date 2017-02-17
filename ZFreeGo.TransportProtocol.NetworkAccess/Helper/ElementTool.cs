@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
+namespace ZFreeGo.TransmissionProtocols.Helper
 {
     public class ElementTool
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.TransmissionControl104
+namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
 {
     /// <summary>
     /// 传输控制故障事件参数

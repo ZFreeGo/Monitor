@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ZFreeGo.TransmissionProtocols.Frame104;
+using ZFreeGo.TransmissionProtocols.TransmissionControl104;
 
-using ZFreeGo.TransportProtocol.NetworkAccess.TransmissionControl104;
-
-namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
+namespace ZFreeGo.TransmissionProtocols.ReciveCenter
 {
     /// <summary>
     /// 主站系统命令事件
@@ -15,14 +15,14 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
         /// <summary>
         /// 命令
         /// </summary>
-        public MasterCommand MasterCMD;
+        public APDU MasterCMD;
 
 
         /// <summary>
         /// 主站系统命令
         /// </summary>
         /// <param name="cmd">系统命令</param>
-        public MasterCommmadEventArgs(MasterCommand cmd)
+        public MasterCommmadEventArgs(APDU cmd)
         {
              MasterCMD= cmd;
 

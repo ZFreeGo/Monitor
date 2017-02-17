@@ -6,7 +6,7 @@ using System.Threading;
 
 
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
+namespace ZFreeGo.TransmissionProtocols.ReciveCenter
 {
     public class ControlFlow 
     {

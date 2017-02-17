@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.MonitorProcessInformation
+namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
 {
     /// <summary>
     /// 状态信息参数，提取后的参数

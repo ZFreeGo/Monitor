@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
+namespace ZFreeGo.TransmissionProtocols.Helper
 {
     /// <summary>
     /// 接收服务用于接收文件

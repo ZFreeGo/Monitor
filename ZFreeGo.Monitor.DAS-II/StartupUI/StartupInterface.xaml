@@ -1,0 +1,49 @@
+﻿<Window x:Class="ZFreeGo.Monitor.AutoStudio.StartupUI.StartupInterface"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="StartupInterface" Height="240" Width="600" WindowStyle="None"
+        Loaded="Window_Loaded"  ResizeMode="NoResize"  WindowStartupLocation="CenterScreen"
+        Closing="Window_Closing"
+        >
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <Image Margin="3,20,3,3" Source="/Pictures/sojo-c.jpg"/>
+                
+               
+            </StackPanel>
+            <Grid Grid.Column="1">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Margin="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Label Margin="3,20,3,3" VerticalAlignment="Center" HorizontalAlignment="Center"
+                         FontFamily="黑体" FontSize="12" >
+                            DAS-II 配电自动化系统</Label>
+                    </StackPanel>
+                    <Grid  Margin="3,20,3,3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70"></ColumnDefinition>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0" Margin="3">登陆用户:</Label>
+                        <TextBox Grid.Column="1" Grid.Row="0" Margin="3" Width="100" VerticalContentAlignment="Center" Name="txtLoginUser"></TextBox>
+                        <Label Grid.Column="0" Grid.Row="1" Margin="3">密码密钥:</Label>
+                        <PasswordBox Grid.Column="1" Grid.Row="1" Margin="3" Width="100" VerticalContentAlignment="Center" Name="passBox" ></PasswordBox>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Margin="40,3,3,3" Padding="5" Name="btnLogin" Click="btnLogin_Click" >登陆</Button>
+                        <Button Margin="60,3,3,3" Padding="5" Name="btnlogCancel" Click="btnlogCancel_Click" >取消</Button>
+                        
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

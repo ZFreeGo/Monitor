@@ -7,8 +7,8 @@
     <ProjectGuid>{814212F7-ED3D-46F6-A172-7CA2060FED0B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ZFreeGo.TransportProtocol.NetworkAccess</RootNamespace>
-    <AssemblyName>ZFreeGo.TransportProtocol.NetworkAccess</AssemblyName>
+    <RootNamespace>ZFreeGo.TransmissionProtocols</RootNamespace>
+    <AssemblyName>ZFreeGo.TransmissionProtocols</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NetWorkProtocolServer.cs" />
     <Compile Include="ReciveCenter\ApplicationFrameManager.cs" />
     <Compile Include="ReciveCenter\CheckGetMessage.cs" />
     <Compile Include="ReciveCenter\ControlFlow.cs" />
@@ -77,6 +78,8 @@
     <Compile Include="BasicElement\QualifyParameterActive.cs" />
     <Compile Include="BasicElement\QualifyParameterMeasure.cs" />
     <Compile Include="BasicElement\SingleInformationQualifier.cs" />
+    <Compile Include="ReciveCenter\FrameMessageEventArgs.cs" />
+    <Compile Include="ReciveCenter\ReciveFaultArgs.cs" />
     <Compile Include="ReciveCenter\TransmitEventArgs.cs" />
     <Compile Include="ReciveCenter\CheckCode.cs" />
     <Compile Include="BasicElement\QUType.cs" />

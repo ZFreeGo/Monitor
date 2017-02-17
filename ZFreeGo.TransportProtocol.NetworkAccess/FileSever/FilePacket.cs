@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ZFreeGo.TransportProtocol.NetworkAccess.BasicElement;
-using ZFreeGo.TransportProtocol.NetworkAccess.Frame;
-using ZFreeGo.TransportProtocol.NetworkAccess.Frame104;
+using ZFreeGo.TransmissionProtocols.BasicElement;
+using ZFreeGo.TransmissionProtocols.Frame;
+using ZFreeGo.TransmissionProtocols.Frame104;
 
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.FileSever
+namespace ZFreeGo.TransmissionProtocols.FileSever
 {
     /// <summary>
     /// 文件服务

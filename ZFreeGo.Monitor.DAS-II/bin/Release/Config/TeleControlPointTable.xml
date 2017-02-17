@@ -1,0 +1,15 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <Telecontrol>
+    <TelecontrolID>1</TelecontrolID>
+    <TelecontrolComment>开关分合</TelecontrolComment>   
+  </Telecontrol>
+    <Telecontrol>
+    <TelecontrolID>2</TelecontrolID>
+    <TelecontrolComment>电池活化</TelecontrolComment>   
+  </Telecontrol>
+     <Telecontrol>
+    <TelecontrolID>3</TelecontrolID>
+    <TelecontrolComment>复归</TelecontrolComment>   
+  </Telecontrol>
+</NewDataSet>

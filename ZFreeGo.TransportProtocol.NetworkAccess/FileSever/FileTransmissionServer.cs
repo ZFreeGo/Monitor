@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.FileSever
+namespace ZFreeGo.TransmissionProtocols.FileSever
 {
     /// <summary>
     /// 文件传输服务---一个文件使用一个服务

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.Frame104
+namespace ZFreeGo.TransmissionProtocols.Frame104
 {
     public class ApplicationProtocalControlnformation
     {

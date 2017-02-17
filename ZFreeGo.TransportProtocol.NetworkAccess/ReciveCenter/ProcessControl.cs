@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
+namespace ZFreeGo.TransmissionProtocols.ReciveCenter
 {
     public class ProcessControlPure
     {

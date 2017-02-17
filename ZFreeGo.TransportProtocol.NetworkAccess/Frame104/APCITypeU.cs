@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ZFreeGo.TransportProtocol.NetworkAccess.TransmissionControl104;
+using ZFreeGo.TransmissionProtocols.TransmissionControl104;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.Frame104
+namespace ZFreeGo.TransmissionProtocols.Frame104
 {
     /// <summary>
     /// U 格式（ Unnumbered Control Function） U 格式的 APDU 只包括 APCI
@@ -105,7 +105,37 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Frame104
            
         }
 
+        /// <summary>
+        /// 产生帧信息事件
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            var data = GetAPCIDataArray();
+            StringBuilder strbuild = new StringBuilder(data.Length * 3 + 10);
+            foreach (var m in data)
+            {
+                strbuild.AppendFormat("{0:X00) ", m);
+            }
+            return strbuild.ToString();
+        }
 
+        /// <summary>
+        /// 对信息进行分割
+        /// </summary>
+        /// <param name="flag">true--对照分割，false--详细分割</param>
+        /// <returns>信息字符串</returns>
+        public string ToString(bool flag)
+        {
+            
+                StringBuilder strBuild = new StringBuilder(100);
+                strBuild.Append("APCITypeU,");
+                strBuild.AppendFormat("APDU长度:[{0:X00}]={0:00},", apci.APDULength, apci.APDULength);
+                strBuild.AppendFormat("控制功能:[{0:X00} {1:X00} {2:X00} {3:X00}}={4:00}", apci.ControlDomain4, apci.ControlDomain3, apci.ControlDomain2, apci.ControlDomain1,
+                    TransmissionCotrolFun.ToString());
+                     return strBuild.ToString();
+           
+        }
 
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.BasicElement
+namespace ZFreeGo.TransmissionProtocols.BasicElement
 {
     /// <summary>
     /// 短浮点数

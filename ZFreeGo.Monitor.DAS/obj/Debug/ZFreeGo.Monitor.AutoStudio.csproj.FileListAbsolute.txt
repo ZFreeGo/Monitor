@@ -177,3 +177,4 @@ F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.A
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.application
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.exe
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio_Content.g.cs

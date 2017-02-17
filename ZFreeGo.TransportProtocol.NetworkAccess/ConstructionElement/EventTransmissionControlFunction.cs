@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ZFreeGo.TransportProtocol.NetworkAccess.TransmissionControl104;
+using ZFreeGo.TransmissionProtocols.TransmissionControl104;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
+namespace ZFreeGo.TransmissionProtocols.ReciveCenter
 {
     /// <summary>
     ///   EventTransmissionControlFunction 传输控制功能控制事件

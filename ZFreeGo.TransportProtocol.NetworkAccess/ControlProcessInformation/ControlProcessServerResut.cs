@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.ControlProcessInformation
+namespace ZFreeGo.TransmissionProtocols.ControlProcessInformation
 {
     /// <summary>
     /// 控制过程命令服务结果

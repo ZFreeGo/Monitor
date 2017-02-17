@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using ZFreeGo.TransportProtocol.NetworkAccess.BasicElement;
+using ZFreeGo.TransmissionProtocols.BasicElement;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.ReciveCenter
+namespace ZFreeGo.TransmissionProtocols.ReciveCenter
 {
     public class EventProperty<T>
     {

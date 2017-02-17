@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.BasicElement
+namespace ZFreeGo.TransmissionProtocols.BasicElement
 {
     /// <summary>
     /// 文件准备就绪限定词(FRQ)

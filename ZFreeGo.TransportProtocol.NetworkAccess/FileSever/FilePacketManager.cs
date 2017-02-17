@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.FileSever
+namespace ZFreeGo.TransmissionProtocols.FileSever
 {
     /// <summary>
     /// 文件包管理器,用于拆分或组装文件。

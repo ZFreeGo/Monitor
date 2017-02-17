@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ZFreeGo.TransportProtocol.NetworkAccess.BasicElement;
-using ZFreeGo.TransportProtocol.NetworkAccess.Frame;
-using ZFreeGo.TransportProtocol.NetworkAccess.Helper;
+using ZFreeGo.TransmissionProtocols.BasicElement;
+using ZFreeGo.TransmissionProtocols.Frame;
+using ZFreeGo.TransmissionProtocols.Helper;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.Frame104
+namespace ZFreeGo.TransmissionProtocols.Frame104
 {
 
     /// <summary>
@@ -621,13 +621,25 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Frame104
             {
                throw new Exception("APDU(byte[] dataArray) 长度不应该小于15");
             }
-            TimeStamp = DateTime.Now;
+          
             APCI = new APCITypeI(dataArray);
             var data = new byte[dataArray.Length - 6];
             Array.Copy(dataArray, 6, data, 0, dataArray.Length - 6);
             FrameArray = dataArray;
             ASDU = new ApplicationServiceDataUnit(data);
 
+            TimeStamp = DateTime.Now;
+        }
+
+        /// <summary>
+        /// 使用APCI与ASDU初始化APDU
+        /// </summary>
+        /// <param name="apci">APCI</param>
+        /// <param name="asdu">ASDU</param>
+        public APDU(APCITypeI apci, ApplicationServiceDataUnit asdu)
+        {
+            APCI = apci;
+            ASDU = asdu;
             TimeStamp = DateTime.Now;
         }
 
@@ -647,18 +659,19 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Frame104
             build.Append("]\n");
             return build.ToString();
         }
+
+       /// <summary>
+        /// 对信息进行分割
+        /// </summary>
+        /// <param name="flag">true--对照分割，false--详细分割</param>
+        /// <returns>信息字符串</returns>
+        public  string ToString(bool flag)
+        {
+            StringBuilder strBuild = new StringBuilder(APCI.ToString(flag), 40 + ASDU.Length*3);
+            strBuild.Append(ASDU.ToString());
+            return strBuild.ToString();
+        }
             
-
-
-        
-
-
-
-
-
-        
-
-
 
     }
 }

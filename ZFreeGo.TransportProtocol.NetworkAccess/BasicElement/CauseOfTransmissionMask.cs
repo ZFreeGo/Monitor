@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.BasicElement
+namespace ZFreeGo.TransmissionProtocols.BasicElement
 {
     //    传送原因＝CAUSE OF TRANSMISSION∶＝ CP8{Cause,P/N,T}
     //其中 Cause∶＝UI6[1..6]<0..63>

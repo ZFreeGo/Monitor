@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.Frame104
+namespace ZFreeGo.TransmissionProtocols.Frame104
 {
     /// <summary>
     /// I 格式（ Information Transmit Format） ,I 格式的 APDU 至少必须包含一个 ASDU

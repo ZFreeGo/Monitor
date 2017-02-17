@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("ZFreeGo.TransportProtocol.NetworkAccess")]
+[assembly: AssemblyProduct("ZFreeGo.TransmissionProtocols")]
 [assembly: AssemblyCopyright("Copyright ©Sojo 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

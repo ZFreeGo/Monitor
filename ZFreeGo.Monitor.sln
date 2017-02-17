@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest", "ConsoleTest\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZFreeGo.TransportProtocol.Xmodem", "ZFreeGo.TransportProtocol.Xmodem\ZFreeGo.TransportProtocol.Xmodem.csproj", "{266BA8DC-9D81-4879-B3D6-EDD2E062B756}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZFreeGo.TransportProtocol.NetworkAccess", "ZFreeGo.TransportProtocol.NetworkAccess\ZFreeGo.TransportProtocol.NetworkAccess.csproj", "{814212F7-ED3D-46F6-A172-7CA2060FED0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZFreeGo.TransmissionProtocols", "ZFreeGo.TransportProtocol.NetworkAccess\ZFreeGo.TransmissionProtocols.csproj", "{814212F7-ED3D-46F6-A172-7CA2060FED0B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZFreeGo.Monitor.AutoStudio", "ZFreeGo.Monitor.DAS\ZFreeGo.Monitor.AutoStudio.csproj", "{4ACF6DA8-65F7-485A-A7FE-96F8840DD478}"
 EndProject
