@@ -36,6 +36,11 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
         private Func<APCITypeU, bool> mSendDataDelegate;
 
         /// <summary>
+        /// 工作模式 true--发送应答模式，false--只进行接收模式
+        /// </summary>
+        protected bool mWorkMode;
+
+        /// <summary>
         /// 发送任务标志,true-有发送任务需要进行发送检测，false--跳过发送步骤
         /// </summary>
         private bool mSendTaskFlag;
@@ -65,22 +70,18 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
                 }
                 InitData();
 
-               
+                mThreadName = "TransmissionControlServer-" + DateTime.Now.ToLongTimeString() + "-";
 
                 mReadThread = new Thread(ReciveThread);
                 mReadThread.Priority = ThreadPriority.Normal;
-                mReadThread.Name = "ReciveThread线程数据";
+                mReadThread.Name = "Read-" + mThreadName;
                 mReadThread.Start();
                 mServerThread = new Thread(ServerThread);
                 mServerThread.Priority = ThreadPriority.Normal;
-                mServerThread.Name = "ServerThread线程";
+                mServerThread.Name = "Server-" + mThreadName;
                 mServerThread.Start();
 
-                serverState = true;
-                 
-                
-
-               
+                serverState = true;              
             }
             catch (Exception ex)
             {
@@ -92,20 +93,22 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
         /// 设置工作模式
         /// </summary>
         /// <param name="flag">true-发送应答模式，false--接收模式</param>
-        public override void SetWorkMode(bool flag)
-        {
-            base.SetWorkMode(flag);
+        public virtual void SetWorkMode(bool flag)
+        {           
             if(flag)
             {               
                 mSendTaskFlag = true;
+                mWorkMode = true;
+                mExistData.Set();
             }
             else
             {               
                 mSendTaskFlag = false;
+                mWorkMode = false;
             }
         }
-     
 
+       
         /// <summary>
         /// 传输控制
         /// </summary>
@@ -300,7 +303,156 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
             }
         }
 
-       
+        /// <summary>
+        /// 发送应答处理
+        /// </summary>
+        protected virtual void SendACkDeal()
+        {
+            mExistData.Reset();
+            if (!TransmitData())
+            {
+                StopServer();
+                return;
+            }
+            var statTime = DateTime.Now;
+            var responseTime = DateTime.Now;
+            do
+            {
+                Thread.Sleep(100);
+                mRequestData.Set();//发送请求数据信号
+
+                if (mExistData.WaitOne(mOverTime))     //等待有数据信号
+                {
+                    if (!ServerState)
+                    {
+                        return;
+                    }
+                    mRequestData.Reset();//中断获取数据
+
+                    //超时检测--处理有接收数据但不符合要求的情况
+                    responseTime = DateTime.Now;
+                    var diffTime = responseTime - statTime;
+                    if (diffTime.TotalMilliseconds > mOverTime)
+                    {
+                        if (AckOverTime())
+                        {
+
+                            continue;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    //检测数据不符合应答规范则返回
+                    if (!CheckData())
+                    {
+                        continue;
+                    }
+
+                    if (!AckOnTime())
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    if (!AckOverTime())
+                    {
+                        break;
+                    }
+                }
+                if (!TransmitData())
+                {
+                    StopServer();
+                    break;
+                }
+                if (!mWorkMode) //转变工作模式
+                {
+                    break;
+                }
+                statTime = DateTime.Now; //设置开始时间
+            } while (true);
+
+            SetWorkMode(false);
+        }
+
+        /// <summary>
+        /// 接收处理
+        /// </summary>
+        public virtual void RecieveDeal()
+        {
+            mExistData.Reset();
+            mRequestData.Set();
+            do
+            {
+                if (mExistData.WaitOne())     //等待有数据信号
+                {
+                    if (mWorkMode) //转变工作模式
+                    {
+
+                        break;
+                    }
+                    //检测数据不符合应答规范则返回
+                    if (!CheckData())
+                    {
+                        continue;
+                    }
+                    if (!AckOnTime())
+                    {
+                        break;
+                    }
+                }
+                Thread.Sleep(100);
+            } while (true);
+        }
+        /// <summary>
+        /// 服务进程
+        /// </summary>
+        public override void ServerThread()
+        {
+            try
+            {
+                try
+                {
+                    do
+                    {
+                        if (!ServerState)
+                        {
+                            return;
+                        }
+                        if (mWorkMode) //发送应答模式应答模式
+                        {
+                            SendACkDeal();
+                        }
+                        else  //接收模式
+                        {
+                            RecieveDeal();
+                        }
+                    } while (true);
+
+                }
+                catch (ObjectDisposedException ex)
+                {
+
+                    StopServer();
+                    Console.WriteLine("ReciveSend-" + mThreadName + ex.Message);
+                    Thread.Sleep(100);
+                }
+                catch (ThreadAbortException ex)
+                {
+                    StopServer();
+                    Console.WriteLine("ReciveSend-" + mThreadName + ex.Message);
+                    Thread.ResetAbort();
+                }
+            }
+            catch (Exception ex)
+            {
+                StopServer();
+                Console.WriteLine("ReciveSend-" + mThreadName + ex.Message);
+            }
+            StopServer();
+        }
         
 
 

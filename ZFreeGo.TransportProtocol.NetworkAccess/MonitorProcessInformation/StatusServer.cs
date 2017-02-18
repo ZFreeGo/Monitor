@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using ZFreeGo.TransmissionProtocols.BasicElement;
 using ZFreeGo.TransmissionProtocols.Frame;
 using ZFreeGo.TransmissionProtocols.Helper;
@@ -9,7 +10,7 @@ using ZFreeGo.TransmissionProtocols.Helper;
 namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
 {
     /// <summary>
-    /// 状态更新服务 遥信，SOE，时间记录 
+    /// 状态更新服务 遥信，SOE，事件记录 
     /// </summary>
     public class StatusServer : ReciveServer<ApplicationServiceDataUnit>
     {
@@ -25,13 +26,15 @@ namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
 
 
         /// <summary>
-        /// 状态服务
+        /// 状态服务，初始化
         /// </summary>
         public StatusServer()
+            : base("StatusServer-" + DateTime.Now.ToLongTimeString() + "-")
         {
-            
+            StartServer();
         }
 
+        
         /// <summary>
         /// 检测接收数据
         /// </summary>

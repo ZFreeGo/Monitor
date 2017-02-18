@@ -239,7 +239,6 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
             FrameArray = dataArray;
             ASDU = new ApplicationServiceDataUnit(data);
 
-          
         }
 
 

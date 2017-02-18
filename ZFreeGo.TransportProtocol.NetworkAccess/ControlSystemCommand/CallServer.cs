@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using ZFreeGo.TransmissionProtocols.BasicElement;
+using ZFreeGo.TransmissionProtocols.Frame;
 using ZFreeGo.TransmissionProtocols.Helper;
 
 namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
@@ -11,7 +12,7 @@ namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
     /// <summary>
     /// 召唤服务
     /// </summary>
-    public class CallServer : ReciveSendServer<ControlCommandASDU>
+    public class CallServer : ReciveSendServer<ApplicationServiceDataUnit>
     {
         /// <summary>
         /// 召唤服务事件
@@ -26,7 +27,7 @@ namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
         /// <summary>
         /// 接收帧
         /// </summary>
-        ControlCommandASDU mReciveFrame;
+        ApplicationServiceDataUnit mReciveFrame;
 
         /// <summary>
         /// 发送数据委托
@@ -44,7 +45,8 @@ namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
         /// <param name="sendDataDelegate">发送委托</param>
         public CallServer(Func<ControlCommandASDU, bool> sendDataDelegate)
         {
-            mSendDataDelegate = sendDataDelegate; 
+            mSendDataDelegate = sendDataDelegate;
+           
         }
 
        /// <summary>
@@ -57,21 +59,29 @@ namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
         {
             try
             {
+                if(ServerState)
+                {
+                    throw new Exception("召唤服务正在运行，禁止重复启动。");
+                }
+
+                mThreadName = "TransmissionControlServer-" + DateTime.Now.ToLongTimeString() + "-";
+                var id = TypeIdentification.C_IC_NA_1;//召唤命令               
+                mSendFrame = new ControlCommandASDU(id, cot, 0, qoi);
+                
                 InitData();
                 mReadThread = new Thread(ReciveThread);
                 mReadThread.Priority = ThreadPriority.Normal;
-                mReadThread.Name = "ReciveThread线程数据";
+                mReadThread.Name = "Recive-"+ mThreadName;
                 mReadThread.Start();
 
                 mServerThread = new Thread(ServerThread);
                 mServerThread.Priority = ThreadPriority.Normal;
-                mServerThread.Name = "ServerThread线程";
+                mServerThread.Name = "Server-" + mThreadName;
                 mServerThread.Start();
                 serverState = true;
 
                 
-                var id = TypeIdentification.C_IC_NA_1;//召唤命令               
-                mSendFrame = new ControlCommandASDU(id, cot, 0, qoi);
+               
 
                 cancelSend = false;
             }

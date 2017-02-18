@@ -97,9 +97,14 @@ namespace ZFreeGo.TransmissionProtocols
                return callServer;
            }
        }
-
+        /// <summary>
+        /// 遥信，SOE，事件记录 
+        /// </summary>
         private StatusServer telesignalisationServer;
 
+        /// <summary>
+        /// 获取状态更新服务 遥信，SOE，事件记录 
+        /// </summary>
         public StatusServer TelesignalisationServer
         {
             get
@@ -107,8 +112,23 @@ namespace ZFreeGo.TransmissionProtocols
                 return telesignalisationServer;
             }
         }
+
+        /// <summary>
+        /// 遥测服务
+        /// </summary>
+        private MeteringServer meteringServer;
+
+        /// <summary>
+        /// 获取遥测服务
+        /// </summary>
+        public MeteringServer MeteringServer
+        {
+            get
+            {
+                return meteringServer;
+            }
+        }
         
-       
         /// <summary>
         /// 网络访问服务初始化
         /// </summary>
@@ -120,7 +140,29 @@ namespace ZFreeGo.TransmissionProtocols
             transmissionControlServer = new TransmissionControlServer(NetSendData);
             callServer = new CallServer(NetSendData);
             telesignalisationServer = new StatusServer();
+            meteringServer = new MonitorProcessInformation.MeteringServer();
             checkGetMessageServerConfig();
+        }
+        /// <summary>
+        /// 停止服务
+        /// </summary>
+        public void StopServer()
+        {
+            checkGetMessage.Close();
+
+            transmissionControlServer.StopServer();
+            callServer.StopServer();
+            telesignalisationServer.StopServer();
+            meteringServer.StopServer();
+         
+        }
+        /// <summary>
+        /// 复位服务
+        /// </summary>
+        public void ResetServer()
+        {
+            appMessageManager = new ApplicationFrameManager();
+
         }
 
         /// <summary>
@@ -161,6 +203,8 @@ namespace ZFreeGo.TransmissionProtocols
             //I-未知
             checkGetMessage.UnknowMessageArrived += checkGetMessage_UnknowMessageArrived;
         }
+
+       
 
         /// <summary>
         ///U帧 TCF传输控制功能事件 
@@ -239,7 +283,7 @@ namespace ZFreeGo.TransmissionProtocols
                     e.MasterCMD.APCI.ReceiveSequenceNumber);
 
                 MakeReciveFrameMessageEvent(e.MasterCMD.ToString(), e.MasterCMD.ToString(true));
-                callServer.Enqueue((ControlCommandASDU)e.MasterCMD.ASDU);
+                callServer.Enqueue(e.MasterCMD.ASDU);
 
             }
             catch (Exception ex)
@@ -315,11 +359,12 @@ namespace ZFreeGo.TransmissionProtocols
             {
                 appMessageManager.UpdateReceiveSequenceNumber(e.mdata2.APCI.TransmitSequenceNumber,
                    e.mdata2.APCI.ReceiveSequenceNumber);
-              //  BeginInvokeUpdateHistory(e.mdata2.FrameArray, e.mdata2.FrameArray.Length, "从站发送:I帧:遥测命令");                                
+                meteringServer.Enqueue(e.mdata2.ASDU);
+                MakeReciveFrameMessageEvent(e.mdata2.ToString(), e.mdata2.ToString(true));      
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message, "遥测命令");
+                SendFaultEvent("checkGetMessage_TelemeteringMessageArrived:" + ex.Message);
             }
         }
         /// <summary>
@@ -549,6 +594,8 @@ namespace ZFreeGo.TransmissionProtocols
             var apdu = new APDU(apci, asdu);
             return apdu;
         }
+
+       
 
         
     }

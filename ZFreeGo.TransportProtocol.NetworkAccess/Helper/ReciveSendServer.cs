@@ -75,11 +75,12 @@ namespace ZFreeGo.TransmissionProtocols.Helper
                 serverState = value;
             }
         }
-
         /// <summary>
-        /// 工作模式 true--发送应答模式，false--只进行接收模式
+        /// 线程名称
         /// </summary>
-        protected bool mWorkMode;
+        protected string mThreadName;
+
+       
         /// <summary>
         /// 服务初始化
         /// </summary>
@@ -90,6 +91,7 @@ namespace ZFreeGo.TransmissionProtocols.Helper
             InitData();
             mOverTime = overTime;
             mRepeatMaxCount = maxRepeat;
+            mThreadName = "ReciveSendThreadServer-" + DateTime.Now.ToLongTimeString() + "-";
         }
         /// <summary>
         /// 服务初始化,默认超时时间5000ms，重复次数3次
@@ -99,22 +101,7 @@ namespace ZFreeGo.TransmissionProtocols.Helper
 
         }
 
-        /// <summary>
-        /// 设置工作模式
-        /// </summary>
-        /// <param name="flag">true-发送应答模式，false--接收模式</param>
-        public virtual void SetWorkMode(bool flag)
-        {
-            if (flag)
-            {                
-                mWorkMode = true;
-                mExistData.Set();                
-            }
-            else
-            {               
-                mWorkMode = false;                
-            }
-        }
+       
         /// <summary>
         /// 初始化数据
         /// </summary>
@@ -124,7 +111,7 @@ namespace ZFreeGo.TransmissionProtocols.Helper
             mRequestData = new ManualResetEvent(false);
             mExistData = new ManualResetEvent(false);
             serverState = false;
-            mWorkMode = false;
+           
            
             RecivePacketQuene = new Queue<T>();
             mReciveQuene = new Queue<T>();
@@ -214,13 +201,13 @@ namespace ZFreeGo.TransmissionProtocols.Helper
                 catch (ObjectDisposedException ex)
                 {
                     StopServer();
-                    Console.WriteLine("ReciveThread" + ex.Message);
+                    Console.WriteLine("Recive-" + mThreadName + ex.Message);
                     Thread.Sleep(100);
                 }
                 catch (ThreadAbortException ex)
                 {
                     StopServer();
-                    Console.WriteLine("ReciveThread" + ex.Message);
+                    Console.WriteLine("Recive-" + mThreadName + ex.Message);
                     Thread.ResetAbort();
                 }
             }
@@ -229,160 +216,110 @@ namespace ZFreeGo.TransmissionProtocols.Helper
                 StopServer();
                 while (true)
                 {
-                    Console.WriteLine("ReciveThread" + ex.Message);
+                    Console.WriteLine("Recive-" + mThreadName + ex.Message);
                     Thread.Sleep(100);
                 }
             }
           
                 
         }
-        /// <summary>
-        /// 发送应答处理
-        /// </summary>
-        protected virtual void SendACkDeal()
-        {
-            mExistData.Reset();
-            if (!TransmitData())
-            {
-                StopServer();
-                return;
-            }
-            var statTime = DateTime.Now;
-            var responseTime = DateTime.Now;
-            do
-            {
-                Thread.Sleep(100);
-                mRequestData.Set();//发送请求数据信号
 
-                if (mExistData.WaitOne(mOverTime))     //等待有数据信号
-                {
-                    if (!ServerState)
-                    {
-                        return;
-                    }
-                    mRequestData.Reset();//中断获取数据
-
-                    //超时检测--处理有接收数据但不符合要求的情况
-                    responseTime = DateTime.Now;
-                    var diffTime = responseTime - statTime;
-                    if (diffTime.TotalMilliseconds > mOverTime)
-                    {
-                        if (AckOverTime())
-                        {
-                            
-                            continue;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    //检测数据不符合应答规范则返回
-                    if (!CheckData())
-                    {
-                        continue;
-                    }
-
-                    if (!AckOnTime())
-                    {
-                        break;
-                    }
-                }
-                else
-                {
-                    if (!AckOverTime())
-                    {
-                        break;
-                    }
-                }
-                if (!TransmitData())
-                {
-                    StopServer();
-                    break;
-                }
-                if (!mWorkMode) //转变工作模式
-                {
-                    break;
-                }
-                statTime = DateTime.Now; //设置开始时间
-            } while (true);
-
-            SetWorkMode(false);
-        }
-
-        /// <summary>
-        /// 接收处理
-        /// </summary>
-        public virtual void RecieveDeal()
-        {
-            mExistData.Reset();
-            mRequestData.Set();
-            do
-            {
-                if (mExistData.WaitOne())     //等待有数据信号
-                {
-                    if (mWorkMode) //转变工作模式
-                    {
-                       
-                        break;
-                    }
-                    //检测数据不符合应答规范则返回
-                    if (!CheckData())
-                    {
-                        continue;
-                    }
-                    if (!AckOnTime())
-                    {
-                        break;
-                    }
-                }
-                Thread.Sleep(100);
-            } while (true);
-        }
         /// <summary>
         /// 服务进程
         /// </summary>
-        public  virtual void ServerThread()
+        public virtual void ServerThread()
         {
             try
             {
                 try
                 {
+                    mExistData.Reset();
+                    if (!TransmitData())
+                    {
+                        StopServer();
+                        return;
+                    }
+                    var statTime = DateTime.Now;
+                    var responseTime = DateTime.Now;
                     do
                     {
-                        if (mWorkMode) //发送应答模式应答模式
+                        Thread.Sleep(100);
+                        mRequestData.Set();//发送请求数据信号
+
+                        if (mExistData.WaitOne(mOverTime))     //等待有数据信号
                         {
-                            SendACkDeal();
+                            if (!ServerState)
+                            {
+                                return;
+                            }
+                            mRequestData.Reset();//中断获取数据
+
+                            //超时检测--处理有接收数据但不符合要求的情况
+                            responseTime = DateTime.Now;
+                            var diffTime = responseTime - statTime;
+                            if (diffTime.TotalMilliseconds > mOverTime)
+                            {
+                                if (AckOverTime())
+                                {
+
+                                    continue;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            //检测数据不符合应答规范则返回
+                            if (!CheckData())
+                            {
+                                continue;
+                            }
+
+                            if (!AckOnTime())
+                            {
+                                break;
+                            }
                         }
-                        else  //接收模式
+                        else
                         {
-                            RecieveDeal();
+                            if (!AckOverTime())
+                            {
+                                break;
+                            }
                         }
+                        if (!TransmitData())
+                        {
+                            StopServer();
+                            break;
+                        }
+                        
+                        statTime = DateTime.Now; //设置开始时间
                     } while (true);
+
                     
+
                 }
                 catch (ObjectDisposedException ex)
                 {
-                    
+
                     StopServer();
-                    Console.WriteLine("ReciveThread:" + ex.Message);
+                    Console.WriteLine("ReciveSend-" + mThreadName + ex.Message);
                     Thread.Sleep(100);
                 }
                 catch (ThreadAbortException ex)
                 {
                     StopServer();
-                    Console.WriteLine("ReciveThread" + ex.Message);
+                    Console.WriteLine("ReciveSend-" + mThreadName + ex.Message);
                     Thread.ResetAbort();
                 }
             }
             catch (Exception ex)
             {
                 StopServer();
-                Console.WriteLine("ReciveThread:" + ex.Message);
+                Console.WriteLine("ReciveSend-" + mThreadName + ex.Message);
             }
             StopServer();
         }
-       
        
         /// <summary>
         /// 准时应答后相应的事件

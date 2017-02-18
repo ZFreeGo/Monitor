@@ -56,14 +56,29 @@ namespace ZFreeGo.TransmissionProtocols.Helper
                 serverState = value;
             }
         }
+
+        /// <summary>
+        /// 线程名称
+        /// </summary>
+        protected string mThreadName;
+
         /// <summary>
         /// 服务初始化
         /// </summary>
         public ReciveServer()
         {
             InitData();
+            mThreadName = "ReciveThreadServer-" + DateTime.Now.ToLongTimeString() + "-";
+        }
+        /// <summary>
+        /// 服务初始化
+        /// </summary>
+        /// <param name="threadName">线程名字</param>
+        public ReciveServer(string threadName)
+        { 
+            InitData();
+            mThreadName= threadName;
         }    
-
         /// <summary>
         /// 初始化数据
         /// </summary>
@@ -88,6 +103,37 @@ namespace ZFreeGo.TransmissionProtocols.Helper
             }
 
         }
+       /// <summary>
+       /// 启动服务
+       /// </summary>             
+       public virtual void StartServer()
+       {
+           try
+           {
+               if (ServerState)
+               {
+                   throw new Exception("服务正在运行，禁止重复启动");
+               }
+               InitData();
+
+               
+
+               mReadThread = new Thread(ReciveThread);
+               mReadThread.Priority = ThreadPriority.Normal;
+               mReadThread.Name = "Read-" + mThreadName;
+               mReadThread.Start();
+               mServerThread = new Thread(ServerThread);
+               mServerThread.Priority = ThreadPriority.Normal;
+               mServerThread.Name = "Server-" + mThreadName;
+               mServerThread.Start();
+
+               serverState = true;
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+       }
 
        /// <summary>
        /// 停止服务
@@ -165,14 +211,14 @@ namespace ZFreeGo.TransmissionProtocols.Helper
         /// <summary>
         /// 服务进程
         /// </summary>
-        public  virtual void ServeThread()
+        public  virtual void ServerThread()
         {
             try
             {
                 try
                 {             
                     do
-                    {                       
+                    {                   
                         if (mExistData.WaitOne())     //等待有数据信号
                         {
                             //检测数据不符合应答规范则返回

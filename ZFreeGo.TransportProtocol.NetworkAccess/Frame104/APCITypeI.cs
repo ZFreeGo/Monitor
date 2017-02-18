@@ -74,15 +74,15 @@ namespace ZFreeGo.TransmissionProtocols.Frame104
         public override string ToString()
         {
             StringBuilder strBuild = new StringBuilder(45);
-            strBuild.AppendFormat("{0:X00}", APDULength);
+            strBuild.AppendFormat("{0:X2}", APDULength);
             strBuild.Append(" ");
-            strBuild.AppendFormat("{0:X00}", ControlDomain1);
+            strBuild.AppendFormat("{0:X2}", ControlDomain1);
             strBuild.Append(" ");
-            strBuild.AppendFormat("{0:X00}", ControlDomain2);
+            strBuild.AppendFormat("{0:X2}", ControlDomain2);
             strBuild.Append(" ");
-            strBuild.AppendFormat("{0:X00}", ControlDomain3);
+            strBuild.AppendFormat("{0:X2}", ControlDomain3);
             strBuild.Append(" ");
-            strBuild.AppendFormat("{0:X00}", ControlDomain4);
+            strBuild.AppendFormat("{0:X2}", ControlDomain4);
             strBuild.Append(" ");
             return strBuild.ToString();
            
@@ -99,9 +99,9 @@ namespace ZFreeGo.TransmissionProtocols.Frame104
             {
                 StringBuilder strBuild = new StringBuilder(100);
                 strBuild.Append("APCITypeI,");
-                strBuild.AppendFormat("APDU长度:[{0:X00}]={0:00},",APDULength, APDULength);
-                strBuild.AppendFormat("发送序列号:[{0:X00} {1:X00}}={2:00}", ControlDomain2,ControlDomain1, TransmitSequenceNumber);
-                strBuild.AppendFormat("接收序列号:[{0:X00} {1:X00}}={2:00}", ControlDomain4, ControlDomain3, ReceiveSequenceNumber);
+                strBuild.AppendFormat("APDU长度:[{0:X2}]={0:00},",APDULength, APDULength);
+                strBuild.AppendFormat("发送序列号:[{0:X2} {1:X2}]={2:00}", ControlDomain2,ControlDomain1, TransmitSequenceNumber);
+                strBuild.AppendFormat("接收序列号:[{0:X2} {1:X2}]={2:00}", ControlDomain4, ControlDomain3, ReceiveSequenceNumber);
                   return strBuild.ToString();
             }
             else

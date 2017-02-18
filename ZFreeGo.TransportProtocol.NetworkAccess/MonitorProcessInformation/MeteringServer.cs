@@ -16,6 +16,15 @@ namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
         public event EventHandler<StatusEventArgs<List<Tuple<UInt32, float, QualityDescription>>>> TelemeteringEvent;
 
 
+         /// <summary>
+         /// 测量数据接收服务初始化
+         /// </summary>
+        public MeteringServer()
+            : base("MeteringServer-" + DateTime.Now.ToLongTimeString() + "-")
+        {
+            StartServer();
+        }
+
         /// <summary>
         /// 检测接收数据
         /// </summary>

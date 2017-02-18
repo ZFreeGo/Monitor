@@ -10,30 +10,30 @@ namespace ZFreeGo.TransmissionProtocols.ReciveCenter
 {
     public class ApplicationFrameManager
     {
-        /// <summary>
-        /// 主站控制帧合集
-        /// </summary>
-        public List<MasterCommand> MasterCommandList;
+        ///// <summary>
+        ///// 主站控制帧合集
+        ///// </summary>
+        //public List<MasterCommand> MasterCommandList;
 
 
-        /// <summary>
-        /// 遥控控制帧合集
-        /// </summary>
-        public List<APDU> TelecontrolCommandList;
+        ///// <summary>
+        ///// 遥控控制帧合集
+        ///// </summary>
+        //public List<APDU> TelecontrolCommandList;
 
-        /// <summary>
-        /// 遥信命令帧合集
-        /// </summary>
-        public List<APDU> TelesignalisationCommandList;
+        ///// <summary>
+        ///// 遥信命令帧合集
+        ///// </summary>
+        //public List<APDU> TelesignalisationCommandList;
 
-        /// <summary>
-        /// 启动，停止，测试命令帧合集
-        /// </summary>
-        public List<APCITypeU> RunControlCommmandList;
-        /// <summary>
-        /// 帧集合
-        /// </summary>
-        public List<Object> FrameList;
+        ///// <summary>
+        ///// 启动，停止，测试命令帧合集
+        ///// </summary>
+        //public List<APCITypeU> RunControlCommmandList;
+        ///// <summary>
+        ///// 帧集合
+        ///// </summary>
+        //public List<Object> FrameList;
 
         /// <summary>
         /// 发送序列号，每次发送时加一
@@ -141,16 +141,16 @@ namespace ZFreeGo.TransmissionProtocols.ReciveCenter
         /// </summary>
         public ApplicationFrameManager()
         {
-            MasterCommandList = new List<MasterCommand>();
-            TelecontrolCommandList = new List<APDU>();
-            TelesignalisationCommandList = new List<APDU>();
-            RunControlCommmandList = new List<APCITypeU>();
-            RunControlCommmandList = new List<APCITypeU>();
+            //MasterCommandList = new List<MasterCommand>();
+            //TelecontrolCommandList = new List<APDU>();
+            //TelesignalisationCommandList = new List<APDU>();
+            //RunControlCommmandList = new List<APCITypeU>();
+            //RunControlCommmandList = new List<APCITypeU>();
             TransmitSequenceNumber = 0;
             ReceiveSequenceNumber = 0;
             RealReceiveSequenceNumber = 0;
             ASDUADdress = 1;
-            FrameList = new List<object>();
+            //FrameList = new List<object>();
             WaitTime = AppMessageAckWaitime;
             AckNum = 0;
             DefaultPort = 2404;
@@ -161,36 +161,36 @@ namespace ZFreeGo.TransmissionProtocols.ReciveCenter
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public bool AddFrame(object obj)
-        {
-            if (obj is MasterCommand)
-            {
-                MasterCommandList.Add(obj as MasterCommand);
-                FrameList.Add(obj);
-            }
-            if (obj is APDU)
-            {
-                var m = obj as APDU;
-                if (m.ASDU.TypeId == (byte)TypeIdentification.C_SC_NA_1)
-                {
-                    TelecontrolCommandList.Add(m);
-                }
-                else
-                {
-                    TelesignalisationCommandList.Add(m);
-                }
+        //public bool AddFrame(object obj)
+        //{
+        //    if (obj is MasterCommand)
+        //    {
+        //        MasterCommandList.Add(obj as MasterCommand);
+        //        FrameList.Add(obj);
+        //    }
+        //    if (obj is APDU)
+        //    {
+        //        var m = obj as APDU;
+        //        if (m.ASDU.TypeId == (byte)TypeIdentification.C_SC_NA_1)
+        //        {
+        //            TelecontrolCommandList.Add(m);
+        //        }
+        //        else
+        //        {
+        //            TelesignalisationCommandList.Add(m);
+        //        }
                
-                FrameList.Add(obj);
-            }
+        //        FrameList.Add(obj);
+        //    }
            
-            if (obj is APCITypeU)
-            {
-                RunControlCommmandList.Add(obj as APCITypeU);
-                FrameList.Add(obj);
-            }
-            return false;
+        //    if (obj is APCITypeU)
+        //    {
+        //        RunControlCommmandList.Add(obj as APCITypeU);
+        //        FrameList.Add(obj);
+        //    }
+        //    return false;
 
-        }
+        //}
 
         /// <summary>
         /// 单次更新发送序列号

@@ -654,9 +654,9 @@ namespace ZFreeGo.TransmissionProtocols.Frame104
             build.Append("[");
             foreach(var m in data)
             {
-                build.AppendFormat("{0:X} ", m);
+                build.AppendFormat("{0:X2} ", m);
             }
-            build.Append("]\n");
+            build.Append("]");
             return build.ToString();
         }
 

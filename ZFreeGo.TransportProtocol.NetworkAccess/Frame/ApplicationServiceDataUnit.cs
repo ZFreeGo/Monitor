@@ -651,10 +651,12 @@ namespace ZFreeGo.TransmissionProtocols.Frame
         {
             var data = GetASDUDataArray();
             StringBuilder strBuild = new StringBuilder(data.Length * 3 + 10);
+            
              foreach(var m in data)
              {
-                 strBuild.AppendFormat("{0:X00}", m);
+                 strBuild.AppendFormat("{0:X2} ", m);
              }
+            
              return strBuild.ToString();
         }
 
@@ -675,7 +677,7 @@ namespace ZFreeGo.TransmissionProtocols.Frame
              {
                  result = ((TypeIdentification)TypeId).ToString();
              }
-             strBuild.AppendFormat("ID:[{0:X00}]={0},", TypeId, result);
+             strBuild.AppendFormat("ID:[{0:X2}]={0},", TypeId, result);
 
 
              if (IsSequence)
@@ -686,15 +688,15 @@ namespace ZFreeGo.TransmissionProtocols.Frame
              {
                  result = "非顺序";
              }
-             strBuild.AppendFormat("结构限定词:[{0:X00}]={1} {2},", variableStructureQualifier, result, InformationObjectCount);
+             strBuild.AppendFormat("结构限定词:[{0:X2}]={1}--{2},", variableStructureQualifier, result, InformationObjectCount);
              result = "未定义";
              if (Enum.IsDefined(typeof(CauseOfTransmissionList), CauseOfTransmission1))
              {
                  result = ((CauseOfTransmissionList)TypeId).ToString();
              }
 
-             strBuild.AppendFormat("传输原因:[{0:X00} {1:X00}]={2:00},", causeOfTransmission2, CauseOfTransmission1, result);
-             strBuild.AppendFormat("公共地址:[{0:X00} {1:X00}]={2:00},", appDataPublicAddress2, appDataPublicAddress1, AppDataPublicAddress);
+             strBuild.AppendFormat("传输原因:[{0:X2} {1:X2}]={2:00},", causeOfTransmission2, CauseOfTransmission1, result);
+             strBuild.AppendFormat("公共地址:[{0:X2} {1:X2}]={2:00},", appDataPublicAddress2, appDataPublicAddress1, AppDataPublicAddress);
 
              return strBuild.ToString();
 

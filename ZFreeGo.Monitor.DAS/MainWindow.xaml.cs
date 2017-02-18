@@ -105,6 +105,25 @@ namespace ZFreeGo.Monitor.AutoStudio
 
             protocolServer.ControlServer.ServerEvent += ControlServer_ServerEvent;
             protocolServer.ControlServer.ServerFaultEvent += ControlServer_ServerFaultEvent; ;
+            protocolServer.TelesignalisationServer.SOEStatusEvent += TelesignalisationServer_SOEStatusEvent;
+            protocolServer.TelesignalisationServer.StatusUpdateEvent += TelesignalisationServer_StatusUpdateEvent;
+            protocolServer.MeteringServer.TelemeteringEvent += MeteringServer_TelemeteringEvent;
+
+        }
+
+        void MeteringServer_TelemeteringEvent(object sender, TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, float, QualityDescription>>> e)
+        {
+            MessageBox.Show(e.Message.Count.ToString(), "遥测");
+        }
+
+        void TelesignalisationServer_StatusUpdateEvent(object sender, TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, byte>>> e)
+        {
+            MessageBox.Show(e.Message.Count.ToString(), "遥信");
+        }
+
+        void TelesignalisationServer_SOEStatusEvent(object sender, TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, byte, CP56Time2a>>> e)
+        {
+            MessageBox.Show(e.Message.Count.ToString(), "SOE");
         }
 
         void ControlServer_ServerFaultEvent(object sender, TransmissionControlFaultEventArgs e)
@@ -495,6 +514,8 @@ namespace ZFreeGo.Monitor.AutoStudio
             logger.SaveLog(true);
             MakeLogMessage(this, "退出窗口", LogType.Login);
             accountManager.SaveAccountInformation();
+
+            protocolServer.StopServer();
         }
 
         /// <summary>
@@ -925,6 +946,7 @@ namespace ZFreeGo.Monitor.AutoStudio
             try
             {
                 protocolServer.ControlServer.SendTransmissonCommand(TransmissionControlFunction.StopDataTransmission);
+                protocolServer.ResetServer();
             }
             catch(Exception ex)
             {
@@ -936,8 +958,14 @@ namespace ZFreeGo.Monitor.AutoStudio
        
         private void btnManualTestCall_Click(object sender, RoutedEventArgs e)
         {
-            protocolServer.CallServer.StartServer(CauseOfTransmissionList.Activation, QualifyOfInterrogationList.GeneralInterrogation);
-
+            try
+            {
+                protocolServer.CallServer.StartServer(CauseOfTransmissionList.Activation, QualifyOfInterrogationList.GeneralInterrogation);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "btnManualTestCall_Click");
+            }
         }
 
         private void btnManualTime_Click(object sender, RoutedEventArgs e)

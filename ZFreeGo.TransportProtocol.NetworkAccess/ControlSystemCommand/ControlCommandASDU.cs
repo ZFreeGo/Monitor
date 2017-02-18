@@ -14,6 +14,7 @@ namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
     /// </summary>
     public class ControlCommandASDU : ApplicationServiceDataUnit
     {
+        
       /// <summary>
         /// ControlCommandASDU初始化，用于主站系统 召唤命令
         /// </summary>
