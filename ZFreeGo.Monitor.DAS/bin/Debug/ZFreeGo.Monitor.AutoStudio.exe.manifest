@@ -127,14 +127,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ZFreeGo.Monitor.AutoStudio.exe" size="740864">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ZFreeGo.Monitor.AutoStudio.exe" size="741376">
       <assemblyIdentity name="ZFreeGo.Monitor.AutoStudio" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>Lcpt80mySPMpzv+1vshb/0cUDAU=</dsig:DigestValue>
+        <dsig:DigestValue>ypj2qHgPsgLX81JdEEM4/MMsHz8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -151,14 +151,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ZFreeGo.TransmissionProtocols.dll" size="117248">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ZFreeGo.TransmissionProtocols.dll" size="117760">
       <assemblyIdentity name="ZFreeGo.TransmissionProtocols" version="1.1.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>d2gMABMk7XhXD3Ys1MJBh0F6D7I=</dsig:DigestValue>
+        <dsig:DigestValue>hH9GSO/Pg7HJJE12dzL2qslSUcg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

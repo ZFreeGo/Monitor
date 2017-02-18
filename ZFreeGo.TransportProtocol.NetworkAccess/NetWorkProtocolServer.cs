@@ -50,6 +50,18 @@ namespace ZFreeGo.TransmissionProtocols
         private CheckGetMessage checkGetMessage;
 
         /// <summary>
+        /// 信息提取
+        /// </summary>
+        public  CheckGetMessage CheckGetMessage
+        {
+            get
+            {
+                return checkGetMessage;
+            }
+        }
+            
+
+        /// <summary>
         /// 传输协议应用管理
         /// </summary>
         private ApplicationFrameManager appMessageManager;
@@ -104,10 +116,11 @@ namespace ZFreeGo.TransmissionProtocols
         {
             sendDelegate = inSsendDelegate;
             appMessageManager = new ApplicationFrameManager();
-
+            
             transmissionControlServer = new TransmissionControlServer(NetSendData);
             callServer = new CallServer(NetSendData);
             telesignalisationServer = new StatusServer();
+            checkGetMessageServerConfig();
         }
 
         /// <summary>

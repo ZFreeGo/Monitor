@@ -906,7 +906,14 @@ namespace ZFreeGo.Monitor.AutoStudio
         /// <param name="e"></param>
         private void btnStartDataTransmission_Click(object sender, RoutedEventArgs e)
         {
-            protocolServer.ControlServer.StartServer(TransmissionControlFunction.StartDataTransmission);
+            try
+            {
+                protocolServer.ControlServer.SendTransmissonCommand(TransmissionControlFunction.StartDataTransmission);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "btnStartDataTransmission_Click");
+            }
         }
         /// <summary>
         /// 停止数据传输
@@ -915,7 +922,14 @@ namespace ZFreeGo.Monitor.AutoStudio
         /// <param name="e"></param>
         private void btnStopDataTransmission_Click(object sender, RoutedEventArgs e)
         {
-            protocolServer.ControlServer.StartServer(TransmissionControlFunction.StopDataTransmission);
+            try
+            {
+                protocolServer.ControlServer.SendTransmissonCommand(TransmissionControlFunction.StopDataTransmission);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "btnStopDataTransmission_Click");
+            }
 
         }
 

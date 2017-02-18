@@ -163,7 +163,7 @@ namespace ZFreeGo.TransmissionProtocols.Helper
             }
         }
         /// <summary>
-        /// 召唤文件目录服务进程
+        /// 服务进程
         /// </summary>
         public  virtual void ServeThread()
         {

@@ -35,21 +35,27 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
 
         private Func<APCITypeU, bool> mSendDataDelegate;
 
+        /// <summary>
+        /// 发送任务标志,true-有发送任务需要进行发送检测，false--跳过发送步骤
+        /// </summary>
+        private bool mSendTaskFlag;
+
        /// <summary>
        /// 传输控制功能初始化
        /// </summary>
        /// <param name="sendDataDelegate">发送委托</param>
         public TransmissionControlServer(Func<APCITypeU, bool> sendDataDelegate)
         {
-            mSendDataDelegate = sendDataDelegate;  
+            mSendDataDelegate = sendDataDelegate;
+           
+            StartServer();
+            SetWorkMode(false);
         }
         
         /// <summary>
         /// 启动服务
-        /// </summary>
-        /// <param name="sendDataDelegate">发送委托</param>
-       /// <param name="tcf">传输控制功能</param>
-        public void StartServer(TransmissionControlFunction tcf)
+        /// </summary>             
+        private void StartServer()
         {
             try
             {
@@ -59,7 +65,7 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
                 }
                 InitData();
 
-                mSendFrame = new APCITypeU(tcf);
+               
 
                 mReadThread = new Thread(ReciveThread);
                 mReadThread.Priority = ThreadPriority.Normal;
@@ -69,8 +75,6 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
                 mServerThread.Priority = ThreadPriority.Normal;
                 mServerThread.Name = "ServerThread线程";
                 mServerThread.Start();
-                
-
 
                 serverState = true;
                  
@@ -84,7 +88,38 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
             }
         }
 
-       
+        /// <summary>
+        /// 设置工作模式
+        /// </summary>
+        /// <param name="flag">true-发送应答模式，false--接收模式</param>
+        public override void SetWorkMode(bool flag)
+        {
+            base.SetWorkMode(flag);
+            if(flag)
+            {               
+                mSendTaskFlag = true;
+            }
+            else
+            {               
+                mSendTaskFlag = false;
+            }
+        }
+     
+
+        /// <summary>
+        /// 传输控制
+        /// </summary>
+        /// <param name="tcf">传输控制功能</param>
+        public void SendTransmissonCommand(TransmissionControlFunction tcf)
+        {
+            if (mSendTaskFlag)
+            {
+                throw new Exception("正在执行任务，暂时不能执行此功能.");
+            }
+            mSendFrame = new APCITypeU(tcf);
+            mRepeatCount = 0;
+            SetWorkMode(true);
+        }
 
         /// <summary>
         /// 发送数据
@@ -92,13 +127,20 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
         /// <returns>true-成功，false-失败，终止线程</returns>
         public override bool TransmitData()
         {
-            
+            if (mSendTaskFlag)
+            {
                 bool state = mSendDataDelegate(mSendFrame);
                 if (!state)
                 {
                     SendFaultEvent("发送失败，终止处理。", TransmissionControlResult.SendFault);
+                    SetWorkMode(false);
                 }
                 return state;
+            }
+            else
+            {
+                return true; ;
+            }
            
         }
 
@@ -137,17 +179,18 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
                         }
                     case TransmissionControlFunction.AcknowledgementStartDataTransmission:
                         {
-                            if (mSendFrame.TransmissionCotrolFun == TransmissionControlFunction.AcknowledgementStartDataTransmission)
+                            if (mSendFrame.TransmissionCotrolFun == TransmissionControlFunction.StartDataTransmission)
                             {
-                                 SendEvent(mReciveFrame.TransmissionCotrolFun); 
+                                 SendEvent(mReciveFrame.TransmissionCotrolFun);
+                                 SetWorkMode(false);
+                                 return false;
                             }
                             else
                             {
                                 SendFaultEvent("AcknowledgementStartDataTransmission：发送与接收不对应", TransmissionControlResult.Unknow);
+                                return false;
                             }
-
-                           
-                            break;
+                                                       
                         }
                     case TransmissionControlFunction.StopDataTransmission:
                         {
@@ -156,27 +199,32 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
                         }
                     case TransmissionControlFunction.AcknowledgementStopDataTransmission:
                         {
-                            if (mSendFrame.TransmissionCotrolFun == TransmissionControlFunction.StartDataTransmission)
+                            if (mSendFrame.TransmissionCotrolFun == TransmissionControlFunction.StopDataTransmission)
                             {
-                                 SendEvent(mReciveFrame.TransmissionCotrolFun);  
+                                 SendEvent(mReciveFrame.TransmissionCotrolFun);
+                                 SetWorkMode(false);
+                                 return false;
                             }
                             else
                             {
                                   SendFaultEvent("AcknowledgementStopDataTransmission：发送与接收不对应", TransmissionControlResult.Unknow);
+                                  return false;
                             }
                             
-                            break;
+                           
                         }
                     case TransmissionControlFunction.TestFrame:
                         {
-                            SendEvent(mReciveFrame.TransmissionCotrolFun);  
+                            SendEvent(mReciveFrame.TransmissionCotrolFun);
+                            mSendDataDelegate(new APCITypeU(TransmissionControlFunction.AcknowledgementTestFrame));
                             break;
                         }
                     case TransmissionControlFunction.AcknowledgementTestFrame:
                         {
                             if(mSendFrame.TransmissionCotrolFun == TransmissionControlFunction.TestFrame)
                             {
-                                SendEvent(mReciveFrame.TransmissionCotrolFun); 
+                                SendEvent(mReciveFrame.TransmissionCotrolFun);
+ 
                             }
                             else
                             {
@@ -209,20 +257,23 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
         /// <returns>true--继续，fals--终止</returns>
         public override bool AckOverTime()
         {
-            
+            if (mSendTaskFlag)
+            {
                 if (++mRepeatCount < mRepeatMaxCount)
                 {
-
                     SendFaultEvent(string.Format("应答超时,进行第{0}次重试.", mRepeatCount), TransmissionControlResult.OverTime);
                     return true;
                 }
                 else
                 {
                     SendFaultEvent(string.Format("重试失败，传输控制功能。", mRepeatCount), TransmissionControlResult.Fault);
-                    
+                    SetWorkMode(false);
                     return false;
+
                 }
-            
+            }
+            return true;
+           
         }
 
         /// <summary>
@@ -249,7 +300,8 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
             }
         }
 
-
+       
+        
 
 
         

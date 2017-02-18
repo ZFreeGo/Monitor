@@ -115,7 +115,7 @@ namespace ZFreeGo.TransmissionProtocols.Frame104
             StringBuilder strbuild = new StringBuilder(data.Length * 3 + 10);
             foreach (var m in data)
             {
-                strbuild.AppendFormat("{0:X00) ", m);
+                strbuild.AppendFormat("{0:X00} ", m);
             }
             return strbuild.ToString();
         }

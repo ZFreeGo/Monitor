@@ -269,15 +269,15 @@ namespace ZFreeGo.Monitor.AutoStudio
         /// <param name="e"></param>
         private void NetData_Arrived(object sender, NetDataArrayEventArgs e)
         {
-            //lock (checkGetMessage.ReciveQuene)
-            //{
-            //    foreach (var m in e.DataArray)
-            //    {
-                    
+            lock (protocolServer.CheckGetMessage.ReciveQuene)
+            {
+                foreach (var m in e.DataArray)
+                {
+                    protocolServer.CheckGetMessage.ReciveQuene.Enqueue(m);
 
-            //    }
-            //    Console.WriteLine("字节数据接收");
-            //}
+                }
+                Console.WriteLine("字节数据接收");
+            }
 
             string msg = Encoding.Unicode.GetString(e.DataArray, 0, e.DataArray.Length);
             string str = "";
