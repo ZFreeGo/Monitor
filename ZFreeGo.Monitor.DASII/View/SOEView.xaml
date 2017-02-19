@@ -1,0 +1,46 @@
+﻿<PageFunction
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+    x:Class="ZFreeGo.Monitor.DAS.View.SOEView"
+    x:TypeArguments="sys:String"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    mc:Ignorable="d"
+   
+    Title="SOEView">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadDataCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions >
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1">
+            <StackPanel Margin="3" Orientation="Horizontal" Background="AliceBlue">
+                <Button Margin="3" Padding="3" Name="btnClearSOE"  >清除</Button>
+
+                <Button Margin="3" Padding="3" Name="EventLogLoad" >导入</Button>
+                <Button Margin="3" Padding="3" Name="EventLogExport"  >导出</Button>
+
+                <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxEventLog" IsChecked="False" >修改</CheckBox>
+            </StackPanel>
+        </Grid>
+        <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False" Name="gridEventLog" IsReadOnly="True" CanUserSortColumns="False"  ItemsSource="{Binding UserData}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="记录号"  Width="50" Binding="{Binding EventID}"></DataGridTextColumn>
+                <DataGridTextColumn Header="故障类型"    MinWidth="80" Binding="{Binding FaultStyle}"></DataGridTextColumn>
+                <DataGridTextColumn Header="内容"   MinWidth="260" Binding="{Binding EventConent}"></DataGridTextColumn>
+                <DataGridTextColumn Header="时间"    MinWidth="100" Binding="{Binding Date}"></DataGridTextColumn>
+                <!--<DataGridTextColumn Header="单位"    MinWidth="50" Binding="{Binding Unit}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="毫秒"    MinWidth="50" Binding="{Binding Millisecond}"></DataGridTextColumn>-->
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</PageFunction>
