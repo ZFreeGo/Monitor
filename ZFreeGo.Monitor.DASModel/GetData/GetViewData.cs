@@ -10,7 +10,7 @@ using ZFreeGo.Monitor.DASModel.Table;
 
 namespace ZFreeGo.Monitor.DASModel.GetData
 {
-    public class GetViewData
+    public class GetViewData : IGetData
     {
         DataSet dataSetTelesignalisation;
         ICollection<Telesignalisation> telesignalisation;

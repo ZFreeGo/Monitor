@@ -8,7 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     mc:Ignorable="d"
-    
+    DataContext="{Binding Telemetering, Source={StaticResource Locator}}"
     Title="DataGridPageView">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -36,7 +36,7 @@
                     <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxTelesignalisation" IsChecked="False" >修改</CheckBox>
                 </StackPanel>
             </Grid>
-            <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False"  Name="gridTelesignalisation" IsReadOnly="True"
+            <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False"  Name="gridTelesignalisation" IsReadOnly="false"
                                        Grid.ColumnSpan="2"   CanUserSortColumns="False" ItemsSource="{Binding UserData}">
                 <DataGrid.ContextMenu>
                     <ContextMenu Name="dgmenuTelemetering" StaysOpen="True"    IsEnabled="False">

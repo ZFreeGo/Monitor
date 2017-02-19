@@ -23,14 +23,14 @@ namespace ZFreeGo.Monitor.DASII
         ProtectSetpointView viewProtectSetpoint;
         ParameterView viewParameter;
         CalibrationView viewCalibration;
-
+        CommunicationView viewCommunication;
         public MainWindow()
         {
             InitializeComponent();
             Closing += (s, e) => ViewModelLocator.Cleanup();
             //注册MVVMLight消息
             Messenger.Default.Register<string>(this, "ShowUserView", ShowUserView);
-
+            Messenger.Default.Register<string>(this, "StartTcpLink", ExecuteStartTcpLink);
             viewTelesignalisation = new TelesignalisationView();
             viewTelecontrol = new TelecontrolView();
             viewTelemetering = new TelemeteringView();
@@ -38,6 +38,12 @@ namespace ZFreeGo.Monitor.DASII
             viewProtectSetpoint = new ProtectSetpointView();
             viewParameter = new ParameterView();
             viewCalibration = new CalibrationView();
+            viewCommunication = new CommunicationView();
+        }
+
+        private void ExecuteStartTcpLink(string obj)
+        {
+            MessageBox.Show(obj);
         }
 
         private void ShowUserView(string obj)
@@ -79,6 +85,11 @@ namespace ZFreeGo.Monitor.DASII
                     case "SystemCalibration":
                         {
                             frame.NavigationService.Navigate(viewCalibration);
+                            break;
+                        }
+                    case "Communication":
+                        {
+                            frame.NavigationService.Navigate(viewCommunication);
                             break;
                         }
                    

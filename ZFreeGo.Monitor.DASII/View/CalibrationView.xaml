@@ -8,8 +8,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     mc:Ignorable="d"
-
-    Title="CalibrationView">
+    Title="CalibrationView"
+     DataContext="{Binding Calibration, Source={StaticResource Locator}}">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadDataCommand}" />
@@ -38,7 +38,7 @@
                 <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxSystemCalibration" IsChecked="False" >修改</CheckBox>
             </StackPanel>
         </Grid>
-        <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False"  Name="gridSystemCalibration" IsReadOnly="True" CanUserSortColumns="False"  ItemsSource="{Binding UserData}">
+        <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False"  Name="gridSystemCalibration" IsReadOnly="false" CanUserSortColumns="False"  ItemsSource="{Binding UserData}">
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="序号"  Width="50" Binding="{Binding InternalID}" IsReadOnly="True"></DataGridTextColumn>

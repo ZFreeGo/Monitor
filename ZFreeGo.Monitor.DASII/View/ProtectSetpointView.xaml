@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
       mc:Ignorable="d" 
-     
+     DataContext="{Binding ProtectSetpoint, Source={StaticResource Locator}}"
 	Title="ProtectSetpointView">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -29,7 +29,7 @@
                 <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxProtectSetPoint" IsChecked="False" >修改</CheckBox>
             </StackPanel>
         </Grid>
-        <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False"  Name="gridProtectSetPoint" IsReadOnly="True" CanUserSortColumns="False"  ItemsSource="{Binding UserData}">
+        <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False"  Name="gridProtectSetPoint" IsReadOnly="false" CanUserSortColumns="False"  ItemsSource="{Binding UserData}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="内部ID"  Width="50" Binding="{Binding  InternalID}"></DataGridTextColumn>
                 <DataGridTextColumn Header="所属类别"    MinWidth="50" Binding="{Binding Type}"></DataGridTextColumn>

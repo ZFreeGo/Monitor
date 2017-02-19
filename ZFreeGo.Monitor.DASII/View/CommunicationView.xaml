@@ -8,7 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     mc:Ignorable="d"
-   
+   DataContext="{Binding Communication, Source={StaticResource Locator}}"
     Title="DataGridPageView">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -54,7 +54,7 @@
 
                 <StackPanel Margin="3"  Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center">步骤1:</TextBlock>
-                    <Button Margin="3" Padding="3" Name="btnStartServer" IsEnabled="{Binding StartNetEnable}">启动Tcp</Button>
+                    <Button Margin="3" Padding="3" Name="btnStartServer" IsEnabled="{Binding StartNetEnable}" Command="{Binding StartTcpLink}"  >启动Tcp</Button>
                     <Button Margin="3" Padding="3" Name="btnStopServer" IsEnabled="{Binding StopNetEnable}">停止Tcp</Button>
                 </StackPanel>
                 <StackPanel Margin="3"  Orientation="Horizontal">

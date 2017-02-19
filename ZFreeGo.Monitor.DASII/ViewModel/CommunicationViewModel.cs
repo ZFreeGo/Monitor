@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using System.Collections.ObjectModel;
 using ZFreeGo.Monitor.DASModel.GetData;
 using ZFreeGo.Monitor.DASModel.Table;
@@ -16,6 +17,7 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
         {
            
             LoadDataCommand = new RelayCommand(ExecuteLoadDataCommand);
+            StartTcpLink = new RelayCommand<string>(ExecuteStartTcpLink);
         }
 
        
@@ -33,6 +35,16 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
         }
         #endregion
 
+     
+        /// <summary>
+        /// 启动TCP连接
+        /// </summary>
+        public RelayCommand<string> StartTcpLink { get; private set; }
 
+        //发送显示UserView的消息
+        void ExecuteStartTcpLink(string name)
+        {
+            Messenger.Default.Send<string>("StartLink", "StartTcpLink");
+        }
     }
 }

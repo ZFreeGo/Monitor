@@ -45,6 +45,7 @@
     <Compile Include="Common\CommonPath.cs" />
     <Compile Include="Common\LinkNetMode.cs" />
     <Compile Include="GetData\GetViewData.cs" />
+    <Compile Include="GetData\IGetData.cs" />
     <Compile Include="GetData\NetCommunicationControl.cs" />
     <Compile Include="GetData\XMLOperate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

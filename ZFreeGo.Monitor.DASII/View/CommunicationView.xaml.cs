@@ -22,7 +22,7 @@ namespace ZFreeGo.Monitor.DASII.View
     {
         public CommunicationView()
         {
-            this.DataContext = new CommunicationViewModel();
+            //this.DataContext = new CommunicationViewModel();
             InitializeComponent();
         }
     }

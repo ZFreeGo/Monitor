@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using System.Collections.ObjectModel;
 using ZFreeGo.Monitor.DASModel.GetData;
 using ZFreeGo.Monitor.DASModel.Table;
@@ -16,6 +17,15 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
         {
             _userData = new ObservableCollection<SystemCalibration>();
             LoadDataCommand = new RelayCommand(ExecuteLoadDataCommand);
+            Messenger.Default.Register<GetViewData>(this, "LoadData", ExecuteLoadData);
+        }
+
+        private void ExecuteLoadData(GetViewData obj)
+        {
+            if (obj != null)
+            {
+                UserData = obj.GetSystemCalibrationList();
+            }
         }
 
         /************** 属性 **************/
@@ -41,9 +51,9 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
         //加载用户数据
         void ExecuteLoadDataCommand()
         {
-            var get = new GetViewData();
+            //var get = new GetViewData();
 
-            UserData = get.GetSystemCalibrationList();
+          //  UserData = get.GetSystemCalibrationList();
         }
         #endregion
     }

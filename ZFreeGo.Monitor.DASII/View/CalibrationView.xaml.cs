@@ -22,7 +22,7 @@ namespace ZFreeGo.Monitor.DASII.View
     {
         public CalibrationView()
         {
-            this.DataContext = new CalibrationViewModel();
+            //this.DataContext = new CalibrationViewModel();
             InitializeComponent();
         }
     }

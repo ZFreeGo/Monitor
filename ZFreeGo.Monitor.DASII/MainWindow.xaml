@@ -38,7 +38,7 @@
         <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" >
             <StackPanel>
                 <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="SystemParameter" >系统参数</Button>
-                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" >以太网设置</Button>
+                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="Communication" >以太网设置</Button>
                 <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" >串口设置</Button>
                 <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="Telesignalisation" >遥信</Button>
                 <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="Telemetering">遥测</Button>
@@ -47,6 +47,7 @@
                 <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" >录波采集</Button>
                 <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="ProtectSetPoint">保护定值</Button>
                 <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="SystemCalibration">系统校准</Button>
+                <Button Margin="5" Padding="2" Command="{Binding LoadData}"  CommandParameter="LoadData">载入数据</Button>
             </StackPanel>
         </Grid>
 
