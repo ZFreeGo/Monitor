@@ -13,7 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ZFreeGo.Monitor.DASII.ViewModel;
 
-namespace ZFreeGo.Monitor.DAS.View
+namespace ZFreeGo.Monitor.DASII.View
 {
     /// <summary>
     /// DataGridPageView.xaml 的交互逻辑
@@ -22,7 +22,7 @@ namespace ZFreeGo.Monitor.DAS.View
     {
         public TelemeteringView()
         {
-            this.DataContext = new TelemeteringView();
+            this.DataContext = new TelemeteringViewModel();
             InitializeComponent();
         }
     }

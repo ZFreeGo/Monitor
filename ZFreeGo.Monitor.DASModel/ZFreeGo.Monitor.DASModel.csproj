@@ -45,8 +45,10 @@
     <Compile Include="Common\CommonPath.cs" />
     <Compile Include="Common\LinkNetMode.cs" />
     <Compile Include="GetData\GetViewData.cs" />
+    <Compile Include="GetData\NetCommunicationControl.cs" />
     <Compile Include="GetData\XMLOperate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Table\CommunicationParameter.cs" />
     <Compile Include="Table\EventLog.cs" />
     <Compile Include="Table\ProtectSetPoint.cs" />
     <Compile Include="Table\SystemCalibration.cs" />

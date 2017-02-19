@@ -14,16 +14,16 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
         /// </summary>
         public TelecontrolViewModel()
         {
-            _userData = new ObservableCollection<Telesignalisation>();
+            _userData = new ObservableCollection<Telecontrol>();
             LoadDataCommand = new RelayCommand(ExecuteLoadDataCommand);
         }
 
         /************** 属性 **************/
-        private ObservableCollection<Telesignalisation> _userData;
+        private ObservableCollection<Telecontrol> _userData;
         /// <summary>
         /// 用户信息数据
         /// </summary>
-        public ObservableCollection<Telesignalisation> UserData
+        public ObservableCollection<Telecontrol> UserData
         {
             get { return _userData; }
             set
@@ -42,7 +42,7 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
         void ExecuteLoadDataCommand()
         {
             var get = new GetViewData();
-            UserData = get.GetTelesignalisationList();
+            UserData = get.GetTelecontrolList();
         }
         #endregion
     }

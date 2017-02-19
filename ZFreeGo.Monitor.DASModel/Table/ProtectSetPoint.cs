@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using GalaSoft.MvvmLight;
 
 namespace ZFreeGo.Monitor.DASModel.Table
 {
     /// <summary>
     /// 这个是保护设定值参数类
     /// </summary>
-    public class ProtectSetPoint : INotifyPropertyChanged
+    public class ProtectSetPoint : ObservableObject
     {
         /// <summary>
         ///保护定值基址
@@ -23,7 +24,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 internalID = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("InternalID"));
+                 RaisePropertyChanged("InternalID");
             }
         }
 
@@ -34,7 +35,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 type = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Type"));
+                 RaisePropertyChanged("Type");
             }
         }
 
@@ -46,7 +47,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 endPoint = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("EndPoint"));
+                 RaisePropertyChanged("EndPoint");
             }
         }
 
@@ -57,7 +58,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 protectSetName = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("ProtectSetName"));
+                 RaisePropertyChanged("ProtectSetName");
             }
         }
         private double parameterValue;
@@ -67,7 +68,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 parameterValue = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("ParameterValue"));
+                 RaisePropertyChanged("ParameterValue");
             }
         }
         
@@ -78,7 +79,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 calibrationCoefficient = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("CalibrationCoefficient"));
+                 RaisePropertyChanged("CalibrationCoefficient");
             }
         }
 
@@ -89,7 +90,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 unit = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Unit"));
+                 RaisePropertyChanged("Unit");
             }
         }
 
@@ -100,7 +101,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 range = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Range"));
+                 RaisePropertyChanged("Range");
             }
         }
 
@@ -111,7 +112,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 comment = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Comment"));
+                 RaisePropertyChanged("Comment");
             }
         }
         private bool isChanged;
@@ -150,12 +151,6 @@ namespace ZFreeGo.Monitor.DASModel.Table
             return protectSetName + " (" + parameterValue + ")";
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            isChanged = true;
-            if (PropertyChanged != null)
-                PropertyChanged(this, e);
-        }
+     
     }
 }

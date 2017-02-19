@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using GalaSoft.MvvmLight;
 
 namespace ZFreeGo.Monitor.DASModel.Table
 {
     /// <summary>
     /// 这是个系统校准参数类
     /// </summary>
-    public class SystemCalibration : INotifyPropertyChanged
+    public class SystemCalibration : ObservableObject
     {
         /// <summary>
         /// 校准参数地址
@@ -24,7 +25,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 internalID = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("InternalID"));
+               RaisePropertyChanged("InternalID");
             }
         }
         private int endPoint;
@@ -34,7 +35,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 endPoint = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("EndPoint"));
+               RaisePropertyChanged("EndPoint");
             }
         }
 
@@ -45,7 +46,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 paramName = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("ParamName"));
+               RaisePropertyChanged("ParamName");
             }
         }
 
@@ -57,7 +58,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 paramValue = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("ParamValue"));
+               RaisePropertyChanged("ParamValue");
             }
         }
 
@@ -68,7 +69,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 standardValue = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("StandardValue"));
+               RaisePropertyChanged("StandardValue");
             }
         }
 
@@ -80,7 +81,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 callCoefficient = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("CallCoefficient"));
+               RaisePropertyChanged("CallCoefficient");
             }
         }
 
@@ -91,7 +92,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 downloadCoefficient = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("DownloadCoefficient"));
+               RaisePropertyChanged("DownloadCoefficient");
             }
         }
 
@@ -102,7 +103,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 averageValue = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("AverageValue"));
+               RaisePropertyChanged("AverageValue");
             }
         }
        
@@ -113,7 +114,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 data[0] = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Data1"));
+               RaisePropertyChanged("Data1");
                 CalculateDownloadCoefficient();
             }
          }
@@ -125,7 +126,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 data[1] = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Data2"));
+               RaisePropertyChanged("Data2");
                 CalculateDownloadCoefficient();
             }
          }
@@ -136,7 +137,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 data[2] = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Data3"));
+               RaisePropertyChanged("Data3");
                 CalculateDownloadCoefficient();
             }
          }
@@ -147,7 +148,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 data[3] = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Data4"));
+               RaisePropertyChanged("Data4");
                 CalculateDownloadCoefficient();
             }
          }
@@ -159,7 +160,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 data[4] = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Data5"));
+               RaisePropertyChanged("Data5");
                 CalculateDownloadCoefficient();
             }
          }
@@ -171,7 +172,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 data[5] = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Data6"));
+               RaisePropertyChanged("Data6");
                 CalculateDownloadCoefficient();
             }
          }
@@ -183,7 +184,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 data[6] = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Data7"));
+               RaisePropertyChanged("Data7");
                 CalculateDownloadCoefficient();
             }
          }
@@ -195,7 +196,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 data[7] = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Data8"));
+               RaisePropertyChanged("Data8");
                 CalculateDownloadCoefficient();
             }
          }
@@ -207,7 +208,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 data[8] = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Data9"));
+               RaisePropertyChanged("Data9");
                 CalculateDownloadCoefficient();
             }
          }
@@ -219,7 +220,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 data[9] = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Data10"));
+               RaisePropertyChanged("Data10");
                 CalculateDownloadCoefficient();
             }
          }
@@ -230,7 +231,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 comment = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Comment"));
+               RaisePropertyChanged("Comment");
             }
         }
 
@@ -396,15 +397,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             return paramName + " (" + endPoint + ")";
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            isChanged = true;
-            if (PropertyChanged != null)
-                PropertyChanged(this, e);
-
-           
-        }
+       
 
 
         /// <summary>

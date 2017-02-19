@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using GalaSoft.MvvmLight;
 
 namespace ZFreeGo.Monitor.DASModel.Table
 {
     /// <summary>
     /// 事件日志参数
     /// </summary>
-    public class EventLog : INotifyPropertyChanged
+    public class EventLog : ObservableObject
     {
 
         private int eventID;
@@ -19,7 +20,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 eventID = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("EventID"));
+                RaisePropertyChanged("EventID");
             }
         }
 
@@ -30,7 +31,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 faultStyle = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("FaultStyle"));
+                RaisePropertyChanged("FaultStyle");
             }
         }
 
@@ -47,7 +48,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 eventConent = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("EventConent"));
+                RaisePropertyChanged("EventConent");
             }
         }
 
@@ -59,7 +60,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 date = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Date"));
+                RaisePropertyChanged("Date");
             }
         }
 
@@ -70,7 +71,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 unit = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Unit"));
+                RaisePropertyChanged("Unit");
             }
         }
 
@@ -81,7 +82,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 millisecond = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Millisecond"));
+                RaisePropertyChanged("Millisecond");
             }
         }
 
@@ -124,14 +125,6 @@ namespace ZFreeGo.Monitor.DASModel.Table
             return faultStyle + " (" + eventConent + ")";
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            isChanged = true;
-
-            if (PropertyChanged != null)
-                PropertyChanged(this, e);
-        }
 
         
     }

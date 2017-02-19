@@ -29,27 +29,27 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="1" FontSize="36"
+        <TextBlock Grid.Column="1" FontSize="32"
                    FontWeight="Bold"
-                   Foreground="Purple"
-                   Text="{Binding WelcomeTitle}"
+                   Foreground="Purple"                 
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
-                   TextWrapping="Wrap" />
-        <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
+                   TextWrapping="Wrap" Text="欢迎使用SOJO DAS II" />
+        <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" >
             <StackPanel>
+                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="SystemParameter" >系统参数</Button>
                 <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" >以太网设置</Button>
                 <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" >串口设置</Button>
                 <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="Telesignalisation" >遥信</Button>
-                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" >遥测</Button>
-                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" >遥控</Button>
-                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" >事件记录</Button>
+                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="Telemetering">遥测</Button>
+                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="Telecontrol">遥控</Button>
+                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="SOELog">SOE</Button>
                 <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" >录波采集</Button>
-                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" >保护定值</Button>
-                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" >系统校准</Button>
+                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="ProtectSetPoint">保护定值</Button>
+                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="SystemCalibration">系统校准</Button>
             </StackPanel>
         </Grid>
-        
+
         <Frame Grid.Column="1" Grid.Row="1" Name="frame" >
             
         </Frame>

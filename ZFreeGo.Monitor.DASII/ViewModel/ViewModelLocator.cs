@@ -12,7 +12,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
-using ZFreeGo.Monitor.DASII.Model;
+
 
 namespace ZFreeGo.Monitor.DASII.ViewModel
 {
@@ -29,14 +29,6 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            if (ViewModelBase.IsInDesignModeStatic)
-            {
-                SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
-            }
-            else
-            {
-                SimpleIoc.Default.Register<IDataService, DataService>();
-            }
 
             SimpleIoc.Default.Register<MainViewModel>();
         }

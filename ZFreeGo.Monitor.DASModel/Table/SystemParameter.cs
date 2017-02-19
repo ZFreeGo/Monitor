@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using GalaSoft.MvvmLight;
 
 namespace ZFreeGo.Monitor.DASModel.Table
 {
     /// <summary>
     /// 这是一个参数类
     /// </summary>
-    public class SystemParameter : INotifyPropertyChanged
+    public class SystemParameter : ObservableObject
     {
 
         private int internalID;
@@ -19,7 +20,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 internalID = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("InternalID"));
+                RaisePropertyChanged("InternalID");
             }
         }
 
@@ -30,7 +31,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 paramName = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("ParamName"));
+               RaisePropertyChanged("ParamName");
             }
         }
 
@@ -42,7 +43,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 defaultValue = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("DefaultValue"));
+               RaisePropertyChanged("DefaultValue");
             }
         }
 
@@ -53,7 +54,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 description = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Description"));
+               RaisePropertyChanged("Description");
             }
         }
 
@@ -90,13 +91,6 @@ namespace ZFreeGo.Monitor.DASModel.Table
             return paramName + " (" + defaultValue + ")";
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            isChanged = true; 
-            if (PropertyChanged != null)
-                PropertyChanged(this, e);
-        }
     }
 
      

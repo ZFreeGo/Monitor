@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
     /// <summary>
     /// 遥控参数类
     /// </summary>
-    public class Telecontrol : INotifyPropertyChanged
+    public class Telecontrol : ObservableObject
     {
 
         /// <summary>
@@ -24,7 +25,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 telecontrolID = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("TelecontrolID"));
+                RaisePropertyChanged("TelecontrolID");
             }
         }
 
@@ -36,7 +37,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             {
         
                 telecontrolComment = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("TelecontrolComment"));
+                RaisePropertyChanged("TelecontrolComment");
             }
         }
 
@@ -50,7 +51,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 telecontrolState = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("TelecontrolState"));
+                RaisePropertyChanged("TelecontrolState");
             }
         }
 
@@ -62,7 +63,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 telecontrolOperate = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("TelecontrolOperate"));
+                RaisePropertyChanged("TelecontrolOperate");
             }
         } 
   
@@ -74,7 +75,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 telecontrolOperateState = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("TelecontrolOperateState"));
+                RaisePropertyChanged("TelecontrolOperateState");
             }
         } 
 
@@ -85,7 +86,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 deviceActionTime = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("DeviceActionTime"));
+                RaisePropertyChanged("DeviceActionTime");
             }
         } 
 
@@ -121,15 +122,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             return TelecontrolComment + " (" + TelecontrolID + ")";
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            isChanged = true;
-
-            if (PropertyChanged != null)
-                PropertyChanged(this, e);
-        }
-
+  
 
     }
 }

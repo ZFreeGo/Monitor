@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
     /// <summary>
     /// 这是个遥测参数类
     /// </summary>
-    public class Telemetering : INotifyPropertyChanged
+    public class Telemetering : ObservableObject
     {
         /// <summary>
         /// 遥测对象公共地址
@@ -23,7 +24,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 internalID = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("InternalID"));
+                 RaisePropertyChanged("InternalID");
             }
         }
 
@@ -34,7 +35,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 telemeteringName = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("TelemeteringName"));
+                 RaisePropertyChanged("TelemeteringName");
             }
         }
 
@@ -45,7 +46,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 telemeteringID = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("TelemeteringID"));
+                 RaisePropertyChanged("TelemeteringID");
             }
         }
         private double calibrationCoefficient;
@@ -55,7 +56,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 calibrationCoefficient = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("CalibrationCoefficient"));
+                 RaisePropertyChanged("CalibrationCoefficient");
             }
         }
         private double telemeteringValue;
@@ -65,7 +66,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 telemeteringValue = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("TelemeteringValue"));
+                 RaisePropertyChanged("TelemeteringValue");
             }
         }
         private string unit;
@@ -75,7 +76,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 unit = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Unit"));
+                 RaisePropertyChanged("Unit");
             }
         }
         private string mark;
@@ -85,7 +86,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 mark = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Mark"));
+                 RaisePropertyChanged("Mark");
             }
         }
         private string comment;
@@ -95,7 +96,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             set
             {
                 comment = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Comment"));
+                 RaisePropertyChanged("Comment");
             }
         }
 
@@ -139,12 +140,6 @@ namespace ZFreeGo.Monitor.DASModel.Table
             return telemeteringName + " (" + telemeteringID + ")";
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            isChanged = true;
-            if (PropertyChanged != null)
-                PropertyChanged(this, e);
-        }
+     
     }
 }
