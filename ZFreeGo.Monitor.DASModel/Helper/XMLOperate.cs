@@ -6,10 +6,10 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
-using ZFreeGo.Monitor.DASModel.Table;
+using ZFreeGo.Monitor.DASModel.DataItemSet;
 
 
-namespace ZFreeGo.Monitor.DASModel.GetData
+namespace ZFreeGo.Monitor.DASModel.Helper
 {
     public class XMLOperate
     {

@@ -5,12 +5,15 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
-using ZFreeGo.Monitor.DASModel.Common;
-using ZFreeGo.Monitor.DASModel.Table;
+using ZFreeGo.Monitor.DASModel.Helper;
+using ZFreeGo.Monitor.DASModel.DataItemSet;
 
-namespace ZFreeGo.Monitor.DASModel.GetData
+namespace ZFreeGo.Monitor.DASModel.GetViewData
 {
-    public class GetViewData : IGetData
+    /// <summary>
+    /// 监控视图数据，包含三遥，保护定值，被控对象系统参数，系统校准，事件记录
+    /// </summary>
+    public class MonitorViewData : IGetData
     {
         DataSet dataSetTelesignalisation;
         ICollection<Telesignalisation> telesignalisation;
@@ -34,7 +37,7 @@ namespace ZFreeGo.Monitor.DASModel.GetData
         ICollection<EventLog> eventLog;
 
         XMLOperate getData;
-        public GetViewData()
+        public MonitorViewData()
         {
             getData = new XMLOperate();
         }
@@ -307,6 +310,7 @@ namespace ZFreeGo.Monitor.DASModel.GetData
         /// <returns></returns>
         public ObservableCollection<EventLog> GetEventLogList()
         {
+            
             ObservableCollection<EventLog> list = new ObservableCollection<EventLog>();
             eventLog = DataLoad<EventLog>(ref CommonPath.EventLogXmlPath, ref CommonPath.EventLogXsdPath,
                    ref dataSetEventLog, DataTypeEnum.EventLog);
@@ -317,15 +321,5 @@ namespace ZFreeGo.Monitor.DASModel.GetData
         #endregion
 
     }
-    public enum DataTypeEnum : int
-    {
-        Telecontrol = 1,
-        Telemetering,
-        Telesignalisation,
-        SystemParameter,
-        SystemCalibration,
-        EventLog,
-        CommunicationParamete,
-        ProtectSetPoint
-    }
+   
 }

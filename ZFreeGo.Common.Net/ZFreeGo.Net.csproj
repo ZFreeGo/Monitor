@@ -46,15 +46,19 @@
     <Compile Include="Element\NetActionEventArgs.cs" />
     <Compile Include="Element\NetBasicAction.cs" />
     <Compile Include="Element\NetDataArrayEventArgs.cs" />
+    <Compile Include="Element\NetLinkMessagEvent.cs" />
+    <Compile Include="Element\NetExcptionEventArgs.cs" />
     <Compile Include="FileProtocol.cs" />
     <Compile Include="FileRequestMode.cs" />
     <Compile Include="NetDataArrivedEventArgs.cs" />
+    <Compile Include="NetClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProtocalHandler.cs" />
     <Compile Include="ProtocolHelper.cs" />
     <Compile Include="RemoteClient.cs" />
     <Compile Include="RequestHandler.cs" />
     <Compile Include="ServerClient.cs" />
+    <Compile Include="NetServer.cs" />
     <Compile Include="UPNP\UpnpBlind.cs" />
     <Compile Include="UPNP\UpnpServer.cs" />
   </ItemGroup>

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using GalaSoft.MvvmLight;
 
-namespace ZFreeGo.Monitor.DASModel.Table
+namespace ZFreeGo.Monitor.DASModel.DataItemSet
 {
     /// <summary>
     /// 这是个系统校准参数类

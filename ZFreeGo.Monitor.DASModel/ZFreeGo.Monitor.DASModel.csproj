@@ -42,21 +42,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\CommonPath.cs" />
-    <Compile Include="Common\LinkNetMode.cs" />
-    <Compile Include="GetData\GetViewData.cs" />
-    <Compile Include="GetData\IGetData.cs" />
-    <Compile Include="GetData\NetCommunicationControl.cs" />
-    <Compile Include="GetData\XMLOperate.cs" />
+    <Compile Include="Helper\CommonPath.cs" />
+    <Compile Include="CommunicationServer.cs" />
+    <Compile Include="DataFileServer.cs" />
+    <Compile Include="DataItemSet\DataTypeEnum.cs" />
+    <Compile Include="GetViewData\MonitorViewData.cs" />
+    <Compile Include="GetViewData\IGetData.cs" />
+    <Compile Include="GetViewData\NetCommunicationItem.cs" />
+    <Compile Include="Helper\XMLOperate.cs" />
+    <Compile Include="DASModelServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Table\CommunicationParameter.cs" />
-    <Compile Include="Table\EventLog.cs" />
-    <Compile Include="Table\ProtectSetPoint.cs" />
-    <Compile Include="Table\SystemCalibration.cs" />
-    <Compile Include="Table\SystemParameter.cs" />
-    <Compile Include="Table\Telecontrol.cs" />
-    <Compile Include="Table\Telemetering.cs" />
-    <Compile Include="Table\Telesignalisation.cs" />
+    <Compile Include="DataItemSet\NetParameter.cs" />
+    <Compile Include="DataItemSet\EventLog.cs" />
+    <Compile Include="DataItemSet\ProtectSetPoint.cs" />
+    <Compile Include="DataItemSet\SystemCalibration.cs" />
+    <Compile Include="DataItemSet\SystemParameter.cs" />
+    <Compile Include="DataItemSet\Telecontrol.cs" />
+    <Compile Include="DataItemSet\Telemetering.cs" />
+    <Compile Include="DataItemSet\Telesignalisation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZFreeGo.Common.Net\ZFreeGo.Net.csproj">
+      <Project>{2c0b038a-4065-4628-81ab-13b750ed8bee}</Project>
+      <Name>ZFreeGo.Net</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ZFreeGo.TransportProtocol.NetworkAccess\ZFreeGo.TransmissionProtocols.csproj">
+      <Project>{814212f7-ed3d-46f6-a172-7ca2060fed0b}</Project>
+      <Name>ZFreeGo.TransmissionProtocols</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -179,9 +179,17 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ZFreeGo.Common.Net\ZFreeGo.Net.csproj">
+      <Project>{2c0b038a-4065-4628-81ab-13b750ed8bee}</Project>
+      <Name>ZFreeGo.Net</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ZFreeGo.Monitor.DASModel\ZFreeGo.Monitor.DASModel.csproj">
       <Project>{48d3c69b-cb4a-4c36-a052-6861c690b599}</Project>
       <Name>ZFreeGo.Monitor.DASModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ZFreeGo.TransportProtocol.NetworkAccess\ZFreeGo.TransmissionProtocols.csproj">
+      <Project>{814212f7-ed3d-46f6-a172-7ca2060fed0b}</Project>
+      <Name>ZFreeGo.TransmissionProtocols</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

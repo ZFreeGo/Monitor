@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace ZFreeGo.Monitor.DASModel.Table
+namespace ZFreeGo.Monitor.DASModel.DataItemSet
 {
     /// <summary>
     /// 遥控参数类

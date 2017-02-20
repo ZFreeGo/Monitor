@@ -15,7 +15,7 @@ using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
 using System.Windows.Navigation;
 using ZFreeGo.Monitor.DASII.View;
-using ZFreeGo.Monitor.DASModel.GetData;
+using ZFreeGo.Monitor.DASModel.GetViewData;
 
 
 namespace ZFreeGo.Monitor.DASII.ViewModel

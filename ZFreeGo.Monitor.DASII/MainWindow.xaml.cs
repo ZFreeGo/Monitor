@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using ZFreeGo.Monitor.DASII.View;
@@ -30,7 +31,7 @@ namespace ZFreeGo.Monitor.DASII
             Closing += (s, e) => ViewModelLocator.Cleanup();
             //注册MVVMLight消息
             Messenger.Default.Register<string>(this, "ShowUserView", ShowUserView);
-            Messenger.Default.Register<string>(this, "StartTcpLink", ExecuteStartTcpLink);
+            Messenger.Default.Register<Exception>(this, "ExceptionMessage", ExceptionMessage);
             viewTelesignalisation = new TelesignalisationView();
             viewTelecontrol = new TelecontrolView();
             viewTelemetering = new TelemeteringView();
@@ -41,10 +42,16 @@ namespace ZFreeGo.Monitor.DASII
             viewCommunication = new CommunicationView();
         }
 
-        private void ExecuteStartTcpLink(string obj)
+        /// <summary>
+        /// 异常信息
+        /// </summary>
+        /// <param name="obj"></param>
+        private void ExceptionMessage(Exception obj)
         {
-            MessageBox.Show(obj);
+            MessageBox.Show(obj.Message, obj.Source);
         }
+
+    
 
         private void ShowUserView(string obj)
         {

@@ -2,8 +2,8 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using System.Collections.ObjectModel;
-using ZFreeGo.Monitor.DASModel.GetData;
-using ZFreeGo.Monitor.DASModel.Table;
+using ZFreeGo.Monitor.DASModel.GetViewData;
+using ZFreeGo.Monitor.DASModel.DataItemSet;
 
 namespace ZFreeGo.Monitor.DASII.ViewModel
 {
@@ -17,10 +17,12 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
         {
             _userData = new ObservableCollection<SystemParameter>();
             LoadDataCommand = new RelayCommand(ExecuteLoadDataCommand);
-            Messenger.Default.Register<GetViewData>(this, "LoadData", ExecuteLoadData);
+            Messenger.Default.Register<MonitorViewData>(this, "LoadData", ExecuteLoadData);
         }
 
-        private void ExecuteLoadData(GetViewData obj)
+
+
+        private void ExecuteLoadData(MonitorViewData obj)
         {
             if (obj != null)
             {
@@ -41,6 +43,9 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
                 RaisePropertyChanged("UserData");
             }
         }
+
+      
+
         #region 加载数据命令：LoadDataCommand
         /// <summary>
         /// 加载数据

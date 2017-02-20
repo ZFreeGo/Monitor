@@ -5,15 +5,25 @@ using System.Text;
 using GalaSoft.MvvmLight;
 using System.Net;
 
-namespace ZFreeGo.Monitor.DASModel.Table
+namespace ZFreeGo.Monitor.DASModel.DataItemSet
 {
     /// <summary>
     /// 通讯参数
     /// </summary>
-    public class CommunicationParameter : ObservableObject
+    public class NetParameter : ObservableObject
     {
         IPAddress ip;
 
+        /// <summary>
+        /// 获取IP
+        /// </summary>
+        public IPAddress IP
+        {
+            get
+            {
+                return ip;
+            }
+        }
         /// <summary>
         /// 获取或设置IP地址
         /// </summary>
@@ -22,8 +32,14 @@ namespace ZFreeGo.Monitor.DASModel.Table
             get { return ip.ToString(); }
             set
             {
-                IPAddress.TryParse(value,out ip);
-                RaisePropertyChanged("IpAddress");
+                IPAddress iptry;
+                if(IPAddress.TryParse(value,out  iptry))
+                {
+                    ip = iptry;
+                    RaisePropertyChanged("IpAddress");
+                    
+                }
+                
                
             }
         }
@@ -33,17 +49,18 @@ namespace ZFreeGo.Monitor.DASModel.Table
         /// <summary>
         /// 获取或设置端口号
         /// </summary>
-        public string Port
+        public int  Port
         {
-            get { return port.ToString(); }
+            get { return port; }
             set
             {
-                int.TryParse(value, out port);
+                port = value;
                 RaisePropertyChanged("Port");
+               
             }
         }
 
-        public string linkMessage;
+        private string linkMessage;
 
         /// <summary>
         /// 连接信息
@@ -58,6 +75,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
             {
                 linkMessage = value;
                 RaisePropertyChanged("LinkMessage");
+               
             }
         }
 
@@ -108,7 +126,7 @@ namespace ZFreeGo.Monitor.DASModel.Table
         /// <summary>
         /// 通讯参数初始化
         /// </summary>
-        public CommunicationParameter()
+        public NetParameter()
         {
             IPAddress.TryParse("192.168.60.100", out ip);
             port = 2404;

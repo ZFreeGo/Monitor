@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using GalaSoft.MvvmLight;
 
-namespace ZFreeGo.Monitor.DASModel.Table
+namespace ZFreeGo.Monitor.DASModel.DataItemSet
 {
     /// <summary>
     /// 这个是保护设定值参数类

@@ -17,15 +17,15 @@
     </i:Interaction.Triggers>
     <Grid >
         <Grid.RowDefinitions>
-            <RowDefinition Height="0"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
 
         </Grid.ColumnDefinitions>
-  
-        <Grid Grid.Column="0"  Grid.Row="1"  Name="gridServer"  >
+
+        <Grid Grid.Column="0"  Grid.Row="0"  Name="gridServer"  DataContext="{Binding ServerInformation}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
@@ -50,21 +50,28 @@
                 </StackPanel>
              
             </StackPanel>
+          
+
+
+            <TextBox Margin="5" Background="AliceBlue" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"   
+                                  VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"  Name="txtLinkMsg" MaxWidth="10000" Text="{Binding LinkMessage}"></TextBox>
+        </Grid>
+        <Grid Grid.Row="1" >
             <StackPanel Grid.Column="1" Grid.Row="0">
 
                 <StackPanel Margin="3"  Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center">步骤1:</TextBlock>
-                    <Button Margin="3" Padding="3" Name="btnStartServer" IsEnabled="{Binding StartNetEnable}" Command="{Binding StartTcpLink}"  >启动Tcp</Button>
-                    <Button Margin="3" Padding="3" Name="btnStopServer" IsEnabled="{Binding StopNetEnable}">停止Tcp</Button>
+                    <Button Margin="3" Padding="3" Name="btnStartServer" Command="{Binding StartTcpLink}"  >启动Tcp</Button>
+                    <Button Margin="3" Padding="3" Name="btnStopServer"  Command="{Binding StopTcpLink}" >停止Tcp</Button>
                 </StackPanel>
                 <StackPanel Margin="3"  Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center">步骤2:</TextBlock>
-                    <Button Margin="3" Padding="3" Name="btnStartDataTransmission"  >启动数据传输</Button>
-                    <Button Margin="3" Padding="3" Name="btnStopDataTransmission" >停止数据传输</Button>
+                    <Button Margin="3" Padding="3" Name="btnStartDataTransmission"  Command="{Binding StartTransmission}" >启动数据传输</Button>
+                    <Button Margin="3" Padding="3" Name="btnStopDataTransmission"  Command="{Binding StopTransmission}">停止数据传输</Button>
                 </StackPanel>
                 <StackPanel Margin="3"  Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center">步骤3:</TextBlock>
-                    <Button Margin="3" Padding="3" Name="btnManualCall"  >总召唤</Button>
+                    <Button Margin="3" Padding="3" Name="btnManualCall"  Command="{Binding CallAll}">总召唤</Button>
                     <Button Margin="3" Padding="3" Name="btnTimeSynA" >时间同步</Button>
                 </StackPanel>
                 <StackPanel Margin="3"  Orientation="Horizontal" Visibility="Hidden">
@@ -74,9 +81,6 @@
                 </StackPanel>
             </StackPanel>
 
-
-            <TextBox Margin="5" Background="AliceBlue" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"   
-                                  VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"  Name="txtLinkMsg" MaxWidth="10000" Text="{Binding LinkMessage}"></TextBox>
         </Grid>
 
     </Grid>

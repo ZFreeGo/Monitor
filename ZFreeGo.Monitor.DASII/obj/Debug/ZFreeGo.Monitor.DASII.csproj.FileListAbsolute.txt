@@ -45,3 +45,7 @@ F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASII\obj\Debug\View\ParameterV
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASII\obj\Debug\View\ParameterView.g.cs
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASII\obj\Debug\View\CommunicationView.baml
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASII\obj\Debug\View\CommunicationView.g.cs
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASII\bin\Debug\ZFreeGo.Net.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASII\bin\Debug\ZFreeGo.Net.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASII\bin\Debug\ZFreeGo.TransmissionProtocols.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASII\bin\Debug\ZFreeGo.TransmissionProtocols.pdb

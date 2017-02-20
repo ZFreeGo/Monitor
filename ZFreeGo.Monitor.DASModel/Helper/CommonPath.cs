@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ZFreeGo.Monitor.DASModel.Common
+namespace ZFreeGo.Monitor.DASModel.Helper
 {
     /// <summary>
     /// 通用的公共路径,  
