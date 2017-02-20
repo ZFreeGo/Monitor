@@ -52,7 +52,7 @@ namespace ZFreeGo.Monitor.DASModel
             DataFile = new DataFileServer();
             Communication = new CommunicationServer();
             Communication.NetClient.NetDataEventArrived += NetClient_NetDataEventArrived;
-
+            Communication.NetClient.LinkingEventMsg += NetClient_LinkingEventMsg;
             protocolServer = new NetWorkProtocolServer(NetSendData);
 
             protocolServer.ReciveFaltEvent += protocolServer_ReciveFaltEvent;
@@ -66,51 +66,47 @@ namespace ZFreeGo.Monitor.DASModel
             protocolServer.MeteringServer.TelemeteringEvent += MeteringServer_TelemeteringEvent;
 
         }
+
+        /// <summary>
+        /// 关闭服务
+        /// </summary>
+        public void StopServer()
+        {
+            Communication.NetClient.Stop();
+            protocolServer.StopServer();
+
+        }
+        /// <summary>
+        /// 连接信息事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void NetClient_LinkingEventMsg(object sender, Net.Element.NetLinkMessagEvent e)
+        {
+           switch(e.State)
+           {
+               case Net.Element.NetState.Stop:
+                   {
+                       protocolServer.ControlServer.StopServer();//停止控制传输功能服务
+                       break;
+                   }
+           }
+        }
         void MeteringServer_TelemeteringEvent(object sender, TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, float, QualityDescription>>> e)
         {
             //MessageBox.Show(e.Message.Count.ToString(), "遥测");
-            Communication.NetParameter.LinkMessage += e.Message.Count.ToString() + "\n";
-           
-            
-
+            DataFile.MonitorData.UpdateTelemeteringEvent(e);           
         }
 
         void TelesignalisationServer_StatusUpdateEvent(object sender, TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, byte>>> e)
-        {
-            //MessageBox.Show(e.Message.Count.ToString(), "遥信");
-            Communication.NetParameter.LinkMessage += e.Message.Count.ToString() + "\n";
-            var collect = DataFile.MonitorData.GetTelesignalisationList();
-            foreach (var ele in e.Message)
-            {
-                for (int k = 0; k < collect.Count; k++)
-                {
-                    var t = collect[k];
-                    if ((t.InternalID + Telesignalisation.BasicAddress - 1) == ele.Item1)
-                    {
-                        t.Date = DateTime.Now.ToLongTimeString();
-                        t.TelesignalisationResult = (byte)ele.Item2;
-                        if (e.ID == TypeIdentification.M_DP_NA_1)
-                        {
-                            t.IsSingle = true;
-                        }
-                        else
-                        {
-                            t.IsSingle = false;
-                        }
-                    }
-
-                }
-            }
-
-
+        {           
+            DataFile.MonitorData.UpdateStatusEvent(e);          
         }
 
         void TelesignalisationServer_SOEStatusEvent(object sender, TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, byte, CP56Time2a>>> e)
-        {
-            
-            Communication.NetParameter.LinkMessage += e.Message.Count.ToString() + "\n";
-            
-            DataFile.MonitorData.UpdateSOEStatusEvent(e);
+        {        
+                   
+            DataFile.MonitorData.UpdateSOEEvent(e);
         }
 
         void ControlServer_ServerFaultEvent(object sender, TransmissionControlFaultEventArgs e)

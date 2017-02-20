@@ -265,12 +265,18 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         /// <returns></returns>
         public ObservableCollection<SystemParameter> GetSystemParameterList()
         {
-            ObservableCollection<SystemParameter> list = new ObservableCollection<SystemParameter>();
-            systemParameter = DataLoad<SystemParameter>(ref CommonPath.SystemParameterXmlPath, ref CommonPath.SystemParameterXsdPath,
-                   ref dataSetSystemParameter, DataTypeEnum.SystemParameter);
-            list = (ObservableCollection<SystemParameter>)systemParameter;
-
-            return list;
+            if (systemParameter == null)
+            {
+                ObservableCollection<SystemParameter> list = new ObservableCollection<SystemParameter>();
+                systemParameter = DataLoad<SystemParameter>(ref CommonPath.SystemParameterXmlPath, ref CommonPath.SystemParameterXsdPath,
+                       ref dataSetSystemParameter, DataTypeEnum.SystemParameter);
+                list = (ObservableCollection<SystemParameter>)systemParameter;
+                return list;
+            }
+            else
+            {
+                return (ObservableCollection<SystemParameter>)systemParameter;
+            }
         }
         #endregion
 
@@ -281,12 +287,19 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         /// <returns></returns>
         public ObservableCollection<Telecontrol> GetTelecontrolList()
         {
-            ObservableCollection<Telecontrol> list = new ObservableCollection<Telecontrol>();
-            telecontrol = DataLoad<Telecontrol>(ref CommonPath.TelecontrolXmlPath, ref CommonPath.TelecontrolXsdPath,
-                   ref dataSetTelecontrol, DataTypeEnum.Telecontrol);
-            list = (ObservableCollection<Telecontrol>)telecontrol;
+            if (telecontrol == null)
+            {
+                ObservableCollection<Telecontrol> list = new ObservableCollection<Telecontrol>();
+                telecontrol = DataLoad<Telecontrol>(ref CommonPath.TelecontrolXmlPath, ref CommonPath.TelecontrolXsdPath,
+                       ref dataSetTelecontrol, DataTypeEnum.Telecontrol);
+                list = (ObservableCollection<Telecontrol>)telecontrol;
 
-            return list;
+                return list;
+            }
+            else
+            {
+                return (ObservableCollection<Telecontrol>)telecontrol;
+            }
         }
         #endregion
 
@@ -298,12 +311,19 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         /// <returns></returns>
         public ObservableCollection<ProtectSetPoint> GetProtectSetPointList()
         {
-            ObservableCollection<ProtectSetPoint> list = new ObservableCollection<ProtectSetPoint>();
-            protectSetPoint = DataLoad<ProtectSetPoint>(ref CommonPath.ProtectSetPointXmlPath, ref CommonPath.ProtectSetPointXsdPath,
-                   ref dataSetProtectSetPoint, DataTypeEnum.ProtectSetPoint);
-            list = (ObservableCollection<ProtectSetPoint>)protectSetPoint;
+            if (protectSetPoint == null)
+            {
+                ObservableCollection<ProtectSetPoint> list = new ObservableCollection<ProtectSetPoint>();
+                protectSetPoint = DataLoad<ProtectSetPoint>(ref CommonPath.ProtectSetPointXmlPath, ref CommonPath.ProtectSetPointXsdPath,
+                       ref dataSetProtectSetPoint, DataTypeEnum.ProtectSetPoint);
+                list = (ObservableCollection<ProtectSetPoint>)protectSetPoint;
 
-            return list;
+                return list;
+            }
+            else
+            {
+                return (ObservableCollection<ProtectSetPoint>)protectSetPoint;
+            }
         }
         #endregion
 
@@ -314,15 +334,22 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         /// <returns></returns>
         public ObservableCollection<SystemCalibration> GetSystemCalibrationList()
         {
-            ObservableCollection<SystemCalibration> list = new ObservableCollection<SystemCalibration>();
-            systemCalibration = DataLoad<SystemCalibration>(ref CommonPath.SystemCalibrationXmlPath, ref CommonPath.SystemCalibrationXsdPath,
-                   ref dataSetSystemCalibration, DataTypeEnum.SystemCalibration);
-            list = (ObservableCollection<SystemCalibration>)systemCalibration;
+            if (systemCalibration == null)
+            {
+                ObservableCollection<SystemCalibration> list = new ObservableCollection<SystemCalibration>();
+                systemCalibration = DataLoad<SystemCalibration>(ref CommonPath.SystemCalibrationXmlPath, ref CommonPath.SystemCalibrationXsdPath,
+                       ref dataSetSystemCalibration, DataTypeEnum.SystemCalibration);
+                list = (ObservableCollection<SystemCalibration>)systemCalibration;
 
-            return list;
+                return list;
+            }
+            else
+            {
+                return (ObservableCollection<SystemCalibration>)systemCalibration;
+            }
         }
         #endregion
-        #region 时间记录数据获取
+        #region 事件记录数据获取
         /// <summary>
         /// 获取事件记录参数
         /// </summary>
@@ -351,11 +378,12 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         #endregion
 
 
-        Action ActionConent;
-
         
-
-        public void UpdateSOEStatusEvent(TransmissionProtocols.MonitorProcessInformation.
+        /// <summary>
+        /// 更新SOE信息
+        /// </summary>
+        /// <param name="e">信息事件</param>
+        public void UpdateSOEEvent(TransmissionProtocols.MonitorProcessInformation.
             StatusEventArgs<List<Tuple<uint, byte, ZFreeGo.TransmissionProtocols.BasicElement.CP56Time2a>>> e)
         {
           
@@ -382,8 +410,8 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
                 SOE alog;
                 if (result != null)
                 {
-                    
-                    alog = new SOE(result.InternalID, result.TelesignalisationName, ele.Item2.ToString(),
+                    result.TelesignalisationResult = ele.Item2;//同步更新单点遥信信息
+                    alog = new SOE(result.InternalID, result.TelesignalisationName, result.TelesignalisationState,
                    time.ToString(), "", time.Milliseconds.ToString());
                 }
                 else
@@ -393,9 +421,77 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
                 }
 
                 
-                //collect.Add(alog);
+                //任务调度器，用于快线程更新UI
                 Task.Factory.StartNew(() => collect.Add(alog),
                     new System.Threading.CancellationTokenSource().Token, TaskCreationOptions.None, syncContextTaskScheduler).Wait();
+            }
+
+
+        }
+        /// <summary>
+        /// 更新遥信信息--为什么此处任务调度
+        /// </summary>
+        /// <param name="e">信息事件参数</param>
+        public void UpdateStatusEvent( TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, byte>>> e)
+        {
+            try
+            {
+
+                var collect = GetTelesignalisationList();
+                foreach (var ele in e.Message)
+                {
+                    for (int k = 0; k < collect.Count; k++)
+                    {
+                        var t = collect[k];
+                        if ((t.InternalID + Telesignalisation.BasicAddress - 1) == ele.Item1)
+                        {
+                            t.Date = DateTime.Now.ToLongTimeString();
+                            t.TelesignalisationResult = (byte)ele.Item2;
+                            if (e.ID == ZFreeGo.TransmissionProtocols.BasicElement.TypeIdentification.M_DP_NA_1)
+                            {
+                                t.IsSingle = true;
+                            }
+                            else
+                            {
+                                t.IsSingle = false;
+                            }
+                            
+                        }
+
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+
+        }
+        /// <summary>
+        /// 更新遥测信息
+        /// </summary>
+        /// <param name="e">事件</param>
+        public void UpdateTelemeteringEvent(TransmissionProtocols.
+            MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, float,
+            ZFreeGo.TransmissionProtocols.BasicElement.QualityDescription>>> e)
+        {
+          
+            var m = GetTelemeteringList();
+            var list = e.Message;
+            foreach (var ele in list)
+            {
+                for (int k = 0; k < m.Count; k++)
+                {
+                    var t = m[k];
+                    if ((t.InternalID + Telemetering.BasicAddress - 1) == ele.Item1)
+                    {
+                        t.TelemeteringValue = (float)ele.Item2;
+                        t.TelemeteringID = (int)(t.InternalID + Telemetering.BasicAddress - 1);
+
+                    }
+
+                }
             }
 
 

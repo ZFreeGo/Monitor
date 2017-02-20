@@ -12,7 +12,7 @@
          <Members>
           <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2017-02-20 09:19:31Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2017-02-20 10:51:03Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalWarning" Path="f:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASII\ViewModel" File="CommunicationViewModel.cs" Line="24">'CommunicationViewModel.CommunicationViewModel()' 包含调用链，该调用链导致调用此类所定义的虚方法。请检查以下调用堆栈，看是否有意外结果: &#xD;&#xA;&#xD;&#xA;CommunicationViewModel..ctor()&#xD;&#xA;CommunicationViewModel.set_ServerInformation(NetParameter):Void&#xD;&#xA;ObservableObject.RaisePropertyChanged(String):Void。</Issue>
             </Message>
            </Messages>

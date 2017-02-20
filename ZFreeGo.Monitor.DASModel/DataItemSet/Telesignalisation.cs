@@ -65,6 +65,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
                 telesignalisationResult = value;
                 RaisePropertyChanged("TelesignalisationResult");
                 RaisePropertyChanged("TelesignalisationState");
+                RaisePropertyChanged("Date");
             }
         }
         private string telesignalisationState;

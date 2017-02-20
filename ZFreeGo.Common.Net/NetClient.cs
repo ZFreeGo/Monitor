@@ -308,6 +308,7 @@ namespace ZFreeGo.Net
           public void Stop()
           {              
               isRun = false;
+              MakeLinkMessageEvent("停止连接", NetState.Stop);
               if (streamToServer != null)
                     streamToServer.Dispose();
               if (client != null)

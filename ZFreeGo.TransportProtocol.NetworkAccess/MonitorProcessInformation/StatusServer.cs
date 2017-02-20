@@ -103,7 +103,7 @@ namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
             }
             catch (Exception ex)
             {
-                throw ex;
+                SendFaultEvent(ex, "StatusServer:GetComprehensiveMessage");
             }
 
 
@@ -241,6 +241,15 @@ namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
             {
                 SOEStatusEvent(this, new StatusEventArgs<List<Tuple<uint, byte, CP56Time2a>>>(message, id));
             }
+        }
+        /// <summary>
+        /// 发送故障信息
+        /// </summary>
+        /// <param name="ex">异常</param>
+        /// <param name="comment">注释</param>
+        private void SendFaultEvent(Exception ex, string comment)
+        {
+            StatusFaultEvent(this, new ProcessFaultEventArgs(ex, comment));
         }
     }
 }
