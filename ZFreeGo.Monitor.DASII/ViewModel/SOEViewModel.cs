@@ -15,7 +15,7 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
         /// </summary>
         public SOEViewModel()
         {
-            _userData = new ObservableCollection<EventLog>();
+            _userData = new ObservableCollection<SOE>();
             LoadDataCommand = new RelayCommand(ExecuteLoadDataCommand);
             Messenger.Default.Register<MonitorViewData>(this, "LoadData", ExecuteLoadData);
         }
@@ -24,16 +24,16 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
         {
             if (obj != null)
             {
-                UserData = obj.GetEventLogList();
+                UserData = obj.GetSOEList();
             }
         }
 
         /************** 属性 **************/
-        private ObservableCollection<EventLog> _userData;
+        private ObservableCollection<SOE> _userData;
         /// <summary>
         /// 用户信息数据
         /// </summary>
-        public ObservableCollection<EventLog> UserData
+        public ObservableCollection<SOE> UserData
         {
             get { return _userData; }
             set
@@ -52,7 +52,7 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
         void ExecuteLoadDataCommand()
         {
            // var get = new GetViewData();
-            //UserData = get.GetEventLogList();
+            //UserData = get.GetSOEList();
         }
         #endregion
     }

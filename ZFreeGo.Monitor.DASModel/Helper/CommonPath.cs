@@ -85,10 +85,10 @@ namespace ZFreeGo.Monitor.DASModel.Helper
         /// <summary>
         /// 事件记录XML路径
         /// </summary>
-        public static string EventLogXmlPath = @"Config\EventLog.xml";
+        public static string SOEXmlPath = @"Config\SOE.xml";
         /// <summary>
         /// 事件记录XSD架构路径
         /// </summary>
-        public static string EventLogXsdPath = @"Config\EventLog.xsd";
+        public static string SOEXsdPath = @"Config\SOE.xsd";
     }
 }

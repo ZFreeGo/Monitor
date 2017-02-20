@@ -10,7 +10,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
     /// <summary>
     /// 事件日志参数
     /// </summary>
-    public class EventLog : ObservableObject
+    public class SOE : ObservableObject
     {
 
         private int eventID;
@@ -106,7 +106,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
         /// <param name="date">日期</param>
         /// <param name="unit">单位</param>
         /// <param name="millisecond">毫秒数</param>
-        public EventLog(int eventID, string faultStyle, string eventConent, string date, string unit, string millisecond)
+        public SOE(int eventID, string faultStyle, string eventConent, string date, string unit, string millisecond)
         {
             EventID = eventID;
             FaultStyle = faultStyle;

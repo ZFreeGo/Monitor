@@ -12,7 +12,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
         Telesignalisation,
         SystemParameter,
         SystemCalibration,
-        EventLog,
+        SOE,
         CommunicationParamete,
         ProtectSetPoint
     }

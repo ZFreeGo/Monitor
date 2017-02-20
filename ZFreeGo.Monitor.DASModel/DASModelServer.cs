@@ -70,18 +70,47 @@ namespace ZFreeGo.Monitor.DASModel
         {
             //MessageBox.Show(e.Message.Count.ToString(), "遥测");
             Communication.NetParameter.LinkMessage += e.Message.Count.ToString() + "\n";
+           
+            
+
         }
 
         void TelesignalisationServer_StatusUpdateEvent(object sender, TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, byte>>> e)
         {
             //MessageBox.Show(e.Message.Count.ToString(), "遥信");
             Communication.NetParameter.LinkMessage += e.Message.Count.ToString() + "\n";
+            var collect = DataFile.MonitorData.GetTelesignalisationList();
+            foreach (var ele in e.Message)
+            {
+                for (int k = 0; k < collect.Count; k++)
+                {
+                    var t = collect[k];
+                    if ((t.InternalID + Telesignalisation.BasicAddress - 1) == ele.Item1)
+                    {
+                        t.Date = DateTime.Now.ToLongTimeString();
+                        t.TelesignalisationResult = (byte)ele.Item2;
+                        if (e.ID == TypeIdentification.M_DP_NA_1)
+                        {
+                            t.IsSingle = true;
+                        }
+                        else
+                        {
+                            t.IsSingle = false;
+                        }
+                    }
+
+                }
+            }
+
+
         }
 
         void TelesignalisationServer_SOEStatusEvent(object sender, TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, byte, CP56Time2a>>> e)
         {
-            //MessageBox.Show(e.Message.Count.ToString(), "SOE");
+            
             Communication.NetParameter.LinkMessage += e.Message.Count.ToString() + "\n";
+            
+            DataFile.MonitorData.UpdateSOEStatusEvent(e);
         }
 
         void ControlServer_ServerFaultEvent(object sender, TransmissionControlFaultEventArgs e)

@@ -160,13 +160,13 @@ namespace ZFreeGo.Monitor.DASModel.Helper
                             }
                             return dataCollect;                            
                         }
-                    case DataTypeEnum.EventLog:
+                    case DataTypeEnum.SOE:
                         {
-                            var dataCollect = new ObservableCollection<EventLog>(); ;
-                            foreach (DataRow productRow in ds.Tables["EventLog"].Rows)
+                            var dataCollect = new ObservableCollection<SOE>(); ;
+                            foreach (DataRow productRow in ds.Tables["SOE"].Rows)
                             {
                                 dataCollect.Add(
-                                    new EventLog(
+                                    new SOE(
                                 (int)productRow["EventID"],
                                 (string)productRow["FaultStyle"],
                                 (string)productRow["EventConent"],
@@ -337,13 +337,13 @@ namespace ZFreeGo.Monitor.DASModel.Helper
 
                            
                         }
-                    case DataTypeEnum.EventLog:
+                    case DataTypeEnum.SOE:
                         {
-                            ds.Tables["EventLog"].Rows.Clear();
-                            var datas = dataObserver as ObservableCollection<EventLog>;
+                            ds.Tables["SOE"].Rows.Clear();
+                            var datas = dataObserver as ObservableCollection<SOE>;
                             foreach (var m in datas)
                             {
-                                var productRow = ds.Tables["EventLog"].NewRow();
+                                var productRow = ds.Tables["SOE"].NewRow();
 
                                  productRow["EventID"] = m.EventID;
                                  productRow["FaultStyle"] = m.FaultStyle;
@@ -352,7 +352,7 @@ namespace ZFreeGo.Monitor.DASModel.Helper
                                  productRow["Unit"] = m.Unit;
                                  productRow["Millisecond"] = m.Millisecond;
 
-                                ds.Tables["EventLog"].Rows.Add(productRow);
+                                ds.Tables["SOE"].Rows.Add(productRow);
                             }
                             break;
                         }

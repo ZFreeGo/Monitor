@@ -24,6 +24,10 @@ namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
         /// </summary>
         public event EventHandler<StatusEventArgs<List<Tuple<UInt32, byte, CP56Time2a>>>> SOEStatusEvent;
 
+        /// <summary>
+        /// 故障事件
+        /// </summary>
+        public event EventHandler<ProcessFaultEventArgs> StatusFaultEvent;
 
         /// <summary>
         /// 状态服务，初始化
@@ -74,7 +78,7 @@ namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
                         {
 
                             var message = GetMessage(asdu);
-                            SendSingleDoubleEvent(message);
+                            SendSingleDoubleEvent(message, (TypeIdentification)asdu.TypeId);
                             break;
                         }
                      //SOE
@@ -82,7 +86,7 @@ namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
                     case TypeIdentification.M_DP_TB_1://带CP56Time2a时标的双点信息
                         {
                             var message = GetMessageWithTime(asdu);
-                            SendSingleDoubleEvent(message);
+                            SendSingleDoubleEvent(message, (TypeIdentification)asdu.TypeId);
                             break;
                         }
                         case TypeIdentification.M_FT_NA_1: //故障值信息
@@ -219,11 +223,11 @@ namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
         /// </summary>
         /// <param name="message">信息</param>
         /// <param name="apdu">列表</param>
-        private void SendSingleDoubleEvent(List<Tuple<uint,byte>> message)
+        private void SendSingleDoubleEvent(List<Tuple<uint, byte>> message, TypeIdentification id)
         {
             if (StatusUpdateEvent != null)
             {
-                StatusUpdateEvent(this, new StatusEventArgs<List<Tuple<uint,byte>>>(message));
+                StatusUpdateEvent(this, new StatusEventArgs<List<Tuple<uint,byte>>>(message, id));
             }
         }
         /// <summary>
@@ -231,11 +235,11 @@ namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
         /// </summary>
         /// <param name="message">信息</param>
         /// <param name="apdu">列表</param>
-        private void SendSingleDoubleEvent(List<Tuple<uint, byte, CP56Time2a>> message)
+        private void SendSingleDoubleEvent(List<Tuple<uint, byte, CP56Time2a>> message, TypeIdentification id)
         {
             if (StatusUpdateEvent != null)
             {
-                SOEStatusEvent(this, new StatusEventArgs<List<Tuple<uint, byte, CP56Time2a>>>(message));
+                SOEStatusEvent(this, new StatusEventArgs<List<Tuple<uint, byte, CP56Time2a>>>(message, id));
             }
         }
     }

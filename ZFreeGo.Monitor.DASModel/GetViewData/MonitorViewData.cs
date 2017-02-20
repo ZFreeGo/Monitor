@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using ZFreeGo.Monitor.DASModel.Helper;
 using ZFreeGo.Monitor.DASModel.DataItemSet;
+using System.Threading.Tasks;
 
 namespace ZFreeGo.Monitor.DASModel.GetViewData
 {
@@ -33,10 +34,13 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         DataSet dataSetSystemCalibration;
         ICollection<SystemCalibration> systemCalibration;
 
-        DataSet dataSetEventLog;
-        ICollection<EventLog> eventLog;
+        DataSet dataSetSOE;
+        ICollection<SOE> soeLog;
 
         XMLOperate getData;
+
+
+        private readonly TaskScheduler syncContextTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
         public MonitorViewData()
         {
             getData = new XMLOperate();
@@ -59,7 +63,7 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         //    }
         //    catch (Exception ex)
         //    {
-              
+
         //    }
         //}
 
@@ -72,7 +76,7 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         private bool OpenXmlFile(ref string path, string style)
         {
             return true;
-            
+
             //Stream myStream;
             //var openFileDialog1 = new OpenFileDialog();
 
@@ -193,7 +197,7 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
                     var icollect = getData.GetDataCollect(ds, en) as ICollection<T>;
                     if (icollect != null)
                     {
-                       
+
                         return icollect;
                     }
                 }
@@ -204,7 +208,7 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
             catch (Exception ex)
             {
 
-               
+
                 return null;
             }
         }
@@ -214,14 +218,21 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         /// 获取遥信数据
         /// </summary>
         /// <returns></returns>
-        public  ObservableCollection<Telesignalisation> GetTelesignalisationList()
+        public ObservableCollection<Telesignalisation> GetTelesignalisationList()
         {
-            ObservableCollection<Telesignalisation> list = new ObservableCollection<Telesignalisation>();
-            telesignalisation = DataLoad<Telesignalisation>(ref CommonPath.TelesignalisationXmlPath,ref CommonPath.TelesignalisationXsdPath,
-                   ref dataSetTelesignalisation, DataTypeEnum.Telesignalisation);
-            list = (ObservableCollection<Telesignalisation>)telesignalisation;
+            if (telesignalisation == null)
+            {
+                ObservableCollection<Telesignalisation> list = new ObservableCollection<Telesignalisation>();
+                telesignalisation = DataLoad<Telesignalisation>(ref CommonPath.TelesignalisationXmlPath, ref CommonPath.TelesignalisationXsdPath,
+                       ref dataSetTelesignalisation, DataTypeEnum.Telesignalisation);
+                list = (ObservableCollection<Telesignalisation>)telesignalisation;
+                return list;
+            }
+            else
+            {
+                return (ObservableCollection<Telesignalisation>)telesignalisation;
+            }
 
-            return list;
         }
         #endregion
         #region 遥测数据获取
@@ -231,12 +242,20 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         /// <returns></returns>
         public ObservableCollection<Telemetering> GetTelemeteringList()
         {
-            ObservableCollection<Telemetering> list = new ObservableCollection<Telemetering>();
-            telemetering = DataLoad<Telemetering>(ref CommonPath.TelemeteringXmlPath, ref CommonPath.TelemeteringXsdPath,
-                   ref dataSetTelemetering, DataTypeEnum.Telemetering);
-            list = (ObservableCollection<Telemetering>)telemetering;
+            if (telemetering == null)
+            {
+                ObservableCollection<Telemetering> list = new ObservableCollection<Telemetering>();
+                telemetering = DataLoad<Telemetering>(ref CommonPath.TelemeteringXmlPath, ref CommonPath.TelemeteringXsdPath,
+                       ref dataSetTelemetering, DataTypeEnum.Telemetering);
 
-            return list;
+                list = (ObservableCollection<Telemetering>)telemetering;
+                return list;
+            }
+            else
+            {
+                return (ObservableCollection<Telemetering>)telemetering;
+            }
+
         }
         #endregion
         #region 系统参数数据获取
@@ -308,18 +327,87 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         /// 获取事件记录参数
         /// </summary>
         /// <returns></returns>
-        public ObservableCollection<EventLog> GetEventLogList()
+        public ObservableCollection<SOE> GetSOEList()
         {
-            
-            ObservableCollection<EventLog> list = new ObservableCollection<EventLog>();
-            eventLog = DataLoad<EventLog>(ref CommonPath.EventLogXmlPath, ref CommonPath.EventLogXsdPath,
-                   ref dataSetEventLog, DataTypeEnum.EventLog);
-            list = (ObservableCollection<EventLog>)eventLog;
+            if (soeLog == null)
+            {
+                ObservableCollection<SOE> list = new ObservableCollection<SOE>();
+                soeLog = DataLoad<SOE>(ref CommonPath.SOEXmlPath, ref CommonPath.SOEXsdPath,
+                       ref dataSetSOE, DataTypeEnum.SOE);
+                if (soeLog == null)
+                {
+                    soeLog = list;
+                }
+                list = (ObservableCollection<SOE>)soeLog;
 
-            return list;
+                return list;
+            }
+            else
+            {
+                return (ObservableCollection<SOE>)soeLog;
+            }
         }
+
         #endregion
 
+
+        Action ActionConent;
+
+        
+
+        public void UpdateSOEStatusEvent(TransmissionProtocols.MonitorProcessInformation.
+            StatusEventArgs<List<Tuple<uint, byte, ZFreeGo.TransmissionProtocols.BasicElement.CP56Time2a>>> e)
+        {
+          
+          
+            var list = GetTelesignalisationList();
+            var collect = GetSOEList();
+
+            foreach (var ele in e.Message)
+            {
+
+                var time = ele.Item3;
+                //通过遥信ID，查找所需要的元素
+                Telesignalisation result = null;
+                foreach (var find in list)
+                {
+                    if (find.InternalID == (int)ele.Item1)
+                    {
+                        result = new Telesignalisation(find.InternalID, find.TelesignalisationName, find.TelesignalisationID,
+                            find.IsNot, find.TelesignalisationResult, "", "");
+                        break;
+                    }
+                }
+
+                SOE alog;
+                if (result != null)
+                {
+                    
+                    alog = new SOE(result.InternalID, result.TelesignalisationName, ele.Item2.ToString(),
+                   time.ToString(), "", time.Milliseconds.ToString());
+                }
+                else
+                {
+                    alog = new SOE((int)ele.Item1, "ID未定义", ele.Item2.ToString(),
+                   time.ToString(), "", time.Milliseconds.ToString());
+                }
+
+                
+                //collect.Add(alog);
+                Task.Factory.StartNew(() => collect.Add(alog),
+                    new System.Threading.CancellationTokenSource().Token, TaskCreationOptions.None, syncContextTaskScheduler).Wait();
+            }
+
+
+        }
     }
-   
+       
+
+
+
+
+
 }
+   
+
+

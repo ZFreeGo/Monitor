@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ZFreeGo.TransmissionProtocols.BasicElement;
 
 
 namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
@@ -15,9 +16,12 @@ namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
 
         public T Message;
 
-        public StatusEventArgs(T message)
+        public TypeIdentification ID;
+
+        public StatusEventArgs(T message, TypeIdentification id)
         {
             Message = message;
+            ID = id;
         }
     }
 }

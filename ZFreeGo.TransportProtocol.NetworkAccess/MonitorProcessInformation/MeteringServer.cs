@@ -61,7 +61,7 @@ namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
                 {
 
                     var m = GetMessage(asdu);
-                    SendTelemeteringEvent(m);
+                    SendTelemeteringEvent(m, (TypeIdentification)asdu.TypeId);
                     break;
                 }
                 case TypeIdentification.M_ME_TD_1://带CP56Time2a时标的测量值，归一化值
@@ -121,11 +121,11 @@ namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
          /// 发送
          /// </summary>
          /// <param name="m">发送浮点数遥测信息</param>
-         private void SendTelemeteringEvent(List<Tuple<UInt32, float, QualityDescription>> m)
+        private void SendTelemeteringEvent(List<Tuple<UInt32, float, QualityDescription>> m, TypeIdentification id)
          {
              if (TelemeteringEvent != null)
              {
-                 TelemeteringEvent(this, new StatusEventArgs<List<Tuple<uint,float,QualityDescription>>>(m));
+                 TelemeteringEvent(this, new StatusEventArgs<List<Tuple<uint,float,QualityDescription>>>(m, id));
              }
          }
        

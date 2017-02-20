@@ -9,7 +9,7 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
 {
     public interface IGetData
     {
-        ObservableCollection<EventLog> GetEventLogList();
+        ObservableCollection<SOE> GetSOEList();
         ObservableCollection<SystemCalibration> GetSystemCalibrationList();
         ObservableCollection<Telesignalisation> GetTelesignalisationList();
         ObservableCollection<Telemetering> GetTelemeteringList();

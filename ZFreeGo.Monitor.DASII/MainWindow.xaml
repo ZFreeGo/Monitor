@@ -9,6 +9,7 @@
         Height="800"
         Width="1000"
         Title="DAS-II 配电自动化系统"
+       
         DataContext="{Binding Main, Source={StaticResource Locator}}">
     
     <Window.Resources>
