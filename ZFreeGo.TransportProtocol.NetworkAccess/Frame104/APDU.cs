@@ -668,7 +668,8 @@ namespace ZFreeGo.TransmissionProtocols.Frame104
         public  string ToString(bool flag)
         {
             StringBuilder strBuild = new StringBuilder(APCI.ToString(flag), 40 + ASDU.Length*3);
-            strBuild.Append(ASDU.ToString());
+            strBuild.Append("  ");
+            strBuild.Append(ASDU.ToString(flag));
             return strBuild.ToString();
         }
             

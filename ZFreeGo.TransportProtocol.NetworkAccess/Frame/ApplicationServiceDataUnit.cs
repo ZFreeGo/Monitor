@@ -677,7 +677,7 @@ namespace ZFreeGo.TransmissionProtocols.Frame
              {
                  result = ((TypeIdentification)TypeId).ToString();
              }
-             strBuild.AppendFormat("ID:[{0:X2}]={0},", TypeId, result);
+             strBuild.AppendFormat("ID:[{0:X2}]={1},", TypeId, result);
 
 
              if (IsSequence)
@@ -692,7 +692,7 @@ namespace ZFreeGo.TransmissionProtocols.Frame
              result = "未定义";
              if (Enum.IsDefined(typeof(CauseOfTransmissionList), CauseOfTransmission1))
              {
-                 result = ((CauseOfTransmissionList)TypeId).ToString();
+                 result = ((CauseOfTransmissionList)CauseOfTransmission1).ToString();
              }
 
              strBuild.AppendFormat("传输原因:[{0:X2} {1:X2}]={2:00},", causeOfTransmission2, CauseOfTransmission1, result);

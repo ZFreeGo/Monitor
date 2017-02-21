@@ -64,7 +64,24 @@ namespace ZFreeGo.Monitor.DASModel
             protocolServer.TelesignalisationServer.SOEStatusEvent += TelesignalisationServer_SOEStatusEvent;
             protocolServer.TelesignalisationServer.StatusUpdateEvent += TelesignalisationServer_StatusUpdateEvent;
             protocolServer.MeteringServer.TelemeteringEvent += MeteringServer_TelemeteringEvent;
+            protocolServer.SetPointServer.ServerEvent += SetPointServer_ServerEvent;
 
+            protocolServer.TelecontrolServer.ServerEvent += TelecontrolServer_ServerEvent;
+        }
+
+        private void TelecontrolServer_ServerEvent(object sender, TransmissionProtocols.ControlProcessInformation.ControlEventArgs e)
+        {
+            Communication.NetParameter.LinkMessage += e.Comment + "\n";
+        }
+
+        /// <summary>
+        /// 保护定值服务
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void SetPointServer_ServerEvent(object sender, TransmissionProtocols.ControlProcessInformation.ControlEventArgs e)
+        {
+            Communication.NetParameter.LinkMessage += e.Comment + "\n";
         }
 
         /// <summary>
@@ -87,7 +104,7 @@ namespace ZFreeGo.Monitor.DASModel
            {
                case Net.Element.NetState.Stop:
                    {
-                       protocolServer.ControlServer.StopServer();//停止控制传输功能服务
+                       protocolServer.ControlServer.ResetServer(); //复位服务
                        break;
                    }
            }

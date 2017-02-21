@@ -40,6 +40,7 @@ namespace ZFreeGo.Monitor.DASII
             viewParameter = new ParameterView();
             viewCalibration = new CalibrationView();
             viewCommunication = new CommunicationView();
+            Messenger.Default.Send<string>("Start", "ExecuteLoadDataFirst");
         }
 
         /// <summary>
@@ -107,6 +108,11 @@ namespace ZFreeGo.Monitor.DASII
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void LayoutRoot_Loaded(object sender, RoutedEventArgs e)
         {
 
         }

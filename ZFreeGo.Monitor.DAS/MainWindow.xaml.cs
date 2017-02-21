@@ -109,7 +109,11 @@ namespace ZFreeGo.Monitor.AutoStudio
             protocolServer.TelesignalisationServer.StatusUpdateEvent += TelesignalisationServer_StatusUpdateEvent;
             protocolServer.MeteringServer.TelemeteringEvent += MeteringServer_TelemeteringEvent;
 
+            protocolServer.TelecontrolServer.ServerEvent += TelecontrolServer_ServerEvent;
+
         }
+
+       
 
         void MeteringServer_TelemeteringEvent(object sender, TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, float, QualityDescription>>> e)
         {

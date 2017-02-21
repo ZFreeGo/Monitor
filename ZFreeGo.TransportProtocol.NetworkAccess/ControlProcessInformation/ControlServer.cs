@@ -6,13 +6,14 @@ using System.Threading;
 using ZFreeGo.TransmissionProtocols.ReciveCenter;
 using ZFreeGo.TransmissionProtocols.BasicElement;
 using ZFreeGo.TransmissionProtocols.Helper;
+using ZFreeGo.TransmissionProtocols.Frame;
 
 namespace ZFreeGo.TransmissionProtocols.ControlProcessInformation
 {
     /// <summary>
     /// 控制方向的过程信息，遥控
     /// </summary>
-    public class ControlServer : ReciveSendServer<ControlProcessASDU>
+    public class ControlServer : ReciveSendServer<ApplicationServiceDataUnit>
     {
         /// <summary>
         /// 控制服务事件
@@ -28,7 +29,7 @@ namespace ZFreeGo.TransmissionProtocols.ControlProcessInformation
         /// <summary>
         /// 接收帧
         /// </summary>
-        private ControlProcessASDU mReciveFrame;
+        private ApplicationServiceDataUnit mReciveFrame;
 
         private Func<ControlProcessASDU, bool> mSendDataDelegate;
 
@@ -65,14 +66,22 @@ namespace ZFreeGo.TransmissionProtocols.ControlProcessInformation
         private ManualResetEvent mWaitExecueCommand;
 
         /// <summary>
-        /// 启动服务,发送预制信息
+        /// 控制服务
         /// </summary>
         /// <param name="sendDataDelegate">发送委托</param>
+        public ControlServer(Func<ControlProcessASDU, bool> sendDataDelegate)
+        {
+            mSendDataDelegate = sendDataDelegate;
+        }
+
+        /// <summary>
+        /// 启动服务,发送预制信息
+        /// </summary>        
         /// <param name="cot">传输原因</param>
         /// <param name="asduPublicAddress">公共地址</param>
         /// <param name="objectAddress">信息对象地址</param>
         /// <param name="dco">双点命令</param> 
-        public void StartServer(Func<ControlProcessASDU, bool> sendDataDelegate, CauseOfTransmissionList cot,
+        public void StartServer( CauseOfTransmissionList cot,
               UInt16 asduPublicAddress, UInt32 objectAddress, DoubleCommand dco)
         {
             try
@@ -99,7 +108,7 @@ namespace ZFreeGo.TransmissionProtocols.ControlProcessInformation
                 mServerThread.Start();
                 serverState = true;
 
-                mSendDataDelegate = sendDataDelegate;
+               
                 var id = TypeIdentification.C_DC_NA_1;//遥控命令
                 mSendFrame = new ControlProcessASDU(id, cot, 0, objectAddress, dco);
                 //信息对象地址
@@ -133,7 +142,7 @@ namespace ZFreeGo.TransmissionProtocols.ControlProcessInformation
                     throw new Exception("信息对象地址不一致");
                 }
                 //此命令必须为执行命令
-                if (dco.SE == SelectExecuteOption.Execute)
+                if (dco.SE != SelectExecuteOption.Execute)
                 {
                     throw new Exception("此命令需要是执行命令");
                 }
@@ -142,7 +151,7 @@ namespace ZFreeGo.TransmissionProtocols.ControlProcessInformation
                 mSendFrame = new ControlProcessASDU(id, cot, 0, objectAddress, dco);
 
                 bool state = mSendDataDelegate(mSendFrame);
-                if (state)
+                if (!state)
                 {
                     SendEvent("发送失败，终止处理。", ControlProcessServerResult.SendFault);
                     StopServer();
@@ -208,12 +217,22 @@ namespace ZFreeGo.TransmissionProtocols.ControlProcessInformation
         {
             try
             {
+                string result = "";
+                if ((mReciveFrame.CauseOfTransmission1 & 0x40) == 0x40)
+                {
+                    result = "否定的";
+                    mReciveFrame.CauseOfTransmission1 &= 0xBF;
+                }
                 switch ((CauseOfTransmissionList)mReciveFrame.CauseOfTransmission1)
                 {
                     case CauseOfTransmissionList.ActivationACK:
                         {
                             mRepeatCount = 0;
-                            SendEvent("激活确认", ControlProcessServerResult.AcvtivityAck);
+                            SendEvent(result + "激活确认", ControlProcessServerResult.AcvtivityAck);
+                            if (result == "否定的")
+                            {
+                                return false; //提前终止
+                            }
                             if (ActivityAckFlag)
                             {
                                 return false;
@@ -239,6 +258,7 @@ namespace ZFreeGo.TransmissionProtocols.ControlProcessInformation
                             mRepeatCount = 0;
                             return false;//终止循环
                         }
+                       
                     default:
                         {
                             SendEvent("未识别的传输原因", ControlProcessServerResult.Unknow);

@@ -61,7 +61,7 @@ namespace ZFreeGo.TransmissionProtocols.Frame104
             StringBuilder strbuild = new StringBuilder(data.Length * 3 + 10);
             foreach (var m in data)
             {
-                strbuild.AppendFormat("{0:X2) ", m);
+                strbuild.AppendFormat("{0:X2} ", m);
             }
             return strbuild.ToString();
         }
@@ -77,7 +77,7 @@ namespace ZFreeGo.TransmissionProtocols.Frame104
             StringBuilder strBuild = new StringBuilder(100);
             strBuild.Append("APCITypeS,");
             strBuild.AppendFormat("APDU长度:[{0:X2}]={0:00},", apci.APDULength, apci.APDULength);
-            strBuild.AppendFormat("接收序列号:[{0:X2} {1:X2} {2:X2} {3:X2}}={4:00}", apci.ControlDomain4, apci.ControlDomain3, apci.ControlDomain2, apci.ControlDomain1,
+            strBuild.AppendFormat("接收序列号:[{0:X2} {1:X2} {2:X2} {3:X2}]={4:00}", apci.ControlDomain4, apci.ControlDomain3, apci.ControlDomain2, apci.ControlDomain1,
                ReceiveSequenceNumber);
             return strBuild.ToString();
 

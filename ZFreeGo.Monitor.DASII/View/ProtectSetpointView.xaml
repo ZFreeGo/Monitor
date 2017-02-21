@@ -22,8 +22,8 @@
             <StackPanel Margin="3" Orientation="Horizontal" Background="AliceBlue">
                 <Button Margin="3" Padding="3" Name="btnCallSetpoint">召唤定值-待实现</Button>
 
-                <Button Margin="30,3,3,3" Padding="3" Name="DownloadProtectSetSelect" >选择</Button>
-                <Button Margin="3,3,30,3" Padding="3" Name="DownloadProtectSet" >下载</Button>
+                <Button Margin="30,3,3,3" Padding="3" Name="DownloadProtectSetSelect" Command="{Binding SetProtectPoint}" CommandParameter="Slected">选择</Button>
+                <Button Margin="3,3,30,3" Padding="3" Name="DownloadProtectSet" Command="{Binding SetProtectPoint}" CommandParameter="Download">下载</Button>
                 <Button Margin="3" Padding="3" Name="ProtectSetPointExport" >导出</Button>
                 <Button Margin="3" Padding="3" Name="ProtectSetPointLoad" >导入</Button>
                 <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxProtectSetPoint" IsChecked="False" >修改</CheckBox>

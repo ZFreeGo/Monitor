@@ -48,7 +48,6 @@
                 <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" >录波采集</Button>
                 <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="ProtectSetPoint">保护定值</Button>
                 <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="SystemCalibration">系统校准</Button>
-                <Button Margin="5" Padding="2" Command="{Binding LoadData}"  CommandParameter="LoadData">载入数据</Button>
             </StackPanel>
         </Grid>
 

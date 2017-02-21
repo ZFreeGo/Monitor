@@ -88,7 +88,15 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
                 throw ex;
             }
         }
-
+        /// <summary>
+        /// 复位服务
+        /// </summary>
+        public void ResetServer()
+        {
+            StopServer();
+            StartServer();
+            SetWorkMode(false);
+        }
         /// <summary>
         /// 设置工作模式
         /// </summary>
@@ -142,7 +150,7 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
             }
             else
             {
-                return true; ;
+                return false; ;
             }
            
         }
@@ -453,6 +461,8 @@ namespace ZFreeGo.TransmissionProtocols.TransmissionControl104
             }
             StopServer();
         }
+
+
         
 
 

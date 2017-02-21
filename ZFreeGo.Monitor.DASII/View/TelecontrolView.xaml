@@ -78,14 +78,14 @@
                     </Grid.ColumnDefinitions>
                     <GroupBox Grid.Column ="0" Header="合闸操作">
                         <StackPanel >
-                            <Button Margin="3" Padding="3" Name="ReadyClose" IsEnabled= "{Binding Path = ReadyCloseEnabled}">合闸预制</Button>
-                            <Button Margin="3,15,3,3" Padding="3" Name="ActionClose"   IsEnabled= "{Binding Path = ActionCloseEnabled}">合闸执行</Button>
+                            <Button Margin="3" Padding="3" Name="ReadyClose" IsEnabled= "{Binding Path = ReadyCloseEnabled}"  Command="{Binding Close}" CommandParameter="Selected">合闸预制</Button>
+                            <Button Margin="3,15,3,3" Padding="3" Name="ActionClose"   IsEnabled= "{Binding Path = ActionCloseEnabled}" Command="{Binding Close}" CommandParameter="Execute">合闸执行</Button>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Grid.Column ="1" Header="分闸操作">
                         <StackPanel >
-                            <Button Margin="3" Padding="3" Name="ReadyOpen" IsEnabled= "{Binding Path = ReadyOpenEnabled}">分闸预制</Button>
-                            <Button Margin="3,15,3,3" Padding="3" Name="ActionOpen"  IsEnabled= "{Binding Path = ActionOpenEnabled}">分闸执行</Button>
+                            <Button Margin="3" Padding="3" Name="ReadyOpen" IsEnabled= "{Binding Path = ReadyOpenEnabled}" Command="{Binding Open}" CommandParameter="Selected">分闸预制</Button>
+                            <Button Margin="3,15,3,3" Padding="3" Name="ActionOpen"  IsEnabled= "{Binding Path = ActionOpenEnabled}" Command="{Binding Open}" CommandParameter="Execute">分闸执行</Button>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Grid.Column ="2" Header="电池活化">

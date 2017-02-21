@@ -189,26 +189,19 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         {
             try
             {
-
-
                 if (IsExists(ref pathxml, "xml") && IsExists(ref pathxsd, "xsd"))
                 {
                     ds = getData.ReadXml(pathxml, pathxsd);
                     var icollect = getData.GetDataCollect(ds, en) as ICollection<T>;
                     if (icollect != null)
                     {
-
                         return icollect;
                     }
                 }
                 return null;
-
-
             }
             catch (Exception ex)
             {
-
-
                 return null;
             }
         }

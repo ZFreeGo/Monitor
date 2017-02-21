@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using ZFreeGo.TransmissionProtocols.BasicElement;
+using ZFreeGo.TransmissionProtocols.Frame;
 using ZFreeGo.TransmissionProtocols.Helper;
 
 namespace ZFreeGo.TransmissionProtocols.ControlProcessInformation
@@ -11,14 +12,14 @@ namespace ZFreeGo.TransmissionProtocols.ControlProcessInformation
     /// <summary>
     /// 控制方向的过程信息，设定值
     /// </summary>
-    public class SetPointServer : ReciveSendServer<ControlProcessASDU>
+    public class SetPointServer : ReciveSendServer<ApplicationServiceDataUnit>
     {
         /// <summary>
         /// 控制服务事件
         /// </summary>
         public event EventHandler<ControlEventArgs> ServerEvent;
 
-
+     
         /// <summary>
         /// 帧信息
         /// </summary>
@@ -27,7 +28,7 @@ namespace ZFreeGo.TransmissionProtocols.ControlProcessInformation
         /// <summary>
         /// 接收帧
         /// </summary>
-        private ControlProcessASDU mReciveFrame;
+        private ApplicationServiceDataUnit mReciveFrame;
 
         private Func<ControlProcessASDU, bool> mSendDataDelegate;
 
@@ -53,17 +54,23 @@ namespace ZFreeGo.TransmissionProtocols.ControlProcessInformation
         /// <summary>
         /// 等待执行命令事件
         /// </summary>
+        /// <param name="sendDataDelegate">发送委托</param>
         private ManualResetEvent mWaitExecueCommand;
+
+        public SetPointServer(Func<ControlProcessASDU, bool> sendDataDelegate)
+        {
+             mSendDataDelegate = sendDataDelegate;
+        }
 
         /// <summary>
         /// 启动服务,发送预制信息
         /// </summary>
-        /// <param name="sendDataDelegate">发送委托</param>
+        
         /// <param name="cot">传输原因</param>
         /// <param name="asduPublicAddress">公共地址</param>
         /// <param name="objectAddress">信息对象地址</param>
         /// <param name="dco">双点命令</param> 
-        public void StartServer(Func<ControlProcessASDU, bool> sendDataDelegate, bool isquense,
+        public void StartServer( bool isquense,
             CauseOfTransmissionList cot, UInt16 ASDUPublicAddress, QualifyCommandSet qos,
              List<Tuple<UInt32, ShortFloating>> listFloat)
         {
@@ -77,8 +84,18 @@ namespace ZFreeGo.TransmissionProtocols.ControlProcessInformation
                 {
                     throw new ArgumentException("需要先执行选择任务");
                 }
-
                 InitData();
+                    
+                var id = TypeIdentification.C_SE_NC_1;//设定值命令 短浮点数
+                mSendFrame = new ControlProcessASDU(id,isquense, cot, 0, qos, listFloat);
+                
+                mOverTime = 15000;
+                mRepeatCount = 1;
+                mQos = qos;
+                ActivityAckFlag = false;
+                mWaitExecueCommand = new ManualResetEvent(false);
+
+
                 mReadThread = new Thread(ReciveThread);
                 mReadThread.Priority = ThreadPriority.Normal;
                 mReadThread.Name = "ReciveThread线程数据";
@@ -90,15 +107,7 @@ namespace ZFreeGo.TransmissionProtocols.ControlProcessInformation
                 mServerThread.Start();
                 serverState = true;
 
-                mSendDataDelegate = sendDataDelegate;
-                var id = TypeIdentification.C_SE_NC_1;//设定值命令 短浮点数
-                mSendFrame = new ControlProcessASDU(id,isquense, cot, 0, qos, listFloat);
-                
-                mOverTime = 15000;
-                mRepeatCount = 1;
-                mQos = qos;
-                ActivityAckFlag = false;
-                mWaitExecueCommand = new ManualResetEvent(false);
+           
             }
             catch (Exception ex)
             {
@@ -127,7 +136,7 @@ namespace ZFreeGo.TransmissionProtocols.ControlProcessInformation
                 mSendFrame = new ControlProcessASDU(id, isquense, cot, 0, qos, listFloat);
 
                 bool state = mSendDataDelegate(mSendFrame);
-                if (state)
+                if (!state)
                 {
                     SendEvent("发送失败，终止处理。", ControlProcessServerResult.SendFault);
                     StopServer();

@@ -20,9 +20,10 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
         public MainViewModel()
         {
             ShowUserView = new RelayCommand<string>(ExecuteShowUserView);
-            LoadData = new RelayCommand<string>(ExecuteLoadData);
+           
             dasModelServer = new DASModelServer();
-        
+
+            Messenger.Default.Register<string>(this, "ExecuteLoadDataFirst", ExecuteLoadData);
         }
         /********* 命令 **********/
         /// <summary>
@@ -37,10 +38,8 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
         {
             Messenger.Default.Send<string>(name, "ShowUserView");
         }
-        /// <summary>
-        /// 显示UserView窗口
-        /// </summary>
-        public RelayCommand<string> LoadData { get; private set; }
+   
+      
 
         //发送显示UserView的消息
         void ExecuteLoadData(string name)
@@ -48,6 +47,7 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
             Messenger.Default.Send<MonitorViewData>(dasModelServer.DataFile.MonitorData, "LoadData");
             Messenger.Default.Send<CommunicationServer>(dasModelServer.Communication, "CommunicationServer");
             Messenger.Default.Send<NetWorkProtocolServer>(dasModelServer.ProtocolServer, "NetWorkProtocolServer");
+        
         }
       
        

@@ -95,6 +95,16 @@ namespace ZFreeGo.TransmissionProtocols.ReciveCenter
         /// </summary>
         private const ushort maxNoReciveAckNum = 8;
         /// <summary>
+        /// 获取最大接收不确认的I报文数量
+        /// </summary>
+        public ushort MaxNoReciveAckNum
+        {
+            get
+            {
+                return maxNoReciveAckNum;
+            }
+        }
+        /// <summary>
         /// ASDU公共地址
         /// </summary>
         public ushort ASDUADdress;
