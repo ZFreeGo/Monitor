@@ -58,28 +58,31 @@
         </Grid>
         <Grid Grid.Row="1" >
             <StackPanel Grid.Column="1" Grid.Row="0">
-
                 <StackPanel Margin="3"  Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center">步骤1:</TextBlock>
+                    <Button Margin="3" Padding="3"  Command="{Binding StartAllLink}"  >启动连接</Button>
+                    <Button Margin="3" Padding="3"   Command="{Binding StopAllLink}" >断开连接</Button>
+                </StackPanel>
+                <StackPanel >
+                    <StackPanel Margin="3"  Orientation="Horizontal" Visibility="Collapsed">
+                   
                     <Button Margin="3" Padding="3" Name="btnStartServer" Command="{Binding StartTcpLink}"  >启动Tcp</Button>
                     <Button Margin="3" Padding="3" Name="btnStopServer"  Command="{Binding StopTcpLink}" >停止Tcp</Button>
                 </StackPanel>
-                <StackPanel Margin="3"  Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center">步骤2:</TextBlock>
+                    <StackPanel Margin="3"  Orientation="Horizontal" Visibility="Collapsed">
+                   
                     <Button Margin="3" Padding="3" Name="btnStartDataTransmission"  Command="{Binding StartTransmission}" >启动数据传输</Button>
                     <Button Margin="3" Padding="3" Name="btnStopDataTransmission"  Command="{Binding StopTransmission}">停止数据传输</Button>
                 </StackPanel>
                 <StackPanel Margin="3"  Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center">步骤3:</TextBlock>
+                   
                     <Button Margin="3" Padding="3" Name="btnManualCall"  Command="{Binding CallAll}">总召唤</Button>
                     <Button Margin="3" Padding="3" Name="btnTimeSynA" >时间同步</Button>
                 </StackPanel>
-                <StackPanel Margin="3"  Orientation="Horizontal" Visibility="Hidden">
-                    <TextBlock VerticalAlignment="Center">步骤4:</TextBlock>
-                    <Button Margin="3" Padding="3" Name="btnRestartServer"  ToolTip="恢复为启动状态">服务复归</Button>
-
-                </StackPanel>
+               
+            </StackPanel >
+            
             </StackPanel>
+            
 
         </Grid>
 

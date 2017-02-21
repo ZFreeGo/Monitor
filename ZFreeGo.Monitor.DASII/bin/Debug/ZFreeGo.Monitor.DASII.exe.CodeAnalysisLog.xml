@@ -1,43 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type="text/xsl" href="d:\program files (x86)\microsoft visual studio 12.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
 <FxCopReport Version="12.0">
- <Targets>
-  <Target Name="F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASII\bin\Debug\ZFreeGo.Monitor.DASII.exe">
-   <Modules>
-    <Module Name="zfreego.monitor.dasii.exe">
-     <Namespaces>
-      <Namespace Name="ZFreeGo.Monitor.DASII.ViewModel">
-       <Types>
-        <Type Name="CommunicationViewModel" Kind="Class" Accessibility="Public" ExternallyVisible="True">
-         <Members>
-          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
-           <Messages>
-            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2017-02-21 03:40:27Z" FixCategory="NonBreaking">
-             <Issue Certainty="95" Level="CriticalWarning" Path="f:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASII\ViewModel" File="CommunicationViewModel.cs" Line="24">'CommunicationViewModel.CommunicationViewModel()' 包含调用链，该调用链导致调用此类所定义的虚方法。请检查以下调用堆栈，看是否有意外结果: &#xD;&#xA;&#xD;&#xA;CommunicationViewModel..ctor()&#xD;&#xA;CommunicationViewModel.set_ServerInformation(NetParameter):Void&#xD;&#xA;ObservableObject.RaisePropertyChanged(String):Void。</Issue>
-            </Message>
-           </Messages>
-          </Member>
-         </Members>
-        </Type>
-       </Types>
-      </Namespace>
-     </Namespaces>
-    </Module>
-   </Modules>
-  </Target>
- </Targets>
- <Rules>
-  <Rule TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214">
-   <Name>不要在构造函数中调用可重写的方法</Name>
-   <Description>不应通过构造函数调用类中定义的虚方法。如果某个派生类已重写该虚方法，则将在调用派生类的构造函数前，调用此派生类重写后的方法。</Description>
-   <Resolution Name="Default">{0} 包含调用链，该调用链导致调用此类所定义的虚方法。请检查以下调用堆栈，看是否有意外结果: {1}。</Resolution>
-   <Owner />
-   <Url>http://msdn.microsoft.com/library/ms182331.aspx</Url>
-   <Email>[none]</Email>
-   <MessageLevel Certainty="95">CriticalWarning</MessageLevel>
-   <File Name="usagerules.dll" Version="12.0.0.0" />
-  </Rule>
- </Rules>
  <Localized>
   <String Key="Category">类别</String>
   <String Key="Certainty">确定性</String>

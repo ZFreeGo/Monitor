@@ -394,8 +394,9 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
                 {
                     if (find.InternalID == (int)ele.Item1)
                     {
-                        result = new Telesignalisation(find.InternalID, find.TelesignalisationName, find.TelesignalisationID,
-                            find.IsNot, find.TelesignalisationResult, "", "");
+                        result = find;
+                        //result = new Telesignalisation(find.InternalID, find.TelesignalisationName, find.TelesignalisationID,
+                        //    find.IsNot, find.TelesignalisationResult, "", "");
                         break;
                     }
                 }

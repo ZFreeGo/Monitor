@@ -9,9 +9,9 @@
         Height="800"
         Width="1000"
         Title="DAS-II 配电自动化系统"
-       
+        Closing="Window_Closing"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
-    
+        
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

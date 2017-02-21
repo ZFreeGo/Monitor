@@ -109,12 +109,8 @@ namespace ZFreeGo.Monitor.DASII
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
+            Messenger.Default.Send<string>("MainWindowsClose", "ExecuteMainWindowsClose");
         }
 
-        private void LayoutRoot_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

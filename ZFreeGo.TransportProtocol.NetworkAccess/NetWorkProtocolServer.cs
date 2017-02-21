@@ -161,6 +161,24 @@ namespace ZFreeGo.TransmissionProtocols
         }
 
         /// <summary>
+        /// 时间服务
+        /// </summary>
+        private TimeSynchronizationServer timeServer;
+
+        /// <summary>
+        /// 获取事件服务
+        /// </summary>
+        public TimeSynchronizationServer TimeServer
+        {
+            get
+            {
+                return timeServer;
+            }
+        }
+
+
+
+        /// <summary>
         /// 网络访问服务初始化
         /// </summary>
         public  NetWorkProtocolServer(Func<byte[], bool> inSsendDelegate)
@@ -174,6 +192,7 @@ namespace ZFreeGo.TransmissionProtocols
             meteringServer = new MonitorProcessInformation.MeteringServer();
             setpointServer = new ControlProcessInformation.SetPointServer(NetSendData);
             telecontrolServer = new ControlProcessInformation.ControlServer(NetSendData);
+            timeServer = new TimeSynchronizationServer(NetSendData);
             checkGetMessageServerConfig();
         }
         /// <summary>
@@ -249,8 +268,18 @@ namespace ZFreeGo.TransmissionProtocols
         {
             try
             {
-                transmissionControlServer.Enqueue(e.mdata1);
+               
                 MakeReciveFrameMessageEvent(e.mdata1.ToString(), e.mdata1.ToString(true));
+                if(e.mdata1.TransmissionCotrolFun == TransmissionControlFunction.TestFrame)
+                {
+                    var apci = new APCITypeU(TransmissionControlFunction.AcknowledgementTestFrame);
+                    NetSendData(apci);
+                }
+                else
+                {
+                    transmissionControlServer.Enqueue(e.mdata1);
+                }
+                
                 
             }
             catch (Exception ex)
@@ -271,6 +300,9 @@ namespace ZFreeGo.TransmissionProtocols
             {
                 MakeReciveFrameMessageEvent(e.mdata1.ToString(), e.mdata1.ToString(true));
                 appMessageManager.AckReceiveSequenceNumber(e.mdata1.ReceiveSequenceNumber);
+
+
+
             }
             catch (Exception ex)
             {
@@ -498,19 +530,16 @@ namespace ZFreeGo.TransmissionProtocols
         {
             try
             {
-                //同步释放相应事件
-               
+                //同步释放相应事件               
                 appMessageManager.UpdateReceiveSequenceNumber(e.MasterCMD.APCI.TransmitSequenceNumber,
                     e.MasterCMD.APCI.ReceiveSequenceNumber);
 
-                //BeginInvokeUpdateHistory(e.MasterCMD.FrameArray, e.MasterCMD.FrameArray.Length, "从站发送:I帧：时间同步:");
-
+                timeServer.Enqueue(e.MasterCMD.ASDU);
                 SendSupervisoryFrame();
-
             }
             catch (Exception ex)
             {
-               // MessageBox.Show(ex.Message, "checkGetMessage_MasterTimeArrived");
+                SendFaultEvent("checkGetMessage_MasterTimeArrived" + ex.Message);
             }
         }
         /// <summary>
@@ -524,14 +553,11 @@ namespace ZFreeGo.TransmissionProtocols
             {
                 appMessageManager.UpdateReceiveSequenceNumber(e.mdata2.APCI.TransmitSequenceNumber,
                     e.mdata2.APCI.ReceiveSequenceNumber);
-
-
                 SendSupervisoryFrame();
-
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message, "checkGetMessage_FileServerArrived");
+                SendFaultEvent("checkGetMessage_FileServerArrived" + ex.Message);
             }
         }
      

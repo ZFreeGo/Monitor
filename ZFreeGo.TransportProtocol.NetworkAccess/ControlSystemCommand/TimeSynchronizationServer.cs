@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using ZFreeGo.TransmissionProtocols.BasicElement;
+using ZFreeGo.TransmissionProtocols.Frame;
 using ZFreeGo.TransmissionProtocols.Helper;
 
 namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
@@ -11,7 +12,7 @@ namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
     /// <summary>
     /// 时钟同步任务
     /// </summary>
-    public class TimeSynchronizationServer : ReciveSendServer<ControlCommandASDU>
+    public class TimeSynchronizationServer : ReciveSendServer<ApplicationServiceDataUnit>
     {
         /// <summary>
         /// 召唤服务事件
@@ -27,21 +28,34 @@ namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
         /// <summary>
         /// 接收帧
         /// </summary>
-        private ControlCommandASDU mReciveFrame;
+        private ApplicationServiceDataUnit mReciveFrame;
 
         private Func<ControlCommandASDU, bool> mSendDataDelegate;
 
 
         /// <summary>
-        /// 召唤服务启动服务
+        /// 时间同步服务
         /// </summary>
         /// <param name="sendDataDelegate">发送委托</param>
+        public TimeSynchronizationServer(Func<ControlCommandASDU, bool> sendDataDelegate)
+        {
+            mSendDataDelegate = sendDataDelegate;
+        }
+
+
+        /// <summary>
+        /// 召唤服务启动服务
+        /// </summary>
+        
         /// <param name="cot">传输原因</param>
         /// <param name="qoi">传输限定词</param>
-        public void StartServer(Func<ControlCommandASDU, bool> sendDataDelegate, CauseOfTransmissionList cot, CP56Time2a time)
+        public void StartServer(CauseOfTransmissionList cot, CP56Time2a time)
         {
             try
             {
+                var id = TypeIdentification.C_CS_NA_1;//时钟同步 
+                mSendFrame = new ControlCommandASDU(id, cot, 0, time);
+
                 InitData();
                 mReadThread = new Thread(ReciveThread);
                 mReadThread.Priority = ThreadPriority.Normal;
@@ -53,10 +67,6 @@ namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
                 mServerThread.Name = "ServerThread线程";
                 mServerThread.Start();
                 serverState = true;
-
-                mSendDataDelegate = sendDataDelegate;
-                var id = TypeIdentification.C_CS_NA_1;//时钟同步 
-                mSendFrame = new ControlCommandASDU(id, cot, 0, time);
                
             }
             catch (Exception ex)

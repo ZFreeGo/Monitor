@@ -24,6 +24,16 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
             dasModelServer = new DASModelServer();
 
             Messenger.Default.Register<string>(this, "ExecuteLoadDataFirst", ExecuteLoadData);
+            Messenger.Default.Register<string>(this, "ExecuteMainWindowsClose", ExecuteMainWindowsClose);
+        }
+
+        /// <summary>
+        /// 主窗体退出命令
+        /// </summary>
+        /// <param name="obj"></param>
+        private void ExecuteMainWindowsClose(string obj)
+        {
+            dasModelServer.StopServer();
         }
         /********* 命令 **********/
         /// <summary>

@@ -67,6 +67,12 @@ namespace ZFreeGo.Monitor.DASModel
             protocolServer.SetPointServer.ServerEvent += SetPointServer_ServerEvent;
 
             protocolServer.TelecontrolServer.ServerEvent += TelecontrolServer_ServerEvent;
+            protocolServer.TimeServer.ServerEvent += TimeServer_ServerEvent;
+        }
+
+        private void TimeServer_ServerEvent(object sender, TransmissionProtocols.ControlSystemCommand.TimeEventArgs e)
+        {
+            Communication.NetParameter.LinkMessage += e.Comment + "\n";
         }
 
         private void TelecontrolServer_ServerEvent(object sender, TransmissionProtocols.ControlProcessInformation.ControlEventArgs e)
@@ -104,7 +110,7 @@ namespace ZFreeGo.Monitor.DASModel
            {
                case Net.Element.NetState.Stop:
                    {
-                       protocolServer.ControlServer.ResetServer(); //复位服务
+                       protocolServer.ResetServer();
                        break;
                    }
            }

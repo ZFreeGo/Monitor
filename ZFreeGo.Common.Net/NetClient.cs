@@ -257,15 +257,18 @@ namespace ZFreeGo.Net
                     MakeLinkMessageEvent("网络连接不畅,已经停止连接!", NetState.StartLink);                  
                 }
                 lock (streamToServer)
-                {                  
+                {
+                    if (!isRun)
+                    {
+                        return;
+                    }
                    bytesRead = streamToServer.EndRead(ar);
-                    
                 }
                 if (bytesRead == 0) 
-                    throw new Exception("读取到 0 字节");
+                    throw new Exception("读取到 0 字节");               
+                     MakeNetDataEvent(buffer, bytesRead);             
                 
-                     MakeNetDataEvent(buffer, bytesRead);              
-               
+                
                 Array.Clear(buffer, 0, buffer.Length); // 清空缓存，避免脏读
                 lock (streamToServer)
                 {

@@ -8,6 +8,9 @@ using ZFreeGo.TransmissionProtocols.ControlProcessInformation;
 using ZFreeGo.TransmissionProtocols;
 using ZFreeGo.TransmissionProtocols.BasicElement;
 using System;
+using ZFreeGo.TransmissionProtocols.ControlSystemCommand;
+using ZFreeGo.Monitor.DASModel.Helper;
+using ZFreeGo.Monitor.AutoStudio.ElementParam;
 
 namespace ZFreeGo.Monitor.DASII.ViewModel
 {
@@ -15,27 +18,51 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
     public class TelecontrolViewModel : ViewModelBase
     {
         private ControlServer telecontrolServer;
+        private TimeSynchronizationServer timeServer;
 
         /// <summary>
         /// Initializes a new instance of the DataGridPageViewModel class.
         /// </summary>
         public TelecontrolViewModel()
         {
+            
+
+            timeSynEnable = true;
             _userData = new ObservableCollection<Telecontrol>();
             LoadDataCommand = new RelayCommand(ExecuteLoadDataCommand);
             Messenger.Default.Register<MonitorViewData>(this, "LoadData", ExecuteLoadData);
             Messenger.Default.Register<NetWorkProtocolServer>(this, "NetWorkProtocolServer", ExecuteNetWorkProtocolServer);
             Close = new RelayCommand<string>(ExecuteClose);
             Open = new RelayCommand<string>(ExecuteOpen);
+            TimeSyn = new RelayCommand(ExecuteTimeSyn);
         }
+
+        private void InitTime()
+        {
+            clockTime = new Clock();
+            clockTime.Time.PropertyChanged += Time_PropertyChanged;
+        }
+
+        void Time_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            RaisePropertyChanged("Time");
+           
+        }
+
+      
 
         private void ExecuteNetWorkProtocolServer(NetWorkProtocolServer obj)
         {
             if (obj != null)
             {
                 telecontrolServer = obj.TelecontrolServer;
+                timeServer = obj.TimeServer;
             }
         }
+
+
+
+
 
         private void ExecuteLoadData(MonitorViewData obj)
         {
@@ -45,7 +72,41 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
             }
         }
 
-        /************** 属性 **************/
+
+        private Clock clockTime;
+
+        public ClockElement Time
+        {
+            get
+            {
+                if (clockTime == null)
+                {
+                    InitTime();
+                }
+                return clockTime.Time;
+            }
+            set
+            {
+                clockTime.Time = value;
+                RaisePropertyChanged("Time");
+            }
+        }
+        private bool timeSynEnable;
+
+        public bool TimeSynEnable
+        {
+            get
+            {
+                return timeSynEnable;
+            }
+            set
+            {
+                clockTime.UpdateFlag= value;
+                timeSynEnable = value;
+                RaisePropertyChanged("TimeSynEnable");
+            }
+        }
+
         private ObservableCollection<Telecontrol> _userData;
         /// <summary>
         /// 用户信息数据
@@ -57,6 +118,25 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
             {
                 _userData = value;
                 RaisePropertyChanged("UserData");
+            }
+        }
+
+      
+         /// <summary>
+        /// 加载数据
+        /// </summary>
+        public RelayCommand TimeSyn { get; private set; }
+
+        //加载用户数据
+        void ExecuteTimeSyn()
+        {
+            try
+            {
+                timeServer.StartServer(CauseOfTransmissionList.Activation, new CP56Time2a(DateTime.Now));
+            }
+            catch (Exception ex)
+            {
+                Messenger.Default.Send<Exception>(ex, "ExceptionMessage");
             }
         }
         #region 加载数据命令：LoadDataCommand
@@ -146,5 +226,10 @@ namespace ZFreeGo.Monitor.DASII.ViewModel
             }
         }
         #endregion
+
+
+
+
+       
     }
 }

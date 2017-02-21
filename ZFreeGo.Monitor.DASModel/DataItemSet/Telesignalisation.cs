@@ -62,6 +62,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             get { return telesignalisationResult; }
             set
             {
+                date = DateTime.Now.ToLongTimeString();
                 telesignalisationResult = value;
                 RaisePropertyChanged("TelesignalisationResult");
                 RaisePropertyChanged("TelesignalisationState");
@@ -136,7 +137,10 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
         private string date;
         public string Date
         {
-            get { return date; }
+            get
+            {
+                return date; 
+            }
             set
             {
                 date = value;
