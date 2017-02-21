@@ -1,0 +1,64 @@
+﻿<PageFunction
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+    x:Class="ZFreeGo.Monitor.DASDock.View.TelemeteringView"
+    x:TypeArguments="sys:String"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    mc:Ignorable="d"
+    DataContext="{Binding Telemetering, Source={StaticResource Locator}}"
+    Title="DataGridPageView">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadDataCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="283*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions >
+                <RowDefinition Height="5"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                <StackPanel Margin="3" Orientation="Horizontal" Background="AliceBlue">
+                    <Button Margin="3" Padding="3" Name="btnTelesignalisationCall" >刷新</Button>
+                    <Button Margin="3" Padding="3" Name="TelesignalisationExport">导出</Button>
+                    <Button Margin="3" Padding="3" Name="TelesignalisationLoad" >导入</Button>
+                    <Button Margin="3" Padding="3" Name="selected" >test</Button>
+                    <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxTelesignalisation" IsChecked="False" >修改</CheckBox>
+                </StackPanel>
+            </Grid>
+            <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False"  Name="gridTelesignalisation" IsReadOnly="false"
+                                       Grid.ColumnSpan="2"   CanUserSortColumns="False" ItemsSource="{Binding UserData}">
+                <DataGrid.ContextMenu>
+                    <ContextMenu Name="dgmenuTelemetering" StaysOpen="True"    IsEnabled="False">
+                        <MenuItem Header="打开其它表格" Name="itemTelemetringLoadAs"/>
+                        <MenuItem Header="表格另存为" Name="itemTelemetringSaveAs"/>
+                        <MenuItem Header="选择行之上插入新行" Name="itemTelemetringAddUp" />
+                        <MenuItem Header="选择行之下插入新行" Name="itemTelemetringAddDown"/>
+                        <MenuItem Header="删除选中行" Name="itemTelemetringDeleteSelect">
+                        </MenuItem>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="内部ID"  Width="50" Binding="{Binding InternalID}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="遥测名称"    MinWidth="80" Binding="{Binding TelemeteringName}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="遥测ID"   MinWidth="50" Binding="{Binding TelemeteringID, StringFormat={}{0:X2}}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="倍率"    MinWidth="80" Binding="{Binding CalibrationCoefficient}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="遥测值"    MinWidth="80" Binding="{Binding TelemeteringValue,StringFormat={}{0:F4}}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="单位"    MinWidth="50" Binding="{Binding Unit}"></DataGridTextColumn>
+                    <!--<DataGridTextColumn Header="符号位"    MinWidth="50" Binding="{Binding Mark}"></DataGridTextColumn>-->
+                    <DataGridTextColumn Header="备注"    MinWidth="250" Binding="{Binding Comment}"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</PageFunction>

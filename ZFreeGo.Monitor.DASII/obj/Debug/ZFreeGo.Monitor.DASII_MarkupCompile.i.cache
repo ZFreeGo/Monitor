@@ -16,5 +16,5 @@ F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASII\App.xaml
 191440212816
 MainWindow.xaml;Skins\MainSkin.xaml;View\CalibrationView.xaml;View\ProtectSetpointView.xaml;View\TelemeteringView.xaml;View\SOEView.xaml;View\TelecontrolView.xaml;View\ParameterView.xaml;View\CommunicationView.xaml;View\TelesignalisationView.xaml;
 
-False
+True
 

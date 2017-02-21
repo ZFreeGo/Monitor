@@ -127,7 +127,7 @@ namespace ZFreeGo.TransmissionProtocols.ControlProcessInformation
                 //    throw new Exception("信息对象地址不一致");
                 //}
                 //此命令必须为执行命令
-                if (qos.Describle == ActionDescrible.Execute)
+                if (qos.Describle != ActionDescrible.Execute)
                 {
                     throw new Exception("此命令需要是执行命令");
                 }
