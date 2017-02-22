@@ -28,7 +28,7 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="1" Grid.ColumnSpan="2">
-                <StackPanel Margin="3" Orientation="Horizontal" Background="AliceBlue">
+                <StackPanel Margin="3" Orientation="Horizontal" >
                     <Button Margin="3" Padding="3" Name="btnTelesignalisationCall" >刷新</Button>
                     <Button Margin="3" Padding="3" Name="TelesignalisationExport">导出</Button>
                     <Button Margin="3" Padding="3" Name="TelesignalisationLoad" >导入</Button>

@@ -24,6 +24,7 @@
         Height="800"
         Width="1000"
         Title="MVVM Light Application"
+             Closing="Window_Closing"  Loaded="Window_Loaded"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
     
     <Window.Resources>
@@ -73,7 +74,7 @@
 
         <avalonDock:DockingManager Grid.Row="1" x:Name="dockManager" AllowMixedOrientation="True" >
             <avalonDock:DockingManager.Theme>
-                <avalonDock:GenericTheme/>
+                <avalonDock:MetroTheme/>
             </avalonDock:DockingManager.Theme>
             <avalonDock:DockingManager.DocumentHeaderTemplate>
                 <DataTemplate>
@@ -84,80 +85,95 @@
                 </DataTemplate>
             </avalonDock:DockingManager.DocumentHeaderTemplate>
             <avalonDock:LayoutRoot >
-                <avalonDock:LayoutPanel Orientation="Horizontal">  
-                    
+                <avalonDock:LayoutPanel Orientation="Horizontal">
+                    <avalonDock:LayoutAnchorablePaneGroup DockWidth="150">
+                        <avalonDock:LayoutAnchorablePane>
+                            <avalonDock:LayoutAnchorable ContentId="treeList" Title="功能树">
+                                <StackPanel>
+                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="SystemParameter" >系统参数</Button>
+                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="Communication" >以太网设置</Button>
+                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="Telesignalisation" >遥信</Button>
+                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="Telemetering">遥测</Button>
+                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="Telecontrol">遥控</Button>
+                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="SOELog">SOE</Button>
+                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" >录波采集</Button>
+                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="ProtectSetPoint">保护定值</Button>
+                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="SystemCalibration">系统校准</Button>
+                                </StackPanel>
+                            </avalonDock:LayoutAnchorable>
+
+                        </avalonDock:LayoutAnchorablePane>
+                    </avalonDock:LayoutAnchorablePaneGroup>
                     <avalonDock:LayoutDocumentPaneGroup>
-                        <avalonDock:LayoutDocumentPane>
-                            <avalonDock:LayoutDocument ContentId="document1" Title="Document 1"   CanClose="False">
-                                <Frame Source="View\CalibrationView.xaml"></Frame>
-                            </avalonDock:LayoutDocument>
-                            <avalonDock:LayoutDocument ContentId="document2" Title="Document 1"   CanClose="False">
-                                <Frame Source="View\CommunicationView.xaml"></Frame>
-                            </avalonDock:LayoutDocument>
-                            <avalonDock:LayoutDocument ContentId="document3" Title="Document 1"   CanClose="False">
+                        <avalonDock:LayoutDocumentPane >
+                            <avalonDock:LayoutDocument ContentId="document3" Title="系统参数"   IconSource="Pictures/png-0418.jpg">
                                 <Frame Source="View\ParameterView.xaml"></Frame>
                             </avalonDock:LayoutDocument>
-                            <avalonDock:LayoutDocument ContentId="document4" Title="Document 1"   CanClose="False">
-                                <Frame Source="View\ProtectSetpointView.xaml"></Frame>
+                            <avalonDock:LayoutDocument ContentId="document2" Title="通讯设置"   IconSource="Pictures/32.png">
+                                <Frame Source="View\CommunicationView.xaml"></Frame>
                             </avalonDock:LayoutDocument>
-                            <avalonDock:LayoutDocument ContentId="document5" Title="Document 1"   CanClose="False">
-                                <Frame Source="View\SOEView.xaml"></Frame>
-                            </avalonDock:LayoutDocument>
-                            <avalonDock:LayoutDocument ContentId="document5" Title="Document 1"   CanClose="False">
-                                <Frame Source="View\TelecontrolView.xaml"></Frame>
-                            </avalonDock:LayoutDocument>
-                            <avalonDock:LayoutDocument ContentId="document5" Title="Document 1"   CanClose="False">
+                            <avalonDock:LayoutDocument ContentId="document5" Title="遥测信息"   IconSource="Pictures/32.png">
                                 <Frame Source="View\TelemeteringView.xaml"></Frame>
                             </avalonDock:LayoutDocument>
-                            <avalonDock:LayoutDocument ContentId="document5" Title="Document 1"   CanClose="False">
+                            <avalonDock:LayoutDocument ContentId="document5" Title="遥信状态"   IconSource="Pictures/png-0670.jpg">
                                 <Frame Source="View\TelesignalisationView.xaml"></Frame>
                             </avalonDock:LayoutDocument>
+                            <avalonDock:LayoutDocument ContentId="document5" Title="遥控操作"   IconSource="Pictures/32.png">
+                                <Frame Source="View\TelecontrolView.xaml"></Frame>
+                            </avalonDock:LayoutDocument>
+                            <avalonDock:LayoutDocument ContentId="document1" Title="系统校准"   IconSource="Pictures/32.png">
+                                <Frame Source="View\CalibrationView.xaml"></Frame>
+                            </avalonDock:LayoutDocument>
+
+                            <avalonDock:LayoutDocument ContentId="document4" Title="保护定值"   IconSource="Pictures/32.png">
+                                <Frame Source="View\ProtectSetpointView.xaml"></Frame>
+                            </avalonDock:LayoutDocument>
+                            <avalonDock:LayoutDocument ContentId="document5" Title="SOE"   IconSource="Pictures/32.png">
+                                <Frame Source="View\SOEView.xaml"></Frame>
+                            </avalonDock:LayoutDocument>
+                           
+                          
+                           
                         </avalonDock:LayoutDocumentPane>
                        
 
                        
                     </avalonDock:LayoutDocumentPaneGroup>
-                    <avalonDock:LayoutAnchorablePaneGroup DockWidth="150">
-                        <avalonDock:LayoutAnchorablePane>
-                            <avalonDock:LayoutAnchorable ContentId="toolWindow1" Title="Tool Window 1">
-                                <StackPanel>
-                                    <!--<local:TestUserControl/>-->
-                                    <TextBox Text="{Binding TestTimer, Mode=OneWay, StringFormat='Tool Window 1 Attached to Timer ->\{0\}'}"/>
-                                </StackPanel>
-                            </avalonDock:LayoutAnchorable>
-                            <avalonDock:LayoutAnchorable ContentId="toolWindow2" Title="Tool Window 2">
-                                <TextBlock Text="{Binding FocusedElement}"/>
-                            </avalonDock:LayoutAnchorable>
-                        </avalonDock:LayoutAnchorablePane>
-                    </avalonDock:LayoutAnchorablePaneGroup>
+                  
                 </avalonDock:LayoutPanel>
 
-                <avalonDock:LayoutRoot.LeftSide>
-                    <avalonDock:LayoutAnchorSide>
+               
+                <avalonDock:LayoutRoot.BottomSide >
+                    <avalonDock:LayoutAnchorSide >
                         <avalonDock:LayoutAnchorGroup>
-                            <avalonDock:LayoutAnchorable Title="AutoHide1 Content" ContentId="AutoHide1Content" >
-                                <TextBox Text="{Binding TestTimer, Mode=OneWay, StringFormat='AutoHide Attached to Timer ->\{0\}'}"/>
+                            <avalonDock:LayoutAnchorable Title="网络信息" ContentId="NetMessage"  >
+                                <Grid>
+                                    <TextBox Text="{Binding NetMessage}"
+                                             VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto"/>
+                                </Grid>
                             </avalonDock:LayoutAnchorable>
-                            <avalonDock:LayoutAnchorable Title="AutoHide2 Content" ContentId="AutoHide2Content">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBox/>
-                                    <TextBox/>
-                                </StackPanel>
+                            <avalonDock:LayoutAnchorable Title="通讯数据" ContentId="RawCommunicatonData">
+                                <Grid>
+                                    <RichTextBox VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto">
+                                        <FlowDocument>
+                                            <Paragraph   >
+                                               <Run Text="{Binding  NetRawData}"/>
+                                            </Paragraph>
+                                        </FlowDocument>
+                                    </RichTextBox>
+                                </Grid>
                             </avalonDock:LayoutAnchorable>
-                        </avalonDock:LayoutAnchorGroup>
-                    </avalonDock:LayoutAnchorSide>
-                </avalonDock:LayoutRoot.LeftSide>
-                <avalonDock:LayoutRoot.BottomSide>
-                    <avalonDock:LayoutAnchorSide>
-                        <avalonDock:LayoutAnchorGroup>
-                            <avalonDock:LayoutAnchorable Title="AutoHide1 Content" ContentId="AutoHide1Content"  >
-                                <TextBox Text="{Binding TestTimer, Mode=OneWay, StringFormat='AutoHide Attached to Timer ->\{0\}'}"/>
+                            <avalonDock:LayoutAnchorable Title="规约通讯" ContentId="ProtoclCommunicaton">
+                                <Grid >
+                                    <TextBox Text="{Binding ProtoclMessage}"
+                                             VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto"/>                                  
+                                </Grid>
                             </avalonDock:LayoutAnchorable>
-                            <avalonDock:LayoutAnchorable Title="AutoHide2 Content" ContentId="AutoHide2Content">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBox/>
-                                    <TextBox/>
-                                </StackPanel>
+                            <avalonDock:LayoutAnchorable Title="异常跟踪" ContentId="ExceptionTrace">
+                                <Grid>
+                                    <TextBox Text="{Binding ExceptionMessage}"
+                                             VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto"/>
+                                </Grid>
                             </avalonDock:LayoutAnchorable>
                         </avalonDock:LayoutAnchorGroup>
                     </avalonDock:LayoutAnchorSide>

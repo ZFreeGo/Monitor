@@ -105,6 +105,9 @@
     <Compile Include="View\CalibrationView.xaml.cs">
       <DependentUpon>CalibrationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\CalibratonControlView.xaml.cs">
+      <DependentUpon>CalibratonControlView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\CommunicationView.xaml.cs">
       <DependentUpon>CommunicationView.xaml</DependentUpon>
     </Compile>
@@ -145,6 +148,10 @@
     <Page Include="View\CalibrationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\CalibratonControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CommunicationView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -213,6 +220,18 @@
       <Project>{814212f7-ed3d-46f6-a172-7ca2060fed0b}</Project>
       <Name>ZFreeGo.TransmissionProtocols</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\png-0418.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\png-0670.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="说明文档.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

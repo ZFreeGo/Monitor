@@ -24,7 +24,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="1">
-            <StackPanel Margin="3" Orientation="Horizontal" Background="AliceBlue">
+            <StackPanel Margin="3" Orientation="Horizontal" >
                 <Button Margin="3" Padding="3"  Name="btnStartCalibration" >启动校准模式</Button>
                 <Button Margin="3" Padding="3" Name="btnCalibrationCall" >刷新</Button>
 
@@ -66,7 +66,7 @@
         </DataGrid>
         <Grid Grid.Row="3">
             <GroupBox Header="操作">
-                <StackPanel Margin="3" Orientation="Horizontal" Background="AliceBlue">
+                <StackPanel Margin="3" Orientation="Horizontal" >
                     <Button Margin="3" Padding="3" Name="btnFactorRead">系数读取</Button>
                     <Button Margin="3" Padding="3" Name="btnFactorDownload">系数下载</Button>
                     <Button Margin="3" Padding="3" Name="btnFacotrFix">系数固化</Button>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ZFreeGo.Monitor.DASModel.DataItemSet;
 using ZFreeGo.Monitor.DASModel.GetViewData;
 
 namespace ZFreeGo.Monitor.DASModel
@@ -26,14 +27,25 @@ namespace ZFreeGo.Monitor.DASModel
                 return _monitorViewData;
             }
         }
+        private StateMessage _stateMessage;
 
-       
+        /// <summary>
+        /// 获取状态信息
+        /// </summary>
+        public StateMessage StateMessage
+        {
+            get
+            {
+                return _stateMessage;
+            }
+        }
         /// <summary>
         /// 数据服务初始化
         /// </summary>
         public DataFileServer()
         {
             _monitorViewData = new MonitorViewData();
+            _stateMessage = new StateMessage();
         }
 
 

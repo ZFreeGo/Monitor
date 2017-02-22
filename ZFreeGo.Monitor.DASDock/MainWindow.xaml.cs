@@ -19,9 +19,8 @@ namespace ZFreeGo.Monitor.DASDock
             Closing += (s, e) => ViewModelLocator.Cleanup();
 
             //注册MVVMLight消息
-            //Messenger.Default.Register<string>(this, "ShowUserView", ShowUserView);
-            Messenger.Default.Register<Exception>(this, "ExceptionMessage", ExceptionMessage);
-            Messenger.Default.Send<string>("Start", "ExecuteLoadDataFirst");
+            Messenger.Default.Register<string>(this, "ShowUserView", ShowUserView);
+           
         }
         /// <summary>
         /// 异常信息
@@ -35,5 +34,66 @@ namespace ZFreeGo.Monitor.DASDock
         {
             Messenger.Default.Send<string>("MainWindowsClose", "ExecuteMainWindowsClose");
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Messenger.Default.Register<Exception>(this, "ExceptionMessage", ExceptionMessage);
+            Messenger.Default.Send<string>("Start", "ExecuteLoadDataFirst");
+        }
+
+        private void ShowUserView(string obj)
+        {
+            if (obj != null)
+            {
+
+                switch (obj)
+                {
+                    case "Telesignalisation":
+                        {
+                            
+                            break;
+                        }
+                    case "Telemetering":
+                        {
+                           
+                            break;
+                        }
+                    case "Telecontrol":
+                        {
+                           
+                            break;
+                        }
+                    case "SOELog":
+                        {
+                            
+                            break;
+                        }
+                    case "ProtectSetPoint":
+                        {
+                            
+                            break;
+                        }
+                    case "SystemParameter":
+                        {
+                            
+                            break;
+                        }
+                    case "SystemCalibration":
+                        {
+                            
+                            break;
+                        }
+                    case "Communication":
+                        {
+                            
+                            break;
+                        }
+
+                }
+
+            }
+
+        }
+
     }
 }

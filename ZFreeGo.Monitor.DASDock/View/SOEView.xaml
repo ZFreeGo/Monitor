@@ -23,7 +23,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="1">
-            <StackPanel Margin="3" Orientation="Horizontal" Background="AliceBlue">
+            <StackPanel Margin="3" Orientation="Horizontal" >
                 <Button Margin="3" Padding="3" Name="btnClearSOE"  >清除</Button>
 
                 <Button Margin="3" Padding="3" Name="EventLogLoad" >导入</Button>

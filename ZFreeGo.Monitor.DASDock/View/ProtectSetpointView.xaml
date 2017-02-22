@@ -19,7 +19,7 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="1">
-            <StackPanel Margin="3" Orientation="Horizontal" Background="AliceBlue">
+            <StackPanel Margin="3" Orientation="Horizontal" >
                 <Button Margin="3" Padding="3" Name="btnCallSetpoint">召唤定值-待实现</Button>
 
                 <Button Margin="30,3,3,3" Padding="3" Name="DownloadProtectSetSelect" Command="{Binding SetProtectPoint}" CommandParameter="Slected">选择</Button>

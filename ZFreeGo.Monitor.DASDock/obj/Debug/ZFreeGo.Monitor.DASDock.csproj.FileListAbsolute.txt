@@ -65,3 +65,5 @@ F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASDock\obj\Debug\ZFreeGo.Monit
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASDock\obj\Debug\ZFreeGo.Monitor.DASDock.csproj.GenerateResource.Cache
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASDock\obj\Debug\ZFreeGo.Monitor.DASDock.exe
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASDock\obj\Debug\ZFreeGo.Monitor.DASDock.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASDock\obj\Debug\View\CalibratonControlView.baml
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASDock\obj\Debug\View\CalibratonControlView.g.cs

@@ -72,12 +72,13 @@ namespace ZFreeGo.Monitor.DASModel
 
         private void TimeServer_ServerEvent(object sender, TransmissionProtocols.ControlSystemCommand.TimeEventArgs e)
         {
-            Communication.NetParameter.LinkMessage += e.Comment + "\n";
+            DataFile.StateMessage.AddProtoclMessage(e.Comment);
+           
         }
 
         private void TelecontrolServer_ServerEvent(object sender, TransmissionProtocols.ControlProcessInformation.ControlEventArgs e)
-        {
-            Communication.NetParameter.LinkMessage += e.Comment + "\n";
+        {           
+           DataFile.StateMessage.AddProtoclMessage( e.Comment );
         }
 
         /// <summary>
@@ -86,8 +87,8 @@ namespace ZFreeGo.Monitor.DASModel
         /// <param name="sender"></param>
         /// <param name="e"></param>
         void SetPointServer_ServerEvent(object sender, TransmissionProtocols.ControlProcessInformation.ControlEventArgs e)
-        {
-            Communication.NetParameter.LinkMessage += e.Comment + "\n";
+        {           
+            DataFile.StateMessage.AddProtoclMessage(e.Comment);
         }
 
         /// <summary>
@@ -111,6 +112,7 @@ namespace ZFreeGo.Monitor.DASModel
                case Net.Element.NetState.Stop:
                    {
                        protocolServer.ResetServer();
+                       DataFile.StateMessage.AddNetMessage( e.Message );
                        break;
                    }
            }
@@ -132,31 +134,44 @@ namespace ZFreeGo.Monitor.DASModel
             DataFile.MonitorData.UpdateSOEEvent(e);
         }
 
+        /// <summary>
+        /// 传输控制故障信息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void ControlServer_ServerFaultEvent(object sender, TransmissionControlFaultEventArgs e)
         {
-            Communication.NetParameter.LinkMessage += e.Comment + "\n";
+
+            DataFile.StateMessage.AddExcptionMessage(e.Comment);
         }
 
         void ControlServer_ServerEvent(object sender, TransmissionControlEventArgs e)
         {
             Communication.NetParameter.LinkMessage += e.Comment + "\n";
+            DataFile.StateMessage.AddProtoclMessage(e.Comment);
         }
 
         private void protocolServer_SendFrameMessageEvent(object sender, TransmissionProtocols.ReciveCenter.FrameMessageEventArgs e)
         {
             Communication.NetParameter.LinkMessage += e.RawMessage + "\n";
             Communication.NetParameter.LinkMessage += e.Comment + "\n";
+
+            DataFile.StateMessage.AddNetRawData(e.RawMessage, true);            
+            DataFile.StateMessage.AddProtoclMessage(e.Comment, true);
         }
 
         void protocolServer_ReciveFrameMessageEvent(object sender, TransmissionProtocols.ReciveCenter.FrameMessageEventArgs e)
         {
-            Communication.NetParameter.LinkMessage += e.RawMessage + "\n";
+            Communication.NetParameter.LinkMessage += e.RawMessage + "\n";           
             Communication.NetParameter.LinkMessage += e.Comment + "\n";
+           
+            DataFile.StateMessage.AddNetRawData(e.RawMessage, false);
+            DataFile.StateMessage.AddProtoclMessage(e.Comment, false);
         }
 
         void protocolServer_ReciveFaltEvent(object sender, TransmissionProtocols.ReciveCenter.ProtocolServerFaultArgs e)
-        {
-            Communication.NetParameter.LinkMessage += e.Comment + "\n";
+        {                   
+            DataFile.StateMessage.AddExcptionMessage(e.Comment);
         }
 
 
@@ -201,7 +216,8 @@ namespace ZFreeGo.Monitor.DASModel
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message, "NetSendData");
+                DataFile.StateMessage.ExceptionTrace += ex.Message + "\n";
+                DataFile.StateMessage.ExceptionTrace += ex.StackTrace + "\n\n";
                 return false;
             }
 
