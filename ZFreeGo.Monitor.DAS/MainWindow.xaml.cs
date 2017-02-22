@@ -18,15 +18,18 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ZFreeGo.Monitor.AutoStudio.ElementParam;
 using ZFreeGo.Monitor.CommCenter;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.ApplicationMessage;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement;
+
 using ZFreeGo.Monitor.AutoStudio.Comtrade;
 using ZFreeGo.Monitor.AutoStudio.StartupUI;
 using ZFreeGo.Monitor.AutoStudio.OptionConfig;
 using ZFreeGo.Monitor.AutoStudio.Secure;
 using ZFreeGo.Monitor.AutoStudio.Database;
 using ZFreeGo.Monitor.AutoStudio.Log;
+using ZFreeGo.TransmissionProtocols.Helper;
+using ZFreeGo.TransmissionProtocols.Frame104;
+using ZFreeGo.TransmissionProtocols.BasicElement;
+using ZFreeGo.TransmissionProtocols;
+using ZFreeGo.TransmissionProtocols.TransmissionControl104;
 
 namespace ZFreeGo.Monitor.AutoStudio
 {
@@ -75,7 +78,7 @@ namespace ZFreeGo.Monitor.AutoStudio
         /// </summary>
         public event EventHandler<Log.LogEventArgs> MakeLogEvent;
 
-
+        NetWorkProtocolServer protocolServer;
 
 
 
@@ -94,6 +97,65 @@ namespace ZFreeGo.Monitor.AutoStudio
 
 
             MakeLogEvent += MainWindow_MakeLogEvent;
+
+            protocolServer = new NetWorkProtocolServer(NetSendData);
+            protocolServer.ReciveFaltEvent += protocolServer_ReciveFaltEvent;
+            protocolServer.SendFrameMessageEvent +=protocolServer_SendFrameMessageEvent;
+            protocolServer.ReciveFrameMessageEvent += protocolServer_ReciveFrameMessageEvent;
+
+            protocolServer.ControlServer.ServerEvent += ControlServer_ServerEvent;
+            protocolServer.ControlServer.ServerFaultEvent += ControlServer_ServerFaultEvent; ;
+            protocolServer.TelesignalisationServer.SOEStatusEvent += TelesignalisationServer_SOEStatusEvent;
+            protocolServer.TelesignalisationServer.StatusUpdateEvent += TelesignalisationServer_StatusUpdateEvent;
+            protocolServer.MeteringServer.TelemeteringEvent += MeteringServer_TelemeteringEvent;
+
+            protocolServer.TelecontrolServer.ServerEvent += TelecontrolServer_ServerEvent;
+
+        }
+
+       
+
+        void MeteringServer_TelemeteringEvent(object sender, TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, float, QualityDescription>>> e)
+        {
+            MessageBox.Show(e.Message.Count.ToString(), "遥测");
+        }
+
+        void TelesignalisationServer_StatusUpdateEvent(object sender, TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, byte>>> e)
+        {
+            MessageBox.Show(e.Message.Count.ToString(), "遥信");
+        }
+
+        void TelesignalisationServer_SOEStatusEvent(object sender, TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, byte, CP56Time2a>>> e)
+        {
+            MessageBox.Show(e.Message.Count.ToString(), "SOE");
+        }
+
+        void ControlServer_ServerFaultEvent(object sender, TransmissionControlFaultEventArgs e)
+        {
+            MessageBox.Show(e.Comment);
+            BeginInvokeUpdateHistory(e.Comment);
+        }
+
+        void ControlServer_ServerEvent(object sender, TransmissionControlEventArgs e)
+        {
+            BeginInvokeUpdateHistory(e.Comment);
+        }
+
+        private void protocolServer_SendFrameMessageEvent(object sender, TransmissionProtocols.ReciveCenter.FrameMessageEventArgs e)
+        {
+            BeginInvokeUpdateHistory(e.RawMessage);
+            BeginInvokeUpdateHistory(e.Comment);
+        }
+
+        void protocolServer_ReciveFrameMessageEvent(object sender, TransmissionProtocols.ReciveCenter.FrameMessageEventArgs e)
+        {
+            BeginInvokeUpdateHistory(e.RawMessage);
+            BeginInvokeUpdateHistory(e.Comment);
+        }
+
+        void protocolServer_ReciveFaltEvent(object sender, TransmissionProtocols.ReciveCenter.ProtocolServerFaultArgs e)
+        {
+            BeginInvokeUpdateHistory(e.Comment);
         }
 
 
@@ -394,8 +456,7 @@ namespace ZFreeGo.Monitor.AutoStudio
             UpdatePortShow(serialControlCenter.SerialPort);
             // serialControlCenter.RtuFrameArrived += serialControlCenter_RtuFrameArrived;
 
-            NetInit();
-            ControlProcessConfig();
+            NetInit();            
             TelesignalisationLoad_Click(null, null);
             TelemeteringLoad_Click(null, null);
             ProtectSetPointLoad_Click(null, null);
@@ -448,19 +509,17 @@ namespace ZFreeGo.Monitor.AutoStudio
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
 
-            StopProcessList();
+           
             //关闭网络
             NetUNPStop();
             NetCalibrationStop();
 
-            if (checkGetMessage != null)
-            {
-
-                checkGetMessage.Close();
-            }
+           
             logger.SaveLog(true);
             MakeLogMessage(this, "退出窗口", LogType.Login);
             accountManager.SaveAccountInformation();
+
+            protocolServer.StopServer();
         }
 
         /// <summary>
@@ -521,7 +580,7 @@ namespace ZFreeGo.Monitor.AutoStudio
         private void btnManualCall_Click(object sender, RoutedEventArgs e)
         {
             //gridTelesignalisation.Background = gridTelesignalisation.Background;
-            SendMasterCommand(CauseOfTransmissionList.Activation, QualifyOfInterrogationList.GeneralInterrogation);
+           
         }
         /// <summary>
         /// 时间同步
@@ -530,7 +589,7 @@ namespace ZFreeGo.Monitor.AutoStudio
         /// <param name="e"></param>
         private void btnTimeSyn_Click(object sender, RoutedEventArgs e)
         {
-            SendMasterCommand(CauseOfTransmissionList.Activation, new CP56Time2a(clockElement.TimeClock));
+            
         }
 
         /// <summary>
@@ -540,7 +599,7 @@ namespace ZFreeGo.Monitor.AutoStudio
         /// <param name="e"></param>
         private void btnCallCalculate_Click(object sender, RoutedEventArgs e)
         {
-            SendMasterCommand(CauseOfTransmissionList.Activation, new QualifyCalculateCommad(QCCRequest.Request1, QCCFreeze.Read));
+           
         }
 
         /// <summary>
@@ -686,7 +745,7 @@ namespace ZFreeGo.Monitor.AutoStudio
         {
             if (SendCount++ < 10)
             {
-                SendMasterCommand(CauseOfTransmissionList.Activation, QualifyOfInterrogationList.GeneralInterrogation);
+               // SendMasterCommand(CauseOfTransmissionList.Activation, QualifyOfInterrogationList.GeneralInterrogation);
 
             }
             else
@@ -735,49 +794,7 @@ namespace ZFreeGo.Monitor.AutoStudio
             }
         }
 
-        /// <summary>
-        /// 重新启动服务，复位Tcp连接与接收处理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnRestartServer_Click(object sender, RoutedEventArgs e)
-        {
-            ResetServer();
-        }
-        /// <summary>
-        /// 启动数据传输
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnStartDataTransmission_Click(object sender, RoutedEventArgs e)
-        {
-            SendTCFCommand(TransmissionCotrolFunction.StartDataTransmission);
-
-        }
-        /// <summary>
-        /// 停止数据传输
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnStopDataTransmission_Click(object sender, RoutedEventArgs e)
-        {
-            //停止数据传输与此同时复归服务
-            SendTCFCommand(TransmissionCotrolFunction.StopDataTransmission);
-            //复归服务
-            ResetServer();
-
-        }
-
-        /// <summary>
-        /// 配置文件测试
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btncofigComtrade_Click(object sender, RoutedEventArgs e)
-        {
-            ComtradeUI ui = new ComtradeUI();
-            ui.Show();
-        }
+       
 
 
 
@@ -883,7 +900,6 @@ namespace ZFreeGo.Monitor.AutoStudio
             var ui = new AuthoritySettingUI(authorityManager, this);
             ui.ShowInTaskbar = false;
             ui.Show();
-
         }
 
         /// <summary>
@@ -897,6 +913,82 @@ namespace ZFreeGo.Monitor.AutoStudio
             //database.ConnectDatabase();
 
         }
+        /// <summary>
+        /// 重新启动服务，复位Tcp连接与接收处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnRestartServer_Click(object sender, RoutedEventArgs e)
+        {
+            //ResetServer();
+        }
+
+
+        /// <summary>
+        /// 启动数据传输
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnStartDataTransmission_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                protocolServer.ControlServer.SendTransmissonCommand(TransmissionControlFunction.StartDataTransmission);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "btnStartDataTransmission_Click");
+            }
+        }
+        /// <summary>
+        /// 停止数据传输
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnStopDataTransmission_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                protocolServer.ControlServer.SendTransmissonCommand(TransmissionControlFunction.StopDataTransmission);
+                protocolServer.ResetServer();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "btnStopDataTransmission_Click");
+            }
+
+        }
+
+       
+        private void btnManualTestCall_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                protocolServer.CallServer.StartServer(CauseOfTransmissionList.Activation, QualifyOfInterrogationList.GeneralInterrogation);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "btnManualTestCall_Click");
+            }
+        }
+
+        private void btnManualTime_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 配置文件测试
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btncofigComtrade_Click(object sender, RoutedEventArgs e)
+        {
+            ComtradeUI ui = new ComtradeUI();
+            ui.Show();
+        }
+    
 
       
 

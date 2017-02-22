@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
+namespace ZFreeGo.TransmissionProtocols.Helper
 {
     /// <summary>
     /// 
@@ -45,7 +45,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
         /// <summary>
         /// 超时时间 ms
         /// </summary>
-        protected readonly int mOverTime;
+        protected  int mOverTime;
 
         /// <summary>
         /// 重试次数
@@ -55,7 +55,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
         /// <summary>
         /// 最大重试次数
         /// </summary>
-        protected readonly int  mRepeatMaxCount;
+        protected  int  mRepeatMaxCount;
 
         /// <summary>
         /// 获取服务状态
@@ -76,6 +76,12 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
             }
         }
         /// <summary>
+        /// 线程名称
+        /// </summary>
+        protected string mThreadName;
+
+       
+        /// <summary>
         /// 服务初始化
         /// </summary>
         /// <param name="overTime">重复次数</param>
@@ -85,6 +91,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
             InitData();
             mOverTime = overTime;
             mRepeatMaxCount = maxRepeat;
+            mThreadName = "ReciveSendThreadServer-" + DateTime.Now.ToLongTimeString() + "-";
         }
         /// <summary>
         /// 服务初始化,默认超时时间5000ms，重复次数3次
@@ -94,6 +101,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
 
         }
 
+       
         /// <summary>
         /// 初始化数据
         /// </summary>
@@ -103,7 +111,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
             mRequestData = new ManualResetEvent(false);
             mExistData = new ManualResetEvent(false);
             serverState = false;
-            
+           
            
             RecivePacketQuene = new Queue<T>();
             mReciveQuene = new Queue<T>();
@@ -127,8 +135,7 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
        /// </summary>
        public virtual void StopServer()
        {
-           mRequestData.Close();
-           mExistData.Close();
+           serverState = false;
            if (mReadThread != null)
            {
                mReadThread.Join(500);
@@ -140,10 +147,13 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
                mServerThread.Join(500);
                mServerThread.Abort();
            }
-           serverState = false;
-
+           mRequestData.Set();
+           mExistData.Set();
+           //mRequestData.Close();
+           //mExistData.Close();
            mReciveQuene = null;
            RecivePacketQuene = null;
+
        }
 
         /// <summary>
@@ -158,9 +168,17 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
                     while (true)
                     {
                         Thread.Sleep(100);
+                        if (!ServerState)
+                        {
+                            return;
+                        }
                         //等待请求数据信号量请求数据                            
                         if (mRequestData.WaitOne())
                         {
+                            if(!ServerState)
+                            {
+                                return;
+                            }
                             //二级缓存数据为空，再从一级缓存转存数据
                             lock (RecivePacketQuene)
                             {
@@ -182,34 +200,41 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
                 }
                 catch (ObjectDisposedException ex)
                 {
-                    Console.WriteLine("ReciveThread" + ex.Message);
+                    StopServer();
+                    Console.WriteLine("Recive-" + mThreadName + ex.Message);
                     Thread.Sleep(100);
                 }
                 catch (ThreadAbortException ex)
                 {
-                    Console.WriteLine("ReciveThread" + ex.Message);
+                    StopServer();
+                    Console.WriteLine("Recive-" + mThreadName + ex.Message);
                     Thread.ResetAbort();
                 }
             }
             catch (Exception ex)
             {
+                StopServer();
                 while (true)
                 {
-                    Console.WriteLine("ReciveThread" + ex.Message);
+                    Console.WriteLine("Recive-" + mThreadName + ex.Message);
                     Thread.Sleep(100);
                 }
             }
+          
+                
         }
+
         /// <summary>
-        /// 召唤文件目录服务进程
+        /// 服务进程
         /// </summary>
-        public  virtual void ServerThread()
+        public virtual void ServerThread()
         {
             try
             {
                 try
                 {
-                    if(!TransmitData())
+                    mExistData.Reset();
+                    if (!TransmitData())
                     {
                         StopServer();
                         return;
@@ -218,10 +243,15 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
                     var responseTime = DateTime.Now;
                     do
                     {
+                        Thread.Sleep(100);
                         mRequestData.Set();//发送请求数据信号
 
                         if (mExistData.WaitOne(mOverTime))     //等待有数据信号
                         {
+                            if (!ServerState)
+                            {
+                                return;
+                            }
                             mRequestData.Reset();//中断获取数据
 
                             //超时检测--处理有接收数据但不符合要求的情况
@@ -231,20 +261,20 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
                             {
                                 if (AckOverTime())
                                 {
+
                                     continue;
                                 }
                                 else
                                 {
                                     break;
                                 }
-                                
-
                             }
                             //检测数据不符合应答规范则返回
                             if (!CheckData())
                             {
                                 continue;
                             }
+
                             if (!AckOnTime())
                             {
                                 break;
@@ -262,29 +292,35 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
                             StopServer();
                             break;
                         }
+                        
                         statTime = DateTime.Now; //设置开始时间
                     } while (true);
+
+                    
+
                 }
                 catch (ObjectDisposedException ex)
                 {
-                    serverState = false;
-                    Console.WriteLine("ReciveThread:" + ex.Message);
+
+                    StopServer();
+                    Console.WriteLine("ReciveSend-" + mThreadName + ex.Message);
                     Thread.Sleep(100);
                 }
                 catch (ThreadAbortException ex)
                 {
-                    serverState = false;
-                    Console.WriteLine("ReciveThread" + ex.Message);
+                    StopServer();
+                    Console.WriteLine("ReciveSend-" + mThreadName + ex.Message);
                     Thread.ResetAbort();
                 }
             }
             catch (Exception ex)
             {
-                serverState = false;
-                Console.WriteLine("ReciveThread:" + ex.Message);
+                StopServer();
+                Console.WriteLine("ReciveSend-" + mThreadName + ex.Message);
             }
+            StopServer();
         }
-
+       
         /// <summary>
         /// 准时应答后相应的事件
         /// </summary>

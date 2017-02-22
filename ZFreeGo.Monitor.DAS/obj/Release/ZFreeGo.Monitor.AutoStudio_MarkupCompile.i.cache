@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Release\
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Release\
 ZFreeGo.Monitor.AutoStudio
 none
 false
 TRACE
-J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\App.xaml
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\App.xaml
 121499190247
-
-77-1671727291
-22330993133
+1-19364177
+7412196600
+22-544585105
 Comtrade\ComtradeUI.xaml;MainWindow.xaml;OptionConfig\AccountUI\DeleteAccount.xaml;OptionConfig\AccountUI\EstablishAcconut.xaml;OptionConfig\AccountUI\FixAccount.xaml;OptionConfig\AccountUI\FixPassword.xaml;OptionConfig\AccountUI\FixAuthority.xaml;OptionConfig\AccountUI\FixUserName.xaml;OptionConfig\AccountUI\ManagedAccountUI.xaml;OptionConfig\OptionConfigUI.xaml;Secure\AuthoritySettingUI.xaml;StartupUI\StartupInterface.xaml;
 
 False

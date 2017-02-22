@@ -127,14 +127,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ZFreeGo.Monitor.AutoStudio.exe" size="756224">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ZFreeGo.Monitor.AutoStudio.exe" size="742912">
       <assemblyIdentity name="ZFreeGo.Monitor.AutoStudio" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>4dnLjDYFIVLz2mcyL4HgShRUSvI=</dsig:DigestValue>
+        <dsig:DigestValue>I+4PwjXomv4gGmZx3DItAd5zu5Y=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -151,14 +151,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ZFreeGo.TransmissionProtocol.NetworkAccess104.dll" size="88064">
-      <assemblyIdentity name="ZFreeGo.TransmissionProtocol.NetworkAccess104" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ZFreeGo.TransmissionProtocols.dll" size="119296">
+      <assemblyIdentity name="ZFreeGo.TransmissionProtocols" version="1.1.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>2Nyh60Uzxw/q6sYDkMjkvvt8rRs=</dsig:DigestValue>
+        <dsig:DigestValue>hyXVQXMypffyBjRb/58Letd4ALY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -169,6 +169,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>kGrsGCXTVxOeXuoaCo+P/Q/jFJ4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Pictures\ZFreeGo.Monitor.AutoStudio.csproj" size="16378">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>m/TUsZ51/HC3J5Pprh9sEt+tgVc=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">

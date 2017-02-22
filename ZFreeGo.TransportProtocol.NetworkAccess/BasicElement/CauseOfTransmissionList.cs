@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement
+namespace ZFreeGo.TransmissionProtocols.BasicElement
 {
     //    原因 ＝Cause ∶＝UI6[1..6]<0..63>
     //<0> ∶＝ 未用

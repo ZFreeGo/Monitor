@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement
+namespace ZFreeGo.TransmissionProtocols.BasicElement
 {
     /// <summary>
     /// 动作描述
@@ -31,6 +31,25 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement
         /// </summary>
         public byte QOS;
 
+
+        /// <summary>
+        /// 获取命令限定词
+        /// </summary>
+        public ActionDescrible Describle
+        {
+            get
+            {
+                if ((QOS & 0x80) == 0x80)
+                {
+                    return ActionDescrible.Select;
+                }
+                else
+                {
+                    return ActionDescrible.Execute;
+                }
+
+            }
+        }
         /// <summary>
         /// 设定命令限定词初始化
         /// </summary>
@@ -38,6 +57,14 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement
         public QualifyCommandSet(ActionDescrible ads)
         {
             QOS = (byte)((byte)ads << 7);
+        }
+        /// <summary>
+        /// 设定命令初始化
+        /// </summary>
+        /// <param name="data">字节</param>
+        public QualifyCommandSet(byte data)
+        {
+            QOS = data;
         }
 
 

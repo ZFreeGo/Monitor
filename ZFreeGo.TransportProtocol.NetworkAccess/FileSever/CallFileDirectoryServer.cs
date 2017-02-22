@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
+namespace ZFreeGo.TransmissionProtocols.FileSever
 {
     public class CallFileDirectoryServer : FileTransmissionServer
     {
@@ -22,12 +22,12 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         /// <summary>
         /// 召唤附件数据包
         /// </summary>
-       private FileNr.FileDirectoryCalledPacket callPacket;
+       private FileDirectoryCalledPacket callPacket;
 
         /// <summary>
         /// 应答附加数据包
         /// </summary>
-        private FileNr.FileDirectoryCalledAckPacket ackPacket;
+        private FileDirectoryCalledAckPacket ackPacket;
 
         /// <summary>
         /// 超时时间
@@ -57,13 +57,13 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         /// <summary>
         /// 召唤目录服务事件
         /// </summary>
-        public event EventHandler<FileServerEventArgs<FileNr.FileDirectoryCalledAckPacket>> CallFileDirectoryEvent;
+        public event EventHandler<FileServerEventArgs<FileDirectoryCalledAckPacket>> CallFileDirectoryEvent;
 
         public event EventHandler<CallFileEndEventArgs> CallFileEndEvent;
         /// <summary>
         /// 文件属性列表
         /// </summary>
-        private List<FileNr.FileAttribute> fileAttributeList;
+        private List<FileAttribute> fileAttributeList;
 
        
         /// <summary>
@@ -81,7 +81,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
             mRequestData = new ManualResetEvent(false);
             mExistData = new ManualResetEvent(false);
             serverState = false;
-            fileAttributeList = new List<FileNr.FileAttribute>();
+            fileAttributeList = new List<FileAttribute>();
         }
         
         /// <summary>
@@ -89,7 +89,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         /// </summary>
         /// <param name="inSendDataDelegate">发送数据委托</param>
         /// <param name="packet">包数据</param>
-        public void StartServer(Action<FilePacket> inSendDataDelegate,  FileNr.FileDirectoryCalledPacket packet)
+        public void StartServer(Action<FilePacket> inSendDataDelegate,  FileDirectoryCalledPacket packet)
         {
             try
             {
@@ -233,7 +233,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
                  {
                      return false;
                  }   
-                 var packet = new FileNr.FileDirectoryCalledAckPacket(item.PacketData, 0, (byte)item.PacketData.Length);
+                 var packet = new FileDirectoryCalledAckPacket(item.PacketData, 0, (byte)item.PacketData.Length);
                  if( packet.DirectoryID == callPacket.DirectoryID)
                  {
                      readFileDicrectoryAckPacket = item;
@@ -256,10 +256,10 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
         {
 
             bool state = true;
-            if (ackPacket.ResultSign == FileNr.FileResultSign.Success)
+            if (ackPacket.ResultSign == FileResultSign.Success)
             {
                 fileAttributeList.AddRange(ackPacket.FileAttributeList);
-                if(ackPacket.Fllow == FileNr.FllowingFlag.Nothing)
+                if(ackPacket.Fllow == FllowingFlag.Nothing)
                 {
                    if (CallFileEndEvent != null)
                    {
@@ -283,7 +283,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
          
             if (CallFileDirectoryEvent!= null)
             {
-                var e = new FileServerEventArgs<FileNr.FileDirectoryCalledAckPacket>("从机应答:" + ackPacket.ResultSign.ToString(), FileNr.OperatSign.ReadDirectoryACK,
+                var e = new FileServerEventArgs<FileDirectoryCalledAckPacket>("从机应答:" + ackPacket.ResultSign.ToString(), OperatSign.ReadDirectoryACK,
                     readFileDicrectoryAckPacket, ackPacket);
                 CallFileDirectoryEvent(Thread.CurrentThread, e);
             }
@@ -312,7 +312,7 @@ namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
             }
             if (CallFileDirectoryEvent != null)
             {
-                var e = new FileServerEventArgs<FileNr.FileDirectoryCalledAckPacket>(str, FileNr.OperatSign.ReadDirectoryACK,
+                var e = new FileServerEventArgs<FileDirectoryCalledAckPacket>(str, OperatSign.ReadDirectoryACK,
                         null, null);
                 CallFileDirectoryEvent(Thread.CurrentThread, e);
             }

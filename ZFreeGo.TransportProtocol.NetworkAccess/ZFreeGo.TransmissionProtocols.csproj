@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{814212F7-ED3D-46F6-A172-7CA2060FED0B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ZFreeGo.TransmissionProtocols</RootNamespace>
+    <AssemblyName>ZFreeGo.TransmissionProtocols</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MonitorProcessInformation\ProcessFaultEventArgs.cs" />
+    <Compile Include="NetWorkProtocolServer.cs" />
+    <Compile Include="ReciveCenter\ApplicationFrameManager.cs" />
+    <Compile Include="ReciveCenter\CheckGetMessage.cs" />
+    <Compile Include="ReciveCenter\ControlFlow.cs" />
+    <Compile Include="ReciveCenter\ControlFlowTimer.cs" />
+    <Compile Include="ControlProcessInformation\ControlEventArgs.cs" />
+    <Compile Include="ControlProcessInformation\ControlProcessASDU.cs" />
+    <Compile Include="ControlProcessInformation\SetPointServer.cs" />
+    <Compile Include="ControlProcessInformation\ControlServer.cs" />
+    <Compile Include="ControlProcessInformation\ControlProcessServerResut.cs" />
+    <Compile Include="ControlSystemCommand\ControlSystemServerResut.cs" />
+    <Compile Include="ControlSystemCommand\ControlCommandASDU.cs" />
+    <Compile Include="ControlSystemCommand\ResetProcessArgs.cs" />
+    <Compile Include="ControlSystemCommand\TimeEventArgs.cs" />
+    <Compile Include="ControlSystemCommand\CallEventArgs.cs" />
+    <Compile Include="ControlSystemCommand\CallServer.cs" />
+    <Compile Include="ControlSystemCommand\ElectricPulseCallServer.cs" />
+    <Compile Include="ControlSystemCommand\ResetProcessServer.cs" />
+    <Compile Include="FileSever\CallFileDirectoryServer.cs" />
+    <Compile Include="FileSever\CallFileEndEventArgs.cs" />
+    <Compile Include="FileSever\FilePacket.cs" />
+    <Compile Include="FileSever\FilePacketManager.cs" />
+    <Compile Include="FileSever\FileWriteServer.cs" />
+    <Compile Include="FileSever\FileReadServer.cs" />
+    <Compile Include="FileSever\FileServerEventArgs.cs" />
+    <Compile Include="FileSever\FileTransmissionServer.cs" />
+    <Compile Include="FileSever\FileWritePacket.cs" />
+    <Compile Include="FileSever\FileReadPacket.cs" />
+    <Compile Include="BasicElement\FileElement\FileTransmit.cs" />
+    <Compile Include="ReciveCenter\FlowGather.cs" />
+    <Compile Include="Frame104\MasterCommand.cs" />
+    <Compile Include="ReciveCenter\ProcessControl.cs" />
+    <Compile Include="BasicElement\DoubleInformationQualifier.cs" />
+    <Compile Include="BasicElement\DoubleCommand.cs" />
+    <Compile Include="BasicElement\QualifyCalculateCommad.cs" />
+    <Compile Include="BasicElement\QualifyCommandSet.cs" />
+    <Compile Include="BasicElement\QualifyParameterActive.cs" />
+    <Compile Include="BasicElement\QualifyParameterMeasure.cs" />
+    <Compile Include="BasicElement\SingleInformationQualifier.cs" />
+    <Compile Include="ReciveCenter\FrameMessageEventArgs.cs" />
+    <Compile Include="ReciveCenter\ReciveFaultArgs.cs" />
+    <Compile Include="ReciveCenter\TransmitEventArgs.cs" />
+    <Compile Include="ReciveCenter\CheckCode.cs" />
+    <Compile Include="BasicElement\QUType.cs" />
+    <Compile Include="Frame104\APCITypeI.cs" />
+    <Compile Include="Frame104\APCITypeS.cs" />
+    <Compile Include="Frame104\APCITypeU.cs" />
+    <Compile Include="Frame104\APDU.cs" />
+    <Compile Include="Frame104\ApplicationProtocalControlnformation.cs" />
+    <Compile Include="Frame\ApplicationServiceDataUnit.cs" />
+    <Compile Include="BasicElement\CauseOfInitialization.cs" />
+    <Compile Include="BasicElement\CauseOfTransmissionList.cs" />
+    <Compile Include="BasicElement\CauseOfTransmissionMask.cs" />
+    <Compile Include="BasicElement\CP56Time2a.cs" />
+    <Compile Include="Helper\ElementTool.cs" />
+    <Compile Include="ReciveCenter\EventControlFlow.cs" />
+    <Compile Include="ConstructionElement\EventProperty.cs" />
+    <Compile Include="ConstructionElement\EventTransmissionControlFunction.cs" />
+    <Compile Include="ConstructionElement\EventTypeID.cs" />
+    <Compile Include="BasicElement\NormalizationValue.cs" />
+    <Compile Include="BasicElement\QualifyOfInterrogationList.cs" />
+    <Compile Include="BasicElement\QualifyResetProgressList.cs" />
+    <Compile Include="BasicElement\QualityDescription.cs" />
+    <Compile Include="BasicElement\ShortFloating.cs" />
+    <Compile Include="BasicElement\SingleCommand.cs" />
+    <Compile Include="TransmissionControl104\TransmissionControlFunction.cs" />
+    <Compile Include="ReciveCenter\MessageFormat.cs" />
+    <Compile Include="BasicElement\TypeIdentification.cs" />
+    <Compile Include="ReciveCenter\MasterCommmadEventArgs.cs" />
+    <Compile Include="FileSever\FileNr\FileAttribute.cs" />
+    <Compile Include="FileSever\FileNr\FileDirectoryCalledAckPacket.cs" />
+    <Compile Include="FileSever\FileNr\FileCallFlag.cs" />
+    <Compile Include="FileSever\FileNr\FileDirectoryCalledPacket.cs" />
+    <Compile Include="BasicElement\FileElement\FileReadyQulifier.cs" />
+    <Compile Include="BasicElement\FileElement\LastSectionQulifier.cs" />
+    <Compile Include="FileSever\FileNr\FileReadActivityAckPacket.cs" />
+    <Compile Include="FileSever\FileNr\FileWriteThransmitAckPacket.cs" />
+    <Compile Include="FileSever\FileNr\FileReadThransmitAckPacket.cs" />
+    <Compile Include="FileSever\FileNr\FileDataThransmitPacket.cs" />
+    <Compile Include="FileSever\FileNr\FileResultSign.cs" />
+    <Compile Include="FileSever\FileNr\FileWriteActivityAckPacket.cs" />
+    <Compile Include="FileSever\FileNr\FileWriteActivityPacket.cs" />
+    <Compile Include="FileSever\FileNr\FllowingFlag.cs" />
+    <Compile Include="FileSever\FileNr\OperatSign.cs" />
+    <Compile Include="BasicElement\FileElement\SectionReadyQulifier.cs" />
+    <Compile Include="BasicElement\FileElement\AckFileQulifier.cs" />
+    <Compile Include="BasicElement\FileElement\SelectCallQulifier.cs" />
+    <Compile Include="BasicElement\FileElement\StatusOfFile.cs" />
+    <Compile Include="FileSever\FileNr\FileReadActivityPacket.cs" />
+    <Compile Include="FileSever\FileNr\WriteFileResultDescription.cs" />
+    <Compile Include="FileSever\FileNr\FileTransmitDescription.cs" />
+    <Compile Include="Helper\ReciveServer.cs" />
+    <Compile Include="MonitorProcessInformation\MeteringServer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Helper\ReciveSendServer.cs" />
+    <Compile Include="MonitorProcessInformation\StatusEventArg.cs" />
+    <Compile Include="MonitorProcessInformation\StatusServer.cs" />
+    <Compile Include="ControlSystemCommand\TimeSynchronizationServer.cs" />
+    <Compile Include="TransmissionControl104\TransmissionControlResult.cs" />
+    <Compile Include="TransmissionControl104\TransmissionControlServer.cs" />
+    <Compile Include="TransmissionControl104\TransmissionControlFaultEventArgs.cs" />
+    <Compile Include="TransmissionControl104\TransmissionControlEventArgs.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="修改记录.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Temp\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

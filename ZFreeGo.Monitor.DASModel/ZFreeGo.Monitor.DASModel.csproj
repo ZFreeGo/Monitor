@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{48D3C69B-CB4A-4C36-A052-6861C690B599}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ZFreeGo.Monitor.DASModel</RootNamespace>
+    <AssemblyName>ZFreeGo.Monitor.DASModel</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GalaSoft.MvvmLight">
+      <HintPath>..\packages\MvvmLightLibs.5.2.0.0\lib\net40\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataItemSet\ClockElement.cs" />
+    <Compile Include="DataItemSet\StateMessage.cs" />
+    <Compile Include="Helper\Clock.cs" />
+    <Compile Include="Helper\CommonPath.cs" />
+    <Compile Include="CommunicationServer.cs" />
+    <Compile Include="DataFileServer.cs" />
+    <Compile Include="DataItemSet\DataTypeEnum.cs" />
+    <Compile Include="GetViewData\MonitorViewData.cs" />
+    <Compile Include="GetViewData\IGetData.cs" />
+    <Compile Include="GetViewData\NetCommunicationItem.cs" />
+    <Compile Include="Helper\XMLOperate.cs" />
+    <Compile Include="DASModelServer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DataItemSet\NetParameter.cs" />
+    <Compile Include="DataItemSet\SOE.cs" />
+    <Compile Include="DataItemSet\ProtectSetPoint.cs" />
+    <Compile Include="DataItemSet\SystemCalibration.cs" />
+    <Compile Include="DataItemSet\SystemParameter.cs" />
+    <Compile Include="DataItemSet\Telecontrol.cs" />
+    <Compile Include="DataItemSet\Telemetering.cs" />
+    <Compile Include="DataItemSet\Telesignalisation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZFreeGo.Common.Net\ZFreeGo.Net.csproj">
+      <Project>{2c0b038a-4065-4628-81ab-13b750ed8bee}</Project>
+      <Name>ZFreeGo.Net</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ZFreeGo.TransportProtocol.NetworkAccess\ZFreeGo.TransmissionProtocols.csproj">
+      <Project>{814212f7-ed3d-46f6-a172-7ca2060fed0b}</Project>
+      <Name>ZFreeGo.TransmissionProtocols</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

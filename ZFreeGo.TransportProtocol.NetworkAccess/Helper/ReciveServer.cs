@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
+namespace ZFreeGo.TransmissionProtocols.Helper
 {
     /// <summary>
     /// 接收服务用于接收文件
@@ -56,23 +56,29 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
                 serverState = value;
             }
         }
+
+        /// <summary>
+        /// 线程名称
+        /// </summary>
+        protected string mThreadName;
+
         /// <summary>
         /// 服务初始化
         /// </summary>
-        /// <param name="overTime">重复次数</param>
-        /// <param name="maRepeat">最大重复次数</param>
-        public ReciveServer(int overTime, int maxRepeat)
+        public ReciveServer()
         {
             InitData();
+            mThreadName = "ReciveThreadServer-" + DateTime.Now.ToLongTimeString() + "-";
         }
         /// <summary>
-        /// 服务初始化,默认超时时间5000ms，重复次数3次
+        /// 服务初始化
         /// </summary>
-        public  ReciveServer() : this(5000, 3)
-        {
-
-        }
-
+        /// <param name="threadName">线程名字</param>
+        public ReciveServer(string threadName)
+        { 
+            InitData();
+            mThreadName= threadName;
+        }    
         /// <summary>
         /// 初始化数据
         /// </summary>
@@ -97,6 +103,37 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
             }
 
         }
+       /// <summary>
+       /// 启动服务
+       /// </summary>             
+       public virtual void StartServer()
+       {
+           try
+           {
+               if (ServerState)
+               {
+                   throw new Exception("服务正在运行，禁止重复启动");
+               }
+               InitData();
+
+               
+
+               mReadThread = new Thread(ReciveThread);
+               mReadThread.Priority = ThreadPriority.Normal;
+               mReadThread.Name = "Read-" + mThreadName;
+               mReadThread.Start();
+               mServerThread = new Thread(ServerThread);
+               mServerThread.Priority = ThreadPriority.Normal;
+               mServerThread.Name = "Server-" + mThreadName;
+               mServerThread.Start();
+
+               serverState = true;
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+       }
 
        /// <summary>
        /// 停止服务
@@ -172,16 +209,16 @@ namespace ZFreeGo.TransportProtocol.NetworkAccess.Helper
             }
         }
         /// <summary>
-        /// 召唤文件目录服务进程
+        /// 服务进程
         /// </summary>
-        public  virtual void ServeThread()
+        public  virtual void ServerThread()
         {
             try
             {
                 try
                 {             
                     do
-                    {                       
+                    {                   
                         if (mExistData.WaitOne())     //等待有数据信号
                         {
                             //检测数据不符合应答规范则返回

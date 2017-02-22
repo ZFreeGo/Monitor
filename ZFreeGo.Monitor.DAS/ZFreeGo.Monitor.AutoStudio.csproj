@@ -142,11 +142,9 @@
     <Compile Include="Log\LogType.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Log\SingleLogMessage.cs" />
-    <Compile Include="MainWindowsControlProcess\Windows_Process.cs" />
     <Compile Include="ElementParam\DataCollectEnum.cs" />
     <Compile Include="ElementParam\ProtectSetPoint.cs" />
     <Compile Include="ElementParam\Telecontrol.cs" />
-    <Compile Include="MainWindowsControlProcess\Windows_TypeUS.cs" />
     <Compile Include="OptionConfig\AccountUI\DeleteAccount.xaml.cs">
       <DependentUpon>DeleteAccount.xaml</DependentUpon>
     </Compile>
@@ -191,8 +189,6 @@
     <Compile Include="TableOperate\RecordWaveWaveform.cs" />
     <Compile Include="TableOperate\TelemeteringOperate.cs" />
     <Compile Include="TableOperate\EventLogOperate.cs" />
-    <Compile Include="MainWindowsControlProcess\Windows_TypeIMessage.cs" />
-    <Compile Include="MainWindowsControlProcess\Windows_MakeMessage.cs" />
     <Compile Include="TableOperate\ProtectSetPoint.cs" />
     <Compile Include="TableOperate\SystemCalibration.cs" />
     <Compile Include="TableOperate\SystemParameterOperate.cs" />
@@ -309,9 +305,9 @@
       <Project>{6c7d1295-c969-473b-8c0c-f6f2da27d968}</Project>
       <Name>ZFreeGo.FileOperation.Comtrade</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ZFreeGo.TransportProtocol.NetworkAccess\ZFreeGo.TransmissionProtocol.NetworkAccess104.csproj">
+    <ProjectReference Include="..\ZFreeGo.TransportProtocol.NetworkAccess\ZFreeGo.TransmissionProtocols.csproj">
       <Project>{814212f7-ed3d-46f6-a172-7ca2060fed0b}</Project>
-      <Name>ZFreeGo.TransmissionProtocol.NetworkAccess104</Name>
+      <Name>ZFreeGo.TransmissionProtocols</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -343,7 +339,9 @@
     <Resource Include="Pictures\sojo-b.jpg" />
     <Resource Include="Pictures\sojo-c.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Pictures\ZFreeGo.Monitor.AutoStudio.csproj" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

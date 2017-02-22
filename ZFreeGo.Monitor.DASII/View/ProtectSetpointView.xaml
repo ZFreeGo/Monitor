@@ -1,0 +1,46 @@
+﻿<Page x:Class="ZFreeGo.Monitor.DASII.View.ProtectSetpointView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+       xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+      mc:Ignorable="d" 
+     DataContext="{Binding ProtectSetpoint, Source={StaticResource Locator}}"
+	Title="ProtectSetpointView">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadDataCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions >
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <StackPanel Margin="3" Orientation="Horizontal" Background="AliceBlue">
+                <Button Margin="3" Padding="3" Name="btnCallSetpoint">召唤定值-待实现</Button>
+
+                <Button Margin="30,3,3,3" Padding="3" Name="DownloadProtectSetSelect" Command="{Binding SetProtectPoint}" CommandParameter="Slected">选择</Button>
+                <Button Margin="3,3,30,3" Padding="3" Name="DownloadProtectSet" Command="{Binding SetProtectPoint}" CommandParameter="Download">下载</Button>
+                <Button Margin="3" Padding="3" Name="ProtectSetPointExport" >导出</Button>
+                <Button Margin="3" Padding="3" Name="ProtectSetPointLoad" >导入</Button>
+                <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxProtectSetPoint" IsChecked="False" >修改</CheckBox>
+            </StackPanel>
+        </Grid>
+        <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False"  Name="gridProtectSetPoint" IsReadOnly="false" CanUserSortColumns="False"  ItemsSource="{Binding UserData}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="内部ID"  Width="50" Binding="{Binding  InternalID}"></DataGridTextColumn>
+                <DataGridTextColumn Header="所属类别"    MinWidth="50" Binding="{Binding Type}"></DataGridTextColumn>
+                <DataGridTextColumn Header="终端点号"   MinWidth="50" Binding="{Binding EndPoint, StringFormat={}{0:X2}}"></DataGridTextColumn>
+                <DataGridTextColumn Header="名称"    MinWidth="50" Binding="{Binding ProtectSetName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="参数值"    MinWidth="50" Binding="{Binding ParameterValue, StringFormat={}{0:F4}}"></DataGridTextColumn>
+                <DataGridTextColumn Header="校准系数"    MinWidth="50" Binding="{Binding CalibrationCoefficient, StringFormat={}{0:F4}}"></DataGridTextColumn>
+                <DataGridTextColumn Header="单位"    MinWidth="50" Binding="{Binding Unit}"></DataGridTextColumn>
+                <DataGridTextColumn Header="范围"    MinWidth="50" Binding="{Binding Comment}"></DataGridTextColumn>
+                <DataGridTextColumn Header="备注"    MinWidth="250" Binding="{Binding Comment}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.ConstructionElement;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.FileElement;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.FileNr;
+using ZFreeGo.TransmissionProtocols.BasicElement;
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.FileSever
+
+namespace ZFreeGo.TransmissionProtocols.FileSever
 {
     /// <summary>
     /// 文件服务基于ID=210

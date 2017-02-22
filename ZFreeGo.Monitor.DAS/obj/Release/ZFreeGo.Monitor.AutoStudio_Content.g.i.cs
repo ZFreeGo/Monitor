@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("sj1.ico")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("pictures/zfreego.monitor.autostudio.csproj")]
 
 

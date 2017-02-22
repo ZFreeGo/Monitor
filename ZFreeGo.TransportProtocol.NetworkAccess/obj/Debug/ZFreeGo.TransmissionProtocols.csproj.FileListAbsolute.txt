@@ -1,0 +1,5 @@
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\bin\Debug\ZFreeGo.TransmissionProtocols.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\bin\Debug\ZFreeGo.TransmissionProtocols.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\obj\Debug\ZFreeGo.TransmissionProtocols.csprojResolveAssemblyReference.cache
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\obj\Debug\ZFreeGo.TransmissionProtocols.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\obj\Debug\ZFreeGo.TransmissionProtocols.pdb

@@ -1,0 +1,12 @@
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Release\ZFreeGo.Monitor.DASModel.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Release\ZFreeGo.Monitor.DASModel.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Release\GalaSoft.MvvmLight.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Release\ZFreeGo.Net.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Release\ZFreeGo.TransmissionProtocols.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Release\ZFreeGo.Net.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Release\ZFreeGo.TransmissionProtocols.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Release\GalaSoft.MvvmLight.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Release\GalaSoft.MvvmLight.xml
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\obj\Release\ZFreeGo.Monitor.DASModel.csprojResolveAssemblyReference.cache
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\obj\Release\ZFreeGo.Monitor.DASModel.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\obj\Release\ZFreeGo.Monitor.DASModel.pdb

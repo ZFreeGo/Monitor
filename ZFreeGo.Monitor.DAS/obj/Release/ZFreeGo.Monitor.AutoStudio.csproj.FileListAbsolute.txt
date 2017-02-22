@@ -36,3 +36,5 @@ F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.AutoStudio\obj\Release\ZFreeGo.
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.AutoStudio\obj\Release\ZFreeGo.Monitor.AutoStudio.g.resources
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.AutoStudio\obj\Release\ZFreeGo.Monitor.AutoStudio.Properties.Resources.resources
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.AutoStudio\obj\Release\ZFreeGo.Monitor.AutoStudio.csproj.GenerateResource.Cache
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Release\ZFreeGo.Monitor.AutoStudio.exe
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Release\ZFreeGo.Monitor.AutoStudio.pdb

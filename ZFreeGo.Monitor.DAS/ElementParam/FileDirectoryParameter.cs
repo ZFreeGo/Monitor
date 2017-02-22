@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using ZFreeGo.TransmissionProtocol.NetworkAccess104.FileNr;
+
+using ZFreeGo.TransmissionProtocols.FileSever;
 
 namespace ZFreeGo.Monitor.AutoStudio.ElementParam
 {

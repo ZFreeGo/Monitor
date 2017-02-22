@@ -4,8 +4,11 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace ZFreeGo.TransmissionProtocol.NetworkAccess104.BasicElement
+namespace ZFreeGo.TransmissionProtocols.BasicElement
 {
+    /// <summary>
+    /// 短浮点数
+    /// </summary>
     [StructLayout(LayoutKind.Explicit)]
     struct ShortFloatType
     {         

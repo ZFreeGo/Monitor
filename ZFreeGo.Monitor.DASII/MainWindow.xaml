@@ -1,0 +1,59 @@
+﻿<Window x:Class="ZFreeGo.Monitor.DASII.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ignore="http://www.galasoft.ch/ignore"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        mc:Ignorable="d ignore"
+        Height="800"
+        Width="1000"
+        Title="DAS-II 配电自动化系统"
+        Closing="Window_Closing"
+        DataContext="{Binding Main, Source={StaticResource Locator}}">
+        
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Skins/MainSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid x:Name="LayoutRoot">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="160"></ColumnDefinition>
+            <ColumnDefinition  Width="3*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="1" FontSize="32"
+                   FontWeight="Bold"
+                   Foreground="Purple"                 
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   TextWrapping="Wrap" Text="欢迎使用SOJO DAS II" />
+        <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" >
+            <StackPanel>
+                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="SystemParameter" >系统参数</Button>
+                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="Communication" >以太网设置</Button>
+                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" >串口设置</Button>
+                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="Telesignalisation" >遥信</Button>
+                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="Telemetering">遥测</Button>
+                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="Telecontrol">遥控</Button>
+                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="SOELog">SOE</Button>
+                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" >录波采集</Button>
+                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="ProtectSetPoint">保护定值</Button>
+                <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="SystemCalibration">系统校准</Button>
+            </StackPanel>
+        </Grid>
+
+        <Frame Grid.Column="1" Grid.Row="1" Name="frame" >
+            
+        </Frame>
+
+    </Grid>
+</Window>

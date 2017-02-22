@@ -137,11 +137,9 @@ F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\OxyPlot.Xps.dll
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\System.Data.SQLite.dll
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.FileOperation.Comtrade.dll
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.Net.dll
-F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.dll
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.Common.BasicTool.dll
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.Net.pdb
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.FileOperation.Comtrade.pdb
-F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.TransmissionProtocol.NetworkAccess104.pdb
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.csprojResolveAssemblyReference.cache
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\Comtrade\ComtradeUI.baml
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\MainWindow.baml
@@ -177,3 +175,6 @@ F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.A
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.application
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.exe
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio.pdb
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio_Content.g.cs
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.TransmissionProtocols.dll
+F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.TransmissionProtocols.pdb
