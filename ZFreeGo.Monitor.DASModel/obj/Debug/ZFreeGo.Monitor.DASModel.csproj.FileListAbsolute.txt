@@ -10,3 +10,15 @@ F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\GalaSoft.Mvv
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\obj\Debug\ZFreeGo.Monitor.DASModel.csprojResolveAssemblyReference.cache
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\obj\Debug\ZFreeGo.Monitor.DASModel.dll
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\obj\Debug\ZFreeGo.Monitor.DASModel.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\ZFreeGo.Monitor.DASModel.dll
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\ZFreeGo.Monitor.DASModel.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\GalaSoft.MvvmLight.dll
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\ZFreeGo.Net.dll
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\ZFreeGo.TransmissionProtocols.dll
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\ZFreeGo.Net.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\ZFreeGo.TransmissionProtocols.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\GalaSoft.MvvmLight.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\GalaSoft.MvvmLight.xml
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\obj\Debug\ZFreeGo.Monitor.DASModel.csprojResolveAssemblyReference.cache
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\obj\Debug\ZFreeGo.Monitor.DASModel.dll
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\obj\Debug\ZFreeGo.Monitor.DASModel.pdb

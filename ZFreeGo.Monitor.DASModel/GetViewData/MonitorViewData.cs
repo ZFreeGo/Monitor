@@ -8,6 +8,7 @@ using System.Text;
 using ZFreeGo.Monitor.DASModel.Helper;
 using ZFreeGo.Monitor.DASModel.DataItemSet;
 using System.Threading.Tasks;
+using ZFreeGo.TransmissionProtocols.BasicElement;
 
 namespace ZFreeGo.Monitor.DASModel.GetViewData
 {
@@ -371,57 +372,9 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         #endregion
 
 
-        
-        /// <summary>
-        /// 更新SOE信息
-        /// </summary>
-        /// <param name="e">信息事件</param>
-        public void UpdateSOEEvent(TransmissionProtocols.MonitorProcessInformation.
-            StatusEventArgs<List<Tuple<uint, byte, ZFreeGo.TransmissionProtocols.BasicElement.CP56Time2a>>> e)
-        {
-          
-          
-            var list = GetTelesignalisationList();
-            var collect = GetSOEList();
+       
 
-            foreach (var ele in e.Message)
-            {
-
-                var time = ele.Item3;
-                //通过遥信ID，查找所需要的元素
-                Telesignalisation result = null;
-                foreach (var find in list)
-                {
-                    if (find.InternalID == (int)ele.Item1)
-                    {
-                        result = find;
-                        //result = new Telesignalisation(find.InternalID, find.TelesignalisationName, find.TelesignalisationID,
-                        //    find.IsNot, find.TelesignalisationResult, "", "");
-                        break;
-                    }
-                }
-
-                SOE alog;
-                if (result != null)
-                {
-                    result.TelesignalisationResult = ele.Item2;//同步更新单点遥信信息
-                    alog = new SOE(result.InternalID, result.TelesignalisationName, result.TelesignalisationState,
-                   time.ToString(), "", time.Milliseconds.ToString());
-                }
-                else
-                {
-                    alog = new SOE((int)ele.Item1, "ID未定义", ele.Item2.ToString(),
-                   time.ToString(), "", time.Milliseconds.ToString());
-                }
-
-                
-                //任务调度器，用于快线程更新UI
-                Task.Factory.StartNew(() => collect.Add(alog),
-                    new System.Threading.CancellationTokenSource().Token, TaskCreationOptions.None, syncContextTaskScheduler).Wait();
-            }
-
-
-        }
+        #region 遥信
         /// <summary>
         /// 更新遥信信息--为什么此处任务调度
         /// </summary>
@@ -462,6 +415,9 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
 
 
         }
+        #endregion
+
+        #region 遥测
         /// <summary>
         /// 更新遥测信息
         /// </summary>
@@ -490,6 +446,95 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
 
 
         }
+        #endregion
+
+        #region SOE
+        /// <summary>
+        /// 更新SOE信息
+        /// </summary>
+        /// <param name="e">信息事件</param>
+        public void UpdateSOEEvent(TransmissionProtocols.MonitorProcessInformation.
+            StatusEventArgs<List<Tuple<uint, byte, ZFreeGo.TransmissionProtocols.BasicElement.CP56Time2a>>> e)
+        {
+
+
+            var list = GetTelesignalisationList();
+            var collect = GetSOEList();
+
+            foreach (var ele in e.Message)
+            {
+
+                var time = ele.Item3;
+                //通过遥信ID，查找所需要的元素
+                Telesignalisation result = null;
+                foreach (var find in list)
+                {
+                    if (find.InternalID == (int)ele.Item1)
+                    {
+                        result = find;
+                        //result = new Telesignalisation(find.InternalID, find.TelesignalisationName, find.TelesignalisationID,
+                        //    find.IsNot, find.TelesignalisationResult, "", "");
+                        break;
+                    }
+                }
+
+                SOE alog;
+                if (result != null)
+                {
+                    result.TelesignalisationResult = ele.Item2;//同步更新单点遥信信息
+                    alog = new SOE(result.InternalID, "SOE", result.TelesignalisationName + ":" + result.TelesignalisationState,
+                   time.ToString(), "", time.Milliseconds.ToString());
+                }
+                else
+                {
+                    alog = new SOE((int)ele.Item1, "ID未定义", ele.Item2.ToString(),
+                   time.ToString(), "", time.Milliseconds.ToString());
+                }
+
+
+                //任务调度器，用于快线程更新UI
+                Task.Factory.StartNew(() => collect.Add(alog),
+                    new System.Threading.CancellationTokenSource().Token, TaskCreationOptions.None, syncContextTaskScheduler).Wait();
+            }
+
+
+        }
+        #endregion
+        #region 故障信息
+        public void UpdateFaultMessageEvent(TransmissionProtocols.MonitorProcessInformation.
+            EventLogEventArgs<Tuple<uint, byte, CP56Time2a>, Tuple<uint, float>> e)
+        {
+            try
+            {
+                var collect = GetSOEList();
+                StringBuilder strBuild = new StringBuilder();
+
+                strBuild.AppendFormat("ID:{0} 故障遥信数目:{1}.", e.StatusID.ToString(), e.StatusMessage.Count);
+                foreach (var m in e.StatusMessage)
+                {
+                    strBuild.AppendFormat("点号:{0:X2}  码值{1:X2}  时间{2}\n", m.Item1, m.Item2, m.Item3.ToString());
+                }
+                strBuild.AppendFormat("ID:{0} 故障遥测数目:{1}.", e.MeteringID.ToString(), e.MeteringMessage.Count);
+                foreach (var m in e.MeteringMessage)
+                {
+                    strBuild.AppendFormat("点号:{0:X2}  {1:X2}\n", m.Item1, m.Item2);
+                }
+
+                var alog = new SOE(0, "故障事件", strBuild.ToString(),
+                   DateTime.Now.ToLongTimeString(), "", DateTime.Now.Millisecond.ToString());
+                 //任务调度器，用于快线程更新UI
+                Task.Factory.StartNew(() => collect.Add(alog),
+                    new System.Threading.CancellationTokenSource().Token, TaskCreationOptions.None, syncContextTaskScheduler).Wait();
+            }
+            catch(Exception ex)
+            {
+
+            }
+        }
+
+
+
+        #endregion
     }
        
 

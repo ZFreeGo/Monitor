@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-    mc:Ignorable="d"
+    mc:Ignorable="d" 
      DataContext="{Binding Parameter, Source={StaticResource Locator}}"
     Title="ParameterView">
     <i:Interaction.Triggers>
@@ -17,12 +17,12 @@
     </i:Interaction.Triggers>
     <Grid>
         <Grid.RowDefinitions >
-            <RowDefinition Height="5"></RowDefinition>
-            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="0"></RowDefinition>
+            <RowDefinition Height="0"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Visibility="Collapsed">
             <StackPanel Margin="3" Orientation="Horizontal">
                 <Button Margin="3,3,3,0" Padding="3" Height="28" VerticalAlignment="Top" Name="RefreshSystemParameter">刷新</Button>
                 <Button Margin="3" Padding="3" Name="SystemParameterLoad">导入</Button>

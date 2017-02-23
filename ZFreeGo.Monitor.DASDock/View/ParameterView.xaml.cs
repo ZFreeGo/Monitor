@@ -22,7 +22,7 @@ namespace ZFreeGo.Monitor.DASDock.View
     {
         public ParameterView()
         {
-            this.DataContext = new ParameterViewModel();
+            //this.DataContext = new ParameterViewModel();
             InitializeComponent();
         }
     }

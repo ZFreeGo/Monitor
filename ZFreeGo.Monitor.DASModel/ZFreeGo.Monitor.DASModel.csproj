@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="DataItemSet\ClockElement.cs" />
     <Compile Include="DataItemSet\StateMessage.cs" />
+    <Compile Include="DataItemSet\ElectricPulse.cs" />
     <Compile Include="Helper\Clock.cs" />
     <Compile Include="Helper\CommonPath.cs" />
     <Compile Include="CommunicationServer.cs" />

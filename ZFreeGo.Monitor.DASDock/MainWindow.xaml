@@ -21,10 +21,10 @@
              xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:ignore="http://www.galasoft.ch/ignore"
         mc:Ignorable="d ignore"
-        Height="800"
+        Height="800" 
         Width="1000"
-        Title="MVVM Light Application"
-             Closing="Window_Closing"  Loaded="Window_Loaded"
+        Title="DAS-II 配电自动化系统"
+             Closing="Window_Closing"  Loaded="Window_Loaded" Icon="pictures/064.ico"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
     
     <Window.Resources>
@@ -61,14 +61,10 @@
                     <MenuItem Header="Layout_2" />
                     <MenuItem Header="Layout_3" />
                     <MenuItem Header="Layout_4" />
-                </MenuItem>
-                <MenuItem Header="Dump To Console"/>
-                <MenuItem Header="Unload Manager"/>
-                <MenuItem Header="Load Manager"/>
+                </MenuItem>               
             </MenuItem>
             <MenuItem Header="Tools">
-                <MenuItem Header="WinForms Window"/>
-                <MenuItem Header="Tool Window1" />
+                
             </MenuItem>
         </Menu>
 
@@ -80,7 +76,7 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="{Binding IconSource}" Margin="0,0,4,0"/>
-                        <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
                     </StackPanel>
                 </DataTemplate>
             </avalonDock:DockingManager.DocumentHeaderTemplate>
@@ -88,7 +84,7 @@
                 <avalonDock:LayoutPanel Orientation="Horizontal">
                     <avalonDock:LayoutAnchorablePaneGroup DockWidth="150">
                         <avalonDock:LayoutAnchorablePane>
-                            <avalonDock:LayoutAnchorable ContentId="treeList" Title="功能树">
+                            <avalonDock:LayoutAnchorable ContentId="treeList" Title="功能树"  >
                                 <StackPanel>
                                     <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="SystemParameter" >系统参数</Button>
                                     <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="Communication" >以太网设置</Button>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using ZFreeGo.TransmissionProtocols.BasicElement;
+using ZFreeGo.TransmissionProtocols.Frame;
 using ZFreeGo.TransmissionProtocols.Helper;
 
 namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
@@ -11,7 +12,7 @@ namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
     /// <summary>
     ///电能脉冲召唤 ： Todo 待完善事件
     /// </summary>
-    public class ElectricPulseCallServer : ReciveSendServer<ControlCommandASDU>
+    public class ElectricPulseCallServer : ReciveSendServer<ApplicationServiceDataUnit>
     {
         /// <summary>
         /// 召唤服务事件
@@ -27,7 +28,7 @@ namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
         /// <summary>
         /// 接收帧
         /// </summary>
-        private ControlCommandASDU mReciveFrame;
+        private ApplicationServiceDataUnit mReciveFrame;
 
         /// <summary>
         /// 发送委托
@@ -36,16 +37,29 @@ namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
 
      
         /// <summary>
-        /// 服务启动服务
+        /// 电能脉冲召唤
         /// </summary>
         /// <param name="sendDataDelegate">发送委托</param>
+        public  ElectricPulseCallServer(Func<ControlCommandASDU, bool> sendDataDelegate)
+        {
+            mSendDataDelegate = sendDataDelegate;
+        }
+
+        /// <summary>
+        /// 服务启动服务
+        /// </summary>
+        
         /// <param name="cot">传输原因</param>
         /// <param name="qoi">传输限定词</param>
-        public void StartServer(Func<ControlCommandASDU, bool> sendDataDelegate, CauseOfTransmissionList cot, QualifyCalculateCommad qcc)
+        public void StartServer( CauseOfTransmissionList cot, QualifyCalculateCommad qcc)
         {
             try
             {
                 InitData();
+
+                var id = TypeIdentification.C_CI_NA_1;//电能召唤
+                mSendFrame = new ControlCommandASDU(id, cot, 0, qcc);
+
                 mReadThread = new Thread(ReciveThread);
                 mReadThread.Priority = ThreadPriority.Normal;
                 mReadThread.Name = "ReciveThread线程数据";
@@ -55,12 +69,7 @@ namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
                 mServerThread.Priority = ThreadPriority.Normal;
                 mServerThread.Name = "ServerThread线程";
                 mServerThread.Start();
-                serverState = true;
-
-                mSendDataDelegate = sendDataDelegate;
-                var id = TypeIdentification.C_CI_NA_1;//电能召唤
-                mSendFrame = new ControlCommandASDU(id, cot, 0, qcc);
-                
+                serverState = true;                            
             }
             catch (Exception ex)
             {

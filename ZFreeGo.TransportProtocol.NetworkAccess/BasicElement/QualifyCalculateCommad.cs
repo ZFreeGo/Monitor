@@ -31,9 +31,9 @@ namespace ZFreeGo.TransmissionProtocols.BasicElement
         /// </summary>
         Request4 = 4,
         /// <summary>
-        /// 请求计数量第五组
+        /// 总的请求电量
         /// </summary>
-        Request5 = 5,
+        All = 5,
     }
     /// <summary>
     /// 计数量召唤命令限定词(QCC)-冻结

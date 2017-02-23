@@ -22,7 +22,7 @@ namespace ZFreeGo.Monitor.DASDock.View
     {
         public TelecontrolView()
         {
-            this.DataContext = new TelecontrolViewModel();
+            //this.DataContext = new TelecontrolViewModel();
             InitializeComponent();
         }
     }

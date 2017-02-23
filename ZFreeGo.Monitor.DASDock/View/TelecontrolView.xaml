@@ -128,7 +128,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="4*"></ColumnDefinition>
-                    <ColumnDefinition Width="80"></ColumnDefinition>
+                    <ColumnDefinition Width="0"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <DataGrid  Grid.Column="0" Margin="5" AutoGenerateColumns="False" Name="gridTelecontrol" CanUserSortColumns="False"  ItemsSource="{Binding UserData}">
                     <DataGrid.Columns >
@@ -140,7 +140,7 @@
                         <DataGridTextColumn Header="设备动作时间"    MinWidth="100" Binding="{Binding DeviceActionTime}"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Grid Grid.Column="1">
+                <Grid Grid.Column="1" Visibility="Collapsed">
                     <StackPanel Margin="3" Orientation="Vertical" Background="AliceBlue">
                         <Button Margin="3" Padding="3" Name="TelecontrolExport" >导出</Button>
                         <Button Margin="3" Padding="3" Name="TelecontrolLoad" >导入</Button>

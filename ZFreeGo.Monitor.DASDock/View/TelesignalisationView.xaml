@@ -31,21 +31,26 @@
                 <StackPanel Margin="3" Orientation="Horizontal" >
                     <Button Margin="3" Padding="3" Name="btnTelesignalisationCall" >刷新</Button>
                     <Button Margin="3" Padding="3" Name="TelesignalisationExport">导出</Button>
-                    <Button Margin="3" Padding="3" Name="TelesignalisationLoad" >导入</Button>
-                    <Button Margin="3" Padding="3" Name="selected" >test</Button>
+                    <Button Margin="3" Padding="3" Name="TelesignalisationLoad" >导入</Button>                   
                     <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxTelesignalisation" IsChecked="False" >修改</CheckBox>
                 </StackPanel>
             </Grid>
             <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False"  Name="gridTelesignalisation" IsReadOnly="false"
-                                       Grid.ColumnSpan="2"   CanUserSortColumns="False" ItemsSource="{Binding UserData}">
+                                       Grid.ColumnSpan="2"   CanUserSortColumns="False" ItemsSource="{Binding UserData}"
+                      >                      
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Selected">
+                        <i:InvokeCommandAction Command="{Binding ItemSelected}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <DataGrid.ContextMenu>
                     <ContextMenu Name="dgmenu" StaysOpen="True"  IsEnabled="False">
-                        <MenuItem Header="打开其它表格" Name="itemLoadAs"/>
-                        <MenuItem Header="表格另存为" Name="itemSaveAs"/>
-                        <MenuItem Header="选择行之上插入新行" Name="itemAddUp" />
-                        <MenuItem Header="选择行之下插入新行" Name="itemAddDown"/>
-                        <MenuItem Header="删除选中行" Name="itemDeleteSelect">
-                        </MenuItem>
+                        <MenuItem Header="打开其它表格" CommandParameter="itemLoadAs" Command="{Binding DataGridMenumSelected}"/>
+                        <MenuItem Header="表格另存为"  CommandParameter="itemSaveAs" Command="{Binding DataGridMenumSelected}"/>
+                        <MenuItem Header="选择行之上插入新行"  CommandParameter="itemAddUp" Command="{Binding DataGridMenumSelected}"/>
+                        <MenuItem Header="选择行之下插入新行"  CommandParameter="itemAddDown" Command="{Binding DataGridMenumSelected}"/>
+                        <MenuItem Header="删除选中行"  CommandParameter="itemDeleteSelect" Command="{Binding DataGridMenumSelected}"/>
+
                     </ContextMenu>
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns >

@@ -25,9 +25,15 @@ namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
         public event EventHandler<StatusEventArgs<List<Tuple<UInt32, byte, CP56Time2a>>>> SOEStatusEvent;
 
         /// <summary>
-        /// 故障事件
+        /// 事件记录故障信息
+        /// </summary>
+        public event EventHandler<EventLogEventArgs<Tuple<UInt32, byte, CP56Time2a>, Tuple<UInt32, float>>> EventLogEvent;
+        /// <summary>
+        /// 内部故障事件
         /// </summary>
         public event EventHandler<ProcessFaultEventArgs> StatusFaultEvent;
+
+       
 
         /// <summary>
         /// 状态服务，初始化
@@ -91,7 +97,7 @@ namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
                         }
                         case TypeIdentification.M_FT_NA_1: //故障值信息
                         {
-
+                            GetMessageMalfunction(asdu);
                             break;
                         }
                     default:
@@ -185,16 +191,16 @@ namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
 
 
         /// <summary>
-        /// 获取故障信息
+        /// 获取故障信息, 并产生相应事件
         /// </summary>
         /// <param name="aSDU">ASDU</param>
         private void GetMessageMalfunction(ApplicationServiceDataUnit aSDU)
         {
-            var list = new List<Tuple<UInt32, byte, CP56Time2a>>();
-
+            var list = new List<Tuple<UInt32, byte, CP56Time2a>>(); //地址，单双点信息，时标
+            var listFloat = new List<Tuple<UInt32, float>>(); //地址,浮点数
             int len = 7 + 1 + 2;
-            int  count = aSDU.InformationObject[0];
-            byte typID =  aSDU.InformationObject[1];
+            int count = aSDU.InformationObject[0];
+            byte statusID = aSDU.InformationObject[1];
             int offset = 2;
 
             for (int i = 0; i < count; i++)
@@ -210,11 +216,22 @@ namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
             }
             int start = offset + count * 10;
             count = aSDU.InformationObject[start];
-            typID = aSDU.InformationObject[start + 1];
-            offset = 2;
-            //
-            //
-            //待完善
+            var meteringID = aSDU.InformationObject[start + 1];
+            if ((byte)TypeIdentification.M_ME_NC_1 == meteringID) //短浮点数
+            {
+
+                int length = 6;//2+4
+                for (int i = 0; i < count; i++)
+                {
+                    var addr1 = ElementTool.CombinationByte(aSDU.InformationObject[i * length + start + 2],
+                        aSDU.InformationObject[i * length + start + 3]);
+                    var data = new byte[4];
+                    Array.Copy(aSDU.InformationObject, i * length + start + 4, data, 0, 4);
+                    var m = new ShortFloating(data);
+                    listFloat.Add(new Tuple<UInt32, float>((UInt32)addr1, m.Value));
+                }
+            }
+            SendEventlogEvent((TypeIdentification)statusID, list, (TypeIdentification)meteringID, listFloat);
         }
 
 
@@ -250,6 +267,17 @@ namespace ZFreeGo.TransmissionProtocols.MonitorProcessInformation
         private void SendFaultEvent(Exception ex, string comment)
         {
             StatusFaultEvent(this, new ProcessFaultEventArgs(ex, comment));
+        }
+
+
+        private void  SendEventlogEvent(TypeIdentification statusID, List<Tuple<uint,byte,CP56Time2a>> statusList,
+            TypeIdentification meteringID, List<Tuple<uint, float>> meteringList)
+        {
+            if ( EventLogEvent != null)
+            {
+                EventLogEvent(this, new EventLogEventArgs<Tuple<uint, byte, CP56Time2a>, 
+                    Tuple<uint, float>>(statusID, statusList, meteringID, meteringList));
+            }
         }
     }
 }

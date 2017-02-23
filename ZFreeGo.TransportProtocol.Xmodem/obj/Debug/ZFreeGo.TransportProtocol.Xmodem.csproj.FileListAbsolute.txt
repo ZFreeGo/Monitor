@@ -1,5 +1,4 @@
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.Xmodem\bin\Debug\ZFreeGo.TransportProtocol.Xmodem.dll
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.Xmodem\bin\Debug\ZFreeGo.TransportProtocol.Xmodem.pdb
-J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.Xmodem\obj\Debug\ZFreeGo.TransportProtocol.Xmodem.csprojResolveAssemblyReference.cache
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.Xmodem\obj\Debug\ZFreeGo.TransportProtocol.Xmodem.dll
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.Xmodem\obj\Debug\ZFreeGo.TransportProtocol.Xmodem.pdb

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Command;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,7 +46,7 @@ namespace ZFreeGo.Monitor.DASModel
                 return _tcpClient;
             }
         }
-
+       
 
         /// <summary>
         /// 通讯服务初始化

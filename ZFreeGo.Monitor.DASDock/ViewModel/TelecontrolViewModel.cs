@@ -165,13 +165,15 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             try
             {
                
+                UInt32 addr =  Telecontrol.BasicAddress + 2 - 1;
                 switch (str)
                 {
                     case "Selected":
                         {
                             telecontrolServer.StartServer(CauseOfTransmissionList.Activation, 0,
-                                Telecontrol.BasicAddress + 2 - 1,
+                               addr,
                                 new DoubleCommand(SelectExecuteOption.Select, QUtype.NODefine, DCOState.On));
+                            UserData.Add(new Telecontrol((int)addr, "合闸预制", "合闸预制", "合闸", "合闸", DateTime.Now.ToLongTimeString()));
                             break;
                         }
                     case "Execute":
@@ -179,6 +181,7 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
                             telecontrolServer.SendActionCommand(CauseOfTransmissionList.Activation, 0,
                                  Telecontrol.BasicAddress + 2 - 1,
                                  new DoubleCommand(SelectExecuteOption.Execute, QUtype.NODefine, DCOState.On));
+                            UserData.Add(new Telecontrol((int)addr, "合闸执行", "合闸执行", "合闸", "合闸", DateTime.Now.ToLongTimeString()));
                             break;
                         }
                 }
@@ -199,21 +202,23 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
         {
             try
             {
-
+                UInt32 addr = Telecontrol.BasicAddress + 1 - 1;
                 switch (str)
                 {
                     case "Selected":
                         {
                             telecontrolServer.StartServer(CauseOfTransmissionList.Activation, 0,
-                                Telecontrol.BasicAddress + 1 - 1,
+                                addr,
                                 new DoubleCommand(SelectExecuteOption.Select, QUtype.NODefine, DCOState.Off));
+                            UserData.Add(new Telecontrol((int)addr, "分闸预制", "分闸预制", "分闸", "分闸", DateTime.Now.ToLongTimeString()));
                             break;
                         }
                     case "Execute":
                         {
                             telecontrolServer.SendActionCommand(CauseOfTransmissionList.Activation, 0,
-                                 Telecontrol.BasicAddress + 1 - 1,
+                                 addr,
                                  new DoubleCommand(SelectExecuteOption.Execute, QUtype.NODefine, DCOState.Off));
+                            UserData.Add(new Telecontrol((int)addr, "分闸执行", "分闸执行", "分闸", "分闸", DateTime.Now.ToLongTimeString()));
                             break;
                         }
                 }

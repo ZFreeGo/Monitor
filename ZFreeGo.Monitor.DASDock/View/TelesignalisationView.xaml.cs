@@ -25,5 +25,7 @@ namespace ZFreeGo.Monitor.DASDock.View
             this.DataContext = new TelesignalisationViewModel();
             InitializeComponent();
         }
+
+
     }
 }

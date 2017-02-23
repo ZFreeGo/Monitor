@@ -22,7 +22,7 @@ namespace ZFreeGo.Monitor.DASDock.View
     {
         public ProtectSetpointView()
         {
-            this.DataContext = new ProtectSetpointViewModel();
+            //this.DataContext = new ProtectSetpointViewModel();
             InitializeComponent();
         }
     }

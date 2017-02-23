@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using GalaSoft.MvvmLight;
 using System.Net;
+using GalaSoft.MvvmLight.Command;
 
 namespace ZFreeGo.Monitor.DASModel.DataItemSet
 {
@@ -22,6 +23,10 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             get
             {
                 return ip;
+            }
+            set
+            {
+                ip = value;
             }
         }
         /// <summary>
@@ -123,6 +128,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
            
         }
 
+
         /// <summary>
         /// 通讯参数初始化
         /// </summary>
@@ -132,6 +138,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             port = 2404;
             linkMessage = "启动。\n";
             netStartEnable = true;
+           
 
         }
 

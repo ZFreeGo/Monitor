@@ -11,6 +11,7 @@ using ZFreeGo.TransmissionProtocols;
 using ZFreeGo.TransmissionProtocols.TransmissionControl104;
 using ZFreeGo.TransmissionProtocols.BasicElement;
 using System.Threading;
+using System.Net;
 
 
 namespace ZFreeGo.Monitor.DASDock.ViewModel
@@ -42,6 +43,8 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             CallAll = new RelayCommand<string>(ExecuteCallAll);
             StartAllLink = new RelayCommand<string>(ExecuteStartAllLink);
             StopAllLink = new RelayCommand<string>(ExecuteStopAllLink);
+            ClearText = new RelayCommand<string>(ExecuteClearText);
+            ToEnd = new RelayCommand<string>(ExecuteToEnd);
         }
 
         /// <summary>
@@ -81,7 +84,7 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
         /// <param name="e"></param>
         void ServerInformation_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            RaisePropertyChanged("ServerInformation");
+            RaisePropertyChanged(e.PropertyName);
         }
 
         /// <summary>
@@ -94,10 +97,8 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             {
                 serverData = obj.NetParameter;
                 serverData.PropertyChanged += ServerInformation_PropertyChanged;
-                netServer = obj;
-                netServer.NetClient.ExceptionEventArrived += NetServer_ExceptionEventArrived;
-                netServer.NetClient.LinkingEventMsg += NetServer_LinkingEventMsg;
-                netServer.NetClient.NetDataEventArrived += NetServer_NetDataEventArrived;
+                netServer = obj;                
+                netServer.NetClient.LinkingEventMsg += NetServer_LinkingEventMsg;             
                 
             }
         }
@@ -125,15 +126,11 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             }
         }
 
-        void NetServer_NetDataEventArrived(object sender, Net.Element.NetDataArrayEventArgs e)
-        {
-           
-        }
+      
 
         void NetServer_LinkingEventMsg(object sender, Net.Element.NetLinkMessagEvent e)
         {
-            ServerInformation.LinkMessage += "\n";
-            ServerInformation.LinkMessage += e.Message;
+            
             switch(e.State)
             {
                 case Net.Element.NetState.Stop:
@@ -153,18 +150,7 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             
         }
 
-        void NetServer_ExceptionEventArrived(object sender, Net.Element.NetExcptionEventArgs e)
-        {
-
-            ServerInformation.LinkMessage += "\n";
-            ServerInformation.LinkMessage += e.OriginException.Message;
-            ServerInformation.LinkMessage += "\n";
-            ServerInformation.LinkMessage += e.OriginException.StackTrace;
-            ServerInformation.LinkMessage += "\n";
-            ServerInformation.LinkMessage += e.Comment;
-            
-           
-        }
+      
         #region 加载数据命令：LoadDataCommand
         /// <summary>
         /// 加载数据
@@ -183,24 +169,90 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
         #region 通讯属性与服务
         private NetParameter serverData;
 
-        public NetParameter ServerInformation
+        //public NetParameter ServerInformation
+        //{
+        //   get
+        //    {
+        //        if (serverData == null)
+        //        {
+        //            serverData = new NetParameter();
+        //        }
+        //        return serverData;
+        //    }
+        //    set
+        //    {
+        //        serverData = value;
+        //        RaisePropertyChanged("ServerInformation");
+        //    }
+        //}
+        private void InitserverData()
         {
-           get
+             if (serverData == null)
+             {
+                 serverData = new NetParameter();
+             }
+        }
+        /// <summary>
+        /// 获取或设置IP地址
+        /// </summary>
+        public string IpAddress
+        {
+            get
             {
-                if (serverData == null)
-                {
-                    serverData = new NetParameter();
-                }
-                return serverData;
+                InitserverData(); 
+                return serverData.IpAddress; 
             }
             set
             {
-                serverData = value;
-                RaisePropertyChanged("ServerInformation");
+                IPAddress iptry;
+                if (IPAddress.TryParse(value, out  iptry))
+                {
+                    serverData.IP = iptry;
+                    RaisePropertyChanged("IpAddress");
+
+                }
+
+
             }
         }
-        
+
+        /// <summary>
+        /// 获取或设置端口号
+        /// </summary>
+        public int Port
+        {
+            get
+            {
+                InitserverData();
+                return serverData.Port;
+            }
+            set
+            {
+                serverData.Port = value;
+                RaisePropertyChanged("Port");
+
+            }
+        }
+
        
+
+        /// <summary>
+        /// 连接信息
+        /// </summary>
+        public string LinkMessage
+        {
+            get
+            {
+                InitserverData(); 
+                return serverData.LinkMessage;
+            }
+            set
+            {
+                serverData.LinkMessage = value;
+                RaisePropertyChanged("LinkMessage");
+
+            }
+        }
 
         /// <summary>
         /// 通讯服务
@@ -305,8 +357,36 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
         }
         #endregion
 
+        #region ClearText
+        public RelayCommand<string> ClearText { get; private set; }
 
-     
+        void ExecuteClearText(string name)
+        {
+            try
+            {
+                LinkMessage = "";
+            }
+            catch (Exception ex)
+            {
+                Messenger.Default.Send<Exception>(ex, "ExceptionMessage");
+            }
+        }
+        #endregion
+        #region ClearText
+        public RelayCommand<string> ToEnd { get; private set; }
+
+        void ExecuteToEnd(string name)
+        {
+            try
+            {
+               
+            }
+            catch (Exception ex)
+            {
+                Messenger.Default.Send<Exception>(ex, "ExceptionMessage");
+            }
+        }
+        #endregion
         /// <summary>
         /// 启动所有连接
         /// </summary>

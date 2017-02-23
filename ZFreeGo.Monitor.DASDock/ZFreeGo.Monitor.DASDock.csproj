@@ -34,6 +34,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Pictures\064.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight, Version=5.2.0.37223, Culture=neutral, PublicKeyToken=0e453835af4ee6ce, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.2.0.0\lib\net40\GalaSoft.MvvmLight.dll</HintPath>
@@ -232,6 +239,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="说明文档.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\girl.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\v.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\064.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

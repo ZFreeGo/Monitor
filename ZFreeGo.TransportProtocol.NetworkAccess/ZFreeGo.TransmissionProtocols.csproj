@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MonitorProcessInformation\EventLogEventArgs.cs" />
     <Compile Include="MonitorProcessInformation\ProcessFaultEventArgs.cs" />
     <Compile Include="NetWorkProtocolServer.cs" />
     <Compile Include="ReciveCenter\ApplicationFrameManager.cs" />

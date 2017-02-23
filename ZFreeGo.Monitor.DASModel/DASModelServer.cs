@@ -53,6 +53,7 @@ namespace ZFreeGo.Monitor.DASModel
             Communication = new CommunicationServer();
             Communication.NetClient.NetDataEventArrived += NetClient_NetDataEventArrived;
             Communication.NetClient.LinkingEventMsg += NetClient_LinkingEventMsg;
+            Communication.NetClient.ExceptionEventArrived += NetServer_ExceptionEventArrived;
             protocolServer = new NetWorkProtocolServer(NetSendData);
 
             protocolServer.ReciveFaltEvent += protocolServer_ReciveFaltEvent;
@@ -63,11 +64,25 @@ namespace ZFreeGo.Monitor.DASModel
             protocolServer.ControlServer.ServerFaultEvent += ControlServer_ServerFaultEvent; ;
             protocolServer.TelesignalisationServer.SOEStatusEvent += TelesignalisationServer_SOEStatusEvent;
             protocolServer.TelesignalisationServer.StatusUpdateEvent += TelesignalisationServer_StatusUpdateEvent;
+            protocolServer.TelesignalisationServer.EventLogEvent +=TelesignalisationServer_EventLogEvent;
             protocolServer.MeteringServer.TelemeteringEvent += MeteringServer_TelemeteringEvent;
             protocolServer.SetPointServer.ServerEvent += SetPointServer_ServerEvent;
 
             protocolServer.TelecontrolServer.ServerEvent += TelecontrolServer_ServerEvent;
             protocolServer.TimeServer.ServerEvent += TimeServer_ServerEvent;
+        }
+
+
+        /// <summary>
+        /// 事件记录信息--故障信息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TelesignalisationServer_EventLogEvent(object sender, 
+            TransmissionProtocols.MonitorProcessInformation.EventLogEventArgs<Tuple<uint, byte, CP56Time2a>, Tuple<uint, float>> e)
+        {
+            DataFile.StateMessage.AddProtoclMessage(e.MeteringID.ToString() + "  " + e.StatusID.ToString());
+
         }
 
         private void TimeServer_ServerEvent(object sender, TransmissionProtocols.ControlSystemCommand.TimeEventArgs e)
@@ -106,13 +121,15 @@ namespace ZFreeGo.Monitor.DASModel
         /// <param name="sender"></param>
         /// <param name="e"></param>
         void NetClient_LinkingEventMsg(object sender, Net.Element.NetLinkMessagEvent e)
-        {
+        {            
+            Communication.NetParameter.LinkMessage += e.Message + "\n";
+            DataFile.StateMessage.AddNetMessage(e.Message);
            switch(e.State)
            {
                case Net.Element.NetState.Stop:
                    {
                        protocolServer.ResetServer();
-                       DataFile.StateMessage.AddNetMessage( e.Message );
+                      
                        break;
                    }
            }
@@ -174,7 +191,17 @@ namespace ZFreeGo.Monitor.DASModel
             DataFile.StateMessage.AddExcptionMessage(e.Comment);
         }
 
+        void NetServer_ExceptionEventArrived(object sender, Net.Element.NetExcptionEventArgs e)
+        {
 
+            Communication.NetParameter.LinkMessage += "\n";
+            Communication.NetParameter.LinkMessage += e.OriginException.Message;
+            Communication.NetParameter.LinkMessage += "\n";
+            Communication.NetParameter.LinkMessage += e.OriginException.StackTrace;
+            Communication.NetParameter.LinkMessage += "\n";
+            Communication.NetParameter.LinkMessage += e.Comment;
+            DataFile.StateMessage.AddExcptionMessage(e.Comment, e.OriginException);
+        }
      
 
         /// <summary>

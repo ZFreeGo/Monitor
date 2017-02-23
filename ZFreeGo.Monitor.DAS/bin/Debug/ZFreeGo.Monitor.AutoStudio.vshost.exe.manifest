@@ -122,7 +122,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>g096ziRm7FaCfULxZkipny0CAwc=</dsig:DigestValue>
+        <dsig:DigestValue>y3Ro+CAnc1ByRoZfFYDwNvLaxEw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -134,7 +134,11 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+<<<<<<< HEAD
+        <dsig:DigestValue>abuDhS+lsjHCTjwvMOnl5SK4jVc=</dsig:DigestValue>
+=======
         <dsig:DigestValue>I+4PwjXomv4gGmZx3DItAd5zu5Y=</dsig:DigestValue>
+>>>>>>> tmp
       </hash>
     </dependentAssembly>
   </dependency>
@@ -146,19 +150,28 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>DMOTRGAUV42QWpzxkGB/VnCfn8w=</dsig:DigestValue>
+        <dsig:DigestValue>8lb5V1QqM7ZAwiA0Izq/TR7jr9w=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
+<<<<<<< HEAD
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ZFreeGo.TransmissionProtocol.NetworkAccess104.dll" size="89600">
+      <assemblyIdentity name="ZFreeGo.TransmissionProtocol.NetworkAccess104" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+=======
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ZFreeGo.TransmissionProtocols.dll" size="119296">
       <assemblyIdentity name="ZFreeGo.TransmissionProtocols" version="1.1.0.0" language="neutral" processorArchitecture="msil" />
+>>>>>>> tmp
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+<<<<<<< HEAD
+        <dsig:DigestValue>BI/AIGRr/tFw/wDb1mrT5zBxy88=</dsig:DigestValue>
+=======
         <dsig:DigestValue>hyXVQXMypffyBjRb/58Letd4ALY=</dsig:DigestValue>
+>>>>>>> tmp
       </hash>
     </dependentAssembly>
   </dependency>

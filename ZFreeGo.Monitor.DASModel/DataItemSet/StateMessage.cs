@@ -133,6 +133,13 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
         {
             ExceptionTrace += str + "\n\n";
         }
+        public void AddExcptionMessage(string comment, System.Exception ex)
+        {
+            ExceptionTrace += comment + "\n";
+            ExceptionTrace += ex.Message + "\n";
+            ExceptionTrace += ex.StackTrace + "\n";
+        }
+
         /// <summary>
         /// Initializes a new instance of the StateMessage class.
         /// </summary>
@@ -143,5 +150,6 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             protoclMessage = "";
             exceptionTrace = "";
         }
+
     }
 }

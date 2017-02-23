@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASDock\obj\Debug\
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASDock\obj\Debug\
 ZFreeGo.Monitor.DASDock
 none
 false
 CODE_ANALYSIS;DEBUG;TRACE
-F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASDock\App.xaml
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASDock\App.xaml
 11306118398
 
 28-1264515769
-251893077547
+25429456309
 MainWindow.xaml;Skins\MainSkin.xaml;View\CalibrationView.xaml;View\CalibratonControlView.xaml;View\CommunicationView.xaml;View\ParameterView.xaml;View\ProtectSetpointView.xaml;View\SOEView.xaml;View\TelecontrolView.xaml;View\TelemeteringView.xaml;View\TelesignalisationView.xaml;
 
 False

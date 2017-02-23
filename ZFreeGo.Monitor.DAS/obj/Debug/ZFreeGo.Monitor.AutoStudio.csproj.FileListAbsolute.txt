@@ -178,3 +178,4 @@ F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.A
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio_Content.g.cs
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.TransmissionProtocols.dll
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\bin\Debug\ZFreeGo.TransmissionProtocols.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DAS\obj\Debug\ZFreeGo.Monitor.AutoStudio_Content.g.cs

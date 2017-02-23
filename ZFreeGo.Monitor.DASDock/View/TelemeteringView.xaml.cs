@@ -22,7 +22,7 @@ namespace ZFreeGo.Monitor.DASDock.View
     {
         public TelemeteringView()
         {
-            this.DataContext = new TelemeteringViewModel();
+            //this.DataContext = new TelemeteringViewModel();
             InitializeComponent();
         }
     }

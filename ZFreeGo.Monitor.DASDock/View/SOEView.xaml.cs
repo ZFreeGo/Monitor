@@ -22,7 +22,7 @@ namespace ZFreeGo.Monitor.DASDock.View
     {
         public SOEView()
         {
-            this.DataContext = new SOEViewModel();
+            //this.DataContext = new SOEViewModel();
             InitializeComponent();
         }
     }
