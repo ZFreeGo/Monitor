@@ -48,6 +48,10 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         /// </summary>
         ObservableCollection<ElectricPulse> electricPulse;
 
+
+
+        private ObservableCollection<FileAttributeItem> directoryList;
+
         private readonly TaskScheduler syncContextTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
         public MonitorViewData()
         {
@@ -666,6 +670,22 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
             }
         }
 
+        #endregion
+
+
+        #region 文件操作
+        /// <summary>
+        /// 获取目录列表信息
+        /// </summary>
+        /// <returns></returns>
+        public ObservableCollection<FileAttributeItem> GetDirectoryList()
+        {
+            if (directoryList == null)
+            {
+                directoryList = new ObservableCollection<FileAttributeItem>();
+            }
+            return directoryList;
+        }
         #endregion
     }
        

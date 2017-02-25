@@ -83,8 +83,14 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
         /// <summary>
         /// 文件传输应答
         /// </summary>
-        public event EventHandler<FileServerEventArgs<FileReadThransmitAckPacket>> ReadFileTransmitAckEvent;
+       // public event EventHandler<FileServerEventArgs<FileReadThransmitAckPacket>> ReadFileTransmitAckEvent;
+       // public event EventHandler<FileServerEventArgs<FileReadThransmitAckPacket>> ReadFileTransmitAckEvent;
 
+
+         /// <summary>
+         /// 读文件结果事件
+         /// </summary>
+        public event EventHandler<FileReadEndEventArgs> ReadFileEndEvent;
 
         /// <summary>
         /// 包含服务结果，超时，异常等信息
@@ -264,7 +270,7 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
                             }
                             mRepeatCount = 0;
                             stage = TransmitStage.Transmission;
-                            ReadFileTransmitAckEvent = null;
+                            readFileTransmitAckPacket = null;
                             return true;
                         }
                     case TransmitStage.Transmission:
@@ -275,20 +281,30 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
                                 var addPacket = new FileReadThransmitAckPacket(packetManager.Attribute.ID,
                                     packetManager.CurrentPacket.FragmentNum, packetManager.CurrentPacket.Fllow);
                                 readFileTransmitAckPacket = new FileASDU( CauseOfTransmissionList.ActivationACK,
-                                    0, addPacket.GetPacketData());
+                                    0, addPacket.GetPacketData()); 
+                                if (packetManager.FullFlag)
+                                {
+                                    if (ReadFileEndEvent == null)
+                                    {
+                                        ReadFileEndEvent(this, new FileReadEndEventArgs("文件读取完毕", packetManager));
+                                    }
+                                    MakeProcessMessageEvent("文件读取完毕", FileServerResut.Success);
+
+                                    return false;
+                                }
                                 
                             }
                             else
                             {
-                                MakeProcessMessageEvent("FileTransmitDescription.Failue", FileServerResut.Error);
+                                MakeProcessMessageEvent(result.ToString(), FileServerResut.Error);
                             }
 
-                            if (ReadFileTransmitAckEvent != null)
-                            {
-                                var e = new FileServerEventArgs<FileReadThransmitAckPacket>("从机应答:" + result.ToString(), OperatSign.ReadFileDataResponseACK,
-                                    readFileActivityAckPacket, null);
-                                ReadFileTransmitAckEvent(Thread.CurrentThread, e);
-                            }
+                            //if (ReadFileTransmitAckEvent != null)
+                            //{
+                            //    var e = new FileServerEventArgs<FileReadThransmitAckPacket>("从机应答:" + result.ToString(), OperatSign.ReadFileDataResponseACK,
+                            //        readFileActivityAckPacket, null);
+                            //    ReadFileTransmitAckEvent(Thread.CurrentThread, e);
+                            //}
                             mRepeatCount = 0;
                             return true;
                         }

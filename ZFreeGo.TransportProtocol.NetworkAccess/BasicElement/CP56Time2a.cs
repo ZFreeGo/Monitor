@@ -180,7 +180,16 @@ namespace ZFreeGo.TransmissionProtocols.BasicElement
                 return (UInt16)(byteDataArray[6] & 0x7F);
             }
         }
-
+        /// <summary>
+        /// 获取DateTime格式时间
+        /// </summary>
+        public DateTime Time
+        {
+            get
+            {
+                return new DateTime(Years, Months, DayOfMonth, Hours, Minutes, Milliseconds / 1000, Milliseconds % 1000);
+            }
+        }
         /// <summary>
         /// 存储时间的字节数组
         /// </summary>
@@ -254,6 +263,9 @@ namespace ZFreeGo.TransmissionProtocols.BasicElement
             }
             return true;
         }
+
+
+        
 
 
     }

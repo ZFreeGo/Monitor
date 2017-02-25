@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataItemSet\ClockElement.cs" />
+    <Compile Include="DataItemSet\FileAttributeItem.cs" />
     <Compile Include="DataItemSet\HistoryLog.cs" />
     <Compile Include="DataItemSet\LogTypeNum.cs" />
     <Compile Include="DataItemSet\StateMessage.cs" />

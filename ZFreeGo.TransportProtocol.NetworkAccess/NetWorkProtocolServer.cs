@@ -192,7 +192,51 @@ namespace ZFreeGo.TransmissionProtocols
             }
         }
 
+        /// <summary>
+        /// 召唤目录文件服
+        /// </summary>
+        private CallFileDirectoryServer callFileDirectory;
 
+        /// <summary>
+        /// 获取召唤目录文件服
+        /// </summary>
+        public CallFileDirectoryServer CallFileDirectory
+        {
+            get
+            {
+                return callFileDirectory;
+            }
+        }
+        /// <summary>
+        /// 文件读服务
+        /// </summary>
+        private FileReadServer fileRead;
+
+        /// <summary>
+        /// 获取文件度服务
+        /// </summary>
+        public FileReadServer FileRead
+        {
+            get
+            {
+                return fileRead; ;
+            }
+        }
+        /// <summary>
+        /// 文件写服务
+        /// </summary>
+        private FileWriteServer fileWrite;
+
+        /// <summary>
+        /// 获取文件写服务
+        /// </summary>
+        public FileWriteServer FileWrite
+        {
+            get
+            {
+                return fileWrite;
+            }
+        }
 
         /// <summary>
         /// 网络访问服务初始化
@@ -210,8 +254,15 @@ namespace ZFreeGo.TransmissionProtocols
             telecontrolServer = new ControlProcessInformation.ControlServer(NetSendData);
             timeServer = new TimeSynchronizationServer(NetSendData);
             electricPulse = new ElectricPulseCallServer(NetSendData);
+
+            callFileDirectory = new CallFileDirectoryServer(NetSendData);
+            fileRead = new FileReadServer(NetSendData);
+            fileWrite = new FileWriteServer(NetSendData);
+
             checkGetMessageServerConfig();
         }
+
+      
         /// <summary>
         /// 停止服务
         /// </summary>
@@ -268,9 +319,12 @@ namespace ZFreeGo.TransmissionProtocols
 
             //保护定值
             checkGetMessage.ProtectSetMessageArrived += checkGetMessage_ProtectSetMessageArrived;
+            //文件传输
             checkGetMessage.FileServerArrived += checkGetMessage_FileServerArrived;
             //I-未知
             checkGetMessage.UnknowMessageArrived += checkGetMessage_UnknowMessageArrived;
+
+           
         }
 
        
@@ -576,6 +630,7 @@ namespace ZFreeGo.TransmissionProtocols
                     case 1:
                     case 2: //召唤文件目录服务
                         {
+                            callFileDirectory.Enqueue(e.mdata2.ASDU);
                             break;
                         }
                     case 3:
@@ -583,6 +638,7 @@ namespace ZFreeGo.TransmissionProtocols
                     case 5:
                     case 6: //读文件服务
                         {
+                            fileRead.Enqueue(e.mdata2.ASDU);
                             break;
                         }
                     case 7:
@@ -590,12 +646,11 @@ namespace ZFreeGo.TransmissionProtocols
                     case 9:
                     case 10: //写文件服务
                         {
+                            fileWrite.Enqueue(e.mdata2.ASDU);
                             break;
                         }
 
                 }
-
-
                 SendSupervisoryFrame();
             }
             catch (Exception ex)
@@ -739,6 +794,27 @@ namespace ZFreeGo.TransmissionProtocols
                 return false;
             }
 
+        }
+        /// <summary>
+        /// 网络发送数据
+        /// </summary>
+        /// <param name="asdu">文件传输 ASDU</param>
+        /// <returns>true-发送成,false--失败</returns>
+        private bool NetSendData(FileASDU asdu)
+        {
+            var apdu = PackASDUToAPDU(asdu);
+
+            var data = apdu.GetAPDUDataArray();
+            if (sendDelegate(data))
+            {
+                var rawStr = NumToString(data);
+                MakeSendFrameMessageEvent(rawStr, apdu.ToString(true));
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         /// <summary>
         /// ASDU打包生成APUD

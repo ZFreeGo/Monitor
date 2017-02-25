@@ -85,7 +85,7 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
         /// <summary>
         /// 发送报数据数据
         /// </summary>
-        public Func<FileASDU, bool> mSendPacket;
+        private Func<FileASDU, bool> mSendPacket;
 
 
         /// <summary>

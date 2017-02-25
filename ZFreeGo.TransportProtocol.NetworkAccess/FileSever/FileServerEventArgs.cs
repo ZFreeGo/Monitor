@@ -49,4 +49,31 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
 
 
     }
+    public class FileReadEndEventArgs : EventArgs
+    {
+        /// <summary>
+        /// 描述
+        /// </summary>
+        public string Message;
+        
+
+        /// <summary>
+        /// 包管理器
+        /// </summary>
+        public FilePacketManager PacketManager;
+
+
+        /// <summary>
+        /// 传输结束
+        /// </summary>
+        /// <param name="message">文件消息</param>
+        /// <param name="packetManager">包管理器</param>
+        public FileReadEndEventArgs(string message, FilePacketManager packetManager)
+        {
+            Message = message;
+            PacketManager = packetManager;
+        }
+
+
+    }
 }

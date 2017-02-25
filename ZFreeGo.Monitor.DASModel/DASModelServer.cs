@@ -78,7 +78,80 @@ namespace ZFreeGo.Monitor.DASModel
             protocolServer.TelecontrolServer.ServerEvent += TelecontrolServer_ServerEvent;
             //事件服务
             protocolServer.TimeServer.ServerEvent += TimeServer_ServerEvent;
+            //文件服务
+            protocolServer.CallFileDirectory.CallFileEndEvent += CallFileDirectory_CallFileEndEvent;
+            protocolServer.FileRead.ReadFileEndEvent += FileRead_ReadFileEndEvent;
+            protocolServer.FileRead.ProcessMessageEvent += FileRead_ProcessMessageEvent;
+            protocolServer.FileWrite.ProcessMessageEvent += FileWrite_ProcessMessageEvent;
+
         }
+
+     
+
+      
+
+        
+        #region 文件服务
+       
+        void CallFileDirectory_CallFileEndEvent(object sender, TransmissionProtocols.FileSever.CallFileEndEventArgs e)
+        {
+            Communication.NetParameter.LinkMessage += e.Message + "\n";
+            DataFile.StateMessage.AddProtoclMessage(e.Message, false);
+            
+            //更新文件列表
+           //e.AttributeList
+
+        }
+        void FileRead_ReadFileEndEvent(object sender, TransmissionProtocols.FileSever.FileReadEndEventArgs e)
+        {
+            Communication.NetParameter.LinkMessage += e.Message + "\n";
+            DataFile.StateMessage.AddProtoclMessage(e.Message, false);
+            //更新文件数据
+            //e.PacketManager
+
+        }
+        void FileRead_ProcessMessageEvent(object sender, TransmissionProtocols.FileSever.FileEventArgs e)
+        {
+            Communication.NetParameter.LinkMessage += e.Comment + "\n";
+            DataFile.StateMessage.AddProtoclMessage(e.Comment, false);
+            if (e.EX != null)
+            {
+                DataFile.StateMessage.AddExcptionMessage(e.Comment, e.EX);
+                Communication.NetParameter.LinkMessage += e.EX.Message + "\n";
+                Communication.NetParameter.LinkMessage += e.EX.StackTrace + "\n";
+            }
+            switch(e.Result)
+            {
+                case TransmissionProtocols.FileSever.FileServerResut.Success:
+                    {
+
+                        break;
+                    }
+                case TransmissionProtocols.FileSever.FileServerResut.SendFault:
+                    {
+                        break;
+                    }
+                case TransmissionProtocols.FileSever.FileServerResut.Error:
+                    {
+                        break;
+                    }
+                case TransmissionProtocols.FileSever.FileServerResut.OverTime:
+                    {
+                        break;
+                    }
+                case TransmissionProtocols.FileSever.FileServerResut.Unknow:
+                    {
+                        break;
+                    }
+
+            }
+        }
+        void FileWrite_ProcessMessageEvent(object sender, TransmissionProtocols.FileSever.FileEventArgs e)
+        {
+            FileRead_ProcessMessageEvent(sender, e);
+        }
+        #endregion
+
         #region  遥测，电能脉冲，带有时标的电能脉冲信息
 
         void MeteringServer_TelemeteringEvent(object sender, TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, float, QualityDescription>>> e)
