@@ -136,9 +136,7 @@ namespace ZFreeGo.Monitor.AutoStudio.Database
 
 
                         conn.Close();
-                        return collect;
-
-                      
+                        return collect;                      
                     }
                     
 

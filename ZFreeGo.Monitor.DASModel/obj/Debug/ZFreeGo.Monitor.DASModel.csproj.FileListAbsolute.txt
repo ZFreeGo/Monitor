@@ -13,6 +13,7 @@ F:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\obj\Debug\ZFreeGo.Moni
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\ZFreeGo.Monitor.DASModel.dll
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\ZFreeGo.Monitor.DASModel.pdb
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\GalaSoft.MvvmLight.dll
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\System.Data.SQLite.dll
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\ZFreeGo.Net.dll
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\ZFreeGo.TransmissionProtocols.dll
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\ZFreeGo.Net.pdb

@@ -30,6 +30,7 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             Messenger.Default.Register<MonitorViewData>(this, "LoadData", ExecuteLoadData);
             Messenger.Default.Register<NetWorkProtocolServer>(this, "NetWorkProtocolServer", ExecuteNetWorkProtocolServer);
             SetProtectPoint = new RelayCommand<string>(ExecuteSetPreotectPoint);
+            DataGridMenumSelected = new RelayCommand<string>(ExecuteDataGridMenumSelected);
         }
 
 
@@ -165,5 +166,125 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             }
         }
         #endregion
+
+        #region 表格操作
+        private bool fixCheck = false;
+        /// <summary>
+        /// 检测使能
+        /// </summary>
+        public bool FixCheck
+        {
+            get
+            {
+                return fixCheck;
+            }
+            set
+            {
+                fixCheck = value;
+                RaisePropertyChanged("FixCheck");
+                RaisePropertyChanged("ReadOnly");
+
+            }
+        }
+
+        /// <summary>
+        /// 检测使能
+        /// </summary>
+        public bool ReadOnly
+        {
+            get
+            {
+                return !fixCheck;
+            }
+
+        }
+
+
+        private int selectedIndex = 0;
+        /// <summary>
+        /// 选择索引
+        /// </summary>
+        public int SelectedIndex
+        {
+            get
+            {
+                return selectedIndex;
+            }
+            set
+            {
+                selectedIndex = value;
+                RaisePropertyChanged("SelectedIndex");
+            }
+        }
+
+
+
+
+        public RelayCommand<string> DataGridMenumSelected { get; private set; }
+
+        private void ExecuteDataGridMenumSelected(string name)
+        {
+            if (!FixCheck)
+            {
+                return;
+            }
+            switch (name)
+            {
+                case "Reload":
+                    {
+
+                       // UserData = viewData.ReadEletricPulse(true);
+                        break;
+                    }
+                case "Save":
+                    {
+                       // viewData.InsertEletricPulse();
+                        break;
+                    }
+                case "AddUp":
+                    {
+                        if (SelectedIndex > -1)
+                        {
+                            var item = new ElectricPulse(0, "", 0, "", "", "");
+                            //UserData.Insert(SelectedIndex, item);
+                        }
+                        break;
+                    }
+                case "AddDown":
+                    {
+                        if (SelectedIndex > -1)
+                        {
+                            var item = new ElectricPulse(0, "", 0, "", "", "");
+                            if (SelectedIndex < UserData.Count - 1)
+                            {
+
+                                //UserData.Insert(SelectedIndex + 1, item);
+                            }
+                            else
+                            {
+                                //UserData.Add(item);
+                            }
+                        }
+                        break;
+                    }
+                case "DeleteSelect":
+                    {
+                        if (SelectedIndex > -1)
+                        {
+                            //var result = MessageBox.Show("是否删除选中行:" + gridTelesignalisation.SelectedItem.ToString(),
+                            //    "确认删除", MessageBoxButton.OKCancel);
+                            var result = true;
+                            if (result)
+                            {
+                                UserData.RemoveAt(SelectedIndex);
+                            }
+                        }
+                        break;
+                    }
+            }
+        }
+        #endregion
     }
+
+
 }

@@ -19,7 +19,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
 
         private UInt32 _id;
         /// <summary>
-        /// ID
+        /// ID 绝对地址
         /// </summary>
         public UInt32 ID
         {

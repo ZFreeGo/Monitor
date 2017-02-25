@@ -124,12 +124,14 @@
                             <avalonDock:LayoutDocument ContentId="document4" Title="保护定值"   IconSource="Pictures/32.png">
                                 <Frame Source="View\ProtectSetpointView.xaml"></Frame>
                             </avalonDock:LayoutDocument>
-                            <avalonDock:LayoutDocument ContentId="document5" Title="SOE"   IconSource="Pictures/32.png">
+                            <avalonDock:LayoutDocument ContentId="document5" Title="SOE/事件记录"   IconSource="Pictures/32.png">
                                 <Frame Source="View\SOEView.xaml"></Frame>
                             </avalonDock:LayoutDocument>
-                           
-                          
-                           
+                            <avalonDock:LayoutDocument ContentId="document6" Title="电能数据"   IconSource="Pictures/32.png">
+                                <Frame Source="View\ElectricPulseView.xaml"></Frame>
+                            </avalonDock:LayoutDocument>
+
+
                         </avalonDock:LayoutDocumentPane>
                        
 

@@ -41,10 +41,18 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         XMLOperate getData;
 
 
+        private SQLliteDatabase dataBase;
+
+        /// <summary>
+        /// 电能表格数据
+        /// </summary>
+        ObservableCollection<ElectricPulse> electricPulse;
+
         private readonly TaskScheduler syncContextTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
         public MonitorViewData()
         {
             getData = new XMLOperate();
+            dataBase = new SQLliteDatabase(CommonPath.DataBase);
         }
 
         //private void TelesignalisationExport_Click()
@@ -343,6 +351,9 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
             }
         }
         #endregion
+
+
+
         #region 事件记录数据获取
         /// <summary>
         /// 获取事件记录参数
@@ -371,9 +382,81 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
 
         #endregion
 
+        #region EletricPulse数据库操作
 
-       
+        /// <summary>
+        /// 创建EletricPulseTable
+        /// </summary>
+        public void CrateEletricPulseTable()
+        {
+            string sql = 
+                "CREATE TABLE EletricPulse(ID int, Name Text,Value Double,Unit Text, TimeStamp Text, Comment Text)";
+           
+            dataBase.CreateTale(sql);
+        }
 
+        /// <summary>
+        /// 清空历史数据，将数据插入表格
+        /// </summary>
+        /// <param name="collect"></param>
+        public void InsertEletricPulse()
+        {
+            var collect = electricPulse;
+            var listStr = new List<String>();
+            foreach (var m in collect)
+            {
+                string sql = string.Format("INSERT INTO  EletricPulse VALUES({0},\'{1}\',{2},\'{3}\',\'{4}\',\'{5}\')", 
+                    m.ID, m.Name, m.Value, m.Unit, m.TimeStamp, m.Comment);
+                listStr.Add(sql);
+            }           
+            if (listStr.Count > 0)
+            {
+                string sqlClear = "delete from  EletricPulse";
+                dataBase.InsertTable(listStr, sqlClear);
+            }            
+        }
+
+        /// <summary>
+        /// 读取电能数据表格
+        /// </summary>
+        /// <param name="flag">true--重新更新</param>
+        /// <returns>电能合集</returns>       
+        public ObservableCollection<ElectricPulse>  ReadEletricPulse(bool flag)
+        {            
+            if (electricPulse == null || flag)
+            {
+                electricPulse = new ObservableCollection<ElectricPulse>();
+                string sql = "SELECT * from EletricPulse";
+                dataBase.ReadTable(sql, GetEletricPulse);
+                return electricPulse;
+            }
+            else
+            {
+                return electricPulse;
+            }           
+        }
+        private bool GetEletricPulse(System.Data.SQLite.SQLiteDataReader reader)
+        {
+            //var a1 = reader.GetInt32(0);
+            
+            var a2 = reader.GetSchemaTable();
+
+            
+            //
+            //var t = a2.Columns[0];
+            //var a3 = reader.GetDouble(2);
+           
+            var a4 = reader.GetString(3);
+            var a5 = reader.GetString(4);
+            var a6 = reader.GetString(5);
+            electricPulse.Add(new ElectricPulse((UInt32)reader.GetInt32(0), reader.GetString(1), reader.GetDouble(2),
+                reader.GetString(3), reader.GetString(4), reader.GetString(5)));
+            
+            return true;
+        }
+
+
+        #endregion
         #region 遥信
         /// <summary>
         /// 更新遥信信息--为什么此处任务调度

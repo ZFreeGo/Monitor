@@ -43,7 +43,7 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             SimpleIoc.Default.Register<TelecontrolViewModel>();
             SimpleIoc.Default.Register<TelemeteringViewModel>();
             SimpleIoc.Default.Register<TelesignalisationViewModel>();
-
+            SimpleIoc.Default.Register<ElectricPulseViewModel>();
             
         }
 
@@ -164,6 +164,18 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
                     telesignalisation = ServiceLocator.Current.GetInstance<TelesignalisationViewModel>();
                 }
                 return telesignalisation;
+            }
+        }
+        public static ElectricPulseViewModel electricPulsen;
+        public static ElectricPulseViewModel ElectricPulse
+        {
+            get
+            {
+                if (electricPulsen == null)
+                {
+                    electricPulsen = ServiceLocator.Current.GetInstance<ElectricPulseViewModel>();
+                }
+                return electricPulsen;
             }
         }
         /// <summary>

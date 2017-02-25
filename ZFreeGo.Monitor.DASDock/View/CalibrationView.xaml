@@ -35,11 +35,24 @@
                 <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxRealUpdate" IsChecked="False">实时更新</CheckBox>
                 <Label Margin="10,3,3,3" Padding="3" VerticalAlignment="Center">更新时间(ms):</Label>
                 <TextBox Margin="3,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="txtUpdateTime"  >500</TextBox>
-                <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxSystemCalibration" IsChecked="False" >修改</CheckBox>
+              
             </StackPanel>
         </Grid>
-        <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False"  Name="gridSystemCalibration" IsReadOnly="false" CanUserSortColumns="False"  ItemsSource="{Binding UserData}">
-
+        <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False"  Name="gridSystemCalibration" 
+                  IsReadOnly="{Binding  ReadOnly}" SelectedIndex="{Binding SelectedIndex}"    CanUserSortColumns="False"  ItemsSource="{Binding UserData}">
+            <DataGrid.ContextMenu>
+                <ContextMenu Name="dgmenu" StaysOpen="True"  >
+                    <MenuItem Header="重新载入表格" CommandParameter="Reload" Command="{Binding DataGridMenumSelected}"/>
+                    <Separator></Separator>
+                    <MenuItem Header="保存表格到数据库"  CommandParameter="Save" Command="{Binding DataGridMenumSelected}"/>
+                    <Separator></Separator>
+                    <MenuItem Header="选择行之上插入新行"  CommandParameter="AddUp" Command="{Binding DataGridMenumSelected}"/>
+                    <Separator></Separator>
+                    <MenuItem Header="选择行之下插入新行"  CommandParameter="AddDown" Command="{Binding DataGridMenumSelected}"/>
+                    <Separator></Separator>
+                    <MenuItem Header="删除选中行"  CommandParameter="DeleteSelect" Command="{Binding DataGridMenumSelected}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="序号"  Width="50" Binding="{Binding InternalID}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn Header="终端点号"   MinWidth="50" Binding="{Binding EndPoint, StringFormat={}{0:X2}}" IsReadOnly="True"></DataGridTextColumn>
@@ -70,7 +83,7 @@
                     <Button Margin="3" Padding="3" Name="btnFactorRead">系数读取</Button>
                     <Button Margin="3" Padding="3" Name="btnFactorDownload">系数下载</Button>
                     <Button Margin="3" Padding="3" Name="btnFacotrFix">系数固化</Button>
-
+                    <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxSystemCalibration" IsChecked="{Binding FixCheck}" >修改</CheckBox>
                 </StackPanel>
             </GroupBox>
         </Grid>

@@ -35,6 +35,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>Lib\DataBase\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,6 +48,7 @@
     <Compile Include="DataItemSet\ClockElement.cs" />
     <Compile Include="DataItemSet\StateMessage.cs" />
     <Compile Include="DataItemSet\ElectricPulse.cs" />
+    <Compile Include="GetViewData\SQLliteDatabase.cs" />
     <Compile Include="Helper\Clock.cs" />
     <Compile Include="Helper\CommonPath.cs" />
     <Compile Include="CommunicationServer.cs" />

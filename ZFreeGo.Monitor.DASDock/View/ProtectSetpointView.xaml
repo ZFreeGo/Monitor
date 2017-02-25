@@ -14,22 +14,35 @@
     </i:Interaction.Triggers>
     <Grid>
         <Grid.RowDefinitions >
-            <RowDefinition Height="5"></RowDefinition>
-            <RowDefinition Height="40"></RowDefinition>
+           
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="0">
             <StackPanel Margin="3" Orientation="Horizontal" >
                 <Button Margin="3" Padding="3" Name="btnCallSetpoint">召唤定值-待实现</Button>
 
                 <Button Margin="30,3,3,3" Padding="3" Name="DownloadProtectSetSelect" Command="{Binding SetProtectPoint}" CommandParameter="Slected">选择</Button>
                 <Button Margin="3,3,30,3" Padding="3" Name="DownloadProtectSet" Command="{Binding SetProtectPoint}" CommandParameter="Download">下载</Button>
-                <Button Margin="3" Padding="3" Name="ProtectSetPointExport" >导出</Button>
-                <Button Margin="3" Padding="3" Name="ProtectSetPointLoad" >导入</Button>
-                <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxProtectSetPoint" IsChecked="False" >修改</CheckBox>
+                
             </StackPanel>
         </Grid>
-        <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False"  Name="gridProtectSetPoint" IsReadOnly="false" CanUserSortColumns="False"  ItemsSource="{Binding UserData}">
+        <DataGrid Grid.Row="1" Margin="5" AutoGenerateColumns="False"  Name="gridProtectSetPoint" IsReadOnly="{Binding  ReadOnly}" 
+                  SelectedIndex="{Binding SelectedIndex}" CanUserSortColumns="False"  ItemsSource="{Binding UserData}">
+            <DataGrid.ContextMenu>
+                <ContextMenu Name="dgmenu" StaysOpen="True"  >
+                    <MenuItem Header="重新载入表格" CommandParameter="Reload" Command="{Binding DataGridMenumSelected}"/>
+                    <Separator></Separator>
+                    <MenuItem Header="保存表格到数据库"  CommandParameter="Save" Command="{Binding DataGridMenumSelected}"/>
+                    <Separator></Separator>
+                    <MenuItem Header="选择行之上插入新行"  CommandParameter="AddUp" Command="{Binding DataGridMenumSelected}"/>
+                    <Separator></Separator>
+                    <MenuItem Header="选择行之下插入新行"  CommandParameter="AddDown" Command="{Binding DataGridMenumSelected}"/>
+                    <Separator></Separator>
+                    <MenuItem Header="删除选中行"  CommandParameter="DeleteSelect" Command="{Binding DataGridMenumSelected}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="内部ID"  Width="50" Binding="{Binding  InternalID}"></DataGridTextColumn>
                 <DataGridTextColumn Header="所属类别"    MinWidth="50" Binding="{Binding Type}"></DataGridTextColumn>
@@ -42,5 +55,10 @@
                 <DataGridTextColumn Header="备注"    MinWidth="250" Binding="{Binding Comment}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Grid Grid.Row="2">
+            <StackPanel Margin="3" Orientation="Horizontal" >
+                <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center"  IsChecked="{Binding FixCheck}"  >修改</CheckBox>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>

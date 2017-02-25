@@ -90,5 +90,8 @@ namespace ZFreeGo.Monitor.DASModel.Helper
         /// 事件记录XSD架构路径
         /// </summary>
         public static string SOEXsdPath = @"Config\SOE.xsd";
+
+
+        public static string DataBase =  @"config\Database\Das.db";
     }
 }

@@ -6,51 +6,42 @@
     x:TypeArguments="sys:String"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     mc:Ignorable="d"
    DataContext="{Binding Telesignalisation, Source={StaticResource Locator}}"
     Title="DataGridPageView">
-    <i:Interaction.Triggers>
+    <!--<i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadDataCommand}" />
         </i:EventTrigger>
-    </i:Interaction.Triggers>
+    </i:Interaction.Triggers>-->
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="15*"/>
-                <ColumnDefinition Width="283*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions >
-                <RowDefinition Height="5"></RowDefinition>
-                <RowDefinition Height="40"></RowDefinition>
+            <Grid.RowDefinitions >                
                 <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="1" Grid.ColumnSpan="2">
-                <StackPanel Margin="3" Orientation="Horizontal" >
-                    <Button Margin="3" Padding="3" Name="btnTelesignalisationCall" >刷新</Button>
-                    <Button Margin="3" Padding="3" Name="TelesignalisationExport">导出</Button>
-                    <Button Margin="3" Padding="3" Name="TelesignalisationLoad" >导入</Button>                   
-                    <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxTelesignalisation" IsChecked="False" >修改</CheckBox>
-                </StackPanel>
-            </Grid>
-            <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False"  Name="gridTelesignalisation" IsReadOnly="false"
-                                       Grid.ColumnSpan="2"   CanUserSortColumns="False" ItemsSource="{Binding UserData}"
-                      >                      
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Selected">
-                        <i:InvokeCommandAction Command="{Binding ItemSelected}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <DataGrid.ContextMenu>
-                    <ContextMenu Name="dgmenu" StaysOpen="True"  IsEnabled="False">
-                        <MenuItem Header="打开其它表格" CommandParameter="itemLoadAs" Command="{Binding DataGridMenumSelected}"/>
-                        <MenuItem Header="表格另存为"  CommandParameter="itemSaveAs" Command="{Binding DataGridMenumSelected}"/>
-                        <MenuItem Header="选择行之上插入新行"  CommandParameter="itemAddUp" Command="{Binding DataGridMenumSelected}"/>
-                        <MenuItem Header="选择行之下插入新行"  CommandParameter="itemAddDown" Command="{Binding DataGridMenumSelected}"/>
-                        <MenuItem Header="删除选中行"  CommandParameter="itemDeleteSelect" Command="{Binding DataGridMenumSelected}"/>
+           
+            <DataGrid Grid.Row="0" Margin="5" AutoGenerateColumns="False"  Name="gridTelesignalisation" IsReadOnly="{Binding ReadOnly}"
+                          SelectedIndex="{Binding SelectedIndex}"       Grid.ColumnSpan="2"   CanUserSortColumns="False" ItemsSource="{Binding UserData}"
+                      >
 
+                <DataGrid.ContextMenu>
+                    <ContextMenu Name="dgmenu" StaysOpen="True"  >
+                        <MenuItem Header="重新载入表格" CommandParameter="Reload" Command="{Binding DataGridMenumSelected}"/>
+                        <Separator></Separator>
+                        <MenuItem Header="保存表格到数据库"  CommandParameter="Save" Command="{Binding DataGridMenumSelected}"/>
+                        <Separator></Separator>
+                        <MenuItem Header="选择行之上插入新行"  CommandParameter="AddUp" Command="{Binding DataGridMenumSelected}"/>
+                        <Separator></Separator>
+                        <MenuItem Header="选择行之下插入新行"  CommandParameter="AddDown" Command="{Binding DataGridMenumSelected}"/>
+                        <Separator></Separator>
+                        <MenuItem Header="删除选中行"  CommandParameter="DeleteSelect" Command="{Binding DataGridMenumSelected}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns >
@@ -66,6 +57,13 @@
                     <DataGridTextColumn Header="状态10"    MinWidth="50" Binding="{Binding StateB}" x:Name="columnStateB" Visibility="Hidden"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
+       
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+            <StackPanel Margin="3" Orientation="Horizontal" >
+                <Button Margin="3" Padding="3" Name="btnTelesignalisationCall" >刷新</Button>            
+                <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckFix" IsChecked="{Binding FixCheck}" >修改</CheckBox>
+            </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
 </PageFunction>

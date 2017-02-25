@@ -106,6 +106,7 @@
     <Compile Include="ViewModel\ProtectSetpointViewModel.cs" />
     <Compile Include="ViewModel\SOEViewModel.cs" />
     <Compile Include="ViewModel\TelecontrolViewModel.cs" />
+    <Compile Include="ViewModel\EletricPulseViewModel.cs" />
     <Compile Include="ViewModel\TelemeteringViewModel.cs" />
     <Compile Include="ViewModel\TelesignalisationViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -129,6 +130,9 @@
     </Compile>
     <Compile Include="View\TelecontrolView.xaml.cs">
       <DependentUpon>TelecontrolView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ElectricPulseView.xaml.cs">
+      <DependentUpon>ElectricPulseView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TelemeteringView.xaml.cs">
       <DependentUpon>TelemeteringView.xaml</DependentUpon>
@@ -177,6 +181,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\TelecontrolView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ElectricPulseView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

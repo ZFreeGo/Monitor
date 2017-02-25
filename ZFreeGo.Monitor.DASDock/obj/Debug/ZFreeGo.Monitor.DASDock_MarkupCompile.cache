@@ -10,11 +10,11 @@ none
 false
 CODE_ANALYSIS;DEBUG;TRACE
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASDock\App.xaml
-11306118398
+12544598719
 
-28-1264515769
+30873247089
 25429456309
-MainWindow.xaml;Skins\MainSkin.xaml;View\CalibrationView.xaml;View\CalibratonControlView.xaml;View\CommunicationView.xaml;View\ParameterView.xaml;View\ProtectSetpointView.xaml;View\SOEView.xaml;View\TelecontrolView.xaml;View\TelemeteringView.xaml;View\TelesignalisationView.xaml;
+MainWindow.xaml;Skins\MainSkin.xaml;View\CalibrationView.xaml;View\CalibratonControlView.xaml;View\CommunicationView.xaml;View\ParameterView.xaml;View\ProtectSetpointView.xaml;View\SOEView.xaml;View\TelecontrolView.xaml;View\ElectricPulseView.xaml;View\TelemeteringView.xaml;View\TelesignalisationView.xaml;
 
 False
 

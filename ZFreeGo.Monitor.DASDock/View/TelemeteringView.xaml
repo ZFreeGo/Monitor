@@ -22,12 +22,12 @@
                 <ColumnDefinition Width="283*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions >
-                <RowDefinition Height="5"></RowDefinition>
-                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid Grid.Row="0" Grid.ColumnSpan="2">
                 <StackPanel Margin="3" Orientation="Horizontal" >
                     <Button Margin="3" Padding="3" Name="btnTelesignalisationCall" >刷新</Button>
                     <Button Margin="3" Padding="3" Name="TelesignalisationExport">导出</Button>
@@ -36,16 +36,19 @@
                     <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxTelesignalisation" IsChecked="False" >修改</CheckBox>
                 </StackPanel>
             </Grid>
-            <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False"  Name="gridTelesignalisation" IsReadOnly="false"
-                                       Grid.ColumnSpan="2"   CanUserSortColumns="False" ItemsSource="{Binding UserData}">
+            <DataGrid Grid.Row="1" Margin="5" AutoGenerateColumns="False"  Name="gridTelesignalisation"  SelectedIndex="{Binding SelectedIndex}"  
+                 IsReadOnly="{Binding  ReadOnly}"    Grid.ColumnSpan="2"   CanUserSortColumns="False" ItemsSource="{Binding UserData}">
                 <DataGrid.ContextMenu>
-                    <ContextMenu Name="dgmenuTelemetering" StaysOpen="True"    IsEnabled="False">
-                        <MenuItem Header="打开其它表格" Name="itemTelemetringLoadAs"/>
-                        <MenuItem Header="表格另存为" Name="itemTelemetringSaveAs"/>
-                        <MenuItem Header="选择行之上插入新行" Name="itemTelemetringAddUp" />
-                        <MenuItem Header="选择行之下插入新行" Name="itemTelemetringAddDown"/>
-                        <MenuItem Header="删除选中行" Name="itemTelemetringDeleteSelect">
-                        </MenuItem>
+                    <ContextMenu Name="dgmenu" StaysOpen="True"  >
+                        <MenuItem Header="重新载入表格" CommandParameter="Reload" Command="{Binding DataGridMenumSelected}"/>
+                        <Separator></Separator>
+                        <MenuItem Header="保存表格到数据库"  CommandParameter="Save" Command="{Binding DataGridMenumSelected}"/>
+                        <Separator></Separator>
+                        <MenuItem Header="选择行之上插入新行"  CommandParameter="AddUp" Command="{Binding DataGridMenumSelected}"/>
+                        <Separator></Separator>
+                        <MenuItem Header="选择行之下插入新行"  CommandParameter="AddDown" Command="{Binding DataGridMenumSelected}"/>
+                        <Separator></Separator>
+                        <MenuItem Header="删除选中行"  CommandParameter="DeleteSelect" Command="{Binding DataGridMenumSelected}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns>
@@ -59,6 +62,12 @@
                     <DataGridTextColumn Header="备注"    MinWidth="250" Binding="{Binding Comment}"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
+            <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                <StackPanel Margin="3" Orientation="Horizontal" >
+                    <Button Margin="3" Padding="3"  >刷新</Button>
+                    <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding FixCheck}" >修改</CheckBox>
+                </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
 </PageFunction>
