@@ -39,6 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileSever\FileEventArgs.cs" />
+    <Compile Include="FileSever\FileServerResut.cs" />
+    <Compile Include="FileSever\FileASDU.cs" />
+    <Compile Include="FileSever\FileWriteServer.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MonitorProcessInformation\EventLogEventArgs.cs" />
     <Compile Include="MonitorProcessInformation\ProcessFaultEventArgs.cs" />
     <Compile Include="NetWorkProtocolServer.cs" />
@@ -61,14 +67,9 @@
     <Compile Include="ControlSystemCommand\ResetProcessServer.cs" />
     <Compile Include="FileSever\CallFileDirectoryServer.cs" />
     <Compile Include="FileSever\CallFileEndEventArgs.cs" />
-    <Compile Include="FileSever\FilePacket.cs" />
     <Compile Include="FileSever\FilePacketManager.cs" />
-    <Compile Include="FileSever\FileWriteServer.cs" />
     <Compile Include="FileSever\FileReadServer.cs" />
     <Compile Include="FileSever\FileServerEventArgs.cs" />
-    <Compile Include="FileSever\FileTransmissionServer.cs" />
-    <Compile Include="FileSever\FileWritePacket.cs" />
-    <Compile Include="FileSever\FileReadPacket.cs" />
     <Compile Include="BasicElement\FileElement\FileTransmit.cs" />
     <Compile Include="ReciveCenter\FlowGather.cs" />
     <Compile Include="Frame104\MasterCommand.cs" />

@@ -176,6 +176,22 @@ namespace ZFreeGo.TransmissionProtocols
             }
         }
 
+        /// <summary>
+        /// 电能脉冲召唤服务
+        /// </summary>
+        private ElectricPulseCallServer electricPulse;
+
+        /// <summary>
+        /// 获取电能脉冲召唤服务
+        /// </summary>
+        public ElectricPulseCallServer ElectricPulse
+        {
+            get
+            {
+                return electricPulse;
+            }
+        }
+
 
 
         /// <summary>
@@ -193,6 +209,7 @@ namespace ZFreeGo.TransmissionProtocols
             setpointServer = new ControlProcessInformation.SetPointServer(NetSendData);
             telecontrolServer = new ControlProcessInformation.ControlServer(NetSendData);
             timeServer = new TimeSynchronizationServer(NetSendData);
+            electricPulse = new ElectricPulseCallServer(NetSendData);
             checkGetMessageServerConfig();
         }
         /// <summary>
@@ -354,7 +371,7 @@ namespace ZFreeGo.TransmissionProtocols
             }
             catch (Exception ex)
             {
-               // MessageBox.Show(ex.Message, "checkGetMessage_MasterResetArrived");
+                SendFaultEvent("checkGetMessage_MasterResetArrived:" + ex.Message);
             }
         }
         /// <summary>
@@ -397,7 +414,7 @@ namespace ZFreeGo.TransmissionProtocols
             }
             catch (Exception ex)
             {
-               // MessageBox.Show(ex.Message, "checkGetMessage_MasterInitializeArrived");
+                SendFaultEvent("checkGetMessage_MasterInitializeArrived:" + ex.Message);
             }
         }
 
@@ -489,9 +506,9 @@ namespace ZFreeGo.TransmissionProtocols
             {
                 appMessageManager.UpdateReceiveSequenceNumber(e.mdata2.APCI.TransmitSequenceNumber,
                    e.mdata2.APCI.ReceiveSequenceNumber);
-               // BeginInvokeUpdateHistory(e.mdata2.FrameArray, e.mdata2.FrameArray.Length, "从站发送:I帧:电能脉冲");
-
-
+               
+                electricPulse.Enqueue(e.mdata2.ASDU);
+                MakeReciveFrameMessageEvent(e.mdata2.ToString(), e.mdata2.ToString(true));
                 SendSupervisoryFrame();
             }
             catch (Exception ex)
@@ -518,7 +535,7 @@ namespace ZFreeGo.TransmissionProtocols
             }
             catch (Exception ex)
             {
-                SendFaultEvent(" checkGetMessage_ProtectSetMessageArrived:" + ex.Message);
+                SendFaultEvent("checkGetMessage_ProtectSetMessageArrived:" + ex.Message);
             }
         }
         /// <summary>
@@ -533,7 +550,7 @@ namespace ZFreeGo.TransmissionProtocols
                 //同步释放相应事件               
                 appMessageManager.UpdateReceiveSequenceNumber(e.MasterCMD.APCI.TransmitSequenceNumber,
                     e.MasterCMD.APCI.ReceiveSequenceNumber);
-
+                MakeReciveFrameMessageEvent(e.MasterCMD.ToString(), e.MasterCMD.ToString(true));
                 timeServer.Enqueue(e.MasterCMD.ASDU);
                 SendSupervisoryFrame();
             }
@@ -547,12 +564,38 @@ namespace ZFreeGo.TransmissionProtocols
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void checkGetMessage_FileServerArrived(object sender, TransmitEventArgs<TypeIdentification, FilePacket> e)
+        void checkGetMessage_FileServerArrived(object sender, TransmitEventArgs<TypeIdentification, APDU> e)
         {
             try
             {
                 appMessageManager.UpdateReceiveSequenceNumber(e.mdata2.APCI.TransmitSequenceNumber,
                     e.mdata2.APCI.ReceiveSequenceNumber);
+                MakeReciveFrameMessageEvent(e.mdata2.ToString(), e.mdata2.ToString(true));
+                switch (e.mdata2.ASDU.InformationObject[3])
+                {
+                    case 1:
+                    case 2: //召唤文件目录服务
+                        {
+                            break;
+                        }
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6: //读文件服务
+                        {
+                            break;
+                        }
+                    case 7:
+                    case 8:
+                    case 9:
+                    case 10: //写文件服务
+                        {
+                            break;
+                        }
+
+                }
+
+
                 SendSupervisoryFrame();
             }
             catch (Exception ex)

@@ -419,7 +419,7 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         /// <summary>
         /// 读取电能数据表格
         /// </summary>
-        /// <param name="flag">true--重新更新</param>
+        /// <param name="flag">true--重新更新, false--若当前已存在则直接使用</param>
         /// <returns>电能合集</returns>       
         public ObservableCollection<ElectricPulse>  ReadEletricPulse(bool flag)
         {            
@@ -616,6 +616,55 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         }
 
 
+
+        #endregion
+
+        #region 电能脉冲
+        /// <summary>
+        /// 更新带有时标的电能脉冲
+        /// </summary>
+        /// <param name="e"></param>
+        public void UpdateEletricMessageEvent(TransmissionProtocols.MonitorProcessInformation.
+            StatusEventArgs<List<Tuple<uint, float, QualityDescription, CP56Time2a>>> e)
+        {
+            var m = ReadEletricPulse(false);
+            var list = e.Message;
+            foreach (var ele in list)
+            {
+                for (int k = 0; k < m.Count; k++)
+                {
+                    var t = m[k];
+                    if (t.ID == ele.Item1)
+                    {
+                        t.Value = ele.Item2;
+                        t.TimeStamp = ele.Item4.ToString();
+                    }
+
+                }
+            }
+        }
+        /// <summary>
+        /// 更新电能脉冲
+        /// </summary>
+        /// <param name="e"></param>
+        public void UpdateEletricMessageEvent(TransmissionProtocols.MonitorProcessInformation.
+           StatusEventArgs<List<Tuple<uint, float, QualityDescription>>> e)
+        {
+            var m = ReadEletricPulse(false);
+            var list = e.Message;
+            foreach (var ele in list)
+            {
+                for (int k = 0; k < m.Count; k++)
+                {
+                    var t = m[k];
+                    if (t.ID == ele.Item1)
+                    {
+                        t.Value = ele.Item2;                        
+                    }
+
+                }
+            }
+        }
 
         #endregion
     }

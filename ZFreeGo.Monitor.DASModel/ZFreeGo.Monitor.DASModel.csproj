@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataItemSet\ClockElement.cs" />
+    <Compile Include="DataItemSet\HistoryLog.cs" />
+    <Compile Include="DataItemSet\LogTypeNum.cs" />
     <Compile Include="DataItemSet\StateMessage.cs" />
     <Compile Include="DataItemSet\ElectricPulse.cs" />
     <Compile Include="GetViewData\SQLliteDatabase.cs" />

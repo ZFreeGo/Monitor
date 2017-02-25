@@ -56,7 +56,6 @@ namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
             try
             {
                 InitData();
-
                 var id = TypeIdentification.C_CI_NA_1;//电能召唤
                 mSendFrame = new ControlCommandASDU(id, cot, 0, qcc);
 
@@ -102,8 +101,16 @@ namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
             if (mReciveQuene.Count > 0)
             {
                 mReciveFrame = mReciveQuene.Dequeue();
-                
-                return true;
+
+                if (mReciveFrame.TypeId == (byte)TypeIdentification.C_CI_NA_1)
+                {
+                    return true;
+                }
+                else
+                {
+                    SendEvent("ID不一致，需要的是C_CI_NA_1", ControlSystemServerResut.Unknow);
+                    return false;
+                }
             }
             else
             {
@@ -119,28 +126,14 @@ namespace ZFreeGo.TransmissionProtocols.ControlSystemCommand
         public override bool AckOnTime()
         {
             try
-            {
-                switch ((TypeIdentification)mReciveFrame.TypeId)
-                {
-                    case TypeIdentification.C_CI_NA_1: //电能脉冲召唤
-                        {
-                            SendEvent("C_CI_NA_1", ControlSystemServerResut.Unknow);
-                            break;
-                        }
-                    case TypeIdentification.M_IT_NA_1: //累积量
-                        {
-                            SendEvent("累积量,未实现", ControlSystemServerResut.Unknow);
-                            break;
-                        }
-                }
-
+            {             
                 switch ((CauseOfTransmissionList)mReciveFrame.CauseOfTransmission1)
                 {
                     case CauseOfTransmissionList.ActivationACK:
                         {                           
                             SendEvent("召唤激活确认", ControlSystemServerResut.AcvtivityAck);
                             mRepeatCount = 0;
-                            return false;
+                            return true;
                         }
                     case CauseOfTransmissionList.ActivateTermination:
                         {

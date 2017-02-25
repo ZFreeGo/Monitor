@@ -22,19 +22,17 @@
                     <StackPanel Height="200">
                         <StackPanel Orientation="Horizontal">
                             <Label Margin="3" Padding="2">目录ID:</Label>
-                            <TextBox Margin="3" Padding="2" MinWidth="80" Name="txtDirID"></TextBox>
+                            <TextBox Margin="3" Padding="2" MinWidth="80" Text="{Binding DirectoryID}"></TextBox>
                             <Label Margin="3" Padding="2">目录名:</Label>
-                            <TextBox Margin="3" Padding="2" MinWidth="120" Name="txtDirName"></TextBox>
+                            <TextBox Margin="3" Padding="2" MinWidth="100" Text="{Binding DirectoryName}"></TextBox>
                             <Label Margin="3" Padding="2">起始时间:</Label>
-                            <TextBox Margin="3" Padding="2" MinWidth="120" Name="txtStartTime">2017/2/13 12:12:23</TextBox>
+                            <TextBox Margin="3" Padding="2" MinWidth="120" Name="txtStartTime" Text="{Binding StartTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss.fff}}"></TextBox>
                             <Label Margin="3" Padding="2">结束时间</Label>
-                            <TextBox Margin="3" Padding="2" MinWidth="120" Name="txtEndTime">2017/2/13 1:24:12</TextBox>
-                            <CheckBox  Margin="3" Padding="2" VerticalAlignment="Center" Name="checkMeetTime">满足时间段</CheckBox>
+                            <TextBox Margin="3" Padding="2" MinWidth="120" Name="txtEndTime" Text="{Binding EndTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss.fff}}"></TextBox>
+                            <CheckBox  Margin="3" Padding="2" VerticalAlignment="Center" IsChecked="{Binding TimeCheck}">满足时间段</CheckBox>
+                            <Button Margin="3,3,3,3" Padding="3" Command="{Binding CallCatalogueCommand}">读取文件目录</Button>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Button Margin="3,3,3,3" Padding="3" Name="btnReadDirectory" >读取文件目录
-                            </Button>
-                        </StackPanel>
+                       
                         <DataGrid Name="gridFileDir" IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="文件名"  Binding="{Binding Name}"></DataGridTextColumn>

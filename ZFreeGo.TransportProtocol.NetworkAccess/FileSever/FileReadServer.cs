@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using ZFreeGo.TransmissionProtocols.BasicElement;
+using ZFreeGo.TransmissionProtocols.Frame;
+using ZFreeGo.TransmissionProtocols.Helper;
 
 namespace ZFreeGo.TransmissionProtocols.FileSever
 {
 
-     public class FileReadServer : FileTransmissionServer
+     public class FileReadServer :  ReciveSendServer<ApplicationServiceDataUnit>
     {
 
          /// <summary>
@@ -29,12 +31,12 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
         /// <summary>
         /// 读文件激活数据包
         /// </summary>
-        private FileReadPacket readFileAcitivtyPacket;
+        private FileASDU readFileAcitivtyPacket;
 
         /// <summary>
         /// 读文件激活确认数据包
         /// </summary>
-        private FilePacket readFileActivityAckPacket;
+        private ApplicationServiceDataUnit readFileActivityAckPacket;
 
         /// <summary>
         /// 读文件激活附加数据包
@@ -42,7 +44,7 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
        // private FileReadActivityPacket callPacket;
 
         /// <summary>
-        /// 读文件激活确认数据包
+        /// 读文件激活确认附加数据包
         /// </summary>
         private FileReadActivityAckPacket ackPacket;
 
@@ -50,15 +52,15 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
          /// <summary>
          /// 读文件传输确认包
          /// </summary>
-        private FilePacket readFileTransmitAckPacket;
+        private FileASDU readFileTransmitAckPacket;
 
         /// <summary>
         /// 读文件传输包
         /// </summary>
-        private FilePacket readFileTransmitPacket;
+        private ApplicationServiceDataUnit readFileTransmitPacket;
 
         /// <summary>
-        /// 读文件传输数据包
+        /// 读文件传输附加数据包
         /// </summary>
         private FileDataThransmitPacket transmitPacket;
 
@@ -68,30 +70,11 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
         /// </summary>
         private FilePacketManager packetManager;
 
-        /// <summary>
-        /// 超时时间
-        /// </summary>
-        private int mOverTime;
-
-        /// <summary>
-        /// 重试次数
-        /// </summary>
-        private int mRepeatCount;
-
-        /// <summary>
-        /// 最大重试次数
-        /// </summary>
-        private readonly int mRepeatMaxCount;
-
+       
         /// <summary>
         /// 发送报数据数据
         /// </summary>
-        public Action<FilePacket> SendPacket;
-
-        /// <summary>
-        /// 接收线程
-        /// </summary>
-        protected Thread mServerThread;
+        private Func<FileASDU, bool> mSendDataDelegate;
 
         /// <summary>
         /// 读文件激活应答
@@ -101,6 +84,12 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
         /// 文件传输应答
         /// </summary>
         public event EventHandler<FileServerEventArgs<FileReadThransmitAckPacket>> ReadFileTransmitAckEvent;
+
+
+        /// <summary>
+        /// 包含服务结果，超时，异常等信息
+        /// </summary>
+        public event EventHandler<FileEventArgs> ProcessMessageEvent;
          /// <summary>
          /// 传输阶段
          /// </summary>
@@ -109,189 +98,109 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
         /// <summary>
         /// 校准服务
         /// </summary>
-        public FileReadServer()
+        public FileReadServer(Func<FileASDU, bool> inSendDataDelegate)
             : base()
         {
             mOverTime = 5000;
             mRepeatMaxCount = 3;
-            initData();
+            mSendDataDelegate = inSendDataDelegate;
         }
-        private void initData()
-        {
-            mRepeatCount = 0;           
-            mRequestData = new ManualResetEvent(false);
-            mExistData = new ManualResetEvent(false);
-            serverState = false;
-            stage = TransmitStage.Activity;
-            
-        }
+      
+           
+           
+        
         
         /// <summary>
         /// 启动服务
-        /// </summary>
-        /// <param name="inSendDataDelegate">发送数据委托</param>
+        /// </summary>        
         /// <param name="packet">包数据</param>
         /// <param name="attribute">文件属性</param>
-        public void StartServer(Action<FilePacket> inSendDataDelegate,FileReadPacket packet,FileAttribute attribute)
-        {
-
-            initData();
-            packetManager = new FilePacketManager(attribute);
-            readFileAcitivtyPacket = packet;
-
-
-            mReadThread = new Thread(FilePackeReciveThread);
-            mReadThread.Priority = ThreadPriority.Normal;
-            mReadThread.Name = "FilePackeReciveThread线程数据";
-            mReadThread.Start();
-
-            mServerThread = new Thread(ServeThread);
-            mServerThread.Priority = ThreadPriority.Normal;
-            mServerThread.Name = "FileServerThread线程";
-            mServerThread.Start();
-            serverState = true;
-            SendPacket = inSendDataDelegate;
-        }
-
-        /// <summary>
-        /// 停止服务
-        /// </summary>
-        public void StopServer()
-        {
-            mRequestData.Close();
-            mExistData.Close();
-            if (mReadThread != null)
-            {
-                mReadThread.Join(500);
-                mReadThread.Abort();
-
-            }
-            if (mServerThread != null)
-            {
-                mServerThread.Join(500);
-                mServerThread.Abort();
-            }
-            serverState = false;
-        }
-
-        /// <summary>
-        /// 召唤文件目录服务进程
-        /// </summary>
-        private void ServeThread()
+        public void StartServer(FileASDU packet,FileAttribute attribute)
         {
             try
             {
-                try
+                if (serverState)
                 {
-                    TransmitData();              
-                    var statTime = DateTime.Now;
-                    var responseTime = DateTime.Now;
-                    do
-                    {
-                        mRequestData.Set();//发送请求数据信号
-
-                        if (mExistData.WaitOne(mOverTime))     //等待有数据信号
-                        {
-                            mRequestData.Reset();//中断获取数据
-
-                            //超时检测--处理有接收数据但不符合要求的情况
-                            responseTime = DateTime.Now;
-                            var diffTime = responseTime - statTime;
-                            if (diffTime.TotalMilliseconds > mOverTime)
-                            {
-                                if (AckOverTime())
-                                {
-                                    break;
-                                }
-                            }
-                            //检测数据不符合应答规范则返回
-                            if (!CheckData())
-                            {
-                                continue;
-                            }
-                            if (AckOnTime())
-                            {
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            if (AckOverTime())
-                            {
-                                break;
-                            }
-                        }
-                        TransmitData();
-                        statTime = DateTime.Now; //设置开始时间
-                    } while (true);
+                    throw new Exception("召唤文件目录服务正在运行不能重复启动");
                 }
-                catch (ObjectDisposedException ex)
-                {
-                    serverState = false;
-                    Console.WriteLine("FileServerThread:" + ex.Message);
-                    Thread.Sleep(100);
-                }
-                catch (ThreadAbortException ex)
-                {
-                    serverState = false;
-                    Console.WriteLine("FileServerThread:" + ex.Message);
-                    Thread.ResetAbort();
 
-                }
+                InitData();
+                stage = TransmitStage.Activity;
+
+                packetManager = new FilePacketManager(attribute);
+                readFileAcitivtyPacket = packet;
+
+
+                mReadThread = new Thread(ReciveThread);
+                mReadThread.Priority = ThreadPriority.Normal;
+                mReadThread.Name = "ServerThread线程数据";
+                mReadThread.Start();
+
+                mServerThread = new Thread(ServerThread);
+                mServerThread.Priority = ThreadPriority.Normal;
+                mServerThread.Name = "ServerThread线程";
+                mServerThread.Start();
+                serverState = true;
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                serverState = false;
-                Console.WriteLine("FileServerThread:" + ex.Message);
+                MakeProcessMessageEvent("StartServer", FileServerResut.Error, ex);
             }
-
+            
         }
+
+     
+
+      
 
         /// <summary>
         /// 发送数据
         /// </summary>
-        private void TransmitData()
+        public override bool TransmitData()
         {
             switch(stage)
             {
                 case TransmitStage.Activity:
                     {
-                        SendPacket(readFileAcitivtyPacket);
-                        break;
+                        return mSendDataDelegate(readFileAcitivtyPacket);                        
                     }
                 case TransmitStage.Transmission:
                     {
-                        SendPacket(readFileTransmitAckPacket);
-                        break;
+                        if (readFileTransmitAckPacket == null)
+                        {
+                            return true;
+                        }
+                         return mSendDataDelegate(readFileTransmitAckPacket);                       
                     }
             }
+            return false;
             
         }
         /// <summary>
         /// 检测数据
         /// </summary>
         /// <returns></returns>
-        private bool CheckData()
+        public override bool CheckData()
         {
             try
             {
                 var item = mReciveQuene.Dequeue();
-                if (item.ASDU.InformationObject[2] != 2)//是否为文件传输包
+                if (item.InformationObject[2] != 2)//是否为文件传输包
                 {
-                    Console.WriteLine("不是文件传输包");
-                    return false;
+                    throw new Exception("不是文件传输包");
+                    
                 }
                
                 switch (stage)
                 {
                     case TransmitStage.Activity:
                         {
-                            if (item.ASDU.InformationObject[3] != 4)//是否为读文件激活确认
+                            if (item.InformationObject[3] != 4)//是否为读文件激活确认
                             {
-                                Console.WriteLine("不是读文件激活确认");
-                                return false;
+                                throw new Exception("不是读文件激活确认");
+                               
                             }
-                            var packet = new FileReadActivityAckPacket(item.PacketData, 0, (byte)item.PacketData.Length);
+                            var packet = new FileReadActivityAckPacket(item.InformationObject, 4, (byte)(item.InformationObject.Length-4));
                             if (packet.Name == packetManager.Attribute.Name)
                             {
                                 readFileActivityAckPacket = item;
@@ -301,18 +210,18 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
                             }
                             else
                             {
-                                Console.WriteLine("名称不一致");
-                                return false;
+                                throw new Exception("名称不一致");
+                                
                             }                            
                         }
                     case TransmitStage.Transmission:
                         {
-                            if (item.ASDU.InformationObject[3] != 5)//是否为读文件传输
+                            if (item.InformationObject[3] != 5)//是否为读文件传输
                             {
-                                Console.WriteLine("不是读文件传输");
-                                return false;
+                                throw new Exception("不是读文件传输");
+                               
                             }
-                            var packet = new FileDataThransmitPacket(item.PacketData, 0, (byte)item.PacketData.Length);
+                            var packet = new FileDataThransmitPacket(item.InformationObject, 4, (byte)(item.InformationObject.Length-4));
                             if (packet.FileID == packetManager.Attribute.ID)
                             {
                                 readFileTransmitPacket = item;
@@ -321,8 +230,8 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
                             }
                             else
                             {
-                                Console.WriteLine("ID不一致");
-                                return false;
+                                throw new Exception("ID不一致");
+                               
                             }                        
                         }
                 }
@@ -331,102 +240,114 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
             }
             catch(Exception ex)
             {
-                throw ex;
+                MakeProcessMessageEvent("CheckData", FileServerResut.Error, ex);
+                return false;
             }
         }
         /// <summary>
         /// 时间内完成调用
         /// </summary>
-        /// <returns>true--结束本次传输</returns>
-        private bool AckOnTime()
+        /// <returns>false--结束本次传输</returns>
+        public override bool AckOnTime()
         {
-            switch (stage)
+            try
             {
-                case TransmitStage.Activity:
-                    {
-                        if (ReadFileActivityAckEvent != null)
+                switch (stage)
+                {
+                    case TransmitStage.Activity:
                         {
-                            var e = new FileServerEventArgs<FileReadActivityAckPacket>("从机应答", OperatSign.ReadFileActivityACK,
-                                readFileActivityAckPacket, ackPacket);
-                            ReadFileActivityAckEvent(Thread.CurrentThread, e);
+                            if (ReadFileActivityAckEvent != null)
+                            {
+                                var e = new FileServerEventArgs<FileReadActivityAckPacket>("从机应答", OperatSign.ReadFileActivityACK,
+                                    readFileActivityAckPacket, ackPacket);
+                                ReadFileActivityAckEvent(Thread.CurrentThread, e);
+                            }
+                            mRepeatCount = 0;
+                            stage = TransmitStage.Transmission;
+                            ReadFileTransmitAckEvent = null;
+                            return true;
                         }
-                        mRepeatCount = 0;
-                        stage = TransmitStage.Transmission;
-                        return false;                     
-                    }
-                case TransmitStage.Transmission:
-                    {
-                        var result = packetManager.AddPacketData(transmitPacket);
-                        if (result == FileTransmitDescription.Success)
+                    case TransmitStage.Transmission:
                         {
-                            var addPacket = new FileReadThransmitAckPacket(packetManager.Attribute.ID,
-                                packetManager.CurrentPacket.FragmentNum, packetManager.CurrentPacket.Fllow);
-                            readFileTransmitAckPacket = new FilePacket(0, 0, CauseOfTransmissionList.ActivationACK,
-                                0, addPacket.GetPacketData());
-                        }
-                        else
-                        {
+                            var result = packetManager.AddPacketData(transmitPacket);
+                            if (result == FileTransmitDescription.Success)
+                            {
+                                var addPacket = new FileReadThransmitAckPacket(packetManager.Attribute.ID,
+                                    packetManager.CurrentPacket.FragmentNum, packetManager.CurrentPacket.Fllow);
+                                readFileTransmitAckPacket = new FileASDU( CauseOfTransmissionList.ActivationACK,
+                                    0, addPacket.GetPacketData());
+                                
+                            }
+                            else
+                            {
+                                MakeProcessMessageEvent("FileTransmitDescription.Failue", FileServerResut.Error);
+                            }
+
                             if (ReadFileTransmitAckEvent != null)
                             {
                                 var e = new FileServerEventArgs<FileReadThransmitAckPacket>("从机应答:" + result.ToString(), OperatSign.ReadFileDataResponseACK,
                                     readFileActivityAckPacket, null);
                                 ReadFileTransmitAckEvent(Thread.CurrentThread, e);
                             }
+                            mRepeatCount = 0;
+                            return true;
                         }
-                        mRepeatCount = 0;
-                        return false;
-                    }
+                }
+
+
+
+
+                return true;
             }
-          
-            
-
-
-            return true;
+            catch (Exception ex)
+            {
+                MakeProcessMessageEvent("AckOnTime()", FileServerResut.Error, ex);
+                return false;
+            }
 
         }
         /// <summary>
         /// 超时调用
         /// </summary>
         /// <returns>true-- 结束本次传输</returns>
-        private bool AckOverTime()
+        public override bool AckOverTime()
         {
             string str = "";
             bool state = true;
-            if(++mRepeatCount > mRepeatMaxCount)
+            if(++mRepeatCount < mRepeatMaxCount)
             {
-                str = string.Format("从机应答超时,准备第{0}次重试.", mRepeatCount);                
+                str = string.Format("从机应答超时,准备第{0}次重试.", mRepeatCount); 
+                MakeProcessMessageEvent(str, FileServerResut.OverTime);
                 state =  true;
             }
             else
             {
-                str = string.Format("从机应答超时,重试{0}次,达到最大重试次数.", mRepeatCount); 
+                str = string.Format("从机应答超时,重试{0}次,达到最大重试次数.", mRepeatCount);
+                MakeProcessMessageEvent(str, FileServerResut.Fault);
                 state =  false;
             }
-            switch(stage)
-            {
-                case TransmitStage.Activity:
-                    {
-                        if (ReadFileActivityAckEvent != null)
-                        {
-                            var e = new FileServerEventArgs<FileReadActivityAckPacket>(str, OperatSign.ReadFileActivityACK,
-                                readFileActivityAckPacket, ackPacket);
-                            ReadFileActivityAckEvent(Thread.CurrentThread, e);
-                        }
-                        break;
-                    }
-                case TransmitStage.Transmission:
-                    {
-                        if (ReadFileTransmitAckEvent != null)
-                        {
-                            var e = new FileServerEventArgs<FileReadThransmitAckPacket>(str, OperatSign.ReadFileDataResponseACK,
-                                readFileActivityAckPacket, null);
-                            ReadFileTransmitAckEvent(Thread.CurrentThread, e);
-                        }
-                        break;
-                    }
-            }
+           
          
             return state;
         }
+
+      
+
+
+        /// <summary>
+        /// 产生过程事件信息
+        /// </summary>
+        /// <param name="comment"></param>
+        /// <param name="result"></param>
+        /// <param name="ex"></param>
+        private void MakeProcessMessageEvent(string comment, FileServerResut result, Exception ex)
+        {
+            ProcessMessageEvent(this, new FileEventArgs(comment, result, ex));
+        }
+        private void MakeProcessMessageEvent(string comment, FileServerResut result)
+        {
+            ProcessMessageEvent(this, new FileEventArgs(comment, result, null));
+        }
+         
     }
 }

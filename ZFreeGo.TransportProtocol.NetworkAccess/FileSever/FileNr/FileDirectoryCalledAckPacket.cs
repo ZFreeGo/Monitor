@@ -65,7 +65,7 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
         /// 数据包转换为属性值
         /// </summary>
         /// <param name="data">数据包</param>
-        /// <param name="offset">便宜</param>
+        /// <param name="offset">偏移</param>
         /// <param name="len">数据长度</param>
         public FileDirectoryCalledAckPacket(byte[] data, byte offset, byte len)
         {

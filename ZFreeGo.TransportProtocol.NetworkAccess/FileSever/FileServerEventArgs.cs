@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ZFreeGo.TransmissionProtocols.Frame;
 
 namespace ZFreeGo.TransmissionProtocols.FileSever
 {
@@ -20,9 +21,9 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
         public OperatSign Operation;
 
         /// <summary>
-        /// 完整数据包
+        /// ASDU数据包
         /// </summary>
-        public FilePacket Packet;
+        public ApplicationServiceDataUnit Packet;
 
         /// <summary>
         /// 附加数据包
@@ -38,7 +39,7 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
         /// <param name="operation">操作标识</param>
         /// <param name="packet">数据包</param>
         /// <param name="additionalPacket">附加数据包</param>
-        public FileServerEventArgs(string message, OperatSign operation, FilePacket packet, T additionalPacket)
+        public FileServerEventArgs(string message, OperatSign operation, ApplicationServiceDataUnit packet, T additionalPacket)
         {
             Message = message;
             Operation = operation;

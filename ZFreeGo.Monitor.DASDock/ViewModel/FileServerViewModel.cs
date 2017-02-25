@@ -23,9 +23,9 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             _userData = new ObservableCollection<ElectricPulse>();
             LoadDataCommand = new RelayCommand(ExecuteLoadDataCommand);
             Messenger.Default.Register<MonitorViewData>(this, "LoadData", ExecuteLoadData);
-            DataGridMenumSelected = new RelayCommand<string>(ExecuteDataGridMenumSelected);
+            
             Messenger.Default.Register<NetWorkProtocolServer>(this, "NetWorkProtocolServer", ExecuteNetWorkProtocolServer);
-         
+            CallCatalogueCommand = new RelayCommand(ExecuteCallCatalogueCommand);
         }
 
         private void ExecuteNetWorkProtocolServer(NetWorkProtocolServer obj)
@@ -43,7 +43,7 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             {
                 if (obj != null)
                 {
-                    UserData = obj.ReadEletricPulse(false);
+                  //  UserData = obj.ReadEletricPulse(false);
                     viewData = obj;
                 }
             }
@@ -82,136 +82,105 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
 
         #endregion
 
+        #region 目录召唤
 
-        #region 表格操作
-        private bool fixCheck = false;
+        private bool timeCheck = false;
         /// <summary>
-        /// 检测使能
+        /// 时间段使能
         /// </summary>
-        public bool FixCheck
+        public bool TimeCheck
         {
             get
             {
-                return fixCheck;
+                return timeCheck;
             }
             set
             {
-                fixCheck = value;
-                RaisePropertyChanged("FixCheck");                
-                RaisePropertyChanged("ReadOnly");
-               
+                timeCheck = value;
+                RaisePropertyChanged("TimeCheck");              
             }
-        }       
-        
-        /// <summary>
-        /// 检测使能
-        /// </summary>
-        public bool ReadOnly
-        {
-            get
-            {
-                return !fixCheck;
-            }
-
         }
 
-
-        private int selectedIndex = 0;
+        private UInt32 directoryID = 0;
         /// <summary>
-        /// 选择索引
+        /// 目录ID
         /// </summary>
-        public int SelectedIndex
+        public UInt32 DirectoryID
         {
             get
             {
-                return selectedIndex;
+                return directoryID;
             }
             set
             {
-                selectedIndex = value;
-                RaisePropertyChanged("SelectedIndex");
+                directoryID = value;
+                RaisePropertyChanged("DirectoryID");
             }
         }
-       
-        
 
 
-        public RelayCommand<string> DataGridMenumSelected { get; private set; }
-
-        private void ExecuteDataGridMenumSelected(string name)
+        private string directoryName = "all";
+        /// <summary>
+        /// 目录ID
+        /// </summary>
+        public string DirectoryName
         {
-            if (!FixCheck)
+            get
             {
-                return;
+                return directoryName;
             }
-            switch (name)
+            set
             {
-                case "CallElectricPulse":
-                    {
-                        try
-                        {
-                            protocolServer.ElectricPulse.StartServer(CauseOfTransmissionList.Activation, 
-                                new QualifyCalculateCommad(QCCRequest.All, QCCFreeze.Read));
-                        }
-                        catch (Exception ex)
-                        {
-                            Messenger.Default.Send<Exception>(ex, "ExceptionMessage");
-                        }
-                        break;
-                    }
-                case "Reload":
-                    {
-
-                        UserData = viewData.ReadEletricPulse(true);
-                        break;
-                    }
-                case "Save":
-                    {
-                        viewData.InsertEletricPulse();
-                        break;
-                    }
-                case "AddUp":
-                    {
-                        if (SelectedIndex > -1)
-                        {
-                            var item = new ElectricPulse(0, "", 0, "", "", "");
-                            UserData.Insert(SelectedIndex, item);
-                        }
-                        break;
-                    }
-                case "AddDown":
-                    {
-                        if (SelectedIndex > -1)
-                        {
-                            var item = new ElectricPulse(0, "", 0, "", "", "");
-                            if (SelectedIndex < UserData.Count - 1)
-                            {
-
-                                UserData.Insert(SelectedIndex + 1, item);
-                            }
-                            else
-                            {
-                                UserData.Add(item);
-                            }
-                        }
-                        break;
-                    }
-                case "DeleteSelect":
-                    {
-                        if (SelectedIndex > -1)
-                        {
-                            //var result = MessageBox.Show("是否删除选中行:" + gridTelesignalisation.SelectedItem.ToString(),
-                            //    "确认删除", MessageBoxButton.OKCancel);
-                            var result = true;
-                            if (result)
-                            {
-                                UserData.RemoveAt(SelectedIndex);
-                            }
-                        }
-                        break;
-                    }
+                directoryName = value;
+                RaisePropertyChanged("DirectoryName");
             }
+        }
+
+        private DateTime startTime = DateTime.Now;
+        /// <summary>
+        /// 目录ID
+        /// </summary>
+        public DateTime StartTime
+        {
+            get
+            {
+                return startTime;
+            }
+            set
+            {
+                startTime = value;
+                RaisePropertyChanged("StartTime");
+            }
+        }
+        private DateTime endTime = DateTime.Now;
+        /// <summary>
+        /// 目录ID
+        /// </summary>
+        public DateTime EndTime
+        {
+            get
+            {
+                return endTime;
+            }
+            set
+            {
+                endTime = value;
+                RaisePropertyChanged("EndTime");
+            }
+        }
+
+        /// <summary>
+        /// 召唤目录命令
+        /// </summary>
+        public RelayCommand CallCatalogueCommand { get; private set; }
+
+        //加载用户数据
+        void ExecuteCallCatalogueCommand()
+        {
+            //var get = new GetViewData();
+            //UserData = get.GetTelemeteringList();
         }
         #endregion
+
     }
 }

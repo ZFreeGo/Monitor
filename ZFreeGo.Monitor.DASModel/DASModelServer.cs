@@ -59,42 +59,63 @@ namespace ZFreeGo.Monitor.DASModel
             protocolServer.ReciveFaltEvent += protocolServer_ReciveFaltEvent;
             protocolServer.SendFrameMessageEvent += protocolServer_SendFrameMessageEvent;
             protocolServer.ReciveFrameMessageEvent += protocolServer_ReciveFrameMessageEvent;
-
+            //传输控制服务
             protocolServer.ControlServer.ServerEvent += ControlServer_ServerEvent;
             protocolServer.ControlServer.ServerFaultEvent += ControlServer_ServerFaultEvent; ;
+            //SOE,事件记录，故障信息
             protocolServer.TelesignalisationServer.SOEStatusEvent += TelesignalisationServer_SOEStatusEvent;
             protocolServer.TelesignalisationServer.StatusUpdateEvent += TelesignalisationServer_StatusUpdateEvent;
             protocolServer.TelesignalisationServer.EventLogEvent +=TelesignalisationServer_EventLogEvent;
+            //遥测，电能脉冲，带有时标的电能脉冲信息
             protocolServer.MeteringServer.TelemeteringEvent += MeteringServer_TelemeteringEvent;
+            protocolServer.MeteringServer.ElectricPulseEvent += MeteringServer_ElectricPulseEvent;
+            protocolServer.MeteringServer.ElectricPulseWithTimeEvent += MeteringServer_ElectricPulseWithTimeEvent;
+            protocolServer.MeteringServer.StatusFaultEvent += MeteringServer_StatusFaultEvent;
+            //保护定值服务
             protocolServer.SetPointServer.ServerEvent += SetPointServer_ServerEvent;
 
+            //遥控服务
             protocolServer.TelecontrolServer.ServerEvent += TelecontrolServer_ServerEvent;
+            //事件服务
             protocolServer.TimeServer.ServerEvent += TimeServer_ServerEvent;
         }
+        #region  遥测，电能脉冲，带有时标的电能脉冲信息
 
-
-        /// <summary>
-        /// 事件记录信息--故障信息
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TelesignalisationServer_EventLogEvent(object sender, 
-            TransmissionProtocols.MonitorProcessInformation.EventLogEventArgs<Tuple<uint, byte, CP56Time2a>, Tuple<uint, float>> e)
+        void MeteringServer_TelemeteringEvent(object sender, TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, float, QualityDescription>>> e)
         {
-            DataFile.StateMessage.AddProtoclMessage(e.MeteringID.ToString() + "  " + e.StatusID.ToString());
+            //MessageBox.Show(e.Message.Count.ToString(), "遥测");
+            DataFile.MonitorData.UpdateTelemeteringEvent(e);
+        }
+        
 
+        void MeteringServer_ElectricPulseWithTimeEvent(object sender, TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, float, QualityDescription, CP56Time2a>>> e)
+        {
+            DataFile.MonitorData.UpdateEletricMessageEvent(e);
         }
 
+        void MeteringServer_ElectricPulseEvent(object sender, TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, float, QualityDescription>>> e)
+        {
+            DataFile.MonitorData.UpdateEletricMessageEvent(e);
+        }
+
+        #endregion
+
+
+
+        #region  时间
         private void TimeServer_ServerEvent(object sender, TransmissionProtocols.ControlSystemCommand.TimeEventArgs e)
         {
             DataFile.StateMessage.AddProtoclMessage(e.Comment);
            
         }
+        #endregion
 
+        #region 遥控 保护定值
         private void TelecontrolServer_ServerEvent(object sender, TransmissionProtocols.ControlProcessInformation.ControlEventArgs e)
         {           
            DataFile.StateMessage.AddProtoclMessage( e.Comment );
-        }
+        }     
+
 
         /// <summary>
         /// 保护定值服务
@@ -105,6 +126,8 @@ namespace ZFreeGo.Monitor.DASModel
         {           
             DataFile.StateMessage.AddProtoclMessage(e.Comment);
         }
+        #endregion
+
 
         /// <summary>
         /// 关闭服务
@@ -134,12 +157,18 @@ namespace ZFreeGo.Monitor.DASModel
                    }
            }
         }
-        void MeteringServer_TelemeteringEvent(object sender, TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, float, QualityDescription>>> e)
+        #region SOE,事件记录，故障信息
+        /// <summary>
+        /// 事件记录信息--故障信息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TelesignalisationServer_EventLogEvent(object sender,
+            TransmissionProtocols.MonitorProcessInformation.EventLogEventArgs<Tuple<uint, byte, CP56Time2a>, Tuple<uint, float>> e)
         {
-            //MessageBox.Show(e.Message.Count.ToString(), "遥测");
-            DataFile.MonitorData.UpdateTelemeteringEvent(e);           
-        }
+            DataFile.StateMessage.AddProtoclMessage(e.MeteringID.ToString() + "  " + e.StatusID.ToString());
 
+        }
         void TelesignalisationServer_StatusUpdateEvent(object sender, TransmissionProtocols.MonitorProcessInformation.StatusEventArgs<List<Tuple<uint, byte>>> e)
         {           
             DataFile.MonitorData.UpdateStatusEvent(e);          
@@ -150,7 +179,9 @@ namespace ZFreeGo.Monitor.DASModel
                    
             DataFile.MonitorData.UpdateSOEEvent(e);
         }
+        #endregion
 
+        #region 传输控制故障信息
         /// <summary>
         /// 传输控制故障信息
         /// </summary>
@@ -167,7 +198,49 @@ namespace ZFreeGo.Monitor.DASModel
             Communication.NetParameter.LinkMessage += e.Comment + "\n";
             DataFile.StateMessage.AddProtoclMessage(e.Comment);
         }
+        #endregion
 
+
+        #region 内部解析状态
+        /// <summary>
+        /// 接收故障信息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void protocolServer_ReciveFaltEvent(object sender, TransmissionProtocols.ReciveCenter.ProtocolServerFaultArgs e)
+        {
+            DataFile.StateMessage.AddExcptionMessage(e.Comment);
+        }
+        /// <summary>
+        /// 网络连接故障信息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void NetServer_ExceptionEventArrived(object sender, Net.Element.NetExcptionEventArgs e)
+        {
+
+            Communication.NetParameter.LinkMessage += "\n";
+            Communication.NetParameter.LinkMessage += e.OriginException.Message;
+            Communication.NetParameter.LinkMessage += "\n";
+            Communication.NetParameter.LinkMessage += e.OriginException.StackTrace;
+            Communication.NetParameter.LinkMessage += "\n";
+            Communication.NetParameter.LinkMessage += e.Comment;
+            DataFile.StateMessage.AddExcptionMessage(e.Comment, e.OriginException);
+        }
+
+        void MeteringServer_StatusFaultEvent(object sender, TransmissionProtocols.MonitorProcessInformation.ProcessFaultEventArgs e)
+        {
+            Communication.NetParameter.LinkMessage += "\n";
+            Communication.NetParameter.LinkMessage += e.EX.Message;
+            Communication.NetParameter.LinkMessage += "\n";
+            Communication.NetParameter.LinkMessage += e.EX.StackTrace;
+            Communication.NetParameter.LinkMessage += "\n";
+            Communication.NetParameter.LinkMessage += e.Comment;
+            DataFile.StateMessage.AddExcptionMessage(e.Comment, e.EX);
+        }
+
+
+        #endregion
         private void protocolServer_SendFrameMessageEvent(object sender, TransmissionProtocols.ReciveCenter.FrameMessageEventArgs e)
         {
             Communication.NetParameter.LinkMessage += e.RawMessage + "\n";
@@ -186,23 +259,9 @@ namespace ZFreeGo.Monitor.DASModel
             DataFile.StateMessage.AddProtoclMessage(e.Comment, false);
         }
 
-        void protocolServer_ReciveFaltEvent(object sender, TransmissionProtocols.ReciveCenter.ProtocolServerFaultArgs e)
-        {                   
-            DataFile.StateMessage.AddExcptionMessage(e.Comment);
-        }
+      
 
-        void NetServer_ExceptionEventArrived(object sender, Net.Element.NetExcptionEventArgs e)
-        {
-
-            Communication.NetParameter.LinkMessage += "\n";
-            Communication.NetParameter.LinkMessage += e.OriginException.Message;
-            Communication.NetParameter.LinkMessage += "\n";
-            Communication.NetParameter.LinkMessage += e.OriginException.StackTrace;
-            Communication.NetParameter.LinkMessage += "\n";
-            Communication.NetParameter.LinkMessage += e.Comment;
-            DataFile.StateMessage.AddExcptionMessage(e.Comment, e.OriginException);
-        }
-     
+    
 
         /// <summary>
         /// 接收数据

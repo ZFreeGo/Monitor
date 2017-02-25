@@ -72,7 +72,7 @@ namespace ZFreeGo.TransmissionProtocols.ReciveCenter
         /// <summary>
         /// 文件服务
         /// </summary>
-        public event EventHandler<TransmitEventArgs<TypeIdentification, FilePacket>> FileServerArrived;
+        public event EventHandler<TransmitEventArgs<TypeIdentification, APDU>> FileServerArrived;
 
         /// <summary>
         ///ID未识别
@@ -399,11 +399,13 @@ namespace ZFreeGo.TransmissionProtocols.ReciveCenter
                             return CheckCode.TelesignalisationCommand;
 
                         }
-                    //遥测信息
+                    //遥测信息 与累积量
                     case TypeIdentification.M_ME_NA_1://测量值，归一化值 
                     case TypeIdentification.M_ME_NC_1://测量值，短浮点数                 
                     case TypeIdentification.M_ME_TD_1://带CP56Time2a时标的测量值，归一化值                   
                     case TypeIdentification.M_ME_TF_1://带CP56Time2a时标的测量值，短浮点数
+                    case TypeIdentification.M_IT_NB_1://累计量，短浮点数
+                    case TypeIdentification.M_IT_TC_1://带CP56Time2a时标的累计量，短浮点数
                         {
                             GetTelemeteringMessage(id, dataArray);
                             return CheckCode.TelemeteringCommand;
@@ -419,7 +421,7 @@ namespace ZFreeGo.TransmissionProtocols.ReciveCenter
                         }
                         //电能脉冲
                     case TypeIdentification.C_CI_NA_1: //电能脉冲召唤
-                    case TypeIdentification.M_IT_NA_1: //累积量
+                    //case TypeIdentification.M_IT_NA_1: //累积量
                         {
                             GetElectricEnergy(id, dataArray);
                             return CheckCode.ElectricEnergy;
@@ -494,14 +496,14 @@ namespace ZFreeGo.TransmissionProtocols.ReciveCenter
         {
             try
             {
-                var message = new FilePacket(dataArray);
+                var message = new APDU(dataArray);
                 switch (id)
                 {
                     case TypeIdentification.F_FR_NA_1_NR:
                         {
                             
                             FileServerArrived(this,
-                    new TransmitEventArgs<TypeIdentification, FilePacket>(id, message));
+                    new TransmitEventArgs<TypeIdentification, APDU>(id, message));
                             break;
                         }
                 }
@@ -621,25 +623,13 @@ namespace ZFreeGo.TransmissionProtocols.ReciveCenter
             try
             {
                 var message = new APDU(dataArray);
-                switch (id)
-                {
-                    //遥信信息
-                    case TypeIdentification.M_ME_NA_1://测量值，归一化值 
-                    case TypeIdentification.M_ME_NC_1://测量值，短浮点数                 
-                    case TypeIdentification.M_ME_TD_1://带CP56Time2a时标的测量值，归一化值                   
-                    case TypeIdentification.M_ME_TF_1://带CP56Time2a时标的测量值，短浮点数
-                        {
-                            TelemeteringMessageArrived(this,
-                                new TransmitEventArgs<TypeIdentification, APDU>(id, message));
-                            break;
-                        }
-                }
+                TelemeteringMessageArrived(this,
+                    new TransmitEventArgs<TypeIdentification, APDU>(id, message));
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
         }
         /// <summary>
         /// 获取遥控

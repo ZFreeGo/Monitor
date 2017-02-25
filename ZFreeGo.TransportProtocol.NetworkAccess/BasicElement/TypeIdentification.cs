@@ -267,7 +267,14 @@ namespace ZFreeGo.TransmissionProtocols.BasicElement
         /// </summary>
         F_FR_NA_1_NR = 210,
 
+        /// <summary>
+        /// 累计量，短浮点数 
+        /// </summary>
+        M_IT_NB_1 = 206,
 
-
+        /// <summary>
+        /// 带CP56Time2a时标的累计量，短浮点数
+        /// </summary>
+        M_IT_TC_1 = 207,
     }
 }
