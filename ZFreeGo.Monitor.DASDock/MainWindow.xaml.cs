@@ -32,6 +32,7 @@ namespace ZFreeGo.Monitor.DASDock
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            this.Hide();
             Messenger.Default.Send<string>("MainWindowsClose", "ExecuteMainWindowsClose");
         }
 

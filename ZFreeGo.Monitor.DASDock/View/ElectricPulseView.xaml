@@ -22,7 +22,6 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions >
-               
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
@@ -32,6 +31,8 @@
                  SelectedIndex="{Binding SelectedIndex}"    Grid.ColumnSpan="2"   CanUserSortColumns="False" ItemsSource="{Binding UserData}">
                 <DataGrid.ContextMenu>
                     <ContextMenu Name="dgmenu" StaysOpen="True"  >
+                        <MenuItem Header="召唤电能数据" CommandParameter="CallElectricPulse" Command="{Binding DataGridMenumSelected}"/>
+                        <Separator></Separator>
                         <MenuItem Header="重新载入表格" CommandParameter="Reload" Command="{Binding DataGridMenumSelected}"/>
                         <Separator></Separator>
                         <MenuItem Header="保存表格到数据库"  CommandParameter="Save" Command="{Binding DataGridMenumSelected}"/>

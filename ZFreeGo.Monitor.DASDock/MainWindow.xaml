@@ -82,24 +82,7 @@
             </avalonDock:DockingManager.DocumentHeaderTemplate>
             <avalonDock:LayoutRoot >
                 <avalonDock:LayoutPanel Orientation="Horizontal">
-                    <avalonDock:LayoutAnchorablePaneGroup DockWidth="150">
-                        <avalonDock:LayoutAnchorablePane>
-                            <avalonDock:LayoutAnchorable ContentId="treeList" Title="功能树"  >
-                                <StackPanel>
-                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="SystemParameter" >系统参数</Button>
-                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="Communication" >以太网设置</Button>
-                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="Telesignalisation" >遥信</Button>
-                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="Telemetering">遥测</Button>
-                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="Telecontrol">遥控</Button>
-                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="SOELog">SOE</Button>
-                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" >录波采集</Button>
-                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="ProtectSetPoint">保护定值</Button>
-                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="SystemCalibration">系统校准</Button>
-                                </StackPanel>
-                            </avalonDock:LayoutAnchorable>
-
-                        </avalonDock:LayoutAnchorablePane>
-                    </avalonDock:LayoutAnchorablePaneGroup>
+                  
                     <avalonDock:LayoutDocumentPaneGroup>
                         <avalonDock:LayoutDocumentPane >
                             <avalonDock:LayoutDocument ContentId="document3" Title="系统参数"   IconSource="Pictures/png-0418.jpg">
@@ -128,10 +111,17 @@
                                 <Frame Source="View\SOEView.xaml"></Frame>
                             </avalonDock:LayoutDocument>
                             <avalonDock:LayoutDocument ContentId="document6" Title="电能数据"   IconSource="Pictures/32.png">
-                                <Frame Source="View\ElectricPulseView.xaml"></Frame>
+                                <Frame Source="View\ElectricPulseView.xaml"></Frame>                                
                             </avalonDock:LayoutDocument>
-
-
+                            <avalonDock:LayoutDocument ContentId="document7" Title="历史记录"   IconSource="Pictures/32.png">
+                                <Frame Source="View\HistoryLogView.xaml"></Frame>
+                            </avalonDock:LayoutDocument>
+                            <avalonDock:LayoutDocument ContentId="document8" Title="文件服务"   IconSource="Pictures/32.png">
+                                <Frame Source="View\FileServerView.xaml"></Frame>
+                            </avalonDock:LayoutDocument>
+                            <!--<avalonDock:LayoutDocument ContentId="document9" Title="Comtrade"   IconSource="Pictures/32.png">
+                                <Frame Source="View\ComtradeView.xaml"></Frame>
+                            </avalonDock:LayoutDocument>-->
                         </avalonDock:LayoutDocumentPane>
                        
 
@@ -139,8 +129,28 @@
                     </avalonDock:LayoutDocumentPaneGroup>
                   
                 </avalonDock:LayoutPanel>
+                <avalonDock:LayoutRoot.LeftSide >
+                    <avalonDock:LayoutAnchorSide >
+                        <avalonDock:LayoutAnchorGroup>
 
-               
+                            <avalonDock:LayoutAnchorable ContentId="treeList" Title="功能树"  >
+                                <StackPanel>
+                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="SystemParameter" >系统参数</Button>
+                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="Communication" >以太网设置</Button>
+                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" CommandParameter="Telesignalisation" >遥信</Button>
+                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="Telemetering">遥测</Button>
+                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="Telecontrol">遥控</Button>
+                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="SOELog">SOE</Button>
+                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}" >录波采集</Button>
+                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="ProtectSetPoint">保护定值</Button>
+                                    <Button Margin="5" Padding="2" Command="{Binding ShowUserView}"  CommandParameter="SystemCalibration">系统校准</Button>
+                                </StackPanel>
+                            </avalonDock:LayoutAnchorable>
+                        </avalonDock:LayoutAnchorGroup>
+
+                    </avalonDock:LayoutAnchorSide>
+                </avalonDock:LayoutRoot.LeftSide>
+
                 <avalonDock:LayoutRoot.BottomSide >
                     <avalonDock:LayoutAnchorSide >
                         <avalonDock:LayoutAnchorGroup>

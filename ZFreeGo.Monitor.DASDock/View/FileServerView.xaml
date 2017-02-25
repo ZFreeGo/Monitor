@@ -1,0 +1,58 @@
+﻿<PageFunction
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+    x:Class="ZFreeGo.Monitor.DASDock.View.FileServerView"
+    x:TypeArguments="sys:String"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    mc:Ignorable="d"
+    DataContext="{Binding FileServer, Source={StaticResource Locator}}"
+    Title="FileServerView">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadDataCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid>
+            <StackPanel>
+                <GroupBox Header="召唤目录">
+                    <StackPanel Height="200">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Margin="3" Padding="2">目录ID:</Label>
+                            <TextBox Margin="3" Padding="2" MinWidth="80" Name="txtDirID"></TextBox>
+                            <Label Margin="3" Padding="2">目录名:</Label>
+                            <TextBox Margin="3" Padding="2" MinWidth="120" Name="txtDirName"></TextBox>
+                            <Label Margin="3" Padding="2">起始时间:</Label>
+                            <TextBox Margin="3" Padding="2" MinWidth="120" Name="txtStartTime">2017/2/13 12:12:23</TextBox>
+                            <Label Margin="3" Padding="2">结束时间</Label>
+                            <TextBox Margin="3" Padding="2" MinWidth="120" Name="txtEndTime">2017/2/13 1:24:12</TextBox>
+                            <CheckBox  Margin="3" Padding="2" VerticalAlignment="Center" Name="checkMeetTime">满足时间段</CheckBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Margin="3,3,3,3" Padding="3" Name="btnReadDirectory" >读取文件目录
+                            </Button>
+                        </StackPanel>
+                        <DataGrid Name="gridFileDir" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="文件名"  Binding="{Binding Name}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="文件大小"    Binding="{Binding Size}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="文件时间"   Binding="{Binding Time}"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+
+
+
+                    </StackPanel>
+
+                </GroupBox>
+            </StackPanel>
+
+
+        </Grid>
+
+    </Grid>
+</PageFunction>

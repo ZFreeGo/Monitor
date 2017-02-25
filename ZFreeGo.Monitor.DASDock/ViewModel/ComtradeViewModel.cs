@@ -11,14 +11,14 @@ using ZFreeGo.TransmissionProtocols.BasicElement;
 namespace ZFreeGo.Monitor.DASDock.ViewModel
 {
    
-    public class ElectricPulseViewModel : ViewModelBase
+    public class ComtradeViewModel : ViewModelBase
     {
         private MonitorViewData viewData;
         private NetWorkProtocolServer protocolServer;
         /// <summary>
         /// Initializes a new instance of the DataGridPageViewModel class.
         /// </summary>
-        public ElectricPulseViewModel()
+        public ComtradeViewModel()
         {
             _userData = new ObservableCollection<ElectricPulse>();
             LoadDataCommand = new RelayCommand(ExecuteLoadDataCommand);

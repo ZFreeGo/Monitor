@@ -101,6 +101,9 @@
     <Compile Include="Model\IDataService.cs" />
     <Compile Include="ViewModel\CalibrationViewModel.cs" />
     <Compile Include="ViewModel\CommunicationViewModel.cs" />
+    <Compile Include="ViewModel\ComtradeViewModel.cs" />
+    <Compile Include="ViewModel\FileServerViewModel.cs" />
+    <Compile Include="ViewModel\HistoryLogViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ParameterViewModel.cs" />
     <Compile Include="ViewModel\ProtectSetpointViewModel.cs" />
@@ -113,11 +116,17 @@
     <Compile Include="View\CalibrationView.xaml.cs">
       <DependentUpon>CalibrationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\CalibratonControlView.xaml.cs">
-      <DependentUpon>CalibratonControlView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\CommunicationView.xaml.cs">
       <DependentUpon>CommunicationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ComtradeView.xaml.cs">
+      <DependentUpon>ComtradeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FileServerView.xaml.cs">
+      <DependentUpon>FileServerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HistoryLogView.xaml.cs">
+      <DependentUpon>HistoryLogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ParameterView.xaml.cs">
       <DependentUpon>ParameterView.xaml</DependentUpon>
@@ -160,11 +169,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\CalibratonControlView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\CommunicationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ComtradeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\FileServerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\HistoryLogView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

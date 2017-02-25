@@ -44,7 +44,9 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             SimpleIoc.Default.Register<TelemeteringViewModel>();
             SimpleIoc.Default.Register<TelesignalisationViewModel>();
             SimpleIoc.Default.Register<ElectricPulseViewModel>();
-            
+            SimpleIoc.Default.Register<HistoryLogViewModel>();
+            SimpleIoc.Default.Register<FileServerViewModel>();
+          
         }
 
         /// <summary>
@@ -176,6 +178,45 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
                     electricPulsen = ServiceLocator.Current.GetInstance<ElectricPulseViewModel>();
                 }
                 return electricPulsen;
+            }
+        }
+        public static HistoryLogViewModel historyLog;
+        public static HistoryLogViewModel HistoryLog
+        {
+            get
+            {
+                if (historyLog == null)
+                {
+                    historyLog = ServiceLocator.Current.GetInstance<HistoryLogViewModel>();
+                }
+                return historyLog;
+            }
+        }
+        public static FileServerViewModel fileServer;
+
+        public static FileServerViewModel FileServer
+        {
+            get
+            {
+                if (fileServer == null)
+                {
+                    fileServer = ServiceLocator.Current.GetInstance<FileServerViewModel>();
+                }
+                return fileServer;
+            }
+        }
+
+        public static ComtradeViewModel comtrade;
+
+        public static ComtradeViewModel Comtrade
+        {
+            get
+            {
+                if (comtrade == null)
+                {
+                    comtrade = ServiceLocator.Current.GetInstance<ComtradeViewModel>();
+                }
+                return comtrade;
             }
         }
         /// <summary>

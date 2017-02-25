@@ -11,16 +11,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ZFreeGo.Monitor.DASDock.ViewModel;
 
 namespace ZFreeGo.Monitor.DASDock.View
 {
     /// <summary>
-    /// CalibratonControlView.xaml 的交互逻辑
+    /// DataGridPageView.xaml 的交互逻辑
     /// </summary>
-    public partial class CalibratonControlView : UserControl
+    public partial class ComtradeView : PageFunction<String>
     {
-        public CalibratonControlView()
+        public ComtradeView()
         {
+            //this.DataContext = new TelemeteringViewModel();
             InitializeComponent();
         }
     }
