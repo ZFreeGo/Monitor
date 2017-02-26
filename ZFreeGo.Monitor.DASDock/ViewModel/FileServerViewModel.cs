@@ -7,6 +7,7 @@ using ZFreeGo.Monitor.DASModel.DataItemSet;
 using System;
 using ZFreeGo.TransmissionProtocols;
 using ZFreeGo.TransmissionProtocols.BasicElement;
+using ZFreeGo.TransmissionProtocols.FileSever;
 
 namespace ZFreeGo.Monitor.DASDock.ViewModel
 {
@@ -20,12 +21,13 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
         /// </summary>
         public FileServerViewModel()
         {
-            _userData = new ObservableCollection<ElectricPulse>();
+           
             LoadDataCommand = new RelayCommand(ExecuteLoadDataCommand);
             Messenger.Default.Register<MonitorViewData>(this, "LoadData", ExecuteLoadData);
             
             Messenger.Default.Register<NetWorkProtocolServer>(this, "NetWorkProtocolServer", ExecuteNetWorkProtocolServer);
             CallCatalogueCommand = new RelayCommand(ExecuteCallCatalogueCommand);
+            ReadFileCommand = new RelayCommand(ExecuteReadFileCommand);
         }
 
         private void ExecuteNetWorkProtocolServer(NetWorkProtocolServer obj)
@@ -43,7 +45,8 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             {
                 if (obj != null)
                 {
-                  //  UserData = obj.ReadEletricPulse(false);
+
+                    DirectoryConent = obj.GetDirectoryList();
                     viewData = obj;
                 }
             }
@@ -53,20 +56,7 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             }
         }
 
-        /************** 属性 **************/
-        private ObservableCollection<ElectricPulse> _userData;
-        /// <summary>
-        /// 用户信息数据
-        /// </summary>
-        public ObservableCollection<ElectricPulse> UserData
-        {
-            get { return _userData; }
-            set
-            {
-                _userData = value;
-                RaisePropertyChanged("UserData");
-            }
-        }
+   
         #region 加载数据命令：LoadDataCommand
         /// <summary>
         /// 加载数据
@@ -82,7 +72,64 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
 
         #endregion
 
+        #region 读取文件
+
+        private string readFileName = "all";
+        /// <summary>
+        /// 目录ID
+        /// </summary>
+        public string ReadFileName
+        {
+            get
+            {
+                return readFileName;
+            }
+            set
+            {
+                readFileName = value;
+                RaisePropertyChanged("ReadFileName");
+            }
+        }
+
+        /// <summary>
+        /// 召唤目录命令
+        /// </summary>
+        public RelayCommand ReadFileCommand { get; private set; }
+
+        //加载用户数据
+        private void ExecuteReadFileCommand()
+        {
+            try
+            {
+                var packet = new  FileReadActivityPacket(readFileName);
+                protocolServer.FileRead.StartServer(packet);
+
+            }
+            catch (Exception ex)
+            {
+                Messenger.Default.Send<Exception>(ex, "ExceptionMessage");
+            }
+        }
+        #endregion
+
+
+
         #region 目录召唤
+        public ObservableCollection<FileAttributeItem> directoryConent = null;
+
+        public ObservableCollection<FileAttributeItem> DirectoryConent
+        {
+            set
+            {
+                directoryConent = value;
+                RaisePropertyChanged("DirectoryConent");       
+            }
+            get
+            {
+                return directoryConent;
+            }
+        }
+
 
         private bool timeCheck = false;
         /// <summary>
@@ -174,11 +221,32 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
         /// </summary>
         public RelayCommand CallCatalogueCommand { get; private set; }
 
-        //加载用户数据
-        void ExecuteCallCatalogueCommand()
+        /// <summary>
+        /// 执行召唤文件命令
+        /// </summary>
+        private void ExecuteCallCatalogueCommand()
         {
-            //var get = new GetViewData();
-            //UserData = get.GetTelemeteringList();
+            try
+            {
+                FileCallFlag flag;
+                if (timeCheck)
+                {
+                     flag = FileCallFlag.MeetTime;
+                }
+                else
+                {
+                    flag = FileCallFlag.All;
+                }
+
+                var packet = new FileDirectoryCalledPacket(directoryID, directoryName,
+                    flag, new CP56Time2a(startTime), new CP56Time2a(endTime));
+                protocolServer.CallFileDirectory.StartServer(packet);
+            }
+            catch(Exception ex)
+            {
+                Messenger.Default.Send<Exception>(ex, "ExceptionMessage");
+            }
+
         }
         #endregion
 

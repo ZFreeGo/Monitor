@@ -52,7 +52,7 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
         }
 
         /// <summary>
-        /// 文件服务--文件目录召唤
+        /// 文件服务--读文件
         /// </summary>
         /// <param name="cot">传输原因</param>
         /// <param name="ASDUPublicAddress">ASDU公共地址</param>

@@ -9,6 +9,8 @@ using ZFreeGo.Monitor.DASModel.Helper;
 using ZFreeGo.Monitor.DASModel.DataItemSet;
 using System.Threading.Tasks;
 using ZFreeGo.TransmissionProtocols.BasicElement;
+using ZFreeGo.TransmissionProtocols.FileSever;
+
 
 namespace ZFreeGo.Monitor.DASModel.GetViewData
 {
@@ -686,7 +688,99 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
             }
             return directoryList;
         }
+
+        /// <summary>
+        /// 更新目录
+        /// </summary>
+        /// <param name="attributeList"></param>
+        public void UpdateDirectoryList(List<FileAttribute> attributeList)
+        {
+            //先提取
+            var temp = new ObservableCollection<FileAttributeItem>();
+            foreach(var m in attributeList)
+            {
+                temp.Add(new FileAttributeItem(m));              
+            }
+            //转显示
+            directoryList = temp;
+        }
         #endregion
+
+
+        #region 更新校准信息
+
+        /// <summary>
+        ///更新召唤系数
+        /// </summary>
+        /// <param name="frame">系数帧</param>
+        public void UpdateCalibrationFact(UInt32[] frame)
+        {
+            try
+            {
+                var observale = (ObservableCollection<SystemCalibration>)systemCalibration;
+                if (frame.Length != observale.Count)
+                {
+                    throw new Exception("接收长度与列表长度不一致");
+                }
+                int len = Math.Min(frame.Length, observale.Count);
+
+                for (int i = 0; i < len; i++)
+                {
+                    for (int j = 0; j < observale.Count; j++)
+                    {
+                        if (observale[j].InternalID == (i + 1))
+                        {
+                            observale[j].CallCoefficient = frame[i];
+                            //召唤系数与下载系数相同
+                            observale[j].DownloadCoefficient = observale[j].CallCoefficient;
+
+                        }
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                
+            }
+        }
+
+        /// <summary>
+        /// 更新校准数据
+        /// </summary>
+        /// <param name="list">列表</param>
+        /// <param name="updateIndex">更新索引</param>
+        public void UpdateCalbrationData(List<Tuple<uint, float, QualityDescription>> list, int updateIndex)
+        {
+
+            var m = (ObservableCollection<SystemCalibration>)systemCalibration;
+            foreach (var ele in list)
+            {
+                for (int k = 0; k < m.Count; k++)
+                {
+                    var t = m[k];
+                    if ((t.InternalID + Telemetering.BasicAddress - 1) == ele.Item1)
+                    {
+                        t.UpdateData(updateIndex, (float)(ele.Item2));
+                    }
+                }
+            }
+
+            if (updateIndex < 10)
+            {
+                updateIndex++;
+            }
+            else
+            {
+                updateIndex = 0;
+            }
+        }
+
+        #endregion
+
+
     }
        
 

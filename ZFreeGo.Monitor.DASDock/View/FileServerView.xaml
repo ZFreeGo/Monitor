@@ -17,9 +17,13 @@
     </i:Interaction.Triggers>
     <Grid>
         <Grid>
-            <StackPanel>
-                <GroupBox Header="召唤目录">
-                    <StackPanel Height="200">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>        
+            
+            <GroupBox Header="召唤目录" Grid.Row="0" Margin="3">
+                    <StackPanel >
                         <StackPanel Orientation="Horizontal">
                             <Label Margin="3" Padding="2">目录ID:</Label>
                             <TextBox Margin="3" Padding="2" MinWidth="80" Text="{Binding DirectoryID}"></TextBox>
@@ -32,8 +36,8 @@
                             <CheckBox  Margin="3" Padding="2" VerticalAlignment="Center" IsChecked="{Binding TimeCheck}">满足时间段</CheckBox>
                             <Button Margin="3,3,3,3" Padding="3" Command="{Binding CallCatalogueCommand}">读取文件目录</Button>
                         </StackPanel>
-                       
-                        <DataGrid Name="gridFileDir" IsReadOnly="True">
+
+                        <DataGrid Name="gridFileDir" IsReadOnly="True" ItemsSource="{Binding DirectoryConent}"  AutoGenerateColumns="False">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="文件名"  Binding="{Binding Name}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="文件大小"    Binding="{Binding Size}"></DataGridTextColumn>
@@ -47,7 +51,14 @@
                     </StackPanel>
 
                 </GroupBox>
-            </StackPanel>
+            <GroupBox Header="读取文件" Grid.Row="1" Margin="3">
+                <StackPanel Orientation="Horizontal">
+                    <Label Margin="3" Padding="2">读取文件名:</Label>
+                    <TextBox Margin="3" Padding="2" MinWidth="100" Text="{Binding ReadFileName}"></TextBox>
+                    <Button Margin="30,3,3,3" Command="{Binding ReadFileCommand}">读取文件</Button>
+                </StackPanel>                
+            </GroupBox>
+            
 
 
         </Grid>

@@ -25,17 +25,14 @@
 
         <Grid Grid.Row="1">
             <StackPanel Margin="3" Orientation="Horizontal" >
-                <Button Margin="3" Padding="3"  Name="btnStartCalibration" >启动校准模式</Button>
-                <Button Margin="3" Padding="3" Name="btnCalibrationCall" >刷新</Button>
-
-                <!--<Button Margin="30,3,3,3" Padding="3" Name="btnCalibration" Click="btnCalibration_Click">下载</Button>
-                                    <Button Margin="3,3,30,3" Padding="3" Name="btnCalibrationActive" Click="btnCalibrationActive_Click">激活</Button>-->
-                <Button Margin="3" Padding="3" Name="btnCalibrationExport" >导出</Button>
-                <Button Margin="3" Padding="3" Name="btnCalibrationLoad" >导入</Button>
-                <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxRealUpdate" IsChecked="False">实时更新</CheckBox>
+                <Button Margin="3" Padding="3"  Command="{Binding StartCalibrationCommand}">启动校准模式</Button>
+                <Button Margin="30,3,3,3" Padding="3"   Command="{Binding StopCalibrationCommand}">停止校准模式</Button>
+                
+           
+                <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxRealUpdate" IsChecked="{Binding RealUpdate}">实时更新</CheckBox>
                 <Label Margin="10,3,3,3" Padding="3" VerticalAlignment="Center">更新时间(ms):</Label>
-                <TextBox Margin="3,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="txtUpdateTime"  >500</TextBox>
-              
+                <TextBox Margin="3,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center"  Text="{Binding UpdateTime}"  ></TextBox>
+                <TextBlock Margin="60,3,3,3" Padding="3" VerticalAlignment="Center" FontSize="24"  Text="{Binding Tip}"   ></TextBlock>
             </StackPanel>
         </Grid>
         <DataGrid Grid.Row="2" Margin="5" AutoGenerateColumns="False"  Name="gridSystemCalibration" 
@@ -83,7 +80,7 @@
                     <Button Margin="3" Padding="3" Name="btnFactorRead">系数读取</Button>
                     <Button Margin="3" Padding="3" Name="btnFactorDownload">系数下载</Button>
                     <Button Margin="3" Padding="3" Name="btnFacotrFix">系数固化</Button>
-                    <CheckBox Margin="50,3,3,3" Padding="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="CheckBoxSystemCalibration" IsChecked="{Binding FixCheck}" >修改</CheckBox>
+                    
                 </StackPanel>
             </GroupBox>
         </Grid>

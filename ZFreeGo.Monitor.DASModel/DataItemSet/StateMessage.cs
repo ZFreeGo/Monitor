@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using System.Text;
 
 namespace ZFreeGo.Monitor.DASModel.DataItemSet
 {
@@ -81,7 +82,24 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
 
             }
         }
+        private string customNetMessage;
 
+        /// <summary>
+        /// 定制网络信息
+        /// </summary>
+        public string CustomNetMessage
+        {
+            get
+            {
+                return customNetMessage;
+            }
+            set
+            {
+                customNetMessage = value;
+                RaisePropertyChanged("CustomNetMessage");
+
+            }
+        }
 
         /// <summary>
         /// 追加更新NetRawData
@@ -138,6 +156,40 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             ExceptionTrace += comment + "\n";
             ExceptionTrace += ex.Message + "\n";
             ExceptionTrace += ex.StackTrace + "\n";
+        }
+
+
+        public void AddCustomNetMessage(string str)
+        {
+            CustomNetMessage += str + "\n\n";
+        }
+
+        /// <summary>
+        /// 添加定制信息 -校准信息
+        /// </summary>
+        /// <param name="data">数组</param>
+        /// <param name="flag">true-发送， false-接收</param>
+        public void AddCustomNetMessage(byte[] data, bool flag)
+        {
+            if(flag)
+            {
+                CustomNetMessage += "发送:\n";
+            }
+            else
+            {
+                CustomNetMessage += "接收:\n";
+            }
+            CustomNetMessage += NumToString(data) + "\n\n";
+        }
+
+        private  string NumToString(byte[] data)
+        {
+            StringBuilder strbuilder = new StringBuilder(data.Length * 3 + 10);
+            foreach(var m in data)
+            {
+                strbuilder.AppendFormat("{0:X2} ", m);
+            }
+            return strbuilder.ToString();
         }
 
         /// <summary>

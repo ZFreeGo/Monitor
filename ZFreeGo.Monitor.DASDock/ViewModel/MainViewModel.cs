@@ -144,6 +144,23 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
 
             }
         }
+        /// <summary>
+        /// 校准网络信息
+        /// </summary>
+        public string CustomNetMessage
+        {
+            get
+            {
+                CheckMessageCollectNull();
+                return messageCollect.CustomNetMessage;
+            }
+            set
+            {
+                messageCollect.CustomNetMessage = value;
+                RaisePropertyChanged("CustomNetMessage");
+
+            }
+        }
         #endregion
         //发送显示UserView的消息
         void ExecuteLoadData(string name)
@@ -151,7 +168,8 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             Messenger.Default.Send<MonitorViewData>(dasModelServer.DataFile.MonitorData, "LoadData");
             Messenger.Default.Send<CommunicationServer>(dasModelServer.Communication, "CommunicationServer");
             Messenger.Default.Send<NetWorkProtocolServer>(dasModelServer.ProtocolServer, "NetWorkProtocolServer");
-        
+            Messenger.Default.Send<StateMessage>(dasModelServer.DataFile.StateMessage, "StateMessage");
+            Messenger.Default.Send<DASModelServer>(dasModelServer, "DASModelServer");
         }
       
        

@@ -183,6 +183,12 @@
                                              VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto"/>
                                 </Grid>
                             </avalonDock:LayoutAnchorable>
+                            <avalonDock:LayoutAnchorable Title="校准信息" ContentId="Calibration">
+                                <Grid>
+                                    <TextBox Text="{Binding CustomNetMessage}"
+                                             VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto"/>
+                                </Grid>
+                            </avalonDock:LayoutAnchorable>
                         </avalonDock:LayoutAnchorGroup>
                     </avalonDock:LayoutAnchorSide>
                 </avalonDock:LayoutRoot.BottomSide>

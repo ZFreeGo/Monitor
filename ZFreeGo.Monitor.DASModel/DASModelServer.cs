@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using ZFreeGo.Monitor.DASModel.DataItemSet;
+using ZFreeGo.Monitor.DASModel.Helper;
 using ZFreeGo.TransmissionProtocols;
 using ZFreeGo.TransmissionProtocols.BasicElement;
 using ZFreeGo.TransmissionProtocols.TransmissionControl104;
@@ -44,7 +46,23 @@ namespace ZFreeGo.Monitor.DASModel
             }
             
         }
+
+
         /// <summary>
+        /// 定制服务校准
+        /// </summary>
+        private OldCalibration customServer;
+
+        public OldCalibration CustomServer
+        {
+            get
+            {
+                return customServer;
+            }
+
+        } 
+            
+            /// <summary>
         ///DASII Model服务
         /// </summary>
         public  DASModelServer()
@@ -84,22 +102,103 @@ namespace ZFreeGo.Monitor.DASModel
             protocolServer.FileRead.ProcessMessageEvent += FileRead_ProcessMessageEvent;
             protocolServer.FileWrite.ProcessMessageEvent += FileWrite_ProcessMessageEvent;
 
+
+
+            //校准服务
+            Communication.NetCustomClient.NetDataEventArrived += NetCustomClient_NetDataEventArrived;
+            Communication.NetCustomClient.ExceptionEventArrived += NetCustomClient_ExceptionEventArrived;
+            Communication.NetCustomClient.LinkingEventMsg +=NetCustomClient_LinkingEventMsg;
+            customServer = new OldCalibration();
+            customServer.CalibrationMessageArrived += customServer_CalibrationMessageArrived;
+            
+
         }
 
-     
-
       
-
-        
-        #region 文件服务
        
+
+        #region 校准服务
+        void NetCustomClient_ExceptionEventArrived(object sender, Net.Element.NetExcptionEventArgs e)
+        {
+            DataFile.StateMessage.AddCustomNetMessage(e.Comment + " \n" + e.OriginException.Message
+                + "\n" + e.OriginException.StackTrace);
+
+        }
+
+        void NetCustomClient_NetDataEventArrived(object sender, Net.Element.NetDataArrayEventArgs e)
+        {
+            lock (customServer.ReciveQuene)
+            {
+                foreach (var m in e.DataArray)
+                {
+                    customServer.ReciveQuene.Enqueue(m);
+
+                }
+                Console.WriteLine("systemCailbration字节数据接收");
+
+            }
+            DataFile.StateMessage.AddCustomNetMessage(e.DataArray, false);
+        }
+        void customServer_CalibrationMessageArrived(object sender, OldCalibrationEventArgs e)
+        {
+            try
+            {
+                DataFile.StateMessage.AddCustomNetMessage(e.Data, true);
+                switch (e.Property)
+                {
+                    case CalibrationAction.FactorCall: //召唤系数
+                        {
+                            DataFile.StateMessage.AddCustomNetMessage("召唤系数");
+                            DataFile.MonitorData.UpdateCalibrationFact(e.DataFrame);
+                            break;
+                        }
+                    case CalibrationAction.FactorDownload:
+                        {
+                            DataFile.StateMessage.AddCustomNetMessage("系数下载");
+                            break;
+                        }
+                    case CalibrationAction.FactorFix:
+                        {
+                            DataFile.StateMessage.AddCustomNetMessage("系数固化");
+                            break;
+                        }
+
+                }
+               
+            }
+            catch (Exception ex)
+            {
+                DataFile.StateMessage.AddCustomNetMessage(ex.Message + "\n" + ex.StackTrace);
+            }
+        }
+        private void NetCustomClient_LinkingEventMsg(object sender, Net.Element.NetLinkMessagEvent e)
+        {           
+            DataFile.StateMessage.AddCustomNetMessage(e.Message);
+            switch (e.State)
+            {
+                case Net.Element.NetState.Stop:
+                    {                        
+
+                        break;
+                    }
+            }
+        }
+
+        #endregion
+
+
+
+
+
+        #region 文件服务
+
         void CallFileDirectory_CallFileEndEvent(object sender, TransmissionProtocols.FileSever.CallFileEndEventArgs e)
         {
             Communication.NetParameter.LinkMessage += e.Message + "\n";
             DataFile.StateMessage.AddProtoclMessage(e.Message, false);
             
             //更新文件列表
-           //e.AttributeList
+            DataFile.MonitorData.UpdateDirectoryList(e.AttributeList);
 
         }
         void FileRead_ReadFileEndEvent(object sender, TransmissionProtocols.FileSever.FileReadEndEventArgs e)
@@ -107,8 +206,18 @@ namespace ZFreeGo.Monitor.DASModel
             Communication.NetParameter.LinkMessage += e.Message + "\n";
             DataFile.StateMessage.AddProtoclMessage(e.Message, false);
             //更新文件数据
-            //e.PacketManager
-
+           // e.PacketManager
+            //将收到的文件写入测试文档。
+            using(FileStream file= 
+                new  FileStream("test" + DateTime.Now.ToString("HH-MM-SS") + ".data", FileMode.OpenOrCreate))
+            {
+                foreach(var m in e.PacketManager.PacketCollect)
+                {
+                    file.Write(m.FileData, 0, m.FileData.Length);
+                }
+                file.Flush();
+                file.Close();
+            }
         }
         void FileRead_ProcessMessageEvent(object sender, TransmissionProtocols.FileSever.FileEventArgs e)
         {
@@ -158,6 +267,11 @@ namespace ZFreeGo.Monitor.DASModel
         {
             //MessageBox.Show(e.Message.Count.ToString(), "遥测");
             DataFile.MonitorData.UpdateTelemeteringEvent(e);
+            //检测并实时更新校准数据
+            if (customServer.IsRealUpdate)
+            {
+                DataFile.MonitorData.UpdateCalbrationData(e.Message, customServer.UpdateIndex);
+            }
         }
         
 
@@ -209,6 +323,7 @@ namespace ZFreeGo.Monitor.DASModel
         {
             Communication.NetClient.Stop();
             protocolServer.StopServer();
+            customServer.Close();
 
         }
         /// <summary>

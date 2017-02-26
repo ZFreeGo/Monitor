@@ -46,8 +46,39 @@ namespace ZFreeGo.Monitor.DASModel
                 return _tcpClient;
             }
         }
-       
 
+        /// <summary>
+        /// 定制网络连接参数
+        /// </summary>
+        private NetParameter _netCustomParameter;
+
+        /// <summary>
+        /// 获取定制网络参数
+        /// </summary>
+        public NetParameter NetCustomParameter
+        {
+            get
+            {
+                return _netCustomParameter;
+            }
+
+        }
+
+        /// <summary>
+        /// 定制网络TCp服务
+        /// </summary>
+        private NetClient _tcpCustomClient;
+
+        /// <summary>
+        /// 获取定制网络服务
+        /// </summary>
+        public NetClient NetCustomClient
+        {
+            get
+            {
+                return _tcpCustomClient;
+            }
+        }
         /// <summary>
         /// 通讯服务初始化
         /// </summary>      
@@ -55,6 +86,10 @@ namespace ZFreeGo.Monitor.DASModel
         {
             _netParameter = new NetParameter();
             _tcpClient = new NetClient();
+            //定制服务的端口默认为8000
+            _netCustomParameter = new NetParameter();
+            _netCustomParameter.Port = 8000;
+            _tcpCustomClient = new NetClient();
         }       
     }
 }

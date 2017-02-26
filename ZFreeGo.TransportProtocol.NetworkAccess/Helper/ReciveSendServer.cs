@@ -14,7 +14,7 @@ namespace ZFreeGo.TransmissionProtocols.Helper
          /// <summary>
         /// 接收缓冲 一级缓冲
         /// </summary>
-        public Queue<T> RecivePacketQuene;
+        protected Queue<T> RecivePacketQuene;
 
         /// <summary>
         /// 接收缓冲 二级缓冲队列

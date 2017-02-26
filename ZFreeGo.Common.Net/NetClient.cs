@@ -81,7 +81,7 @@ namespace ZFreeGo.Net
         private bool isRun = false;
        
         /// <summary>
-        /// 网络运行标志
+        /// 获取网络运行状态
         /// </summary>
         public bool IsRun
         {

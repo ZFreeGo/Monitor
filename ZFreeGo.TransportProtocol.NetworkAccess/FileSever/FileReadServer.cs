@@ -111,17 +111,16 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
             mRepeatMaxCount = 3;
             mSendDataDelegate = inSendDataDelegate;
         }
-      
-           
-           
+
+
+        private FileAttribute readFileAttribute;   
         
         
         /// <summary>
         /// 启动服务
         /// </summary>        
-        /// <param name="packet">包数据</param>
-        /// <param name="attribute">文件属性</param>
-        public void StartServer(FileASDU packet,FileAttribute attribute)
+        /// <param name="packet">包数据</param>        
+        public void StartServer(FileReadActivityPacket  packet)
         {
             try
             {
@@ -132,9 +131,9 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
 
                 InitData();
                 stage = TransmitStage.Activity;
-
-                packetManager = new FilePacketManager(attribute);
-                readFileAcitivtyPacket = packet;
+                //packetManager = new FilePacketManager(attribute);
+                readFileAttribute = new FileAttribute(packet.Name, 0, null);
+                readFileAcitivtyPacket = new FileASDU(CauseOfTransmissionList.Activation, 0, packet);
 
 
                 mReadThread = new Thread(ReciveThread);
@@ -207,7 +206,7 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
                                
                             }
                             var packet = new FileReadActivityAckPacket(item.InformationObject, 4, (byte)(item.InformationObject.Length-4));
-                            if (packet.Name == packetManager.Attribute.Name)
+                            if (packet.Name == readFileAttribute.Name)
                             {
                                 readFileActivityAckPacket = item;
                                 ackPacket = packet;
@@ -216,8 +215,7 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
                             }
                             else
                             {
-                                throw new Exception("名称不一致");
-                                
+                                throw new Exception("名称不一致");                                
                             }                            
                         }
                     case TransmitStage.Transmission:
@@ -262,6 +260,11 @@ namespace ZFreeGo.TransmissionProtocols.FileSever
                 {
                     case TransmitStage.Activity:
                         {
+
+                            readFileAttribute.ID = ackPacket.FileID;
+                            readFileAttribute.Size = ackPacket.Size;
+                            packetManager = new FilePacketManager(readFileAttribute);
+
                             if (ReadFileActivityAckEvent != null)
                             {
                                 var e = new FileServerEventArgs<FileReadActivityAckPacket>("从机应答", OperatSign.ReadFileActivityACK,
