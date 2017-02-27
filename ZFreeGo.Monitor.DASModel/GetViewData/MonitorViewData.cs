@@ -20,10 +20,10 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
     public class MonitorViewData : IGetData
     {
         DataSet dataSetTelesignalisation;
-        ICollection<Telesignalisation> telesignalisation;
+        ObservableCollection<Telesignalisation> telesignalisation;
 
         DataSet dataSetTelemetering;
-        ICollection<Telemetering> telemetering;
+        ObservableCollection<Telemetering> telemetering;
 
         DataSet dataSetSystemParameter;
         ICollection<SystemParameter> systemParameter;
@@ -231,7 +231,7 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
             if (telesignalisation == null)
             {
                 ObservableCollection<Telesignalisation> list = new ObservableCollection<Telesignalisation>();
-                telesignalisation = DataLoad<Telesignalisation>(ref CommonPath.TelesignalisationXmlPath, ref CommonPath.TelesignalisationXsdPath,
+                telesignalisation = (ObservableCollection<Telesignalisation>)DataLoad<Telesignalisation>(ref CommonPath.TelesignalisationXmlPath, ref CommonPath.TelesignalisationXsdPath,
                        ref dataSetTelesignalisation, DataTypeEnum.Telesignalisation);
                 list = (ObservableCollection<Telesignalisation>)telesignalisation;
                 return list;
@@ -243,6 +243,79 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
 
         }
         #endregion
+
+        #region 遥信数据 数据库操作
+
+        /// <summary>
+        /// 创建TelesignalisationTable
+        /// </summary>
+        public void CrateTelesignalisationTable()
+        {
+            string sql =
+            "CREATE TABLE Telesignalisation(InternalID int,TelesignalisationName Text,TelesignalisationID int,IsNot BOOLEAN, TelesignalisationResult int, Time Datetime, TelesignalisationState string,  Comment Text,StateA Text, StateB Text )";
+            dataBase.CreateTale(sql);
+        }
+
+        /// <summary>
+        /// 清空历史数据，将数据插入表格
+        /// </summary>       
+        public void InsertTelesignalisation()
+        {
+            var collect = telesignalisation;
+            var listStr = new List<String>();
+            foreach (var m in collect)
+            {
+                string sql = string.Format("INSERT INTO  Telesignalisation VALUES({0},\'{1}\',{2},{3},{4},\'{5}\',\'{6}\',\'{7}\',\'{8}\',\'{9}\')",
+                    m.InternalID, m.TelesignalisationName, m.TelesignalisationID,(m.IsNot?1:0), m.TelesignalisationResult, m.Date, 
+                   m.TelesignalisationState, m.Comment, m.StateA, m.StateB);
+                listStr.Add(sql);
+            }
+            if (listStr.Count > 0)
+            {
+                string sqlClear = "delete from  Telesignalisation";
+                dataBase.InsertTable(listStr, sqlClear);
+                
+            }
+        }
+
+        /// <summary>
+        /// 读取遥信
+        /// </summary>
+        /// <param name="flag">true--重新更新, false--若当前已存在则直接使用</param>
+        /// <returns>遥信合集</returns>       
+        public ObservableCollection<Telesignalisation> ReadTelesignalisation(bool flag)
+        {
+            try
+            {
+                if (telesignalisation == null || flag)
+                {
+                    telesignalisation = new ObservableCollection<Telesignalisation>();
+                    string sql = "SELECT * from Telesignalisation";
+                    dataBase.ReadTable(sql, GetTelesignalisation);
+                    return telesignalisation;
+                }
+                else
+                {
+                    return telesignalisation;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private bool GetTelesignalisation(System.Data.SQLite.SQLiteDataReader reader)
+        {
+            telesignalisation.Add(new Telesignalisation(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2),
+                reader.GetBoolean(3), reader.GetInt32(4), reader.GetDateTime(5).ToString(), reader.GetString(7), 
+                reader.GetString(8), reader.GetString(9)));
+
+            return true;
+        }
+
+
+        #endregion
+
         #region 遥测数据获取
         /// <summary>
         /// 获取遥测数据
@@ -253,7 +326,7 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
             if (telemetering == null)
             {
                 ObservableCollection<Telemetering> list = new ObservableCollection<Telemetering>();
-                telemetering = DataLoad<Telemetering>(ref CommonPath.TelemeteringXmlPath, ref CommonPath.TelemeteringXsdPath,
+                telemetering = (ObservableCollection<Telemetering>)DataLoad<Telemetering>(ref CommonPath.TelemeteringXmlPath, ref CommonPath.TelemeteringXsdPath,
                        ref dataSetTelemetering, DataTypeEnum.Telemetering);
 
                 list = (ObservableCollection<Telemetering>)telemetering;
@@ -266,6 +339,89 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
 
         }
         #endregion
+
+        #region 遥测数据 数据库操作
+
+        /// <summary>
+        /// 创建TelemeteringTable
+        /// </summary>
+        public void CrateTelemeteringTable()
+        {
+            string sql =
+            "CREATE TABLE Telemetering(InternalID int, TelemeteringName Text,TelemeteringID int, CalibrationCoefficient double, TelemeteringValue double, Unit Text, Mark Text, Comment Text)";
+            dataBase.CreateTale(sql);
+        }
+
+        /// <summary>
+        /// 清空历史数据，将数据插入表格
+        /// </summary>       
+        public void InsertTelemetering()
+        {
+            var collect = telemetering;
+            var listStr = new List<String>();
+            foreach (var m in collect)
+            {
+                string sql = string.Format("INSERT INTO  Telemetering VALUES({0},\'{1}\',{2},{3},{4},\'{5}\',\'{6}\',\'{7}\')",
+                   m.InternalID, m.TelemeteringName, m.TelemeteringID, m.CalibrationCoefficient,
+                   m.TelemeteringValue, m.Unit, m.Mark, m.Comment);
+                listStr.Add(sql);
+            }
+            if (listStr.Count > 0)
+            {
+                string sqlClear = "delete from  Telemetering";
+                dataBase.InsertTable(listStr, sqlClear);
+            }
+        }
+
+        /// <summary>
+        /// 读取电能数据表格
+        /// </summary>
+        /// <param name="flag">true--重新更新, false--若当前已存在则直接使用</param>
+        /// <returns>电能合集</returns>       
+        public ObservableCollection<Telemetering> ReadTelemetering(bool flag)
+        {
+            try
+            {
+                if (telemetering == null || flag)
+                {
+                    telemetering = new ObservableCollection<Telemetering>();
+                    string sql = "SELECT * from Telemetering";
+                    dataBase.ReadTable(sql, GetTelemetering);
+                    return telemetering;
+                }
+                else
+                {
+                    return telemetering;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private bool GetTelemetering(System.Data.SQLite.SQLiteDataReader reader)
+        {
+            reader.GetInt32(0);
+            reader.GetString(1);
+            reader.GetInt32(2);
+            reader.GetDouble(3);
+            reader.GetDouble(4);
+            reader.GetString(5);
+            var name = reader.GetDataTypeName(6);
+            reader.GetString(6);
+           
+            reader.GetString(7);
+
+
+            telemetering.Add(new Telemetering(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2),
+                reader.GetDouble(3), reader.GetDouble(4), reader.GetString(5), reader.GetString(6), reader.GetString(7)));
+
+            return true;
+        }
+
+
+        #endregion
+
         #region 系统参数数据获取
         /// <summary>
         /// 获取系统参数数据
@@ -396,8 +552,7 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         public void CrateEletricPulseTable()
         {
             string sql = 
-                "CREATE TABLE EletricPulse(ID int, Name Text,Value Double,Unit Text, TimeStamp Text, Comment Text)";
-           
+                "CREATE TABLE EletricPulse(ID int, Name Text,Value Double,Unit Text, TimeStamp Text, Comment Text)";        
             dataBase.CreateTale(sql);
         }
 

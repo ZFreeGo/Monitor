@@ -78,7 +78,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
 
                 if (IsSingle) //但双点信息判断
                 {
-                    if (IsNot != "是")
+                    if (IsNot != true)
                     {
                         result = 1 - result; //取反1+0 等于1
                     }
@@ -93,7 +93,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
                 }
                 else
                 {
-                    if (IsNot != "是")
+                    if (IsNot != true)
                     {
                         result = 3 - result; //取反1+2等于3
                     }
@@ -114,22 +114,21 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
                 // RaisePropertyChanged("TelesignalisationStatet"));
             }
         }
-        private string isNot;
+        private bool isNot;
         /// <summary>
         /// 是否取反 "是" "否"
         /// </summary>
-        public string IsNot
+        public bool IsNot
         {
             get { return isNot; }
             set
             {
-                if ((value == "是") || (value == "否"))
-                {
+                
                     isNot = value;
                     RaisePropertyChanged("IsNot");
                     RaisePropertyChanged("Comment");
                     RaisePropertyChanged("TelesignalisationState");
-                }
+                
 
             }
         }
@@ -159,7 +158,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
                 int nA = 0; //单点信息--默认开
                 int nB = 1;
 
-                if (IsNot == "是") //是否取反判断
+                if (IsNot == true) //是否取反判断
                 {
                     sA = StateB;
                     sB = StateA;
@@ -253,7 +252,8 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
         /// <param name="comment">注释</param>
         /// <param name="inStateA">状态A</param>
         /// <param name="inStateB">状态B</param>
-        public Telesignalisation(int internalID, string telesignalisationName, int telesignalisationID, string isNot, int telesignalisationResult,
+        public Telesignalisation(int internalID, string telesignalisationName, int telesignalisationID,
+            bool isNot, int telesignalisationResult,
             string date, string comment, string inStateA, string inStateB)
             : this(internalID, telesignalisationName, telesignalisationID, isNot, telesignalisationResult,
             date, comment)
@@ -261,7 +261,15 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             StateA = inStateA;
             StateB = inStateB;
         }
-
+        public Telesignalisation(int internalID, string telesignalisationName, int telesignalisationID,
+           string isNot, int telesignalisationResult,
+           string date, string comment, string inStateA, string inStateB)
+            : this(internalID, telesignalisationName, telesignalisationID, isNot, telesignalisationResult,
+            date, comment)
+        {
+            StateA = inStateA;
+            StateB = inStateB;
+        }
 
         /// <summary>
         /// 遥信参数初始化
@@ -272,7 +280,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
         /// <param name="isNot">是否取反</param>
         /// <param name="date">日期</param>
         /// <param name="comment">注释</param>
-        public Telesignalisation(int internalID, string telesignalisationName, int telesignalisationID, string isNot, int telesignalisationResult,
+        public Telesignalisation(int internalID, string telesignalisationName, int telesignalisationID, bool isNot, int telesignalisationResult,
             string date, string comment)
         {
             InternalID = internalID;
@@ -288,7 +296,22 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
 
             IsSingle = true;//默认为单点信息
         }
+        public Telesignalisation(int internalID, string telesignalisationName, int telesignalisationID, string isNot, int telesignalisationResult,
+            string date, string comment)
+        {
+            InternalID = internalID;
+            TelesignalisationName = telesignalisationName;
+            TelesignalisationID = telesignalisationID;
+            IsNot = false;
+            Date = date;
+            // Comment = comment;
+            TelesignalisationResult = telesignalisationResult;
+            TelesignalisationState = "";
+            TelesignalisationID = (int)(Telesignalisation.BasicAddress + internalID - 1);
+            isChanged = false;
 
+            IsSingle = true;//默认为单点信息
+        }
 
 
         public override string ToString()

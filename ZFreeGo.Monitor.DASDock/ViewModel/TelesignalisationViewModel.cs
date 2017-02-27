@@ -4,43 +4,59 @@ using GalaSoft.MvvmLight.Messaging;
 using System.Collections.ObjectModel;
 using ZFreeGo.Monitor.DASModel.GetViewData;
 using ZFreeGo.Monitor.DASModel.DataItemSet;
+using ZFreeGo.Monitor.DASModel;
+using System;
 
 namespace ZFreeGo.Monitor.DASDock.ViewModel
 {
    
     public class TelesignalisationViewModel : ViewModelBase
     {
+        private MonitorViewData monitorData;
         /// <summary>
         /// Initializes a new instance of the DataGridPageViewModel class.
         /// </summary>
         public TelesignalisationViewModel()
         {
-            _userData = new ObservableCollection<Telesignalisation>();
-            
-            Messenger.Default.Register<MonitorViewData>(this, "LoadData", ExecuteLoadData);
+            userData = new ObservableCollection<Telesignalisation>();
+
+            Messenger.Default.Register<DASModelServer>(this, "DASModelServer", ExecuteDASModelServer);
             DataGridMenumSelected = new RelayCommand<string>(ExecuteDataGridMenumSelected);            
 
         }
 
-        private void ExecuteLoadData(MonitorViewData obj)
+        private void ExecuteDASModelServer(DASModelServer obj)
         {
-            if (obj != null)
+            try
             {
-                UserData = obj.GetTelesignalisationList();
+                if (obj != null)
+                {
+                    //UserData = obj.DataFile.MonitorData.GetTelesignalisationList();
+                    monitorData = obj.DataFile.MonitorData;
+                   UserData = monitorData.ReadTelesignalisation(true);
+                }
+            }
+            catch (Exception ex)
+            {
+                Messenger.Default.Send<Exception>(ex, "ExceptionMessage");
             }
         }
 
+       
+
+     
+
         /************** 属性 **************/
-        private ObservableCollection<Telesignalisation> _userData;
+        private ObservableCollection<Telesignalisation> userData;
         /// <summary>
         /// 用户信息数据
         /// </summary>
         public ObservableCollection<Telesignalisation> UserData
         {
-            get { return _userData; }
+            get { return userData; }
             set
             {
-                _userData = value;
+              userData = value;
                 RaisePropertyChanged("UserData");
             }
         }
@@ -110,67 +126,68 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
 
         private void ExecuteDataGridMenumSelected(string name)
         {
-            switch (name)
+            try
             {
-                case "Reload":
-                    {
-                        string path = "";
-            //            OpenXmlFile(ref path, "xml");
-
-            //            telesignalisation = DataLoad<Telesignalisation>(ref path, ref pathxsdTelesignalisation,
-            //ref dataSetTelesignalisation, DataTypeEnum.Telesignalisation, gridTelesignalisation);
-                        break;
-                    }
-                case "Save":
-                    {
-         //               string path = "";
-         //               SaveXmlFile(ref path);
-         //               DataExport<Telesignalisation>(dataSetTelesignalisation, DataTypeEnum.Telesignalisation,
-         //telesignalisation, path);
-
-                        break;
-                    }
-                case "AddUp":
-                    {
-                        if (SelectedIndex > -1)
+                switch (name)
+                {
+                    case "Reload":
                         {
-                            var item = new Telesignalisation(0, "xxx", 0, "否", 0, "xxx", "xxx", "StateA", "StateB");                          
-                            UserData.Insert(SelectedIndex, item);
-                        }
-                        break;
-                    }
-                case "AddDown":
-                    {
 
-                        if (SelectedIndex > -1)
+                            UserData = monitorData.ReadTelesignalisation(true);
+                            break;
+                        }
+                    case "Save":
                         {
-                            var item = new Telesignalisation(0, "xxx", 0, "否", 0, "xxx", "xxx", "StateA", "StateB");                           
-                            if (SelectedIndex < UserData.Count - 1)
-                            {
 
-                                UserData.Insert(SelectedIndex + 1, item);
-                            }
-                            else
-                            {
-                                UserData.Add(item);
-                            }
+                            monitorData.InsertTelesignalisation();
+                            break;
                         }
-                        break;
-                    }
-                case "DeleteSelect":
-                    {
-                        if (SelectedIndex > -1)
+                    case "AddUp":
                         {
-                            //var result = MessageBox.Show("是否删除选中行:" + gridTelesignalisation.SelectedItem.ToString(),
-                            //    "确认删除", MessageBoxButton.OKCancel);
-                            var result = true;
-                            if (result)
+                            if (SelectedIndex > -1)
                             {
-                                UserData.RemoveAt(SelectedIndex);
+                                var item = new Telesignalisation(0, "xxx", 0, "否", 0, "xxx", "xxx", "StateA", "StateB");
+                                UserData.Insert(SelectedIndex, item);
                             }
+                            break;
                         }
-                        break;
-                    }
+                    case "AddDown":
+                        {
+
+                            if (SelectedIndex > -1)
+                            {
+                                var item = new Telesignalisation(0, "xxx", 0, "否", 0, "xxx", "xxx", "StateA", "StateB");
+                                if (SelectedIndex < UserData.Count - 1)
+                                {
+
+                                    UserData.Insert(SelectedIndex + 1, item);
+                                }
+                                else
+                                {
+                                    UserData.Add(item);
+                                }
+                            }
+                            break;
+                        }
+                    case "DeleteSelect":
+                        {
+                            if (SelectedIndex > -1)
+                            {
+                                //var result = MessageBox.Show("是否删除选中行:" + gridTelesignalisation.SelectedItem.ToString(),
+                                //    "确认删除", MessageBoxButton.OKCancel);
+                                var result = true;
+                                if (result)
+                                {
+                                    UserData.RemoveAt(SelectedIndex);
+                                }
+                            }
+                            break;
+                        }
+                }
+            }             
+            catch(Exception ex)
+            {
+                Messenger.Default.Send<Exception>(ex, "ExceptionMessage"); 
             }
         }
         #endregion

@@ -4,42 +4,58 @@ using GalaSoft.MvvmLight.Messaging;
 using System.Collections.ObjectModel;
 using ZFreeGo.Monitor.DASModel.GetViewData;
 using ZFreeGo.Monitor.DASModel.DataItemSet;
+using ZFreeGo.Monitor.DASModel;
+using System;
 
 namespace ZFreeGo.Monitor.DASDock.ViewModel
 {
    
     public class TelemeteringViewModel : ViewModelBase
     {
+        private MonitorViewData monitorData;
+
         /// <summary>
         /// Initializes a new instance of the DataGridPageViewModel class.
         /// </summary>
         public TelemeteringViewModel()
         {
-            _userData = new ObservableCollection<Telemetering>();
+            userData = new ObservableCollection<Telemetering>();
             LoadDataCommand = new RelayCommand(ExecuteLoadDataCommand);
-            Messenger.Default.Register<MonitorViewData>(this, "LoadData", ExecuteLoadData);
+           
+            Messenger.Default.Register<DASModelServer>(this, "DASModelServer", ExecuteDASModelServer);
             DataGridMenumSelected = new RelayCommand<string>(ExecuteDataGridMenumSelected);
         }
 
-        private void ExecuteLoadData(MonitorViewData obj)
+        private void ExecuteDASModelServer(DASModelServer obj)
         {
-            if (obj != null)
+            try
             {
-                UserData = obj.GetTelemeteringList();
+                if (obj != null)
+                {
+                    UserData = obj.DataFile.MonitorData.ReadTelemetering(true);
+                    //UserData = obj.DataFile.MonitorData.GetTelemeteringList();
+                    monitorData = obj.DataFile.MonitorData;
+
+                }
+            }
+            catch(Exception ex)
+            {             
+                Messenger.Default.Send<Exception>(ex, "ExceptionMessage");            
             }
         }
 
+  
         /************** 属性 **************/
-        private ObservableCollection<Telemetering> _userData;
+        private ObservableCollection<Telemetering> userData;
         /// <summary>
         /// 用户信息数据
         /// </summary>
         public ObservableCollection<Telemetering> UserData
         {
-            get { return _userData; }
+            get { return userData; }
             set
             {
-                _userData = value;
+                userData = value;
                 RaisePropertyChanged("UserData");
             }
         }
@@ -114,65 +130,74 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
 
         private void ExecuteDataGridMenumSelected(string name)
         {
-            if (!FixCheck)
+            try
             {
-                return;
+                if (!FixCheck)
+                {
+                    return;
+                }
+                switch (name)
+                {
+                    case "Reload":
+                        {
+
+                            UserData = monitorData.ReadTelemetering(true);
+                            break;
+                        }
+                    case "Save":
+                        {
+                            monitorData.InsertTelemetering();
+                            break;
+                        }
+                    case "AddUp":
+                        {
+                            if (SelectedIndex > -1)
+                            {
+                                var item = new Telemetering(0, "", 0, 1, 1, "", "", "");
+                                UserData.Insert(SelectedIndex, item);
+                            }
+                            break;
+                        }
+                    case "AddDown":
+                        {
+                            if (SelectedIndex > -1)
+                            {
+                                var item = new Telemetering(0, "", 0, 1, 1, "", "", "");
+                                if (SelectedIndex < UserData.Count - 1)
+                                {
+
+                                    UserData.Insert(SelectedIndex + 1, item);
+                                }
+                                else
+                                {
+                                    UserData.Add(item);
+                                }
+                            }
+                            break;
+                        }
+                    case "DeleteSelect":
+                        {
+                            if (SelectedIndex > -1)
+                            {
+                                //var result = MessageBox.Show("是否删除选中行:" + gridTelesignalisation.SelectedItem.ToString(),
+                                //    "确认删除", MessageBoxButton.OKCancel);
+                                var result = true;
+                                if (result)
+                                {
+                                    UserData.RemoveAt(SelectedIndex);
+                                }
+                            }
+                            break;
+                        }
+                }
             }
-            switch (name)
+            catch(Exception ex)
             {
-                case "Reload":
-                    {
-
-                        //UserData = viewData.ReadEletricPulse(true);
-                        break;
-                    }
-                case "Save":
-                    {
-                        //viewData.InsertEletricPulse();
-                        break;
-                    }
-                case "AddUp":
-                    {
-                        if (SelectedIndex > -1)
-                        {
-                            var item = new ElectricPulse(0, "", 0, "", "", "");
-                            //UserData.Insert(SelectedIndex, item);
-                        }
-                        break;
-                    }
-                case "AddDown":
-                    {
-                        if (SelectedIndex > -1)
-                        {
-                            var item = new ElectricPulse(0, "", 0, "", "", "");
-                            if (SelectedIndex < UserData.Count - 1)
-                            {
-
-                                //UserData.Insert(SelectedIndex + 1, item);
-                            }
-                            else
-                            {
-                                //UserData.Add(item);
-                            }
-                        }
-                        break;
-                    }
-                case "DeleteSelect":
-                    {
-                        if (SelectedIndex > -1)
-                        {
-                            //var result = MessageBox.Show("是否删除选中行:" + gridTelesignalisation.SelectedItem.ToString(),
-                            //    "确认删除", MessageBoxButton.OKCancel);
-                            var result = true;
-                            if (result)
-                            {
-                                UserData.RemoveAt(SelectedIndex);
-                            }
-                        }
-                        break;
-                    }
+                Messenger.Default.Send<Exception>(ex, "ExceptionMessage"); 
             }
         }
         #endregion
+
+    
     }
 }

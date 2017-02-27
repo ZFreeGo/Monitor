@@ -45,6 +45,7 @@
                     </ContextMenu>
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns >
+                   
                     <DataGridTextColumn Header="内部ID"  Width="50" Binding="{Binding InternalID}" ></DataGridTextColumn>
                     <DataGridTextColumn Header="遥信名称"    MinWidth="50" Binding="{Binding TelesignalisationName}" ></DataGridTextColumn>
                     <DataGridTextColumn Header="遥信ID"   MinWidth="50" Binding="{Binding TelesignalisationID, StringFormat={}{0:X2}}" IsReadOnly="True"></DataGridTextColumn>
