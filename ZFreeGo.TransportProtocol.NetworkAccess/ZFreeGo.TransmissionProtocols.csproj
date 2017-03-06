@@ -45,10 +45,14 @@
     <Compile Include="FileSever\FileWriteServer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Frame101\APDU101.cs" />
+    <Compile Include="Frame101\ClassHead.cs" />
     <Compile Include="MonitorProcessInformation\EventLogEventArgs.cs" />
     <Compile Include="MonitorProcessInformation\ProcessFaultEventArgs.cs" />
+    <Compile Include="SerialPortProtocolServer.cs" />
     <Compile Include="NetWorkProtocolServer.cs" />
     <Compile Include="ReciveCenter\ApplicationFrameManager.cs" />
+    <Compile Include="ReciveCenter\CheckLinkData.cs" />
     <Compile Include="ReciveCenter\CheckGetMessage.cs" />
     <Compile Include="ReciveCenter\ControlFlow.cs" />
     <Compile Include="ReciveCenter\ControlFlowTimer.cs" />
@@ -73,6 +77,7 @@
     <Compile Include="BasicElement\FileElement\FileTransmit.cs" />
     <Compile Include="ReciveCenter\FlowGather.cs" />
     <Compile Include="Frame104\MasterCommand.cs" />
+    <Compile Include="ReciveCenter\ShortFrameEventArgs.cs" />
     <Compile Include="ReciveCenter\ProcessControl.cs" />
     <Compile Include="BasicElement\DoubleInformationQualifier.cs" />
     <Compile Include="BasicElement\DoubleCommand.cs" />
