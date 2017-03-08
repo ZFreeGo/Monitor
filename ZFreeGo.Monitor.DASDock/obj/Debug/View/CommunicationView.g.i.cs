@@ -176,6 +176,12 @@ namespace ZFreeGo.Monitor.DASDock.View {
             return;
             case 9:
             this.btnManualCall = ((System.Windows.Controls.Button)(target));
+            
+            #line 87 "..\..\..\View\CommunicationView.xaml"
+            this.btnManualCall.Click += new System.Windows.RoutedEventHandler(this.btnManualCall_Click);
+            
+            #line default
+            #line hidden
             return;
             case 10:
             this.btnTimeSynA = ((System.Windows.Controls.Button)(target));

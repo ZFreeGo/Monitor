@@ -8,3 +8,8 @@ J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\bin\Deb
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\obj\Debug\ZFreeGo.TransmissionProtocols.dll
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\obj\Debug\ZFreeGo.TransmissionProtocols.pdb
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.TransportProtocol.NetworkAccess\obj\Debug\ZFreeGo.TransmissionProtocols.csprojResolveAssemblyReference.cache
+F:\SOJO WORK\Monitor\ZFreeGo.TransportProtocol.NetworkAccess\bin\Debug\ZFreeGo.TransmissionProtocols.dll
+F:\SOJO WORK\Monitor\ZFreeGo.TransportProtocol.NetworkAccess\bin\Debug\ZFreeGo.TransmissionProtocols.pdb
+F:\SOJO WORK\Monitor\ZFreeGo.TransportProtocol.NetworkAccess\obj\Debug\ZFreeGo.TransmissionProtocols.csprojResolveAssemblyReference.cache
+F:\SOJO WORK\Monitor\ZFreeGo.TransportProtocol.NetworkAccess\obj\Debug\ZFreeGo.TransmissionProtocols.dll
+F:\SOJO WORK\Monitor\ZFreeGo.TransportProtocol.NetworkAccess\obj\Debug\ZFreeGo.TransmissionProtocols.pdb

@@ -23,3 +23,16 @@ J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\GalaSoft.Mvv
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\obj\Debug\ZFreeGo.Monitor.DASModel.csprojResolveAssemblyReference.cache
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\obj\Debug\ZFreeGo.Monitor.DASModel.dll
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASModel\obj\Debug\ZFreeGo.Monitor.DASModel.pdb
+F:\SOJO WORK\Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\ZFreeGo.Monitor.DASModel.dll
+F:\SOJO WORK\Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\ZFreeGo.Monitor.DASModel.pdb
+F:\SOJO WORK\Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\GalaSoft.MvvmLight.dll
+F:\SOJO WORK\Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\System.Data.SQLite.dll
+F:\SOJO WORK\Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\ZFreeGo.Net.dll
+F:\SOJO WORK\Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\ZFreeGo.TransmissionProtocols.dll
+F:\SOJO WORK\Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\ZFreeGo.Net.pdb
+F:\SOJO WORK\Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\ZFreeGo.TransmissionProtocols.pdb
+F:\SOJO WORK\Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\GalaSoft.MvvmLight.pdb
+F:\SOJO WORK\Monitor\ZFreeGo.Monitor.DASModel\bin\Debug\GalaSoft.MvvmLight.xml
+F:\SOJO WORK\Monitor\ZFreeGo.Monitor.DASModel\obj\Debug\ZFreeGo.Monitor.DASModel.csprojResolveAssemblyReference.cache
+F:\SOJO WORK\Monitor\ZFreeGo.Monitor.DASModel\obj\Debug\ZFreeGo.Monitor.DASModel.dll
+F:\SOJO WORK\Monitor\ZFreeGo.Monitor.DASModel\obj\Debug\ZFreeGo.Monitor.DASModel.pdb

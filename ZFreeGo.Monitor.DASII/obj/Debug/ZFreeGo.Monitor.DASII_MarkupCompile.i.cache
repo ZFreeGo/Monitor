@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASII\obj\Debug\
+F:\SOJO WORK\Monitor\ZFreeGo.Monitor.DASII\obj\Debug\
 ZFreeGo.Monitor.DASII
 none
 false
 CODE_ANALYSIS;DEBUG;TRACE
-J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASII\App.xaml
+F:\SOJO WORK\Monitor\ZFreeGo.Monitor.DASII\App.xaml
 101313176434
 
-241282889059
-19-1182656460
+241578662511
+191510325279
 MainWindow.xaml;Skins\MainSkin.xaml;View\CalibrationView.xaml;View\ProtectSetpointView.xaml;View\TelemeteringView.xaml;View\SOEView.xaml;View\TelecontrolView.xaml;View\ParameterView.xaml;View\CommunicationView.xaml;View\TelesignalisationView.xaml;
 
-False
+True
 

@@ -44,6 +44,7 @@ namespace ZFreeGo.Monitor.DASDock
 
         private void ShowUserView(string obj)
         {
+           
             if (obj != null)
             {
 
@@ -86,7 +87,7 @@ namespace ZFreeGo.Monitor.DASDock
                         }
                     case "Communication":
                         {
-                            
+                          
                             break;
                         }
 
