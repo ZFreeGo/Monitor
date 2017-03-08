@@ -1,6 +1,6 @@
 Git中从远程的分支获取最新的版本到本地有这样2个命令：
 1. git fetch：相当于是从远程获取最新版本到本地，不会自动merge
-
+ s
     
 Git fetch origin master
 git log -p master..origin/master
