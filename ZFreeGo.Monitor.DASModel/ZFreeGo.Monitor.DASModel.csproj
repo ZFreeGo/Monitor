@@ -49,8 +49,10 @@
     <Compile Include="DataItemSet\FileAttributeItem.cs" />
     <Compile Include="DataItemSet\HistoryLog.cs" />
     <Compile Include="DataItemSet\LogTypeNum.cs" />
+    <Compile Include="DataItemSet\SerialPortParamer.cs" />
     <Compile Include="DataItemSet\StateMessage.cs" />
     <Compile Include="DataItemSet\ElectricPulse.cs" />
+    <Compile Include="GetViewData\SerialPortParameterItem.cs" />
     <Compile Include="GetViewData\SQLliteDatabase.cs" />
     <Compile Include="Helper\Clock.cs" />
     <Compile Include="Helper\CommonPath.cs" />

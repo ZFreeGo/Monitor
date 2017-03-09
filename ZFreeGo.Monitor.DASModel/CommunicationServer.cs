@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ZFreeGo.Monitor.DASModel.DataItemSet;
+using ZFreeGo.Monitor.DASModel.GetViewData;
 using ZFreeGo.Net;
 
 
@@ -90,6 +91,23 @@ namespace ZFreeGo.Monitor.DASModel
             _netCustomParameter = new NetParameter();
             _netCustomParameter.Port = 8000;
             _tcpCustomClient = new NetClient();
-        }       
+
+            _serialParameter = new SerialPortParameterItem();
+        }
+
+
+
+        private SerialPortParameterItem _serialParameter;
+
+        /// <summary>
+        /// 获取串口参数合集
+        /// </summary>
+        public SerialPortParameterItem SerialPortParameter
+        {
+            get
+            {
+                return _serialParameter;
+            }
+        }
     }
 }

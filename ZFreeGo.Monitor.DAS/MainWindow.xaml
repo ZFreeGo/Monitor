@@ -171,6 +171,7 @@
                     </TabItem>
                     <!--通信设置==标签页-->
                     <TabItem Header="通信设置" Name="tabItemCommunication">
+                        
                         <Grid >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="0"></RowDefinition>

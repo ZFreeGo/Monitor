@@ -23,6 +23,7 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         public NetCommunicationItem()
         {
             _netParameter = new NetParameter();
+           
         }
     }
 }

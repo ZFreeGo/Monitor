@@ -76,6 +76,7 @@ namespace ZFreeGo.TransportProtocol.Xmodem
             ManualAbort = false;
             loopCount = 0;
             loopCountMax = _timeout / 100;
+            
         }
 
         /// <summary> 

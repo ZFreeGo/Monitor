@@ -32,24 +32,114 @@
 
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
 
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="0" Grid.Row="0" >
-              
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="3">IP地址：</TextBlock>
-                    <TextBox MinWidth="100" Margin="3" Name="txtIp" Text="{Binding IpAddress}"></TextBox>
+            <TabControl Grid.Column="0" Grid.Row="0">
+                <TabItem Header="串口设置">
+                    <StackPanel>
+                        <Grid Name="commAGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="80"></ColumnDefinition>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="80"></ColumnDefinition>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="80"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
 
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="3" >端口名称：</TextBlock>
-                    <TextBox MinWidth="100" Margin="3" Name="txtPort" Text="{Binding Port}"></TextBox>
-                </StackPanel>
-             
-            </StackPanel>
+                            </Grid.RowDefinitions>
+                            <Label  Padding="1" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">串口号:</Label>
+                            <ComboBox    Grid.Column="1" Grid.Row="0" SelectedIndex="{Binding SelectedIndexCommonPort}"
+                      MinWidth="30" Height="22" VerticalContentAlignment="Center" ItemsSource="{Binding CommonPort}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0" >
+                                            <TextBlock FontWeight="Bold" Text="{Binding Path=Paramer}"></TextBlock>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <Label Margin ="2" Padding="1" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center">波特率:</Label>
+                            <ComboBox   Grid.Column="3" Grid.Row="0"  ItemsSource="{Binding Baud}"  SelectedIndex="{Binding SelectedIndexBaud}"
+                      MinWidth="30" Height="22" VerticalContentAlignment="Center">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0" >
+                                            <TextBlock FontWeight="Bold" Text="{Binding Path=Paramer}"></TextBlock>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <Label Margin ="2" Padding="1" Grid.Column="4" Grid.Row="0" VerticalAlignment="Center">数据位:</Label>
+                            <ComboBox    Grid.Column="5" Grid.Row="0"  ItemsSource="{Binding DataBit}" SelectedIndex="{Binding SelectedIndexDataBit}"
+                      MinWidth="30" Height="22" VerticalContentAlignment="Center">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0" >
+                                            <TextBlock FontWeight="Bold" Text="{Binding Path=Paramer}"></TextBlock>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <Label Margin ="2" Padding="1" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">校验位:</Label>
+                            <ComboBox    Grid.Column="1" Grid.Row="1"  ItemsSource="{Binding ParityBit}"  SelectedIndex="{Binding SelectedIndexParity}"
+                      MinWidth="30" Height="22" VerticalContentAlignment="Center">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0" >
+                                            <TextBlock FontWeight="Bold" Text="{Binding Path=Paramer}"></TextBlock>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <Label Margin ="2" Padding="1" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center">停止位:</Label>
+                            <ComboBox Name="stopBits"  Grid.Column="3" Grid.Row="1"  ItemsSource="{Binding StopBit}"  SelectedIndex="{Binding SelectedIndexStopBit}"
+                      MinWidth="30" Height="22" VerticalContentAlignment="Center">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0" >
+                                            <TextBlock FontWeight="Bold" Text="{Binding Path=Paramer}"></TextBlock>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                        </Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Button  Padding="2" Margin="3"  HorizontalAlignment="Center"  
+                                 Command="{Binding SerialCommand}" CommandParameter="OpeanSerial">打开串口</Button>
+                            <Button  Padding="2" Margin="3"  HorizontalAlignment="Center"  
+                                 Command="{Binding SerialCommand}" CommandParameter="CloseSerial">关闭串口</Button>
+                            <Button  Padding="2" Margin="3"  HorizontalAlignment="Center"  
+                                 Command="{Binding SerialCommand}" CommandParameter="Command1">Other1</Button>
+                            <Button  Padding="2" Margin="3"  HorizontalAlignment="Center"  
+                                 Command="{Binding SerialCommand}" CommandParameter="Command2">Other2</Button>
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="网口设置">
+                    <StackPanel  >
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="3">IP地址：</TextBlock>
+                            <TextBox MinWidth="100" Margin="3" Name="txtIp" Text="{Binding IpAddress}"></TextBox>
+
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="3" >端口名称：</TextBlock>
+                            <TextBox MinWidth="100" Margin="3" Name="txtPort" Text="{Binding Port}"></TextBox>
+                        </StackPanel>
+
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+           
           
 
 

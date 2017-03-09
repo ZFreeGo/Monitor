@@ -83,6 +83,7 @@ namespace ZFreeGo.Monitor.Test.Xmode
                 readThread.Priority = ThreadPriority.AboveNormal;
                 readThread.Start();
                 portState = true;
+                
                 return true;
             }
             catch (Exception ex)

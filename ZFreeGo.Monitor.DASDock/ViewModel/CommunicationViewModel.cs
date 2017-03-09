@@ -35,9 +35,10 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             LoadDataCommand = new RelayCommand(ExecuteLoadDataCommand);
             StartTcpLink = new RelayCommand<string>(ExecuteStartTcpLink);
             StopTcpLink = new RelayCommand<string>(ExecuteStopTcpLink);
-            Messenger.Default.Register<CommunicationServer>(this, "CommunicationServer", ExecuteCommunicationServer);
-            Messenger.Default.Register<NetWorkProtocolServer>(this, "NetWorkProtocolServer", ExecuteNetWorkProtocolServer);
-            
+
+
+            Messenger.Default.Register<DASModelServer>(this, "DASModelServer", ExecuteDASModelServer);
+
             StartTransmission = new RelayCommand<string>(ExecuteStartTransmission);
             StopTransmission = new RelayCommand<string>(ExecuteStopTransmission);
             CallAll = new RelayCommand<string>(ExecuteCallAll);
@@ -45,22 +46,38 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             StopAllLink = new RelayCommand<string>(ExecuteStopAllLink);
             ClearText = new RelayCommand<string>(ExecuteClearText);
             ToEnd = new RelayCommand<string>(ExecuteToEnd);
+
+            SerialCommand = new RelayCommand<string>(ExecuteSerialCommand);
         }
 
         /// <summary>
-        /// 网络协议控制服务到来
+        /// 服务数据
         /// </summary>
         /// <param name="obj"></param>
-        private void ExecuteNetWorkProtocolServer(NetWorkProtocolServer obj)
+        private void ExecuteDASModelServer(DASModelServer obj)
         {
             if (obj != null)
             {
-                protocolServer = obj;
+                protocolServer = obj.ProtocolServer;
                 protocolServer.ControlServer.ServerEvent += ControlServer_ServerEvent;
                 protocolServer.ControlServer.ServerFaultEvent += ControlServer_ServerFaultEvent;
+
+                serverData = obj.Communication.NetParameter;
+                serverData.PropertyChanged += ServerInformation_PropertyChanged;
+                netServer = obj.Communication;
+                netServer.NetClient.LinkingEventMsg += NetServer_LinkingEventMsg;
+
+                serialPortParameter = obj.Communication.SerialPortParameter;
+                RaisePropertyChanged("Baud");
+                RaisePropertyChanged("DataBit");
+                RaisePropertyChanged("ParityBit");
+                RaisePropertyChanged("StopBit");
+                RaisePropertyChanged("CommonPort");
+
             }
         }
 
+      
         void ControlServer_ServerFaultEvent(object sender, TransmissionControlFaultEventArgs e)
         {
             switch(e.Result)
@@ -87,21 +104,7 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             RaisePropertyChanged(e.PropertyName);
         }
 
-        /// <summary>
-        /// 通讯服务
-        /// </summary>
-        /// <param name="obj"></param>
-        private void ExecuteCommunicationServer(CommunicationServer obj)
-        {
-            if (obj != null)
-            {
-                serverData = obj.NetParameter;
-                serverData.PropertyChanged += ServerInformation_PropertyChanged;
-                netServer = obj;                
-                netServer.NetClient.LinkingEventMsg += NetServer_LinkingEventMsg;             
-                
-            }
-        }
+       
 
         void ControlServer_ServerEvent(object sender, TransmissionControlEventArgs e)
         {
@@ -150,7 +153,179 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             
         }
 
-      
+        #region 串口数据处理
+
+        private int selectedIndexCommonPort;
+
+        public int SelectedIndexCommonPort
+        {
+            get
+            {
+                return selectedIndexCommonPort;
+            }
+            set
+            {
+                selectedIndexCommonPort = value;
+                RaisePropertyChanged("SelectedIndexCommonPort");
+            }
+        }
+
+        private int selectedIndexBaud;
+        public int SelectedIndexBaud
+        {
+            get
+            {
+                return selectedIndexBaud;
+            }
+            set
+            {
+                selectedIndexBaud = value;
+                RaisePropertyChanged("SelectedIndexBaud");
+            }
+        }
+
+        private int selectedIndexDataBit =3;
+
+        public int SelectedIndexDataBit
+        {
+            get
+            {
+                return selectedIndexDataBit;
+            }
+            set
+            {
+                selectedIndexDataBit = value;
+                RaisePropertyChanged("SelectedIndexDataBit");
+            }
+        }
+
+
+        private int selectedIndexStopBit;
+        public int SelectedIndexStopBit
+        {
+            get
+            {
+                return selectedIndexStopBit;
+            }
+            set
+            {
+                selectedIndexStopBit = value;
+                RaisePropertyChanged("SelectedIndexStopBit");
+            }
+        }
+
+        private int selectedIndexParity;
+
+        public int SelectedIndexParity
+        {
+            get
+            {
+                return selectedIndexParity;
+            }
+            set
+            {
+                selectedIndexParity = value;
+                RaisePropertyChanged("SelectedIndexParity");
+            }
+        }
+
+        private SerialPortParameterItem serialPortParameter;
+        /// <summary>
+        /// 波特率
+        /// </summary>
+        public ObservableCollection<SerialPortParamer<int>> Baud
+        {
+            get
+            {
+                return serialPortParameter.Baud;
+            }
+           
+        }
+
+        /// <summary>
+        /// 数据位
+        /// </summary>
+        public ObservableCollection<SerialPortParamer<int>> DataBit
+        {
+            get
+            {
+                return serialPortParameter.DataBit;
+            }
+        }
+
+        /// <summary>
+        /// 校验位
+        /// </summary>
+        public ObservableCollection<SerialPortParamer<System.IO.Ports.Parity>> ParityBit
+        {
+            get
+            {
+                return serialPortParameter.ParityBit;
+            }
+        }
+
+        /// <summary>
+        /// 停止位
+        /// </summary>
+        public ObservableCollection<SerialPortParamer<System.IO.Ports.StopBits>> StopBit
+        {
+            get
+            {
+                return serialPortParameter.StopBit;
+            }
+        }
+        /// <summary>
+        /// 串口号
+        /// </summary>
+        public ObservableCollection<SerialPortParamer<String>> CommonPort
+        {
+            get
+            {
+                return serialPortParameter.CommonPort;
+            }
+        }
+
+        public RelayCommand<string> SerialCommand { get; private set; }
+
+        public void ExecuteSerialCommand(string arg)
+        {
+            try
+            {
+                switch (arg)
+                {
+                    case "OpeanSerial":
+                        {
+                            break;
+                        }
+                    case "CloseSerial":
+                        {
+                            break;
+                        }
+                    case "Command1":
+                        {
+                            break;
+                        }
+                    case "Command2":
+                        {
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Messenger.Default.Send<Exception>(ex, "ExceptionMessage");
+            }
+        }
+
+        #endregion
+
+
+
         #region 加载数据命令：LoadDataCommand
         /// <summary>
         /// 加载数据

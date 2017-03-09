@@ -16,4 +16,3 @@ J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ConsoleTest.pdb
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ZFreeGo.FileOperation.Comtrade.dll
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ZFreeGo.Common.BasicTool.dll
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ZFreeGo.FileOperation.Comtrade.pdb
-J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ZFreeGo.Common.BasicTool.pdb
