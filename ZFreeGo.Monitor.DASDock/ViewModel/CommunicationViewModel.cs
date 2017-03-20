@@ -48,6 +48,12 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             ToEnd = new RelayCommand<string>(ExecuteToEnd);
 
             SerialCommand = new RelayCommand<string>(ExecuteSerialCommand);
+            serialPortParameter = new SerialPortParameterItem();
+            RaisePropertyChanged("Baud");
+            RaisePropertyChanged("DataBit");
+            RaisePropertyChanged("ParityBit");
+            RaisePropertyChanged("StopBit");
+            RaisePropertyChanged("CommonPort");
         }
 
         /// <summary>

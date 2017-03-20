@@ -39,16 +39,16 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             DataGridMenumSelected = new RelayCommand<string>(ExecuteDataGridMenumSelected);
             StartCalibrationCommand = new RelayCommand(ExecuteStartCalibrationCommand);
             StopCalibrationCommand = new RelayCommand(ExecuteStopCalibrationCommand);
-            loopTimer = new Timer();
-            loopTimer.AutoReset = true;
-            loopTimer.Elapsed += loopTimer_Elapsed;
+           
+
+            FactorOperationCommand = new RelayCommand<string>(ExecuteFactorOperationCommand);
         }
 
         void loopTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             try
             {
-                loopTimer.Interval = updateTime;
+               // loopTimer.Interval = updateTime;
                 if (sendCount++ < 10)
                 {
                     protocolServer.CallServer.StartServer(CauseOfTransmissionList.Activation, QualifyOfInterrogationList.GeneralInterrogation);
@@ -58,6 +58,7 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
                 {
                     sendCount = 0;
                     loopTimer.Stop();
+                    //ExecuteStopCalibrationCommand();
                 }
             }
             catch (Exception ex)
@@ -76,6 +77,11 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
                 calbrationServer = obj.CustomServer;
                 UserData = obj.DataFile.MonitorData.GetSystemCalibrationList();
                 netServer.NetCustomClient.LinkingEventMsg += NetCustomClient_LinkingEventMsg;
+
+                protocolServer = obj.ProtocolServer;
+                loopTimer = new Timer();
+                loopTimer.AutoReset = true;
+                loopTimer.Elapsed += loopTimer_Elapsed;
             }
         }
 
@@ -104,6 +110,8 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             sendCount = 0;
             loopTimer.Interval = updateTime;
             loopTimer.Start();
+            calbrationServer.IsRealUpdate = true;
+            calbrationServer.UpdateIndex = 0;
         }
 
 
@@ -137,7 +145,7 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
         #endregion
 
 
-        private bool realUpdate = false;
+        private bool realUpdate = true;
         public bool RealUpdate
         {
             get
@@ -147,8 +155,8 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             set
             {
                 realUpdate = value;
-                calbrationServer.IsRealUpdate = value;
-                calbrationServer.UpdateIndex = 0;
+                //calbrationServer.IsRealUpdate = value;
+                //calbrationServer.UpdateIndex = 0;
                 RaisePropertyChanged("RealUpdate");
 
 
@@ -239,9 +247,8 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
         #endregion
 
         #region 系数操作
-        public RelayCommand<string> FactorOperationCommand;
-
-        private void ExecuteFactorOperationCommand(string arg)
+        public RelayCommand<string> FactorOperationCommand { get; private set; }
+                private void ExecuteFactorOperationCommand(string arg)
         {
             try
             {

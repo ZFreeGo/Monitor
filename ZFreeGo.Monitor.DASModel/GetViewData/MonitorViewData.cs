@@ -907,7 +907,7 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         /// </summary>
         /// <param name="list">列表</param>
         /// <param name="updateIndex">更新索引</param>
-        public void UpdateCalbrationData(List<Tuple<uint, float, QualityDescription>> list, int updateIndex)
+        public void UpdateCalbrationData(List<Tuple<uint, float, QualityDescription>> list,ref int updateIndex)
         {
 
             var m = (ObservableCollection<SystemCalibration>)systemCalibration;

@@ -1,4 +1,4 @@
-<?xml version="1.0" standalone="yes"?>
+﻿<?xml version="1.0" standalone="yes"?>
 <NewDataSet>
   <SystemCalibration>
     <InternalID>1</InternalID>
@@ -336,25 +336,5 @@
     <Data10>0</Data10>
     <Comment />
   </SystemCalibration>
-  <SystemCalibration>
-    <InternalID>17</InternalID>
-    <EndPoint>16401</EndPoint>
-    <ParamName>T</ParamName>
-    <ParamValue>1000</ParamValue>
-    <StandardValue>2010</StandardValue>
-    <CallCoefficient>0</CallCoefficient>
-    <DownloadCoefficient>0</DownloadCoefficient>
-    <AverageValue>0</AverageValue>
-    <Data1>0</Data1>
-    <Data2>0</Data2>
-    <Data3>0</Data3>
-    <Data4>0</Data4>
-    <Data5>0</Data5>
-    <Data6>0</Data6>
-    <Data7>0</Data7>
-    <Data8>0</Data8>
-    <Data9>0</Data9>
-    <Data10>0</Data10>
-    <Comment />
-  </SystemCalibration>
+ 
 </NewDataSet>

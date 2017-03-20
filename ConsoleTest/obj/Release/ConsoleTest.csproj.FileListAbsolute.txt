@@ -8,3 +8,6 @@ F:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Release\ZFreeGo.Common.BasicToo
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\obj\Release\ConsoleTest.csprojResolveAssemblyReference.cache
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\obj\Release\ConsoleTest.exe
 F:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\obj\Release\ConsoleTest.pdb
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\obj\Release\ConsoleTest.csprojResolveAssemblyReference.cache
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\obj\Release\ConsoleTest.exe
+J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\obj\Release\ConsoleTest.pdb

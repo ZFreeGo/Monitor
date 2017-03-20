@@ -16,5 +16,5 @@ J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASDock\App.xaml
 25429456309
 MainWindow.xaml;Skins\MainSkin.xaml;View\CalibrationView.xaml;View\CommunicationView.xaml;View\ComtradeView.xaml;View\FileServerView.xaml;View\HistoryLogView.xaml;View\ParameterView.xaml;View\ProtectSetpointView.xaml;View\SOEView.xaml;View\TelecontrolView.xaml;View\ElectricPulseView.xaml;View\TelemeteringView.xaml;View\TelesignalisationView.xaml;
 
-False
+True
 

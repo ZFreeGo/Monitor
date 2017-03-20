@@ -10,3 +10,8 @@ J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.FileFormat.Comtrade\bin\Debug\ZFreeGo.F
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.FileFormat.Comtrade\obj\Debug\ZFreeGo.FileOperation.Comtrade.dll
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.FileFormat.Comtrade\obj\Debug\ZFreeGo.FileOperation.Comtrade.pdb
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.FileFormat.Comtrade\obj\Debug\ZFreeGo.FileOperation.Comtrade.csprojResolveAssemblyReference.cache
+E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ZFreeGo.FileFormat.Comtrade\bin\Debug\ZFreeGo.FileOperation.Comtrade.dll
+E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ZFreeGo.FileFormat.Comtrade\bin\Debug\ZFreeGo.FileOperation.Comtrade.pdb
+E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ZFreeGo.FileFormat.Comtrade\obj\Debug\ZFreeGo.FileOperation.Comtrade.csprojResolveAssemblyReference.cache
+E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ZFreeGo.FileFormat.Comtrade\obj\Debug\ZFreeGo.FileOperation.Comtrade.dll
+E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ZFreeGo.FileFormat.Comtrade\obj\Debug\ZFreeGo.FileOperation.Comtrade.pdb
