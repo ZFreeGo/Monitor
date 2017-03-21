@@ -320,7 +320,11 @@
     <EndPoint>16400</EndPoint>
     <ParamName>Wq</ParamName>
     <ParamValue>1000</ParamValue>
+<<<<<<< HEAD
     <StandardValue>1</StandardValue>
+=======
+    <StandardValue>2010</StandardValue>
+>>>>>>> tmp
     <CallCoefficient>0</CallCoefficient>
     <DownloadCoefficient>0</DownloadCoefficient>
     <AverageValue>0</AverageValue>

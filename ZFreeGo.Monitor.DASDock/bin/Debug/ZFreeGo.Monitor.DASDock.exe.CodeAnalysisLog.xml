@@ -2,7 +2,11 @@
 <?xml-stylesheet type="text/xsl" href="d:\software\visual studio\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
 <FxCopReport Version="12.0">
  <Targets>
+<<<<<<< HEAD
   <Target Name="E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ZFreeGo.Monitor.DASDock\bin\Debug\ZFreeGo.Monitor.DASDock.exe">
+=======
+  <Target Name="J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASDock\bin\Debug\ZFreeGo.Monitor.DASDock.exe">
+>>>>>>> tmp
    <Modules>
     <Module Name="zfreego.monitor.dasdock.exe">
      <Namespaces>
@@ -12,8 +16,13 @@
          <Members>
           <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
+<<<<<<< HEAD
             <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2017-03-21 09:12:21Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalWarning" Path="e:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ZFreeGo.Monitor.DASDock\ViewModel" File="CommunicationViewModel.cs" Line="28">'CommunicationViewModel.CommunicationViewModel()' 包含调用链，该调用链导致调用此类所定义的虚方法。请检查以下调用堆栈，看是否有意外结果: &#xD;&#xA;&#xD;&#xA;CommunicationViewModel..ctor()&#xD;&#xA;ObservableObject.RaisePropertyChanged(String):Void。</Issue>
+=======
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2017-03-20 11:01:01Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="j:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Monitor.DASDock\ViewModel" File="CommunicationViewModel.cs" Line="28">'CommunicationViewModel.CommunicationViewModel()' 包含调用链，该调用链导致调用此类所定义的虚方法。请检查以下调用堆栈，看是否有意外结果: &#xD;&#xA;&#xD;&#xA;CommunicationViewModel..ctor()&#xD;&#xA;ObservableObject.RaisePropertyChanged(String):Void。</Issue>
+>>>>>>> tmp
             </Message>
            </Messages>
           </Member>

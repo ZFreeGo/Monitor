@@ -197,7 +197,11 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             {
                 data[7] = value;
                 RaisePropertyChanged("Data8");
+<<<<<<< HEAD
                 CalculateDownloadCoefficient(8);
+=======
+                CalculateDownloadCoefficient();
+>>>>>>> tmp
             }
          }
 
@@ -440,7 +444,11 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             int index = 0;
             foreach (var m in data)
             {
+<<<<<<< HEAD
                // if ((m >= downValue) && (m <= upValue)) //负数计算不对
+=======
+                if ((m >= downValue) && (m <= upValue)) //负数计算不对
+>>>>>>> tmp
                 {
                     index++;
                     sum += m;
