@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <StackPanel Margin="3" Orientation="Horizontal" >
-                <Button Margin="3" Padding="3" Name="btnCallSetpoint">召唤定值-待实现</Button>
+                <Button Margin="3" Padding="3" Name="btnCallSetpoint" Command="{Binding SetProtectPoint}" CommandParameter="Call">召唤定值-待实现</Button>
 
                 <Button Margin="30,3,3,3" Padding="3" Name="DownloadProtectSetSelect" Command="{Binding SetProtectPoint}" CommandParameter="Slected">选择</Button>
                 <Button Margin="3,3,30,3" Padding="3" Name="DownloadProtectSet" Command="{Binding SetProtectPoint}" CommandParameter="Download">下载</Button>

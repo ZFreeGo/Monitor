@@ -26,6 +26,7 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
         private NetWorkProtocolServer protocolServer;
         private Timer loopTimer;
         private int sendCount = 0;
+        private DASModelServer dasServer;
         /// <summary>
         /// Initializes a new instance of the DataGridPageViewModel class.
         /// </summary>
@@ -39,16 +40,16 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             DataGridMenumSelected = new RelayCommand<string>(ExecuteDataGridMenumSelected);
             StartCalibrationCommand = new RelayCommand(ExecuteStartCalibrationCommand);
             StopCalibrationCommand = new RelayCommand(ExecuteStopCalibrationCommand);
-            loopTimer = new Timer();
-            loopTimer.AutoReset = true;
-            loopTimer.Elapsed += loopTimer_Elapsed;
+           
+
+            FactorOperationCommand = new RelayCommand<string>(ExecuteFactorOperationCommand);
         }
 
         void loopTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             try
             {
-                loopTimer.Interval = updateTime;
+               // loopTimer.Interval = updateTime;
                 if (sendCount++ < 10)
                 {
                     protocolServer.CallServer.StartServer(CauseOfTransmissionList.Activation, QualifyOfInterrogationList.GeneralInterrogation);
@@ -58,6 +59,7 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
                 {
                     sendCount = 0;
                     loopTimer.Stop();
+                    //ExecuteStopCalibrationCommand();
                 }
             }
             catch (Exception ex)
@@ -75,7 +77,13 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
                 messageCollect = obj.DataFile.StateMessage;
                 calbrationServer = obj.CustomServer;
                 UserData = obj.DataFile.MonitorData.GetSystemCalibrationList();
+                dasServer = obj;
                 netServer.NetCustomClient.LinkingEventMsg += NetCustomClient_LinkingEventMsg;
+
+                protocolServer = obj.ProtocolServer;
+                loopTimer = new Timer();
+                loopTimer.AutoReset = true;
+                loopTimer.Elapsed += loopTimer_Elapsed;
             }
         }
 
@@ -104,6 +112,8 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             sendCount = 0;
             loopTimer.Interval = updateTime;
             loopTimer.Start();
+            calbrationServer.IsRealUpdate = true;
+            calbrationServer.UpdateIndex = 0;
         }
 
 
@@ -137,7 +147,7 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
         #endregion
 
 
-        private bool realUpdate = false;
+        private bool realUpdate = true;
         public bool RealUpdate
         {
             get
@@ -147,8 +157,8 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             set
             {
                 realUpdate = value;
-                calbrationServer.IsRealUpdate = value;
-                calbrationServer.UpdateIndex = 0;
+                //calbrationServer.IsRealUpdate = value;
+                //calbrationServer.UpdateIndex = 0;
                 RaisePropertyChanged("RealUpdate");
 
 
@@ -239,9 +249,8 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
         #endregion
 
         #region 系数操作
-        public RelayCommand<string> FactorOperationCommand;
-
-        private void ExecuteFactorOperationCommand(string arg)
+        public RelayCommand<string> FactorOperationCommand { get; private set; }
+                private void ExecuteFactorOperationCommand(string arg)
         {
             try
             {
@@ -367,20 +376,20 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
                 case "Reload":
                     {
 
-                        // UserData = viewData.ReadEletricPulse(true);
+                        UserData = dasServer.DataFile.MonitorData.GetSystemCalibrationList();
                         break;
                     }
                 case "Save":
                     {
-                        // viewData.InsertEletricPulse();
+                         //viewData.InsertEletricPulse();
                         break;
                     }
                 case "AddUp":
                     {
                         if (SelectedIndex > -1)
                         {
-                            var item = new ElectricPulse(0, "", 0, "", "", "");
-                            //UserData.Insert(SelectedIndex, item);
+                            var item = new  SystemCalibration(0, 0, "", 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "");
+                            UserData.Insert(SelectedIndex, item);
                         }
                         break;
                     }
@@ -388,15 +397,15 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
                     {
                         if (SelectedIndex > -1)
                         {
-                            var item = new ElectricPulse(0, "", 0, "", "", "");
+                            var item = new SystemCalibration(0, 0, "", 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "");
                             if (SelectedIndex < UserData.Count - 1)
                             {
 
-                                //UserData.Insert(SelectedIndex + 1, item);
+                                UserData.Insert(SelectedIndex + 1, item);
                             }
                             else
                             {
-                                //UserData.Add(item);
+                                UserData.Add(item);
                             }
                         }
                         break;

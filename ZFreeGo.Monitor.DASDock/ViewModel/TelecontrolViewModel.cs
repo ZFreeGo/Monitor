@@ -165,7 +165,8 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
             try
             {
                
-                UInt32 addr =  Telecontrol.BasicAddress + 2 - 1;
+               // UInt32 addr =  Telecontrol.BasicAddress + 2 - 1;
+                UInt32 addr = Telecontrol.BasicAddress ;
                 switch (str)
                 {
                     case "Selected":
@@ -179,7 +180,7 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
                     case "Execute":
                         {
                             telecontrolServer.SendActionCommand(CauseOfTransmissionList.Activation, 0,
-                                 Telecontrol.BasicAddress + 2 - 1,
+                                 Telecontrol.BasicAddress ,
                                  new DoubleCommand(SelectExecuteOption.Execute, QUtype.NODefine, DCOState.On));
                             UserData.Add(new Telecontrol((int)addr, "合闸执行", "合闸执行", "合闸", "合闸", DateTime.Now.ToLongTimeString()));
                             break;

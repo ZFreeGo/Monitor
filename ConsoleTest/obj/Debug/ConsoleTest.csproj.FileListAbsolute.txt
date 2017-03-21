@@ -16,3 +16,12 @@ J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ConsoleTest.pdb
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ZFreeGo.FileOperation.Comtrade.dll
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ZFreeGo.Common.BasicTool.dll
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ZFreeGo.FileOperation.Comtrade.pdb
+E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ConsoleTest.exe.config
+E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ConsoleTest.exe
+E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ConsoleTest.pdb
+E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ZFreeGo.FileOperation.Comtrade.dll
+E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ZFreeGo.Common.BasicTool.dll
+E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ConsoleTest\bin\Debug\ZFreeGo.FileOperation.Comtrade.pdb
+E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ConsoleTest\obj\Debug\ConsoleTest.csprojResolveAssemblyReference.cache
+E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ConsoleTest\obj\Debug\ConsoleTest.exe
+E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ConsoleTest\obj\Debug\ConsoleTest.pdb

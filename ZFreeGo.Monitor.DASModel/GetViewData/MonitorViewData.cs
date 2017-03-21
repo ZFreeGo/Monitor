@@ -498,19 +498,19 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         /// <returns></returns>
         public ObservableCollection<SystemCalibration> GetSystemCalibrationList()
         {
-            if (systemCalibration == null)
-            {
+            //if (systemCalibration == null)
+            //{
                 ObservableCollection<SystemCalibration> list = new ObservableCollection<SystemCalibration>();
                 systemCalibration = DataLoad<SystemCalibration>(ref CommonPath.SystemCalibrationXmlPath, ref CommonPath.SystemCalibrationXsdPath,
                        ref dataSetSystemCalibration, DataTypeEnum.SystemCalibration);
                 list = (ObservableCollection<SystemCalibration>)systemCalibration;
 
                 return list;
-            }
-            else
-            {
-                return (ObservableCollection<SystemCalibration>)systemCalibration;
-            }
+            //}
+            //else
+            //{
+            //    return (ObservableCollection<SystemCalibration>)systemCalibration;
+            //}
         }
         #endregion
 
@@ -907,7 +907,7 @@ namespace ZFreeGo.Monitor.DASModel.GetViewData
         /// </summary>
         /// <param name="list">列表</param>
         /// <param name="updateIndex">更新索引</param>
-        public void UpdateCalbrationData(List<Tuple<uint, float, QualityDescription>> list, int updateIndex)
+        public void UpdateCalbrationData(List<Tuple<uint, float, QualityDescription>> list,ref int updateIndex)
         {
 
             var m = (ObservableCollection<SystemCalibration>)systemCalibration;

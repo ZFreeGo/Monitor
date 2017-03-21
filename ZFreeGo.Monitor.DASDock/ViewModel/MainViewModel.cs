@@ -130,17 +130,17 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
         /// <summary>
         /// 异常跟踪信息
         /// </summary>
-        public string ExceptionTrace
+        public string ExceptionMessage
         {
             get
             {
                 CheckMessageCollectNull();
-                return messageCollect.ExceptionTrace;
+                return messageCollect.ExceptionMessage;
             }
             set
             {
-                messageCollect.ExceptionTrace = value;
-                RaisePropertyChanged("ExceptionTrace");
+                messageCollect.ExceptionMessage = value;
+                RaisePropertyChanged("ExceptionMessage");
 
             }
         }

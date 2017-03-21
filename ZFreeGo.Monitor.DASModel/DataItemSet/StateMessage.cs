@@ -21,7 +21,6 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             {
                 netMessage = value;
                 RaisePropertyChanged("NetMessage");
-
             }
         }
 
@@ -64,21 +63,21 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
 
             }
         }
-        private string exceptionTrace;
+        private string exceptionMessage;
 
         /// <summary>
         /// 异常跟踪信息
         /// </summary>
-        public string ExceptionTrace
+        public string ExceptionMessage
         {
             get
             {
-                return exceptionTrace;
+                return exceptionMessage;
             }
             set
             {
-                exceptionTrace = value;
-                RaisePropertyChanged("ExceptionTrace");
+                exceptionMessage = value;
+                RaisePropertyChanged("ExceptionMessage");
 
             }
         }
@@ -149,13 +148,13 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
         }
         public void AddExcptionMessage(string str)
         {
-            ExceptionTrace += str + "\n\n";
+            ExceptionMessage += str + "\n\n";
         }
         public void AddExcptionMessage(string comment, System.Exception ex)
         {
-            ExceptionTrace += comment + "\n";
-            ExceptionTrace += ex.Message + "\n";
-            ExceptionTrace += ex.StackTrace + "\n";
+            ExceptionMessage += comment + "\n";
+            ExceptionMessage += ex.Message + "\n";
+            ExceptionMessage += ex.StackTrace + "\n";
         }
 
 
@@ -200,7 +199,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             netMessage = "";
             netRawData = "";
             protoclMessage = "";
-            exceptionTrace = "";
+            ExceptionMessage = "";
         }
 
     }

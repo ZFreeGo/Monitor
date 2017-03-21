@@ -18,3 +18,7 @@ J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Common.Net\bin\Debug\ZFreeGo.Net.pdb
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Common.Net\obj\Debug\ZFreeGo.Net.csprojResolveAssemblyReference.cache
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Common.Net\obj\Debug\ZFreeGo.Net.dll
 J:\MyCode\Dotnet\ZFreeGo.Monitor\ZFreeGo.Common.Net\obj\Debug\ZFreeGo.Net.pdb
+E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ZFreeGo.Common.Net\bin\Debug\ZFreeGo.Net.dll
+E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ZFreeGo.Common.Net\bin\Debug\ZFreeGo.Net.pdb
+E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ZFreeGo.Common.Net\obj\Debug\ZFreeGo.Net.dll
+E:\ZfreeGo\ZFreeGo.Monitor170320\ZFreeGo.Monitor\ZFreeGo.Common.Net\obj\Debug\ZFreeGo.Net.pdb

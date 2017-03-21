@@ -162,13 +162,8 @@
                             </avalonDock:LayoutAnchorable>
                             <avalonDock:LayoutAnchorable Title="通讯数据" ContentId="RawCommunicatonData">
                                 <Grid>
-                                    <RichTextBox VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto">
-                                        <FlowDocument>
-                                            <Paragraph   >
-                                               <Run Text="{Binding  NetRawData}"/>
-                                            </Paragraph>
-                                        </FlowDocument>
-                                    </RichTextBox>
+                                    <TextBox Text="{Binding  NetRawData}"
+                                             VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto"/>                                   
                                 </Grid>
                             </avalonDock:LayoutAnchorable>
                             <avalonDock:LayoutAnchorable Title="规约通讯" ContentId="ProtoclCommunicaton">

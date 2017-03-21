@@ -270,7 +270,8 @@ namespace ZFreeGo.Monitor.DASModel
             //检测并实时更新校准数据
             if (customServer.IsRealUpdate)
             {
-                DataFile.MonitorData.UpdateCalbrationData(e.Message, customServer.UpdateIndex);
+                DataFile.MonitorData.UpdateCalbrationData(e.Message,ref customServer.UpdateIndex);
+               // Console.WriteLine("更新索引{0}", customServer.UpdateIndex);
             }
         }
         
@@ -490,8 +491,8 @@ namespace ZFreeGo.Monitor.DASModel
             }
             catch (Exception ex)
             {
-                DataFile.StateMessage.ExceptionTrace += ex.Message + "\n";
-                DataFile.StateMessage.ExceptionTrace += ex.StackTrace + "\n\n";
+                DataFile.StateMessage.ExceptionMessage += ex.Message + "\n";
+                DataFile.StateMessage.ExceptionMessage += ex.StackTrace + "\n\n";
                 return false;
             }
 

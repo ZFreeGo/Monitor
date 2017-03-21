@@ -1,4 +1,4 @@
-<?xml version="1.0" standalone="yes"?>
+﻿<?xml version="1.0" standalone="yes"?>
 <NewDataSet>
   <SystemCalibration>
     <InternalID>1</InternalID>
@@ -26,7 +26,7 @@
     <EndPoint>16386</EndPoint>
     <ParamName>Ua</ParamName>
     <ParamValue>1000</ParamValue>
-    <StandardValue>2010</StandardValue>
+    <StandardValue>5.774</StandardValue>
     <CallCoefficient>10079</CallCoefficient>
     <DownloadCoefficient>10079</DownloadCoefficient>
     <AverageValue>0</AverageValue>
@@ -47,7 +47,7 @@
     <EndPoint>16387</EndPoint>
     <ParamName>Ub</ParamName>
     <ParamValue>1000</ParamValue>
-    <StandardValue>2010</StandardValue>
+    <StandardValue>5.774</StandardValue>
     <CallCoefficient>10082</CallCoefficient>
     <DownloadCoefficient>10082</DownloadCoefficient>
     <AverageValue>0</AverageValue>
@@ -68,7 +68,7 @@
     <EndPoint>16388</EndPoint>
     <ParamName>Uc</ParamName>
     <ParamValue>1000</ParamValue>
-    <StandardValue>2010</StandardValue>
+    <StandardValue>5.774</StandardValue>
     <CallCoefficient>9975</CallCoefficient>
     <DownloadCoefficient>9975</DownloadCoefficient>
     <AverageValue>0</AverageValue>
@@ -89,7 +89,7 @@
     <EndPoint>16389</EndPoint>
     <ParamName>U0</ParamName>
     <ParamValue>1000</ParamValue>
-    <StandardValue>2010</StandardValue>
+    <StandardValue>5.774</StandardValue>
     <CallCoefficient>9959</CallCoefficient>
     <DownloadCoefficient>9959</DownloadCoefficient>
     <AverageValue>0</AverageValue>
@@ -110,7 +110,7 @@
     <EndPoint>16390</EndPoint>
     <ParamName>Ia</ParamName>
     <ParamValue>1000</ParamValue>
-    <StandardValue>2010</StandardValue>
+    <StandardValue>0.6</StandardValue>
     <CallCoefficient>9949</CallCoefficient>
     <DownloadCoefficient>9949</DownloadCoefficient>
     <AverageValue>0</AverageValue>
@@ -131,7 +131,7 @@
     <EndPoint>16391</EndPoint>
     <ParamName>Ib</ParamName>
     <ParamValue>1000</ParamValue>
-    <StandardValue>2010</StandardValue>
+    <StandardValue>0.6</StandardValue>
     <CallCoefficient>9949</CallCoefficient>
     <DownloadCoefficient>9949</DownloadCoefficient>
     <AverageValue>0</AverageValue>
@@ -152,7 +152,7 @@
     <EndPoint>16392</EndPoint>
     <ParamName>Ic</ParamName>
     <ParamValue>1000</ParamValue>
-    <StandardValue>2010</StandardValue>
+    <StandardValue>0.6</StandardValue>
     <CallCoefficient>9989</CallCoefficient>
     <DownloadCoefficient>9989</DownloadCoefficient>
     <AverageValue>0</AverageValue>
@@ -173,7 +173,7 @@
     <EndPoint>16393</EndPoint>
     <ParamName>I0</ParamName>
     <ParamValue>1000</ParamValue>
-    <StandardValue>2010</StandardValue>
+    <StandardValue>20</StandardValue>
     <CallCoefficient>9949</CallCoefficient>
     <DownloadCoefficient>9949</DownloadCoefficient>
     <AverageValue>0</AverageValue>
@@ -194,7 +194,7 @@
     <EndPoint>16394</EndPoint>
     <ParamName>Uab</ParamName>
     <ParamValue>1000</ParamValue>
-    <StandardValue>2010</StandardValue>
+    <StandardValue>57.74</StandardValue>
     <CallCoefficient>10000</CallCoefficient>
     <DownloadCoefficient>10000</DownloadCoefficient>
     <AverageValue>0</AverageValue>
@@ -215,7 +215,7 @@
     <EndPoint>16395</EndPoint>
     <ParamName>Ubc</ParamName>
     <ParamValue>1000</ParamValue>
-    <StandardValue>2010</StandardValue>
+    <StandardValue>57.74</StandardValue>
     <CallCoefficient>10000</CallCoefficient>
     <DownloadCoefficient>10000</DownloadCoefficient>
     <AverageValue>0</AverageValue>
@@ -236,7 +236,7 @@
     <EndPoint>16396</EndPoint>
     <ParamName>P</ParamName>
     <ParamValue>1000</ParamValue>
-    <StandardValue>2010</StandardValue>
+    <StandardValue>1</StandardValue>
     <CallCoefficient>10000</CallCoefficient>
     <DownloadCoefficient>10000</DownloadCoefficient>
     <AverageValue>0</AverageValue>
@@ -257,7 +257,7 @@
     <EndPoint>16397</EndPoint>
     <ParamName>Q</ParamName>
     <ParamValue>1000</ParamValue>
-    <StandardValue>2010</StandardValue>
+    <StandardValue>1</StandardValue>
     <CallCoefficient>13217</CallCoefficient>
     <DownloadCoefficient>13217</DownloadCoefficient>
     <AverageValue>0</AverageValue>
@@ -278,7 +278,7 @@
     <EndPoint>16398</EndPoint>
     <ParamName>PF</ParamName>
     <ParamValue>1000</ParamValue>
-    <StandardValue>2010</StandardValue>
+    <StandardValue>1</StandardValue>
     <CallCoefficient>986</CallCoefficient>
     <DownloadCoefficient>986</DownloadCoefficient>
     <AverageValue>0</AverageValue>
@@ -299,7 +299,7 @@
     <EndPoint>16399</EndPoint>
     <ParamName>Wp</ParamName>
     <ParamValue>1000</ParamValue>
-    <StandardValue>2010</StandardValue>
+    <StandardValue>1</StandardValue>
     <CallCoefficient>986</CallCoefficient>
     <DownloadCoefficient>986</DownloadCoefficient>
     <AverageValue>0</AverageValue>
@@ -320,7 +320,7 @@
     <EndPoint>16400</EndPoint>
     <ParamName>Wq</ParamName>
     <ParamValue>1000</ParamValue>
-    <StandardValue>2010</StandardValue>
+    <StandardValue>1</StandardValue>
     <CallCoefficient>0</CallCoefficient>
     <DownloadCoefficient>0</DownloadCoefficient>
     <AverageValue>0</AverageValue>
@@ -336,25 +336,5 @@
     <Data10>0</Data10>
     <Comment />
   </SystemCalibration>
-  <SystemCalibration>
-    <InternalID>17</InternalID>
-    <EndPoint>16401</EndPoint>
-    <ParamName>T</ParamName>
-    <ParamValue>1000</ParamValue>
-    <StandardValue>2010</StandardValue>
-    <CallCoefficient>0</CallCoefficient>
-    <DownloadCoefficient>0</DownloadCoefficient>
-    <AverageValue>0</AverageValue>
-    <Data1>0</Data1>
-    <Data2>0</Data2>
-    <Data3>0</Data3>
-    <Data4>0</Data4>
-    <Data5>0</Data5>
-    <Data6>0</Data6>
-    <Data7>0</Data7>
-    <Data8>0</Data8>
-    <Data9>0</Data9>
-    <Data10>0</Data10>
-    <Comment />
-  </SystemCalibration>
+ 
 </NewDataSet>

@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZFreeGo.TransportProtocol.X
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZFreeGo.TransmissionProtocols", "ZFreeGo.TransportProtocol.NetworkAccess\ZFreeGo.TransmissionProtocols.csproj", "{814212F7-ED3D-46F6-A172-7CA2060FED0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZFreeGo.Monitor.AutoStudio", "ZFreeGo.Monitor.DAS\ZFreeGo.Monitor.AutoStudio.csproj", "{4ACF6DA8-65F7-485A-A7FE-96F8840DD478}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZFreeGo.FileOperation.Comtrade", "ZFreeGo.FileFormat.Comtrade\ZFreeGo.FileOperation.Comtrade.csproj", "{6C7D1295-C969-473B-8C0C-F6F2DA27D968}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D6872A7A-CA7A-41BC-ABD2-3DADD7EF74F0}"
@@ -54,10 +52,6 @@ Global
 		{814212F7-ED3D-46F6-A172-7CA2060FED0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{814212F7-ED3D-46F6-A172-7CA2060FED0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{814212F7-ED3D-46F6-A172-7CA2060FED0B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4ACF6DA8-65F7-485A-A7FE-96F8840DD478}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4ACF6DA8-65F7-485A-A7FE-96F8840DD478}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4ACF6DA8-65F7-485A-A7FE-96F8840DD478}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4ACF6DA8-65F7-485A-A7FE-96F8840DD478}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6C7D1295-C969-473B-8C0C-F6F2DA27D968}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6C7D1295-C969-473B-8C0C-F6F2DA27D968}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C7D1295-C969-473B-8C0C-F6F2DA27D968}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -26,8 +26,8 @@
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
 
-           
-            <DataGrid Grid.Row="0" Margin="5" AutoGenerateColumns="False"  Name="gridTelesignalisation" IsReadOnly="{Binding ReadOnly}"
+
+            <DataGrid Grid.Row="0" Margin="5" AutoGenerateColumns="False"  Name="gridTelesignalisation" 
                           SelectedIndex="{Binding SelectedIndex}"       Grid.ColumnSpan="2"   CanUserSortColumns="False" ItemsSource="{Binding UserData}"
                       >
 
@@ -54,8 +54,8 @@
                     <DataGridTextColumn Header="遥信状态"    MinWidth="50" Binding="{Binding TelesignalisationState}" IsReadOnly="True"></DataGridTextColumn>
                     <DataGridTextColumn Header="时间"    MinWidth="100" Binding="{Binding Date}"></DataGridTextColumn>
                     <DataGridTextColumn Header="备注"    MinWidth="250" Binding="{Binding Comment}" IsReadOnly="True"></DataGridTextColumn>
-                    <DataGridTextColumn Header="状态01"    MinWidth="50" Binding="{Binding StateA}" x:Name="columnStateA" Visibility="Hidden"></DataGridTextColumn>
-                    <DataGridTextColumn Header="状态10"    MinWidth="50" Binding="{Binding StateB}" x:Name="columnStateB" Visibility="Hidden"></DataGridTextColumn>
+                    <DataGridTextColumn Header="状态01"    MinWidth="50" Binding="{Binding StateA}" x:Name="columnStateA" Visibility="Visible"></DataGridTextColumn>
+                    <DataGridTextColumn Header="状态10"    MinWidth="50" Binding="{Binding StateB}" x:Name="columnStateB" Visibility="Visible"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
        

@@ -115,7 +115,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             {
                 data[0] = value;
                RaisePropertyChanged("Data1");
-                CalculateDownloadCoefficient();
+                CalculateDownloadCoefficient(1);
             }
          }
        
@@ -127,7 +127,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             {
                 data[1] = value;
                RaisePropertyChanged("Data2");
-                CalculateDownloadCoefficient();
+                CalculateDownloadCoefficient(2);
             }
          }
         
@@ -138,7 +138,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             {
                 data[2] = value;
                RaisePropertyChanged("Data3");
-                CalculateDownloadCoefficient();
+                CalculateDownloadCoefficient(3);
             }
          }
 
@@ -149,7 +149,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             {
                 data[3] = value;
                RaisePropertyChanged("Data4");
-                CalculateDownloadCoefficient();
+                CalculateDownloadCoefficient(4);
             }
          }
 
@@ -161,7 +161,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             {
                 data[4] = value;
                RaisePropertyChanged("Data5");
-                CalculateDownloadCoefficient();
+               CalculateDownloadCoefficient(5);
             }
          }
 
@@ -173,7 +173,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             {
                 data[5] = value;
                RaisePropertyChanged("Data6");
-                CalculateDownloadCoefficient();
+                CalculateDownloadCoefficient(6);
             }
          }
 
@@ -185,7 +185,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             {
                 data[6] = value;
                RaisePropertyChanged("Data7");
-                CalculateDownloadCoefficient();
+                CalculateDownloadCoefficient(7);
             }
          }
 
@@ -196,8 +196,8 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             set
             {
                 data[7] = value;
-               RaisePropertyChanged("Data8");
-                CalculateDownloadCoefficient();
+                RaisePropertyChanged("Data8");
+                CalculateDownloadCoefficient(8);
             }
          }
 
@@ -209,7 +209,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             {
                 data[8] = value;
                RaisePropertyChanged("Data9");
-                CalculateDownloadCoefficient();
+                CalculateDownloadCoefficient(9);
             }
          }
 
@@ -221,7 +221,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             {
                 data[9] = value;
                RaisePropertyChanged("Data10");
-                CalculateDownloadCoefficient();
+                CalculateDownloadCoefficient(10);
             }
          }
         private string comment;
@@ -397,9 +397,36 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             return paramName + " (" + endPoint + ")";
         }
 
-       
 
+        /// <summary>
+        /// 计算前count组数据
+        /// </summary>
+        /// <param name="count"></param>
+        private void CalculateDownloadCoefficient(int count)
+        {
+            
+            double sum = 0;          
+            var upValue = UpLimit * StandardValue;
+            var downValue = DownLimit * StandardValue;
+            string str = "";
+            int index = 0;
+            for (int i = 0; i < count; i++ )
+            {
+               
+                    index++;
+                    sum += data[i];                    
+                    str += index.ToString() + ", ";
+                
+            }
+            if (count != 0)
+            {
+                AverageValue = sum / count;
+                Comment = str;
 
+                DownloadCoefficient = standardValue * CallCoefficient / AverageValue;
+            }
+
+        }
         /// <summary>
         /// 计算平均值与校准系数
         /// </summary>
@@ -413,7 +440,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
             int index = 0;
             foreach (var m in data)
             {
-                if ((m >= downValue) && (m <= upValue))
+               // if ((m >= downValue) && (m <= upValue)) //负数计算不对
                 {
                     index++;
                     sum += m;
@@ -426,7 +453,7 @@ namespace ZFreeGo.Monitor.DASModel.DataItemSet
                 AverageValue = sum / count;
                 Comment = str;
 
-               // DownloadCoefficient = standardValue * CallCoefficient / AverageValue;
+                DownloadCoefficient = standardValue * CallCoefficient / AverageValue;
             }
 
         }

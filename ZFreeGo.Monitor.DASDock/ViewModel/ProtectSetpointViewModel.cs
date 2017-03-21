@@ -104,6 +104,13 @@ namespace ZFreeGo.Monitor.DASDock.ViewModel
                     new QualifyCommandSet(ActionDescrible.Execute), slectData);
                             break;
                         }
+                    case "Call":
+                        {
+                            setPointServer.SendActionCommand(true, CauseOfTransmissionList.Activation, 0,
+                    new QualifyCommandSet(ActionDescrible.Execute), slectData);
+                            break;
+                        }
+
                 }
 
                 
